@@ -1881,7 +1881,6 @@ namespace QuickType
     /// GET /v1/images/:key
     ///
     /// > Description
-    ///
     /// If no error occurs, "images" will be populated with a map from node IDs to URLs of the
     /// rendered images, and "status" will be omitted.
     ///
@@ -1892,7 +1891,6 @@ namespace QuickType
     /// render succeeded.
     ///
     /// > Path parameters
-    ///
     /// key String
     /// File to export images from
     ///

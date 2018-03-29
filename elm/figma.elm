@@ -1742,7 +1742,6 @@ type alias FluffyNode =
 {-| GET /v1/images/:key
 
 > Description
-
 If no error occurs, "images" will be populated with a map from node IDs to URLs of the
 rendered images, and "status" will be omitted.
 
@@ -1753,7 +1752,6 @@ that was requested for rendering will be represented in this map whether or not 
 render succeeded.
 
 > Path parameters
-
 key String
 File to export images from
 

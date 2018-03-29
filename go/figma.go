@@ -935,7 +935,6 @@ type FluffyNode struct {
 // GET /v1/images/:key
 //
 // > Description
-//
 // If no error occurs, "images" will be populated with a map from node IDs to URLs of the
 // rendered images, and "status" will be omitted.
 //
@@ -946,7 +945,6 @@ type FluffyNode struct {
 // render succeeded.
 //
 // > Path parameters
-//
 // key String
 // File to export images from
 //
