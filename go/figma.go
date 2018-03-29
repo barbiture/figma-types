@@ -1,24 +1,42 @@
 // To parse and unparse this JSON data, add this code to your project and do:
 //
-//    figma, err := UnmarshalFigma(bytes)
-//    bytes, err = figma.Marshal()
+//    comment, err := UnmarshalComment(bytes)
+//    bytes, err = comment.Marshal()
+//
+//    user, err := UnmarshalUser(bytes)
+//    bytes, err = user.Marshal()
 
 package main
 
 import "encoding/json"
 
-func UnmarshalFigma(data []byte) (Figma, error) {
-	var r Figma
+func UnmarshalComment(data []byte) (Comment, error) {
+	var r Comment
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *Figma) Marshal() ([]byte, error) {
+func (r *Comment) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-// A geographical coordinate
-type Figma struct {
-	Latitude  *float64 `json:"latitude"` 
-	Longitude *float64 `json:"longitude"`
+func UnmarshalUser(data []byte) (User, error) {
+	var r User
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *User) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+// A comment or reply left by a user
+type Comment struct {
+	ID string `json:"id"`// Unique identifier for comment
+}
+
+// A description of a user
+type User struct {
+	Handle string `json:"handle"` 
+	ImgURL string `json:"img_url"`
 }

@@ -1,8 +1,9 @@
-// To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
+// To parse this JSON data, add NuGet 'Newtonsoft.Json' then do one of these:
 //
 //    using QuickType;
 //
-//    var figma = Figma.FromJson(jsonString);
+//    var comment = Comment.FromJson(jsonString);
+//    var user = User.FromJson(jsonString);
 
 namespace QuickType
 {
@@ -15,25 +16,43 @@ namespace QuickType
     using Newtonsoft.Json.Converters;
 
     /// <summary>
-    /// A geographical coordinate
+    /// A comment or reply left by a user
     /// </summary>
-    public partial class Figma
+    public partial class Comment
     {
-        [JsonProperty("latitude")]
-        public double? Latitude { get; set; }
-
-        [JsonProperty("longitude")]
-        public double? Longitude { get; set; }
+        /// <summary>
+        /// Unique identifier for comment
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
     }
 
-    public partial class Figma
+    /// <summary>
+    /// A description of a user
+    /// </summary>
+    public partial class User
     {
-        public static Figma FromJson(string json) => JsonConvert.DeserializeObject<Figma>(json, QuickType.Converter.Settings);
+        [JsonProperty("handle")]
+        public string Handle { get; set; }
+
+        [JsonProperty("img_url")]
+        public string ImgUrl { get; set; }
+    }
+
+    public partial class Comment
+    {
+        public static Comment FromJson(string json) => JsonConvert.DeserializeObject<Comment>(json, QuickType.Converter.Settings);
+    }
+
+    public partial class User
+    {
+        public static User FromJson(string json) => JsonConvert.DeserializeObject<User>(json, QuickType.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this Figma self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this Comment self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this User self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
     }
 
     internal class Converter

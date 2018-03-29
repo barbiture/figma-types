@@ -2,18 +2,27 @@
 //
 //   const Convert = require("./file");
 //
-//   const figma = Convert.toFigma(json);
+//   const comment = Convert.toComment(json);
+//   const user = Convert.toUser(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
-function toFigma(json) {
-    return cast(JSON.parse(json), o("Figma"));
+function toComment(json) {
+    return cast(JSON.parse(json), o("Comment"));
 }
 
-function figmaToJson(value) {
+function commentToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function toUser(json) {
+    return cast(JSON.parse(json), o("User"));
+}
+
+function userToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
@@ -95,13 +104,18 @@ function o(className) {
 }
 
 const typeMap = {
-    "Figma": {
-        latitude: u(null, 3.14),
-        longitude: u(null, 3.14),
+    "Comment": {
+        id: "",
+    },
+    "User": {
+        handle: "",
+        img_url: "",
     },
 };
 
 module.exports = {
-    "figmaToJson": figmaToJson,
-    "toFigma": toFigma,
+    "commentToJson": commentToJson,
+    "toComment": toComment,
+    "userToJson": userToJson,
+    "toUser": toUser,
 };

@@ -8,33 +8,38 @@ static id NSNullify(id _Nullable x) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FGFigma (JSONConversion)
+@interface QTComment (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface QTUser (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
 #pragma mark - JSON serialization
 
-FGFigma *_Nullable FGFigmaFromData(NSData *data, NSError **error)
+QTComment *_Nullable QTCommentFromData(NSData *data, NSError **error)
 {
     @try {
         id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [FGFigma fromJSONDictionary:json];
+        return *error ? nil : [QTComment fromJSONDictionary:json];
     } @catch (NSException *exception) {
         *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
         return nil;
     }
 }
 
-FGFigma *_Nullable FGFigmaFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+QTComment *_Nullable QTCommentFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
 {
-    return FGFigmaFromData([json dataUsingEncoding:encoding], error);
+    return QTCommentFromData([json dataUsingEncoding:encoding], error);
 }
 
-NSData *_Nullable FGFigmaToData(FGFigma *figma, NSError **error)
+NSData *_Nullable QTCommentToData(QTComment *comment, NSError **error)
 {
     @try {
-        id json = [figma JSONDictionary];
+        id json = [comment JSONDictionary];
         NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
         return *error ? nil : data;
     } @catch (NSException *exception) {
@@ -43,35 +48,68 @@ NSData *_Nullable FGFigmaToData(FGFigma *figma, NSError **error)
     }
 }
 
-NSString *_Nullable FGFigmaToJSON(FGFigma *figma, NSStringEncoding encoding, NSError **error)
+NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encoding, NSError **error)
 {
-    NSData *data = FGFigmaToData(figma, error);
+    NSData *data = QTCommentToData(comment, error);
     return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
 }
 
-@implementation FGFigma
+QTUser *_Nullable QTUserFromData(NSData *data, NSError **error)
+{
+    @try {
+        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
+        return *error ? nil : [QTUser fromJSONDictionary:json];
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+QTUser *_Nullable QTUserFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+{
+    return QTUserFromData([json dataUsingEncoding:encoding], error);
+}
+
+NSData *_Nullable QTUserToData(QTUser *user, NSError **error)
+{
+    @try {
+        id json = [user JSONDictionary];
+        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
+        return *error ? nil : data;
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSError **error)
+{
+    NSData *data = QTUserToData(user, error);
+    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
+}
+
+@implementation QTComment
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"latitude": @"latitude",
-        @"longitude": @"longitude",
+        @"id": @"identifier",
     };
 }
 
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
 {
-    return FGFigmaFromData(data, error);
+    return QTCommentFromData(data, error);
 }
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
 {
-    return FGFigmaFromJSON(json, encoding, error);
+    return QTCommentFromJSON(json, encoding, error);
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGFigma alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[QTComment alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -82,19 +120,98 @@ NSString *_Nullable FGFigmaToJSON(FGFigma *figma, NSStringEncoding encoding, NSE
     return self;
 }
 
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:QTComment.properties[key]];
+}
+
 - (NSDictionary *)JSONDictionary
 {
-    return [self dictionaryWithValuesForKeys:FGFigma.properties.allValues];
+    id dict = [[self dictionaryWithValuesForKeys:QTComment.properties.allValues] mutableCopy];
+
+    for (id jsonName in QTComment.properties) {
+        id propertyName = QTComment.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    return dict;
 }
 
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error
 {
-    return FGFigmaToData(self, error);
+    return QTCommentToData(self, error);
 }
 
 - (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
 {
-    return FGFigmaToJSON(self, encoding, error);
+    return QTCommentToJSON(self, encoding, error);
+}
+@end
+
+@implementation QTUser
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"handle": @"handle",
+        @"img_url": @"imgURL",
+    };
+}
+
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
+{
+    return QTUserFromData(data, error);
+}
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTUserFromJSON(json, encoding, error);
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTUser alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:QTUser.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTUser.properties.allValues] mutableCopy];
+
+    for (id jsonName in QTUser.properties) {
+        id propertyName = QTUser.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    return dict;
+}
+
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error
+{
+    return QTUserToData(self, error);
+}
+
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTUserToJSON(self, encoding, error);
 }
 @end
 

@@ -8,7 +8,8 @@
 //
 // Then you can deserialize a JSON string with
 //
-//     Figma data = Converter.fromJsonString(jsonString);
+//     Comment data = Converter.CommentFromJsonString(jsonString);
+//     User data = Converter.UserFromJsonString(jsonString);
 
 package io.quicktype;
 
@@ -20,30 +21,57 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class Converter {
     // Serialize/deserialize helpers
 
-    public static Figma fromJsonString(String json) throws IOException {
-        return getObjectReader().readValue(json);
+    public static Comment CommentFromJsonString(String json) throws IOException {
+        return getCommentObjectReader().readValue(json);
     }
 
-    public static String toJsonString(Figma obj) throws JsonProcessingException {
-        return getObjectWriter().writeValueAsString(obj);
+    public static String CommentToJsonString(Comment obj) throws JsonProcessingException {
+        return getCommentObjectWriter().writeValueAsString(obj);
     }
 
-    private static ObjectReader reader;
-    private static ObjectWriter writer;
+    public static User UserFromJsonString(String json) throws IOException {
+        return getUserObjectReader().readValue(json);
+    }
 
-    private static void instantiateMapper() {
+    public static String UserToJsonString(User obj) throws JsonProcessingException {
+        return getUserObjectWriter().writeValueAsString(obj);
+    }
+
+    private static ObjectReader CommentReader;
+    private static ObjectWriter CommentWriter;
+
+    private static void instantiateCommentMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        reader = mapper.reader(Figma.class);
-        writer = mapper.writerFor(Figma.class);
+        CommentReader = mapper.reader(Comment.class);
+        CommentWriter = mapper.writerFor(Comment.class);
     }
 
-    private static ObjectReader getObjectReader() {
-        if (reader == null) instantiateMapper();
-        return reader;
+    private static ObjectReader getCommentObjectReader() {
+        if (CommentReader == null) instantiateMapper();
+        return CommentReader;
     }
 
-    private static ObjectWriter getObjectWriter() {
-        if (writer == null) instantiateMapper();
-        return writer;
+    private static ObjectWriter getCommentObjectWriter() {
+        if (CommentWriter == null) instantiateMapper();
+        return CommentWriter;
+    }
+
+    private static ObjectReader UserReader;
+    private static ObjectWriter UserWriter;
+
+    private static void instantiateUserMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        UserReader = mapper.reader(User.class);
+        UserWriter = mapper.writerFor(User.class);
+    }
+
+    private static ObjectReader getUserObjectReader() {
+        if (UserReader == null) instantiateMapper();
+        return UserReader;
+    }
+
+    private static ObjectWriter getUserObjectWriter() {
+        if (UserWriter == null) instantiateMapper();
+        return UserWriter;
     }
 }

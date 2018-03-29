@@ -2,8 +2,7 @@
 
 set -xe
 
-SCHEMA=figma-schema.json
-QUICKTYPE="quicktype $SCHEMA -s schema"
+QUICKTYPE="quicktype --src-lang schema figma-schema.json --add-schema-top-level /definitions/"
 
 $QUICKTYPE -o csharp/Figma.cs
 $QUICKTYPE -o go/figma.go

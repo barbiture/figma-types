@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.*;
 /**
  * A description of a user
  */
-public class Figma {
+public class User {
     private String handle;
     private String imgURL;
 

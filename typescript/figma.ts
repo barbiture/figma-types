@@ -1,28 +1,47 @@
 // To parse this data:
 //
-//   import { Convert, Figma } from "./file";
+//   import { Convert, Comment, User } from "./file";
 //
-//   const figma = Convert.toFigma(json);
+//   const comment = Convert.toComment(json);
+//   const user = Convert.toUser(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
 /**
- * A geographical coordinate
+ * A comment or reply left by a user
  */
-export interface Figma {
-    latitude?:  number;
-    longitude?: number;
+export interface Comment {
+    /**
+     * Unique identifier for comment
+     */
+    id: string;
+}
+
+/**
+ * A description of a user
+ */
+export interface User {
+    handle:  string;
+    img_url: string;
 }
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
-    export function toFigma(json: string): Figma {
-        return cast(JSON.parse(json), o("Figma"));
+    export function toComment(json: string): Comment {
+        return cast(JSON.parse(json), o("Comment"));
     }
 
-    export function figmaToJson(value: Figma): string {
+    export function commentToJson(value: Comment): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toUser(json: string): User {
+        return cast(JSON.parse(json), o("User"));
+    }
+
+    export function userToJson(value: User): string {
         return JSON.stringify(value, null, 2);
     }
     
@@ -104,9 +123,12 @@ export module Convert {
     }
 
     const typeMap: any = {
-        "Figma": {
-            latitude: u(null, 3.14),
-            longitude: u(null, 3.14),
+        "Comment": {
+            id: "",
+        },
+        "User": {
+            handle: "",
+            img_url: "",
         },
     };
 }

@@ -5,16 +5,20 @@
 -- add these imports
 --
 --     import Json.Decode exposing (decodeString)`);
---     import QuickType exposing (figma)
+--     import QuickType exposing (comment, user)
 --
 -- and you're off to the races with
 --
---     decodeString figma myJsonString
+--     decodeString comment myJsonString
+--     decodeString user myJsonString
 
 module QuickType exposing
-    ( Figma
-    , figmaToString
-    , figma
+    ( Comment
+    , commentToString
+    , comment
+    , User
+    , userToString
+    , user
     )
 
 import Json.Decode as Jdec
@@ -23,28 +27,51 @@ import Json.Encode as Jenc
 import Dict exposing (Dict, map, toList)
 import Array exposing (Array, map)
 
-{-| A geographical coordinate -}
-type alias Figma =
-    { latitude : Maybe Float
-    , longitude : Maybe Float
+{-| A comment or reply left by a user
+
+id:
+Unique identifier for comment
+-}
+type alias Comment =
+    { id : String
+    }
+
+{-| A description of a user -}
+type alias User =
+    { handle : String
+    , imgURL : String
     }
 
 -- decoders and encoders
 
-figmaToString : Figma -> String
-figmaToString r = Jenc.encode 0 (encodeFigma r)
+commentToString : Comment -> String
+commentToString r = Jenc.encode 0 (encodeComment r)
 
-figma : Jdec.Decoder Figma
-figma =
-    Jpipe.decode Figma
-        |> Jpipe.optional "latitude" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "longitude" (Jdec.nullable Jdec.float) Nothing
+userToString : User -> String
+userToString r = Jenc.encode 0 (encodeUser r)
 
-encodeFigma : Figma -> Jenc.Value
-encodeFigma x =
+comment : Jdec.Decoder Comment
+comment =
+    Jpipe.decode Comment
+        |> Jpipe.required "id" Jdec.string
+
+encodeComment : Comment -> Jenc.Value
+encodeComment x =
     Jenc.object
-        [ ("latitude", makeNullableEncoder Jenc.float x.latitude)
-        , ("longitude", makeNullableEncoder Jenc.float x.longitude)
+        [ ("id", Jenc.string x.id)
+        ]
+
+user : Jdec.Decoder User
+user =
+    Jpipe.decode User
+        |> Jpipe.required "handle" Jdec.string
+        |> Jpipe.required "img_url" Jdec.string
+
+encodeUser : User -> Jenc.Value
+encodeUser x =
+    Jenc.object
+        [ ("handle", Jenc.string x.handle)
+        , ("img_url", Jenc.string x.imgURL)
         ]
 
 --- encoder helpers

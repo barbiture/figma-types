@@ -4,21 +4,29 @@
 // extern crate serde_derive;
 // extern crate serde_json;
 //
-// use generated_module::figma;
+// use generated_module::Comment;
 //
 // fn main() {
 //     let json = r#"{"answer": 42}"#;
-//     let model: figma = serde_json::from_str(&json).unwrap();
+//     let model: Comment = serde_json::from_str(&json).unwrap();
 // }
 
 extern crate serde_json;
 
-/// A geographical coordinate
+/// A comment or reply left by a user
 #[derive(Serialize, Deserialize)]
-pub struct Figma {
-    #[serde(rename = "latitude")]
-    latitude: Option<f64>,
+pub struct Comment {
+    /// Unique identifier for comment
+    #[serde(rename = "id")]
+    id: String,
+}
 
-    #[serde(rename = "longitude")]
-    longitude: Option<f64>,
+/// A description of a user
+#[derive(Serialize, Deserialize)]
+pub struct User {
+    #[serde(rename = "handle")]
+    handle: String,
+
+    #[serde(rename = "img_url")]
+    img_url: String,
 }
