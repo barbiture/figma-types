@@ -15,12 +15,25 @@ export interface Comment {
     /**
      * Unique identifier for comment
      */
-    id:    string;
-    user?: CommentUser;
+    id: string;
+    /**
+     * The file in which the comment lives
+     */
+    file_key: string;
+    /**
+     * If present, the id of the comment to which this is the reply
+     */
+    parent_id?: string;
+    /**
+     * The user who left the comment
+     */
+    user: CommentUser;
 }
 
 /**
  * A description of a user
+ *
+ * The user who left the comment
  */
 export interface CommentUser {
     handle:  string;
@@ -134,7 +147,9 @@ export module Convert {
     const typeMap: any = {
         "Comment": {
             id: "",
-            user: u(null, o("CommentUser")),
+            file_key: "",
+            parent_id: u(null, ""),
+            user: o("CommentUser"),
         },
         "CommentUser": {
             handle: "",

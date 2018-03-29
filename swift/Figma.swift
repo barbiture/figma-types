@@ -13,6 +13,7 @@ struct Comment: Codable {
     let fileKey: String
     /// If present, the id of the comment to which this is the reply
     let parentID: String?
+    /// The user who left the comment
     let user: CommentUser
 
     enum CodingKeys: String, CodingKey {
@@ -24,6 +25,8 @@ struct Comment: Codable {
 }
 
 /// A description of a user
+///
+/// The user who left the comment
 struct CommentUser: Codable {
     let handle, imgURL: String
 

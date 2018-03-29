@@ -32,13 +32,27 @@ import Array exposing (Array, map)
 
 id:
 Unique identifier for comment
+
+fileKey:
+The file in which the comment lives
+
+parentID:
+If present, the id of the comment to which this is the reply
+
+user:
+The user who left the comment
 -}
 type alias Comment =
     { id : String
-    , user : Maybe CommentUser
+    , fileKey : String
+    , parentID : Maybe String
+    , user : CommentUser
     }
 
-{-| A description of a user -}
+{-| A description of a user
+
+The user who left the comment
+-}
 type alias CommentUser =
     { handle : String
     , imgURL : String
@@ -62,13 +76,17 @@ comment : Jdec.Decoder Comment
 comment =
     Jpipe.decode Comment
         |> Jpipe.required "id" Jdec.string
-        |> Jpipe.optional "user" (Jdec.nullable commentUser) Nothing
+        |> Jpipe.required "file_key" Jdec.string
+        |> Jpipe.optional "parent_id" (Jdec.nullable Jdec.string) Nothing
+        |> Jpipe.required "user" commentUser
 
 encodeComment : Comment -> Jenc.Value
 encodeComment x =
     Jenc.object
         [ ("id", Jenc.string x.id)
-        , ("user", makeNullableEncoder encodeCommentUser x.user)
+        , ("file_key", Jenc.string x.fileKey)
+        , ("parent_id", makeNullableEncoder Jenc.string x.parentID)
+        , ("user", encodeCommentUser x.user)
         ]
 
 commentUser : Jdec.Decoder CommentUser

@@ -20,11 +20,22 @@ pub struct Comment {
     #[serde(rename = "id")]
     id: String,
 
+    /// The file in which the comment lives
+    #[serde(rename = "file_key")]
+    file_key: String,
+
+    /// If present, the id of the comment to which this is the reply
+    #[serde(rename = "parent_id")]
+    parent_id: Option<String>,
+
+    /// The user who left the comment
     #[serde(rename = "user")]
-    user: Option<CommentUser>,
+    user: CommentUser,
 }
 
 /// A description of a user
+///
+/// The user who left the comment
 #[derive(Serialize, Deserialize)]
 pub struct CommentUser {
     #[serde(rename = "handle")]

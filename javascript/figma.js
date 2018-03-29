@@ -106,7 +106,9 @@ function o(className) {
 const typeMap = {
     "Comment": {
         id: "",
-        user: u(null, o("CommentUser")),
+        file_key: "",
+        parent_id: u(null, ""),
+        user: o("CommentUser"),
     },
     "CommentUser": {
         handle: "",

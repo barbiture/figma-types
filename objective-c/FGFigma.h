@@ -17,8 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// A comment or reply left by a user
 @interface QTComment : NSObject
 /// Unique identifier for comment
-@property (nonatomic, copy)             NSString *identifier;
-@property (nonatomic, nullable, strong) QTCommentUser *user;
+@property (nonatomic, copy) NSString *identifier;
+/// The file in which the comment lives
+@property (nonatomic, copy) NSString *fileKey;
+/// If present, the id of the comment to which this is the reply
+@property (nonatomic, nullable, copy) NSString *parentID;
+/// The user who left the comment
+@property (nonatomic, strong) QTCommentUser *user;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
@@ -27,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /// A description of a user
+///
+/// The user who left the comment
 @interface QTCommentUser : NSObject
 @property (nonatomic, copy) NSString *handle;
 @property (nonatomic, copy) NSString *imgURL;

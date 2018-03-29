@@ -32,11 +32,15 @@ func (r *User) Marshal() ([]byte, error) {
 
 // A comment or reply left by a user
 type Comment struct {
-	ID   string       `json:"id"`  // Unique identifier for comment
-	User *CommentUser `json:"user"`
+	ID       string      `json:"id"`       // Unique identifier for comment
+	FileKey  string      `json:"file_key"` // The file in which the comment lives
+	ParentID *string     `json:"parent_id"`// If present, the id of the comment to which this is the reply
+	User     CommentUser `json:"user"`     // The user who left the comment
 }
 
 // A description of a user
+//
+// The user who left the comment
 type CommentUser struct {
 	Handle string `json:"handle"` 
 	ImgURL string `json:"img_url"`

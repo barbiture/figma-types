@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * A description of a user
+ *
+ * The user who left the comment
  */
 public class CommentUser {
     private String handle;

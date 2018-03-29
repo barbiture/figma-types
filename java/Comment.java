@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class Comment {
     private String id;
+    private String fileKey;
+    private String parentID;
     private CommentUser user;
 
     /**
@@ -18,6 +20,25 @@ public class Comment {
     @JsonProperty("id")
     public void setID(String value) { this.id = value; }
 
+    /**
+     * The file in which the comment lives
+     */
+    @JsonProperty("file_key")
+    public String getFileKey() { return fileKey; }
+    @JsonProperty("file_key")
+    public void setFileKey(String value) { this.fileKey = value; }
+
+    /**
+     * If present, the id of the comment to which this is the reply
+     */
+    @JsonProperty("parent_id")
+    public String getParentID() { return parentID; }
+    @JsonProperty("parent_id")
+    public void setParentID(String value) { this.parentID = value; }
+
+    /**
+     * The user who left the comment
+     */
     @JsonProperty("user")
     public CommentUser getUser() { return user; }
     @JsonProperty("user")

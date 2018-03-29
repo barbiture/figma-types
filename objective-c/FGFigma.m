@@ -99,6 +99,8 @@ NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSErro
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
         @"id": @"identifier",
+        @"file_key": @"fileKey",
+        @"parent_id": @"parentID",
         @"user": @"user",
     };
 }
@@ -145,7 +147,7 @@ NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSErro
     }
 
     [dict addEntriesFromDictionary:@{
-        @"user": NSNullify([_user JSONDictionary]),
+        @"user": [_user JSONDictionary],
     }];
 
     return dict;

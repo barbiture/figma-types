@@ -18,6 +18,8 @@ namespace quicktype {
 
     /**
      * A description of a user
+     *
+     * The user who left the comment
      */
     struct CommentUser {
         std::string handle;
@@ -32,7 +34,18 @@ namespace quicktype {
          * Unique identifier for comment
          */
         std::string id;
-        std::unique_ptr<struct CommentUser> user;
+        /**
+         * The file in which the comment lives
+         */
+        std::string file_key;
+        /**
+         * If present, the id of the comment to which this is the reply
+         */
+        std::unique_ptr<std::string> parent_id;
+        /**
+         * The user who left the comment
+         */
+        struct CommentUser user;
     };
 
     /**
@@ -89,12 +102,16 @@ namespace nlohmann {
 
     inline void from_json(const json& _j, struct quicktype::Comment& _x) {
         _x.id = _j.at("id").get<std::string>();
-        _x.user = quicktype::get_optional<struct quicktype::CommentUser>(_j, "user");
+        _x.file_key = _j.at("file_key").get<std::string>();
+        _x.parent_id = quicktype::get_optional<std::string>(_j, "parent_id");
+        _x.user = _j.at("user").get<struct quicktype::CommentUser>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Comment& _x) {
         _j = json::object();
         _j["id"] = _x.id;
+        _j["file_key"] = _x.file_key;
+        _j["parent_id"] = _x.parent_id;
         _j["user"] = _x.user;
     }
 

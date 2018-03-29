@@ -26,12 +26,29 @@ namespace QuickType
         [JsonProperty("id")]
         public string Id { get; set; }
 
+        /// <summary>
+        /// The file in which the comment lives
+        /// </summary>
+        [JsonProperty("file_key")]
+        public string FileKey { get; set; }
+
+        /// <summary>
+        /// If present, the id of the comment to which this is the reply
+        /// </summary>
+        [JsonProperty("parent_id")]
+        public string ParentId { get; set; }
+
+        /// <summary>
+        /// The user who left the comment
+        /// </summary>
         [JsonProperty("user")]
         public CommentUser User { get; set; }
     }
 
     /// <summary>
     /// A description of a user
+    ///
+    /// The user who left the comment
     /// </summary>
     public partial class CommentUser
     {

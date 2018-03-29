@@ -19,7 +19,8 @@
             "If present, the id of the comment to which this is the reply"
         },
         "user": {
-          "$ref": "#/definitions/User"
+          "$ref": "#/definitions/User",
+          "description": "The user who left the comment"
         }
       },
       "required": ["id", "file_key", "user"]
