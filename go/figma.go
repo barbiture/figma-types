@@ -32,7 +32,14 @@ func (r *User) Marshal() ([]byte, error) {
 
 // A comment or reply left by a user
 type Comment struct {
-	ID string `json:"id"`// Unique identifier for comment
+	ID   string       `json:"id"`  // Unique identifier for comment
+	User *CommentUser `json:"user"`
+}
+
+// A description of a user
+type CommentUser struct {
+	Handle string `json:"handle"` 
+	ImgURL string `json:"img_url"`
 }
 
 // A description of a user

@@ -13,6 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
+@interface QTCommentUser (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
 @interface QTUser (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
@@ -94,6 +99,7 @@ NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSErro
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
         @"id": @"identifier",
+        @"user": @"user",
     };
 }
 
@@ -116,6 +122,7 @@ NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSErro
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
+        _user = [QTCommentUser fromJSONDictionary:(id)_user];
     }
     return self;
 }
@@ -137,6 +144,10 @@ NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSErro
         }
     }
 
+    [dict addEntriesFromDictionary:@{
+        @"user": NSNullify([_user JSONDictionary]),
+    }];
+
     return dict;
 }
 
@@ -148,6 +159,50 @@ NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSErro
 - (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
 {
     return QTCommentToJSON(self, encoding, error);
+}
+@end
+
+@implementation QTCommentUser
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"handle": @"handle",
+        @"img_url": @"imgURL",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTCommentUser alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:QTCommentUser.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTCommentUser.properties.allValues] mutableCopy];
+
+    for (id jsonName in QTCommentUser.properties) {
+        id propertyName = QTCommentUser.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    return dict;
 }
 @end
 

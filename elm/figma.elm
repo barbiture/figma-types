@@ -19,6 +19,7 @@ module QuickType exposing
     , User
     , userToString
     , user
+    , CommentUser
     )
 
 import Json.Decode as Jdec
@@ -34,6 +35,13 @@ Unique identifier for comment
 -}
 type alias Comment =
     { id : String
+    , user : Maybe CommentUser
+    }
+
+{-| A description of a user -}
+type alias CommentUser =
+    { handle : String
+    , imgURL : String
     }
 
 {-| A description of a user -}
@@ -54,11 +62,26 @@ comment : Jdec.Decoder Comment
 comment =
     Jpipe.decode Comment
         |> Jpipe.required "id" Jdec.string
+        |> Jpipe.optional "user" (Jdec.nullable commentUser) Nothing
 
 encodeComment : Comment -> Jenc.Value
 encodeComment x =
     Jenc.object
         [ ("id", Jenc.string x.id)
+        , ("user", makeNullableEncoder encodeCommentUser x.user)
+        ]
+
+commentUser : Jdec.Decoder CommentUser
+commentUser =
+    Jpipe.decode CommentUser
+        |> Jpipe.required "handle" Jdec.string
+        |> Jpipe.required "img_url" Jdec.string
+
+encodeCommentUser : CommentUser -> Jenc.Value
+encodeCommentUser x =
+    Jenc.object
+        [ ("handle", Jenc.string x.handle)
+        , ("img_url", Jenc.string x.imgURL)
         ]
 
 user : Jdec.Decoder User

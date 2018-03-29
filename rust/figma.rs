@@ -19,6 +19,19 @@ pub struct Comment {
     /// Unique identifier for comment
     #[serde(rename = "id")]
     id: String,
+
+    #[serde(rename = "user")]
+    user: Option<CommentUser>,
+}
+
+/// A description of a user
+#[derive(Serialize, Deserialize)]
+pub struct CommentUser {
+    #[serde(rename = "handle")]
+    handle: String,
+
+    #[serde(rename = "img_url")]
+    img_url: String,
 }
 
 /// A description of a user

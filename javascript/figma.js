@@ -106,6 +106,11 @@ function o(className) {
 const typeMap = {
     "Comment": {
         id: "",
+        user: u(null, o("CommentUser")),
+    },
+    "CommentUser": {
+        handle: "",
+        img_url: "",
     },
     "User": {
         handle: "",

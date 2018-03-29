@@ -17,7 +17,16 @@ export type Comment = {
     /**
      * Unique identifier for comment
      */
-    id: string;
+    id:    string;
+    user?: CommentUser;
+};
+
+/**
+ * A description of a user
+ */
+export type CommentUser = {
+    handle:  string;
+    img_url: string;
 };
 
 /**
@@ -126,6 +135,11 @@ function o(className: string) {
 const typeMap: any = {
     "Comment": {
         id: "",
+        user: u(null, o("CommentUser")),
+    },
+    "CommentUser": {
+        handle: "",
+        img_url: "",
     },
     "User": {
         handle: "",

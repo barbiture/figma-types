@@ -25,6 +25,21 @@ namespace QuickType
         /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
+
+        [JsonProperty("user")]
+        public CommentUser User { get; set; }
+    }
+
+    /// <summary>
+    /// A description of a user
+    /// </summary>
+    public partial class CommentUser
+    {
+        [JsonProperty("handle")]
+        public string Handle { get; set; }
+
+        [JsonProperty("img_url")]
+        public string ImgUrl { get; set; }
     }
 
     /// <summary>

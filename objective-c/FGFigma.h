@@ -7,6 +7,7 @@
 #import <Foundation/Foundation.h>
 
 @class QTComment;
+@class QTCommentUser;
 @class QTUser;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,12 +17,19 @@ NS_ASSUME_NONNULL_BEGIN
 /// A comment or reply left by a user
 @interface QTComment : NSObject
 /// Unique identifier for comment
-@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, copy)             NSString *identifier;
+@property (nonatomic, nullable, strong) QTCommentUser *user;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
 - (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+@end
+
+/// A description of a user
+@interface QTCommentUser : NSObject
+@property (nonatomic, copy) NSString *handle;
+@property (nonatomic, copy) NSString *imgURL;
 @end
 
 /// A description of a user

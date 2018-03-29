@@ -15,7 +15,16 @@ export interface Comment {
     /**
      * Unique identifier for comment
      */
-    id: string;
+    id:    string;
+    user?: CommentUser;
+}
+
+/**
+ * A description of a user
+ */
+export interface CommentUser {
+    handle:  string;
+    img_url: string;
 }
 
 /**
@@ -125,6 +134,11 @@ export module Convert {
     const typeMap: any = {
         "Comment": {
             id: "",
+            user: u(null, o("CommentUser")),
+        },
+        "CommentUser": {
+            handle: "",
+            img_url: "",
         },
         "User": {
             handle: "",

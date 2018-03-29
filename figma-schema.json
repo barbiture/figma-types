@@ -8,9 +8,21 @@
         "id": {
           "type": "string",
           "description": "Unique identifier for comment"
+        },
+        "file_key": {
+          "type": "string",
+          "description": "The file in which the comment lives"
+        },
+        "parent_id": {
+          "type": "string",
+          "description":
+            "If present, the id of the comment to which this is the reply"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
         }
       },
-      "required": ["id"]
+      "required": ["id", "file_key", "user"]
     },
     "User": {
       "title": "User",
