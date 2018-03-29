@@ -15,6 +15,8 @@ namespace QuickType
     using Newtonsoft.Json.Converters;
 
     /// <summary>
+    /// GET /v1/files/:key
+    ///
     /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
     /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
     /// contains a Node of type DOCUMENT.
@@ -22,14 +24,331 @@ namespace QuickType
     public partial class FileResponse
     {
         /// <summary>
-        /// A string uniquely identifying this node within the document
+        /// The root node within the document
         /// </summary>
         [JsonProperty("document")]
-        public FileResponseNode Document { get; set; }
+        public DocumentNode Document { get; set; }
+
+        /// <summary>
+        /// A mapping from node IDs to component metadata. This is to help you determine which
+        /// components each instance comes from. Currently the only piece of metadata available on
+        /// components is the name of the component, but more properties will be forthcoming.
+        /// </summary>
+        [JsonProperty("components")]
+        public Dictionary<string, ComponentNode> Components { get; set; }
+
+        [JsonProperty("schemaVersion")]
+        public double SchemaVersion { get; set; }
     }
 
     /// <summary>
+    /// A mapping from node IDs to component metadata. This is to help you determine which
+    /// components each instance comes from. Currently the only piece of metadata available on
+    /// components is the name of the component, but more properties will be forthcoming.
+    ///
+    /// A node that can have instances created of it that share the same properties
+    ///
+    /// An array of canvases attached to the document
+    ///
+    /// The root node within the document
+    ///
+    /// A logical grouping of nodes
+    ///
+    /// A group that has a boolean operation applied to it
+    ///
+    /// A regular star shape
+    ///
+    /// A straight line
+    ///
+    /// An ellipse
+    ///
+    /// A regular n-sided polygon
+    ///
+    /// A text box
+    ///
+    /// A rectangular region of the canvas that can be exported
+    ///
+    /// An instance of a component, changes to the component result in the same changes applied
+    /// to the instance
+    ///
+    /// Properties are shared across all nodes
+    ///
+    /// Red channel value, between 0 and 1
+    ///
+    /// Green channel value, between 0 and 1
+    ///
+    /// Blue channel value, between 0 and 1
+    ///
+    /// Alpha channel value, between 0 and 1
+    ///
+    /// See type property for effect of this field
+    ///
+    /// X coordinate of the vector
+    ///
+    /// Y coordinate of the vector
+    ///
+    /// Width of column grid or height of row grid or square grid spacing
+    ///
+    /// Spacing in between columns and rows
+    ///
+    /// Spacing before the first column or row
+    ///
+    /// Number of columns or rows
+    ///
+    /// Opacity of the node
+    ///
+    /// X coordinate of top left corner of the rectangle
+    ///
+    /// Y coordinate of top left corner of the rectangle
+    ///
+    /// Width of the rectangle
+    ///
+    /// Height of the rectangle
+    ///
+    /// The weight of strokes on the node
+    ///
+    /// Overall opacity of paint (colors within the paint can also have opacity values which
+    /// would blend with this)
+    ///
+    /// Value between 0 and 1 representing position along gradient axis
+    ///
+    /// Radius of each corner of the rectangle
+    ///
+    /// Line height in px
+    ///
+    /// Numeric font weight
+    ///
+    /// Line height as a percentage of normal line height
+    ///
+    /// Font size in px
+    ///
+    /// Space between characters in px
+    ///
+    /// Array with same number of elements as characeters in text box, each element is a
+    /// reference to the styleOverrideTable defined below and maps to the corresponding character
+    /// in the characters field. Elements with value 0 have the default type style
+    ///
+    /// Whether or not the node is visible on the canvas
+    ///
+    /// Is the grid currently visible?
+    ///
+    /// Does this node mask sibling nodes in front of it?
+    ///
+    /// Does this node clip content outside of its bounds?
+    ///
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    ///
+    /// Is the paint enabled?
+    ///
+    /// Is text italicized?
+    ///
     /// A string uniquely identifying this node within the document
+    ///
+    /// The name given to the node by the user in the tool
+    ///
+    /// File suffix to append to all filenames
+    ///
+    /// Node ID of node to transition to in prototyping
+    ///
+    /// Text contained within text box
+    ///
+    /// PostScript font name
+    ///
+    /// Font family of text (standard name)
+    ///
+    /// ID of component that this instance came from, refers to components table (see endpoints
+    /// section below)
+    /// </summary>
+    public partial class ComponentNode
+    {
+        /// <summary>
+        /// A string uniquely identifying this node within the document
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// The name given to the node by the user in the tool
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Whether or not the node is visible on the canvas
+        /// </summary>
+        [JsonProperty("visible")]
+        public bool Visible { get; set; }
+
+        /// <summary>
+        /// The type of the node
+        /// </summary>
+        [JsonProperty("type")]
+        public NodeType Type { get; set; }
+
+        /// <summary>
+        /// An array of effects attached to this node (see effects section for more details)
+        /// </summary>
+        [JsonProperty("effects")]
+        public Effect[] Effects { get; set; }
+
+        /// <summary>
+        /// An array of layout grids attached to this node (see layout grids section for more
+        /// details). GROUP nodes do not have this attribute
+        /// </summary>
+        [JsonProperty("layoutGrids")]
+        public LayoutGrid[] LayoutGrids { get; set; }
+
+        /// <summary>
+        /// Opacity of the node
+        /// </summary>
+        [JsonProperty("opacity")]
+        public double Opacity { get; set; }
+
+        /// <summary>
+        /// Bounding box of the node in absolute space coordinates
+        /// </summary>
+        [JsonProperty("absoluteBoundingBox")]
+        public Rectangle AbsoluteBoundingBox { get; set; }
+
+        /// <summary>
+        /// Node ID of node to transition to in prototyping
+        /// </summary>
+        [JsonProperty("transitionNodeID")]
+        public string TransitionNodeId { get; set; }
+
+        /// <summary>
+        /// How this node blends with nodes behind it in the scene (see blend mode section for more
+        /// details)
+        /// </summary>
+        [JsonProperty("blendMode")]
+        public BlendMode BlendMode { get; set; }
+
+        /// <summary>
+        /// Background color of the node
+        /// </summary>
+        [JsonProperty("backgroundColor")]
+        public Color BackgroundColor { get; set; }
+
+        /// <summary>
+        /// How this node blends with nodes behind it in the scene (see blend mode section for more
+        /// details)
+        /// </summary>
+        [JsonProperty("constraints")]
+        public LayoutConstraint Constraints { get; set; }
+
+        /// <summary>
+        /// Does this node mask sibling nodes in front of it?
+        /// </summary>
+        [JsonProperty("isMask")]
+        public bool IsMask { get; set; }
+
+        /// <summary>
+        /// Does this node clip content outside of its bounds?
+        /// </summary>
+        [JsonProperty("clipsContent")]
+        public bool ClipsContent { get; set; }
+
+        /// <summary>
+        /// An array of export settings representing images to export from node
+        /// </summary>
+        [JsonProperty("exportSettings")]
+        public ExportSetting[] ExportSettings { get; set; }
+
+        /// <summary>
+        /// How this node blends with nodes behind it in the scene (see blend mode section for more
+        /// details)
+        /// </summary>
+        [JsonProperty("preserveRatio")]
+        public bool PreserveRatio { get; set; }
+
+        /// <summary>
+        /// An array of nodes that are direct children of this node
+        /// </summary>
+        [JsonProperty("children")]
+        public PurpleNode[] Children { get; set; }
+    }
+
+    /// <summary>
+    /// A rectangle that expresses a bounding box in absolute coordinates
+    ///
+    /// Bounding box of the node in absolute space coordinates
+    /// </summary>
+    public partial class Rectangle
+    {
+        /// <summary>
+        /// X coordinate of top left corner of the rectangle
+        /// </summary>
+        [JsonProperty("x")]
+        public double X { get; set; }
+
+        /// <summary>
+        /// Y coordinate of top left corner of the rectangle
+        /// </summary>
+        [JsonProperty("y")]
+        public double Y { get; set; }
+
+        /// <summary>
+        /// Width of the rectangle
+        /// </summary>
+        [JsonProperty("width")]
+        public double Width { get; set; }
+
+        /// <summary>
+        /// Height of the rectangle
+        /// </summary>
+        [JsonProperty("height")]
+        public double Height { get; set; }
+    }
+
+    /// <summary>
+    /// An RGBA color
+    ///
+    /// Background color of the canvas
+    ///
+    /// See type property for effect of this field
+    ///
+    /// Color of the grid
+    ///
+    /// Background color of the node
+    ///
+    /// (For solid paints) Solid color of the paint
+    ///
+    /// Color attached to corresponding position
+    /// </summary>
+    public partial class Color
+    {
+        /// <summary>
+        /// Red channel value, between 0 and 1
+        /// </summary>
+        [JsonProperty("r")]
+        public double R { get; set; }
+
+        /// <summary>
+        /// Green channel value, between 0 and 1
+        /// </summary>
+        [JsonProperty("g")]
+        public double G { get; set; }
+
+        /// <summary>
+        /// Blue channel value, between 0 and 1
+        /// </summary>
+        [JsonProperty("b")]
+        public double B { get; set; }
+
+        /// <summary>
+        /// Alpha channel value, between 0 and 1
+        /// </summary>
+        [JsonProperty("a")]
+        public double A { get; set; }
+    }
+
+    /// <summary>
+    /// An array of nodes that are direct children of this node
+    ///
+    /// An array of canvases attached to the document
+    ///
+    /// The root node within the document
     ///
     /// A logical grouping of nodes
     ///
@@ -124,6 +443,8 @@ namespace QuickType
     ///
     /// Is text italicized?
     ///
+    /// A string uniquely identifying this node within the document
+    ///
     /// The name given to the node by the user in the tool
     ///
     /// File suffix to append to all filenames
@@ -139,7 +460,7 @@ namespace QuickType
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
     /// </summary>
-    public partial class FileResponseNode
+    public partial class PurpleNode
     {
         /// <summary>
         /// A string uniquely identifying this node within the document
@@ -175,7 +496,7 @@ namespace QuickType
         /// An array of nodes that are being boolean operated on
         /// </summary>
         [JsonProperty("children")]
-        public NodeElement[] Children { get; set; }
+        public NodeNode[] Children { get; set; }
 
         /// <summary>
         /// Background color of the canvas
@@ -329,83 +650,9 @@ namespace QuickType
     }
 
     /// <summary>
-    /// A rectangle that expresses a bounding box in absolute coordinates
-    ///
-    /// Bounding box of the node in absolute space coordinates
-    /// </summary>
-    public partial class Rectangle
-    {
-        /// <summary>
-        /// X coordinate of top left corner of the rectangle
-        /// </summary>
-        [JsonProperty("x")]
-        public double X { get; set; }
-
-        /// <summary>
-        /// Y coordinate of top left corner of the rectangle
-        /// </summary>
-        [JsonProperty("y")]
-        public double Y { get; set; }
-
-        /// <summary>
-        /// Width of the rectangle
-        /// </summary>
-        [JsonProperty("width")]
-        public double Width { get; set; }
-
-        /// <summary>
-        /// Height of the rectangle
-        /// </summary>
-        [JsonProperty("height")]
-        public double Height { get; set; }
-    }
-
-    /// <summary>
-    /// An RGBA color
-    ///
-    /// Background color of the canvas
-    ///
-    /// See type property for effect of this field
-    ///
-    /// Color of the grid
-    ///
-    /// Background color of the node
-    ///
-    /// (For solid paints) Solid color of the paint
-    ///
-    /// Color attached to corresponding position
-    /// </summary>
-    public partial class Color
-    {
-        /// <summary>
-        /// Red channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("r")]
-        public double R { get; set; }
-
-        /// <summary>
-        /// Green channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("g")]
-        public double G { get; set; }
-
-        /// <summary>
-        /// Blue channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("b")]
-        public double B { get; set; }
-
-        /// <summary>
-        /// Alpha channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("a")]
-        public double A { get; set; }
-    }
-
-    /// <summary>
     /// An array of canvases attached to the document
     ///
-    /// A string uniquely identifying this node within the document
+    /// The root node within the document
     ///
     /// A logical grouping of nodes
     ///
@@ -500,6 +747,8 @@ namespace QuickType
     ///
     /// Is text italicized?
     ///
+    /// A string uniquely identifying this node within the document
+    ///
     /// The name given to the node by the user in the tool
     ///
     /// File suffix to append to all filenames
@@ -521,7 +770,7 @@ namespace QuickType
     ///
     /// An array of nodes that are being boolean operated on
     /// </summary>
-    public partial class NodeElement
+    public partial class NodeNode
     {
         /// <summary>
         /// A string uniquely identifying this node within the document
@@ -557,7 +806,7 @@ namespace QuickType
         /// An array of nodes that are being boolean operated on
         /// </summary>
         [JsonProperty("children")]
-        public NodeElement[] Children { get; set; }
+        public NodeNode[] Children { get; set; }
 
         /// <summary>
         /// Background color of the canvas
@@ -1094,6 +1343,458 @@ namespace QuickType
         /// </summary>
         [JsonProperty("letterSpacing")]
         public double LetterSpacing { get; set; }
+    }
+
+    /// <summary>
+    /// The root node within the document
+    ///
+    /// An array of canvases attached to the document
+    ///
+    /// A logical grouping of nodes
+    ///
+    /// A group that has a boolean operation applied to it
+    ///
+    /// A regular star shape
+    ///
+    /// A straight line
+    ///
+    /// An ellipse
+    ///
+    /// A regular n-sided polygon
+    ///
+    /// A text box
+    ///
+    /// A rectangular region of the canvas that can be exported
+    ///
+    /// A node that can have instances created of it that share the same properties
+    ///
+    /// An instance of a component, changes to the component result in the same changes applied
+    /// to the instance
+    ///
+    /// Properties are shared across all nodes
+    ///
+    /// Red channel value, between 0 and 1
+    ///
+    /// Green channel value, between 0 and 1
+    ///
+    /// Blue channel value, between 0 and 1
+    ///
+    /// Alpha channel value, between 0 and 1
+    ///
+    /// See type property for effect of this field
+    ///
+    /// X coordinate of the vector
+    ///
+    /// Y coordinate of the vector
+    ///
+    /// Width of column grid or height of row grid or square grid spacing
+    ///
+    /// Spacing in between columns and rows
+    ///
+    /// Spacing before the first column or row
+    ///
+    /// Number of columns or rows
+    ///
+    /// Opacity of the node
+    ///
+    /// X coordinate of top left corner of the rectangle
+    ///
+    /// Y coordinate of top left corner of the rectangle
+    ///
+    /// Width of the rectangle
+    ///
+    /// Height of the rectangle
+    ///
+    /// The weight of strokes on the node
+    ///
+    /// Overall opacity of paint (colors within the paint can also have opacity values which
+    /// would blend with this)
+    ///
+    /// Value between 0 and 1 representing position along gradient axis
+    ///
+    /// Radius of each corner of the rectangle
+    ///
+    /// Line height in px
+    ///
+    /// Numeric font weight
+    ///
+    /// Line height as a percentage of normal line height
+    ///
+    /// Font size in px
+    ///
+    /// Space between characters in px
+    ///
+    /// Array with same number of elements as characeters in text box, each element is a
+    /// reference to the styleOverrideTable defined below and maps to the corresponding character
+    /// in the characters field. Elements with value 0 have the default type style
+    ///
+    /// Whether or not the node is visible on the canvas
+    ///
+    /// Is the grid currently visible?
+    ///
+    /// Does this node mask sibling nodes in front of it?
+    ///
+    /// Does this node clip content outside of its bounds?
+    ///
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    ///
+    /// Is the paint enabled?
+    ///
+    /// Is text italicized?
+    ///
+    /// A string uniquely identifying this node within the document
+    ///
+    /// The name given to the node by the user in the tool
+    ///
+    /// File suffix to append to all filenames
+    ///
+    /// Node ID of node to transition to in prototyping
+    ///
+    /// Text contained within text box
+    ///
+    /// PostScript font name
+    ///
+    /// Font family of text (standard name)
+    ///
+    /// ID of component that this instance came from, refers to components table (see endpoints
+    /// section below)
+    /// </summary>
+    public partial class DocumentNode
+    {
+        /// <summary>
+        /// A string uniquely identifying this node within the document
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// The name given to the node by the user in the tool
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Whether or not the node is visible on the canvas
+        /// </summary>
+        [JsonProperty("visible")]
+        public bool Visible { get; set; }
+
+        /// <summary>
+        /// The type of the node
+        /// </summary>
+        [JsonProperty("type")]
+        public NodeType Type { get; set; }
+
+        /// <summary>
+        /// An array of canvases attached to the document
+        /// </summary>
+        [JsonProperty("children")]
+        public FluffyNode[] Children { get; set; }
+    }
+
+    /// <summary>
+    /// An array of canvases attached to the document
+    ///
+    /// The root node within the document
+    ///
+    /// A logical grouping of nodes
+    ///
+    /// A group that has a boolean operation applied to it
+    ///
+    /// A regular star shape
+    ///
+    /// A straight line
+    ///
+    /// An ellipse
+    ///
+    /// A regular n-sided polygon
+    ///
+    /// A text box
+    ///
+    /// A rectangular region of the canvas that can be exported
+    ///
+    /// A node that can have instances created of it that share the same properties
+    ///
+    /// An instance of a component, changes to the component result in the same changes applied
+    /// to the instance
+    ///
+    /// Properties are shared across all nodes
+    ///
+    /// Red channel value, between 0 and 1
+    ///
+    /// Green channel value, between 0 and 1
+    ///
+    /// Blue channel value, between 0 and 1
+    ///
+    /// Alpha channel value, between 0 and 1
+    ///
+    /// See type property for effect of this field
+    ///
+    /// X coordinate of the vector
+    ///
+    /// Y coordinate of the vector
+    ///
+    /// Width of column grid or height of row grid or square grid spacing
+    ///
+    /// Spacing in between columns and rows
+    ///
+    /// Spacing before the first column or row
+    ///
+    /// Number of columns or rows
+    ///
+    /// Opacity of the node
+    ///
+    /// X coordinate of top left corner of the rectangle
+    ///
+    /// Y coordinate of top left corner of the rectangle
+    ///
+    /// Width of the rectangle
+    ///
+    /// Height of the rectangle
+    ///
+    /// The weight of strokes on the node
+    ///
+    /// Overall opacity of paint (colors within the paint can also have opacity values which
+    /// would blend with this)
+    ///
+    /// Value between 0 and 1 representing position along gradient axis
+    ///
+    /// Radius of each corner of the rectangle
+    ///
+    /// Line height in px
+    ///
+    /// Numeric font weight
+    ///
+    /// Line height as a percentage of normal line height
+    ///
+    /// Font size in px
+    ///
+    /// Space between characters in px
+    ///
+    /// Array with same number of elements as characeters in text box, each element is a
+    /// reference to the styleOverrideTable defined below and maps to the corresponding character
+    /// in the characters field. Elements with value 0 have the default type style
+    ///
+    /// Whether or not the node is visible on the canvas
+    ///
+    /// Is the grid currently visible?
+    ///
+    /// Does this node mask sibling nodes in front of it?
+    ///
+    /// Does this node clip content outside of its bounds?
+    ///
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    ///
+    /// Is the paint enabled?
+    ///
+    /// Is text italicized?
+    ///
+    /// A string uniquely identifying this node within the document
+    ///
+    /// The name given to the node by the user in the tool
+    ///
+    /// File suffix to append to all filenames
+    ///
+    /// Node ID of node to transition to in prototyping
+    ///
+    /// Text contained within text box
+    ///
+    /// PostScript font name
+    ///
+    /// Font family of text (standard name)
+    ///
+    /// ID of component that this instance came from, refers to components table (see endpoints
+    /// section below)
+    /// </summary>
+    public partial class FluffyNode
+    {
+        /// <summary>
+        /// A string uniquely identifying this node within the document
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// The name given to the node by the user in the tool
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Whether or not the node is visible on the canvas
+        /// </summary>
+        [JsonProperty("visible")]
+        public bool Visible { get; set; }
+
+        /// <summary>
+        /// The type of the node
+        /// </summary>
+        [JsonProperty("type")]
+        public NodeType Type { get; set; }
+
+        /// <summary>
+        /// An array of canvases attached to the document
+        ///
+        /// An array of top level layers on the canvas
+        ///
+        /// An array of nodes that are direct children of this node
+        ///
+        /// An array of nodes that are being boolean operated on
+        /// </summary>
+        [JsonProperty("children")]
+        public NodeNode[] Children { get; set; }
+
+        /// <summary>
+        /// Background color of the canvas
+        ///
+        /// Background color of the node
+        /// </summary>
+        [JsonProperty("backgroundColor")]
+        public Color BackgroundColor { get; set; }
+
+        /// <summary>
+        /// An array of export settings representing images to export from the canvas
+        ///
+        /// An array of export settings representing images to export from node
+        ///
+        /// A rectangular region of the canvas that can be exported
+        /// </summary>
+        [JsonProperty("exportSettings")]
+        public ExportSetting[] ExportSettings { get; set; }
+
+        /// <summary>
+        /// An array of effects attached to this node (see effects section for more details)
+        /// </summary>
+        [JsonProperty("effects")]
+        public Effect[] Effects { get; set; }
+
+        /// <summary>
+        /// An array of layout grids attached to this node (see layout grids section for more
+        /// details). GROUP nodes do not have this attribute
+        /// </summary>
+        [JsonProperty("layoutGrids")]
+        public LayoutGrid[] LayoutGrids { get; set; }
+
+        /// <summary>
+        /// Opacity of the node
+        /// </summary>
+        [JsonProperty("opacity")]
+        public double? Opacity { get; set; }
+
+        /// <summary>
+        /// Bounding box of the node in absolute space coordinates
+        /// </summary>
+        [JsonProperty("absoluteBoundingBox")]
+        public Rectangle AbsoluteBoundingBox { get; set; }
+
+        /// <summary>
+        /// Node ID of node to transition to in prototyping
+        /// </summary>
+        [JsonProperty("transitionNodeID")]
+        public string TransitionNodeId { get; set; }
+
+        /// <summary>
+        /// How this node blends with nodes behind it in the scene (see blend mode section for more
+        /// details)
+        /// </summary>
+        [JsonProperty("blendMode")]
+        public BlendMode? BlendMode { get; set; }
+
+        /// <summary>
+        /// How this node blends with nodes behind it in the scene (see blend mode section for more
+        /// details)
+        /// </summary>
+        [JsonProperty("constraints")]
+        public LayoutConstraint Constraints { get; set; }
+
+        /// <summary>
+        /// Does this node mask sibling nodes in front of it?
+        /// </summary>
+        [JsonProperty("isMask")]
+        public bool? IsMask { get; set; }
+
+        /// <summary>
+        /// Does this node clip content outside of its bounds?
+        /// </summary>
+        [JsonProperty("clipsContent")]
+        public bool? ClipsContent { get; set; }
+
+        /// <summary>
+        /// How this node blends with nodes behind it in the scene (see blend mode section for more
+        /// details)
+        /// </summary>
+        [JsonProperty("preserveRatio")]
+        public bool? PreserveRatio { get; set; }
+
+        /// <summary>
+        /// Where stroke is drawn relative to the vector outline as a string enum
+        ///
+        /// * INSIDE: draw stroke inside the shape boundary
+        /// * OUTSIDE: draw stroke outside the shape boundary
+        /// * CENTER: draw stroke centered along the shape boundary
+        /// </summary>
+        [JsonProperty("strokeAlign")]
+        public StrokeAlign? StrokeAlign { get; set; }
+
+        /// <summary>
+        /// The weight of strokes on the node
+        /// </summary>
+        [JsonProperty("strokeWeight")]
+        public double? StrokeWeight { get; set; }
+
+        /// <summary>
+        /// An array of fill paints applied to the node
+        /// </summary>
+        [JsonProperty("fills")]
+        public Paint[] Fills { get; set; }
+
+        /// <summary>
+        /// An array of stroke paints applied to the node
+        /// </summary>
+        [JsonProperty("strokes")]
+        public Paint[] Strokes { get; set; }
+
+        /// <summary>
+        /// Radius of each corner of the rectangle
+        /// </summary>
+        [JsonProperty("cornerRadius")]
+        public double? CornerRadius { get; set; }
+
+        /// <summary>
+        /// Text contained within text box
+        /// </summary>
+        [JsonProperty("characters")]
+        public string Characters { get; set; }
+
+        /// <summary>
+        /// Style of text including font family and weight (see type style section for more
+        /// information)
+        /// </summary>
+        [JsonProperty("style")]
+        public TypeStyle Style { get; set; }
+
+        /// <summary>
+        /// Array with same number of elements as characeters in text box, each element is a
+        /// reference to the styleOverrideTable defined below and maps to the corresponding character
+        /// in the characters field. Elements with value 0 have the default type style
+        /// </summary>
+        [JsonProperty("characterStyleOverrides")]
+        public double[] CharacterStyleOverrides { get; set; }
+
+        /// <summary>
+        /// Map from ID to TypeStyle for looking up style overrides
+        /// </summary>
+        [JsonProperty("styleOverrideTable")]
+        public Dictionary<string, TypeStyle> StyleOverrideTable { get; set; }
+
+        /// <summary>
+        /// ID of component that this instance came from, refers to components table (see endpoints
+        /// section below)
+        /// </summary>
+        [JsonProperty("componentId")]
+        public string ComponentId { get; set; }
     }
 
     /// <summary>

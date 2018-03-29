@@ -4,15 +4,25 @@
     "FileResponse": {
       "type": "object",
       "description":
-        "Returns the document refered to by :key as a JSON object. The file key can be parsed from any Figma file url: https://www.figma.com/file/:key/:title. The \"document\" attribute contains a Node of type DOCUMENT.",
+        "GET /v1/files/:key\n\nReturns the document refered to by :key as a JSON object. The file key can be parsed from any Figma file url: https://www.figma.com/file/:key/:title. The \"document\" attribute contains a Node of type DOCUMENT.",
       "properties": {
         "document": {
-          "$ref": "types.json#/definitions/Node",
+          "$ref": "types.json#/definitions/DocumentNode",
+          "description": "The root node within the document"
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "types.json#/definitions/ComponentNode"
+          },
           "description":
-            "A string uniquely identifying this node within the document"
+            "A mapping from node IDs to component metadata. This is to help you determine which components each instance comes from. Currently the only piece of metadata available on components is the name of the component, but more properties will be forthcoming."
+        },
+        "schemaVersion": {
+          "type": "number"
         }
       },
-      "required": ["document"]
+      "required": ["document", "components", "schemaVersion"]
     }
   }
 }

@@ -4,15 +4,250 @@
 
 import Foundation
 
+/// GET /v1/files/:key
+///
 /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
 /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 /// contains a Node of type DOCUMENT.
 struct FileResponse: Codable {
-    /// A string uniquely identifying this node within the document
-    let document: FileResponseNode
+    /// The root node within the document
+    let document: DocumentNode
+    /// A mapping from node IDs to component metadata. This is to help you determine which
+    /// components each instance comes from. Currently the only piece of metadata available on
+    /// components is the name of the component, but more properties will be forthcoming.
+    let components: [String: ComponentNode]
+    let schemaVersion: Double
 }
 
+/// A mapping from node IDs to component metadata. This is to help you determine which
+/// components each instance comes from. Currently the only piece of metadata available on
+/// components is the name of the component, but more properties will be forthcoming.
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An array of canvases attached to the document
+///
+/// The root node within the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
 /// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+struct ComponentNode: Codable {
+    /// A string uniquely identifying this node within the document
+    let id: String
+    /// The name given to the node by the user in the tool
+    let name: String
+    /// Whether or not the node is visible on the canvas
+    let visible: Bool
+    /// The type of the node
+    let type: NodeType
+    /// An array of effects attached to this node (see effects section for more details)
+    let effects: [Effect]
+    /// An array of layout grids attached to this node (see layout grids section for more
+    /// details). GROUP nodes do not have this attribute
+    let layoutGrids: [LayoutGrid]
+    /// Opacity of the node
+    let opacity: Double
+    /// Bounding box of the node in absolute space coordinates
+    let absoluteBoundingBox: Rectangle
+    /// Node ID of node to transition to in prototyping
+    let transitionNodeID: String?
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    let blendMode: BlendMode
+    /// Background color of the node
+    let backgroundColor: Color
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    let constraints: LayoutConstraint
+    /// Does this node mask sibling nodes in front of it?
+    let isMask: Bool
+    /// Does this node clip content outside of its bounds?
+    let clipsContent: Bool
+    /// An array of export settings representing images to export from node
+    let exportSettings: [ExportSetting]
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    let preserveRatio: Bool
+    /// An array of nodes that are direct children of this node
+    let children: [PurpleNode]
+}
+
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
+struct Rectangle: Codable {
+    /// X coordinate of top left corner of the rectangle
+    let x: Double
+    /// Y coordinate of top left corner of the rectangle
+    let y: Double
+    /// Width of the rectangle
+    let width: Double
+    /// Height of the rectangle
+    let height: Double
+}
+
+/// An RGBA color
+///
+/// Background color of the canvas
+///
+/// See type property for effect of this field
+///
+/// Color of the grid
+///
+/// Background color of the node
+///
+/// (For solid paints) Solid color of the paint
+///
+/// Color attached to corresponding position
+struct Color: Codable {
+    /// Red channel value, between 0 and 1
+    let r: Double
+    /// Green channel value, between 0 and 1
+    let g: Double
+    /// Blue channel value, between 0 and 1
+    let b: Double
+    /// Alpha channel value, between 0 and 1
+    let a: Double
+}
+
+/// Enum describing how layer blends with layers below
+///
+/// See type property for effect of this field
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+enum BlendMode: String, Codable {
+    case color = "COLOR"
+    case colorBurn = "COLOR_BURN"
+    case colorDodge = "COLOR_DODGE"
+    case darken = "DARKEN"
+    case difference = "DIFFERENCE"
+    case exclusion = "EXCLUSION"
+    case hardLight = "HARD_LIGHT"
+    case hue = "HUE"
+    case lighten = "LIGHTEN"
+    case linearBurn = "LINEAR_BURN"
+    case linearDodge = "LINEAR_DODGE"
+    case luminosity = "LUMINOSITY"
+    case multiply = "MULTIPLY"
+    case normal = "NORMAL"
+    case overlay = "OVERLAY"
+    case passThrough = "PASS_THROUGH"
+    case saturation = "SATURATION"
+    case screen = "SCREEN"
+    case softLight = "SOFT_LIGHT"
+}
+
+/// An array of nodes that are direct children of this node
+///
+/// An array of canvases attached to the document
+///
+/// The root node within the document
 ///
 /// A logical grouping of nodes
 ///
@@ -107,6 +342,8 @@ struct FileResponse: Codable {
 ///
 /// Is text italicized?
 ///
+/// A string uniquely identifying this node within the document
+///
 /// The name given to the node by the user in the tool
 ///
 /// File suffix to append to all filenames
@@ -121,7 +358,7 @@ struct FileResponse: Codable {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
-struct FileResponseNode: Codable {
+struct PurpleNode: Codable {
     /// A string uniquely identifying this node within the document
     let id: String
     /// The name given to the node by the user in the tool
@@ -137,7 +374,7 @@ struct FileResponseNode: Codable {
     /// An array of nodes that are direct children of this node
     ///
     /// An array of nodes that are being boolean operated on
-    let children: [NodeElement]?
+    let children: [NodeNode]?
     /// Background color of the canvas
     ///
     /// Background color of the node
@@ -207,75 +444,9 @@ struct FileResponseNode: Codable {
     }
 }
 
-/// A rectangle that expresses a bounding box in absolute coordinates
-///
-/// Bounding box of the node in absolute space coordinates
-struct Rectangle: Codable {
-    /// X coordinate of top left corner of the rectangle
-    let x: Double
-    /// Y coordinate of top left corner of the rectangle
-    let y: Double
-    /// Width of the rectangle
-    let width: Double
-    /// Height of the rectangle
-    let height: Double
-}
-
-/// An RGBA color
-///
-/// Background color of the canvas
-///
-/// See type property for effect of this field
-///
-/// Color of the grid
-///
-/// Background color of the node
-///
-/// (For solid paints) Solid color of the paint
-///
-/// Color attached to corresponding position
-struct Color: Codable {
-    /// Red channel value, between 0 and 1
-    let r: Double
-    /// Green channel value, between 0 and 1
-    let g: Double
-    /// Blue channel value, between 0 and 1
-    let b: Double
-    /// Alpha channel value, between 0 and 1
-    let a: Double
-}
-
-/// Enum describing how layer blends with layers below
-///
-/// See type property for effect of this field
-///
-/// How this node blends with nodes behind it in the scene (see blend mode section for more
-/// details)
-enum BlendMode: String, Codable {
-    case color = "COLOR"
-    case colorBurn = "COLOR_BURN"
-    case colorDodge = "COLOR_DODGE"
-    case darken = "DARKEN"
-    case difference = "DIFFERENCE"
-    case exclusion = "EXCLUSION"
-    case hardLight = "HARD_LIGHT"
-    case hue = "HUE"
-    case lighten = "LIGHTEN"
-    case linearBurn = "LINEAR_BURN"
-    case linearDodge = "LINEAR_DODGE"
-    case luminosity = "LUMINOSITY"
-    case multiply = "MULTIPLY"
-    case normal = "NORMAL"
-    case overlay = "OVERLAY"
-    case passThrough = "PASS_THROUGH"
-    case saturation = "SATURATION"
-    case screen = "SCREEN"
-    case softLight = "SOFT_LIGHT"
-}
-
 /// An array of canvases attached to the document
 ///
-/// A string uniquely identifying this node within the document
+/// The root node within the document
 ///
 /// A logical grouping of nodes
 ///
@@ -370,6 +541,8 @@ enum BlendMode: String, Codable {
 ///
 /// Is text italicized?
 ///
+/// A string uniquely identifying this node within the document
+///
 /// The name given to the node by the user in the tool
 ///
 /// File suffix to append to all filenames
@@ -390,7 +563,7 @@ enum BlendMode: String, Codable {
 /// An array of nodes that are direct children of this node
 ///
 /// An array of nodes that are being boolean operated on
-struct NodeElement: Codable {
+struct NodeNode: Codable {
     /// A string uniquely identifying this node within the document
     let id: String
     /// The name given to the node by the user in the tool
@@ -406,7 +579,7 @@ struct NodeElement: Codable {
     /// An array of nodes that are direct children of this node
     ///
     /// An array of nodes that are being boolean operated on
-    let children: [NodeElement]?
+    let children: [NodeNode]?
     /// Background color of the canvas
     ///
     /// Background color of the node
@@ -814,6 +987,331 @@ enum NodeType: String, Codable {
     case vector = "VECTOR"
 }
 
+/// The root node within the document
+///
+/// An array of canvases attached to the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
+/// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+struct DocumentNode: Codable {
+    /// A string uniquely identifying this node within the document
+    let id: String
+    /// The name given to the node by the user in the tool
+    let name: String
+    /// Whether or not the node is visible on the canvas
+    let visible: Bool
+    /// The type of the node
+    let type: NodeType
+    /// An array of canvases attached to the document
+    let children: [FluffyNode]
+}
+
+/// An array of canvases attached to the document
+///
+/// The root node within the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
+/// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+struct FluffyNode: Codable {
+    /// A string uniquely identifying this node within the document
+    let id: String
+    /// The name given to the node by the user in the tool
+    let name: String
+    /// Whether or not the node is visible on the canvas
+    let visible: Bool
+    /// The type of the node
+    let type: NodeType
+    /// An array of canvases attached to the document
+    ///
+    /// An array of top level layers on the canvas
+    ///
+    /// An array of nodes that are direct children of this node
+    ///
+    /// An array of nodes that are being boolean operated on
+    let children: [NodeNode]?
+    /// Background color of the canvas
+    ///
+    /// Background color of the node
+    let backgroundColor: Color?
+    /// An array of export settings representing images to export from the canvas
+    ///
+    /// An array of export settings representing images to export from node
+    ///
+    /// A rectangular region of the canvas that can be exported
+    let exportSettings: [ExportSetting]?
+    /// An array of effects attached to this node (see effects section for more details)
+    let effects: [Effect]?
+    /// An array of layout grids attached to this node (see layout grids section for more
+    /// details). GROUP nodes do not have this attribute
+    let layoutGrids: [LayoutGrid]?
+    /// Opacity of the node
+    let opacity: Double?
+    /// Bounding box of the node in absolute space coordinates
+    let absoluteBoundingBox: Rectangle?
+    /// Node ID of node to transition to in prototyping
+    let transitionNodeID: String?
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    let blendMode: BlendMode?
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    let constraints: LayoutConstraint?
+    /// Does this node mask sibling nodes in front of it?
+    let isMask: Bool?
+    /// Does this node clip content outside of its bounds?
+    let clipsContent: Bool?
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    let preserveRatio: Bool?
+    /// Where stroke is drawn relative to the vector outline as a string enum
+    ///
+    /// * INSIDE: draw stroke inside the shape boundary
+    /// * OUTSIDE: draw stroke outside the shape boundary
+    /// * CENTER: draw stroke centered along the shape boundary
+    let strokeAlign: StrokeAlign?
+    /// The weight of strokes on the node
+    let strokeWeight: Double?
+    /// An array of fill paints applied to the node
+    let fills: [Paint]?
+    /// An array of stroke paints applied to the node
+    let strokes: [Paint]?
+    /// Radius of each corner of the rectangle
+    let cornerRadius: Double?
+    /// Text contained within text box
+    let characters: String?
+    /// Style of text including font family and weight (see type style section for more
+    /// information)
+    let style: TypeStyle?
+    /// Array with same number of elements as characeters in text box, each element is a
+    /// reference to the styleOverrideTable defined below and maps to the corresponding character
+    /// in the characters field. Elements with value 0 have the default type style
+    let characterStyleOverrides: [Double]?
+    /// Map from ID to TypeStyle for looking up style overrides
+    let styleOverrideTable: [String: TypeStyle]?
+    /// ID of component that this instance came from, refers to components table (see endpoints
+    /// section below)
+    let componentID: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id, name, visible, type, children, backgroundColor, exportSettings, effects, layoutGrids, opacity, absoluteBoundingBox, transitionNodeID, blendMode, constraints, isMask, clipsContent, preserveRatio, strokeAlign, strokeWeight, fills, strokes, cornerRadius, characters, style, characterStyleOverrides, styleOverrideTable
+        case componentID = "componentId"
+    }
+}
+
 // MARK: Convenience initializers
 
 extension FileResponse {
@@ -841,9 +1339,9 @@ extension FileResponse {
     }
 }
 
-extension FileResponseNode {
+extension ComponentNode {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(FileResponseNode.self, from: data)
+        self = try JSONDecoder().decode(ComponentNode.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -916,9 +1414,34 @@ extension Color {
     }
 }
 
-extension NodeElement {
+extension PurpleNode {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(NodeElement.self, from: data)
+        self = try JSONDecoder().decode(PurpleNode.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension NodeNode {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(NodeNode.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1144,6 +1667,56 @@ extension LayoutGrid {
 extension TypeStyle {
     init(data: Data) throws {
         self = try JSONDecoder().decode(TypeStyle.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension DocumentNode {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(DocumentNode.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension FluffyNode {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(FluffyNode.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {

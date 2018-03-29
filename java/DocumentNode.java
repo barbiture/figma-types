@@ -4,19 +4,21 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * A regular n-sided polygon
+ * The root node within the document
  *
- * An ellipse
+ * An array of canvases attached to the document
  *
  * A logical grouping of nodes
- *
- * An array of nodes that are direct children of this node
  *
  * A group that has a boolean operation applied to it
  *
  * A regular star shape
  *
  * A straight line
+ *
+ * An ellipse
+ *
+ * A regular n-sided polygon
  *
  * A text box
  *
@@ -29,8 +31,6 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Properties are shared across all nodes
  *
- * See type property for effect of this field
- *
  * Red channel value, between 0 and 1
  *
  * Green channel value, between 0 and 1
@@ -39,18 +39,21 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Alpha channel value, between 0 and 1
  *
+ * See type property for effect of this field
+ *
  * X coordinate of the vector
  *
  * Y coordinate of the vector
  *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
  * Opacity of the node
- *
- * The weight of strokes on the node
- *
- * Overall opacity of paint (colors within the paint can also have opacity values which
- * would blend with this)
- *
- * Value between 0 and 1 representing position along gradient axis
  *
  * X coordinate of top left corner of the rectangle
  *
@@ -60,13 +63,12 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Height of the rectangle
  *
- * Width of column grid or height of row grid or square grid spacing
+ * The weight of strokes on the node
  *
- * Spacing in between columns and rows
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
  *
- * Spacing before the first column or row
- *
- * Number of columns or rows
+ * Value between 0 and 1 representing position along gradient axis
  *
  * Radius of each corner of the rectangle
  *
@@ -86,16 +88,16 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Whether or not the node is visible on the canvas
  *
- * Is the paint enabled?
+ * Is the grid currently visible?
  *
  * Does this node mask sibling nodes in front of it?
+ *
+ * Does this node clip content outside of its bounds?
  *
  * How this node blends with nodes behind it in the scene (see blend mode section for more
  * details)
  *
- * Is the grid currently visible?
- *
- * Does this node clip content outside of its bounds?
+ * Is the paint enabled?
  *
  * Is text italicized?
  *
@@ -103,9 +105,9 @@ import com.fasterxml.jackson.annotation.*;
  *
  * The name given to the node by the user in the tool
  *
- * Node ID of node to transition to in prototyping
- *
  * File suffix to append to all filenames
+ *
+ * Node ID of node to transition to in prototyping
  *
  * Text contained within text box
  *
@@ -115,19 +117,13 @@ import com.fasterxml.jackson.annotation.*;
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
- *
- * Unique identifier for comment
- *
- * The file in which the comment lives
- *
- * If present, the id of the comment to which this is the reply
  */
 public class DocumentNode {
     private String id;
     private String name;
     private boolean visible;
-    private RegularPolygonNodeType type;
-    private StickyNode[] children;
+    private NodeType type;
+    private FluffyNode[] children;
 
     /**
      * A string uniquely identifying this node within the document
@@ -157,15 +153,15 @@ public class DocumentNode {
      * The type of the node
      */
     @JsonProperty("type")
-    public RegularPolygonNodeType getType() { return type; }
+    public NodeType getType() { return type; }
     @JsonProperty("type")
-    public void setType(RegularPolygonNodeType value) { this.type = value; }
+    public void setType(NodeType value) { this.type = value; }
 
     /**
      * An array of canvases attached to the document
      */
     @JsonProperty("children")
-    public StickyNode[] getChildren() { return children; }
+    public FluffyNode[] getChildren() { return children; }
     @JsonProperty("children")
-    public void setChildren(StickyNode[] value) { this.children = value; }
+    public void setChildren(FluffyNode[] value) { this.children = value; }
 }

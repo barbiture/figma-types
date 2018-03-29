@@ -4,13 +4,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * An array of nodes that are being boolean operated on
+ * An array of canvases attached to the document
  *
- * An array of nodes that are direct children of this node
- *
- * A regular n-sided polygon
- *
- * An ellipse
+ * The root node within the document
  *
  * A logical grouping of nodes
  *
@@ -19,6 +15,10 @@ import com.fasterxml.jackson.annotation.*;
  * A regular star shape
  *
  * A straight line
+ *
+ * An ellipse
+ *
+ * A regular n-sided polygon
  *
  * A text box
  *
@@ -31,8 +31,6 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Properties are shared across all nodes
  *
- * See type property for effect of this field
- *
  * Red channel value, between 0 and 1
  *
  * Green channel value, between 0 and 1
@@ -41,18 +39,21 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Alpha channel value, between 0 and 1
  *
+ * See type property for effect of this field
+ *
  * X coordinate of the vector
  *
  * Y coordinate of the vector
  *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
  * Opacity of the node
- *
- * The weight of strokes on the node
- *
- * Overall opacity of paint (colors within the paint can also have opacity values which
- * would blend with this)
- *
- * Value between 0 and 1 representing position along gradient axis
  *
  * X coordinate of top left corner of the rectangle
  *
@@ -62,13 +63,12 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Height of the rectangle
  *
- * Width of column grid or height of row grid or square grid spacing
+ * The weight of strokes on the node
  *
- * Spacing in between columns and rows
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
  *
- * Spacing before the first column or row
- *
- * Number of columns or rows
+ * Value between 0 and 1 representing position along gradient axis
  *
  * Radius of each corner of the rectangle
  *
@@ -88,16 +88,16 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Whether or not the node is visible on the canvas
  *
- * Is the paint enabled?
+ * Is the grid currently visible?
  *
  * Does this node mask sibling nodes in front of it?
+ *
+ * Does this node clip content outside of its bounds?
  *
  * How this node blends with nodes behind it in the scene (see blend mode section for more
  * details)
  *
- * Is the grid currently visible?
- *
- * Does this node clip content outside of its bounds?
+ * Is the paint enabled?
  *
  * Is text italicized?
  *
@@ -105,9 +105,9 @@ import com.fasterxml.jackson.annotation.*;
  *
  * The name given to the node by the user in the tool
  *
- * Node ID of node to transition to in prototyping
- *
  * File suffix to append to all filenames
+ *
+ * Node ID of node to transition to in prototyping
  *
  * Text contained within text box
  *
@@ -117,40 +117,34 @@ import com.fasterxml.jackson.annotation.*;
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
- *
- * Unique identifier for comment
- *
- * The file in which the comment lives
- *
- * If present, the id of the comment to which this is the reply
  */
 public class FluffyNode {
     private String id;
     private String name;
     private boolean visible;
-    private RegularPolygonNodeType type;
+    private NodeType type;
     private NodeNode[] children;
-    private EffectColor backgroundColor;
-    private ExportSettingElement[] exportSettings;
-    private EffectElement[] effects;
-    private LayoutGridElement[] layoutGrids;
+    private Color backgroundColor;
+    private ExportSetting[] exportSettings;
+    private Effect[] effects;
+    private LayoutGrid[] layoutGrids;
     private Double opacity;
-    private RegularPolygonNodeRectangle absoluteBoundingBox;
+    private Rectangle absoluteBoundingBox;
     private String transitionNodeID;
     private BlendMode blendMode;
-    private RegularPolygonNodeLayoutConstraint constraints;
+    private LayoutConstraint constraints;
     private Boolean isMask;
     private Boolean clipsContent;
     private Boolean preserveRatio;
     private StrokeAlign strokeAlign;
     private Double strokeWeight;
-    private PaintElement[] fills;
-    private PaintElement[] strokes;
+    private Paint[] fills;
+    private Paint[] strokes;
     private Double cornerRadius;
     private String characters;
-    private NodeTypeStyle style;
+    private TypeStyle style;
     private double[] characterStyleOverrides;
-    private Map<String, NodeTypeStyle> styleOverrideTable;
+    private Map<String, TypeStyle> styleOverrideTable;
     private String componentID;
 
     /**
@@ -181,9 +175,9 @@ public class FluffyNode {
      * The type of the node
      */
     @JsonProperty("type")
-    public RegularPolygonNodeType getType() { return type; }
+    public NodeType getType() { return type; }
     @JsonProperty("type")
-    public void setType(RegularPolygonNodeType value) { this.type = value; }
+    public void setType(NodeType value) { this.type = value; }
 
     /**
      * An array of canvases attached to the document
@@ -205,9 +199,9 @@ public class FluffyNode {
      * Background color of the node
      */
     @JsonProperty("backgroundColor")
-    public EffectColor getBackgroundColor() { return backgroundColor; }
+    public Color getBackgroundColor() { return backgroundColor; }
     @JsonProperty("backgroundColor")
-    public void setBackgroundColor(EffectColor value) { this.backgroundColor = value; }
+    public void setBackgroundColor(Color value) { this.backgroundColor = value; }
 
     /**
      * An array of export settings representing images to export from the canvas
@@ -217,26 +211,26 @@ public class FluffyNode {
      * A rectangular region of the canvas that can be exported
      */
     @JsonProperty("exportSettings")
-    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    public ExportSetting[] getExportSettings() { return exportSettings; }
     @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
+    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
 
     /**
      * An array of effects attached to this node (see effects section for more details)
      */
     @JsonProperty("effects")
-    public EffectElement[] getEffects() { return effects; }
+    public Effect[] getEffects() { return effects; }
     @JsonProperty("effects")
-    public void setEffects(EffectElement[] value) { this.effects = value; }
+    public void setEffects(Effect[] value) { this.effects = value; }
 
     /**
      * An array of layout grids attached to this node (see layout grids section for more
      * details). GROUP nodes do not have this attribute
      */
     @JsonProperty("layoutGrids")
-    public LayoutGridElement[] getLayoutGrids() { return layoutGrids; }
+    public LayoutGrid[] getLayoutGrids() { return layoutGrids; }
     @JsonProperty("layoutGrids")
-    public void setLayoutGrids(LayoutGridElement[] value) { this.layoutGrids = value; }
+    public void setLayoutGrids(LayoutGrid[] value) { this.layoutGrids = value; }
 
     /**
      * Opacity of the node
@@ -250,9 +244,9 @@ public class FluffyNode {
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
-    public RegularPolygonNodeRectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(RegularPolygonNodeRectangle value) { this.absoluteBoundingBox = value; }
+    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
 
     /**
      * Node ID of node to transition to in prototyping
@@ -276,9 +270,9 @@ public class FluffyNode {
      * details)
      */
     @JsonProperty("constraints")
-    public RegularPolygonNodeLayoutConstraint getConstraints() { return constraints; }
+    public LayoutConstraint getConstraints() { return constraints; }
     @JsonProperty("constraints")
-    public void setConstraints(RegularPolygonNodeLayoutConstraint value) { this.constraints = value; }
+    public void setConstraints(LayoutConstraint value) { this.constraints = value; }
 
     /**
      * Does this node mask sibling nodes in front of it?
@@ -329,17 +323,17 @@ public class FluffyNode {
      * An array of fill paints applied to the node
      */
     @JsonProperty("fills")
-    public PaintElement[] getFills() { return fills; }
+    public Paint[] getFills() { return fills; }
     @JsonProperty("fills")
-    public void setFills(PaintElement[] value) { this.fills = value; }
+    public void setFills(Paint[] value) { this.fills = value; }
 
     /**
      * An array of stroke paints applied to the node
      */
     @JsonProperty("strokes")
-    public PaintElement[] getStrokes() { return strokes; }
+    public Paint[] getStrokes() { return strokes; }
     @JsonProperty("strokes")
-    public void setStrokes(PaintElement[] value) { this.strokes = value; }
+    public void setStrokes(Paint[] value) { this.strokes = value; }
 
     /**
      * Radius of each corner of the rectangle
@@ -362,9 +356,9 @@ public class FluffyNode {
      * information)
      */
     @JsonProperty("style")
-    public NodeTypeStyle getStyle() { return style; }
+    public TypeStyle getStyle() { return style; }
     @JsonProperty("style")
-    public void setStyle(NodeTypeStyle value) { this.style = value; }
+    public void setStyle(TypeStyle value) { this.style = value; }
 
     /**
      * Array with same number of elements as characeters in text box, each element is a
@@ -380,9 +374,9 @@ public class FluffyNode {
      * Map from ID to TypeStyle for looking up style overrides
      */
     @JsonProperty("styleOverrideTable")
-    public Map<String, NodeTypeStyle> getStyleOverrideTable() { return styleOverrideTable; }
+    public Map<String, TypeStyle> getStyleOverrideTable() { return styleOverrideTable; }
     @JsonProperty("styleOverrideTable")
-    public void setStyleOverrideTable(Map<String, NodeTypeStyle> value) { this.styleOverrideTable = value; }
+    public void setStyleOverrideTable(Map<String, TypeStyle> value) { this.styleOverrideTable = value; }
 
     /**
      * ID of component that this instance came from, refers to components table (see endpoints

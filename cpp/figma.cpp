@@ -479,7 +479,7 @@ namespace quicktype {
     /**
      * An array of canvases attached to the document
      *
-     * A string uniquely identifying this node within the document
+     * The root node within the document
      *
      * A logical grouping of nodes
      *
@@ -573,6 +573,8 @@ namespace quicktype {
      * Is the paint enabled?
      *
      * Is text italicized?
+     *
+     * A string uniquely identifying this node within the document
      *
      * The name given to the node by the user in the tool
      *
@@ -595,7 +597,7 @@ namespace quicktype {
      *
      * An array of nodes that are being boolean operated on
      */
-    struct NodeElement {
+    struct NodeNode {
         /**
          * A string uniquely identifying this node within the document
          */
@@ -621,7 +623,7 @@ namespace quicktype {
          *
          * An array of nodes that are being boolean operated on
          */
-        std::unique_ptr<std::vector<struct NodeElement>> children;
+        std::unique_ptr<std::vector<struct NodeNode>> children;
         /**
          * Background color of the canvas
          *
@@ -731,7 +733,11 @@ namespace quicktype {
     };
 
     /**
-     * A string uniquely identifying this node within the document
+     * An array of nodes that are direct children of this node
+     *
+     * An array of canvases attached to the document
+     *
+     * The root node within the document
      *
      * A logical grouping of nodes
      *
@@ -826,6 +832,8 @@ namespace quicktype {
      *
      * Is text italicized?
      *
+     * A string uniquely identifying this node within the document
+     *
      * The name given to the node by the user in the tool
      *
      * File suffix to append to all filenames
@@ -841,7 +849,7 @@ namespace quicktype {
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
      */
-    struct FileResponseNode {
+    struct PurpleNode {
         /**
          * A string uniquely identifying this node within the document
          */
@@ -867,7 +875,7 @@ namespace quicktype {
          *
          * An array of nodes that are being boolean operated on
          */
-        std::unique_ptr<std::vector<struct NodeElement>> children;
+        std::unique_ptr<std::vector<struct NodeNode>> children;
         /**
          * Background color of the canvas
          *
@@ -977,15 +985,606 @@ namespace quicktype {
     };
 
     /**
+     * A mapping from node IDs to component metadata. This is to help you determine which
+     * components each instance comes from. Currently the only piece of metadata available on
+     * components is the name of the component, but more properties will be forthcoming.
+     *
+     * A node that can have instances created of it that share the same properties
+     *
+     * An array of canvases attached to the document
+     *
+     * The root node within the document
+     *
+     * A logical grouping of nodes
+     *
+     * A group that has a boolean operation applied to it
+     *
+     * A regular star shape
+     *
+     * A straight line
+     *
+     * An ellipse
+     *
+     * A regular n-sided polygon
+     *
+     * A text box
+     *
+     * A rectangular region of the canvas that can be exported
+     *
+     * An instance of a component, changes to the component result in the same changes applied
+     * to the instance
+     *
+     * Properties are shared across all nodes
+     *
+     * Red channel value, between 0 and 1
+     *
+     * Green channel value, between 0 and 1
+     *
+     * Blue channel value, between 0 and 1
+     *
+     * Alpha channel value, between 0 and 1
+     *
+     * See type property for effect of this field
+     *
+     * X coordinate of the vector
+     *
+     * Y coordinate of the vector
+     *
+     * Width of column grid or height of row grid or square grid spacing
+     *
+     * Spacing in between columns and rows
+     *
+     * Spacing before the first column or row
+     *
+     * Number of columns or rows
+     *
+     * Opacity of the node
+     *
+     * X coordinate of top left corner of the rectangle
+     *
+     * Y coordinate of top left corner of the rectangle
+     *
+     * Width of the rectangle
+     *
+     * Height of the rectangle
+     *
+     * The weight of strokes on the node
+     *
+     * Overall opacity of paint (colors within the paint can also have opacity values which
+     * would blend with this)
+     *
+     * Value between 0 and 1 representing position along gradient axis
+     *
+     * Radius of each corner of the rectangle
+     *
+     * Line height in px
+     *
+     * Numeric font weight
+     *
+     * Line height as a percentage of normal line height
+     *
+     * Font size in px
+     *
+     * Space between characters in px
+     *
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     *
+     * Whether or not the node is visible on the canvas
+     *
+     * Is the grid currently visible?
+     *
+     * Does this node mask sibling nodes in front of it?
+     *
+     * Does this node clip content outside of its bounds?
+     *
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     *
+     * Is the paint enabled?
+     *
+     * Is text italicized?
+     *
+     * A string uniquely identifying this node within the document
+     *
+     * The name given to the node by the user in the tool
+     *
+     * File suffix to append to all filenames
+     *
+     * Node ID of node to transition to in prototyping
+     *
+     * Text contained within text box
+     *
+     * PostScript font name
+     *
+     * Font family of text (standard name)
+     *
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    struct ComponentNode {
+        /**
+         * A string uniquely identifying this node within the document
+         */
+        std::string id;
+        /**
+         * The name given to the node by the user in the tool
+         */
+        std::string name;
+        /**
+         * Whether or not the node is visible on the canvas
+         */
+        bool visible;
+        /**
+         * The type of the node
+         */
+        NodeType type;
+        /**
+         * An array of effects attached to this node (see effects section for more details)
+         */
+        std::vector<struct Effect> effects;
+        /**
+         * An array of layout grids attached to this node (see layout grids section for more
+         * details). GROUP nodes do not have this attribute
+         */
+        std::vector<struct LayoutGrid> layout_grids;
+        /**
+         * Opacity of the node
+         */
+        double opacity;
+        /**
+         * Bounding box of the node in absolute space coordinates
+         */
+        struct Rectangle absolute_bounding_box;
+        /**
+         * Node ID of node to transition to in prototyping
+         */
+        std::unique_ptr<std::string> transition_node_id;
+        /**
+         * How this node blends with nodes behind it in the scene (see blend mode section for more
+         * details)
+         */
+        BlendMode blend_mode;
+        /**
+         * Background color of the node
+         */
+        struct Color background_color;
+        /**
+         * How this node blends with nodes behind it in the scene (see blend mode section for more
+         * details)
+         */
+        struct LayoutConstraint constraints;
+        /**
+         * Does this node mask sibling nodes in front of it?
+         */
+        bool is_mask;
+        /**
+         * Does this node clip content outside of its bounds?
+         */
+        bool clips_content;
+        /**
+         * An array of export settings representing images to export from node
+         */
+        std::vector<struct ExportSetting> export_settings;
+        /**
+         * How this node blends with nodes behind it in the scene (see blend mode section for more
+         * details)
+         */
+        bool preserve_ratio;
+        /**
+         * An array of nodes that are direct children of this node
+         */
+        std::vector<struct PurpleNode> children;
+    };
+
+    /**
+     * An array of canvases attached to the document
+     *
+     * The root node within the document
+     *
+     * A logical grouping of nodes
+     *
+     * A group that has a boolean operation applied to it
+     *
+     * A regular star shape
+     *
+     * A straight line
+     *
+     * An ellipse
+     *
+     * A regular n-sided polygon
+     *
+     * A text box
+     *
+     * A rectangular region of the canvas that can be exported
+     *
+     * A node that can have instances created of it that share the same properties
+     *
+     * An instance of a component, changes to the component result in the same changes applied
+     * to the instance
+     *
+     * Properties are shared across all nodes
+     *
+     * Red channel value, between 0 and 1
+     *
+     * Green channel value, between 0 and 1
+     *
+     * Blue channel value, between 0 and 1
+     *
+     * Alpha channel value, between 0 and 1
+     *
+     * See type property for effect of this field
+     *
+     * X coordinate of the vector
+     *
+     * Y coordinate of the vector
+     *
+     * Width of column grid or height of row grid or square grid spacing
+     *
+     * Spacing in between columns and rows
+     *
+     * Spacing before the first column or row
+     *
+     * Number of columns or rows
+     *
+     * Opacity of the node
+     *
+     * X coordinate of top left corner of the rectangle
+     *
+     * Y coordinate of top left corner of the rectangle
+     *
+     * Width of the rectangle
+     *
+     * Height of the rectangle
+     *
+     * The weight of strokes on the node
+     *
+     * Overall opacity of paint (colors within the paint can also have opacity values which
+     * would blend with this)
+     *
+     * Value between 0 and 1 representing position along gradient axis
+     *
+     * Radius of each corner of the rectangle
+     *
+     * Line height in px
+     *
+     * Numeric font weight
+     *
+     * Line height as a percentage of normal line height
+     *
+     * Font size in px
+     *
+     * Space between characters in px
+     *
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     *
+     * Whether or not the node is visible on the canvas
+     *
+     * Is the grid currently visible?
+     *
+     * Does this node mask sibling nodes in front of it?
+     *
+     * Does this node clip content outside of its bounds?
+     *
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     *
+     * Is the paint enabled?
+     *
+     * Is text italicized?
+     *
+     * A string uniquely identifying this node within the document
+     *
+     * The name given to the node by the user in the tool
+     *
+     * File suffix to append to all filenames
+     *
+     * Node ID of node to transition to in prototyping
+     *
+     * Text contained within text box
+     *
+     * PostScript font name
+     *
+     * Font family of text (standard name)
+     *
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    struct FluffyNode {
+        /**
+         * A string uniquely identifying this node within the document
+         */
+        std::string id;
+        /**
+         * The name given to the node by the user in the tool
+         */
+        std::string name;
+        /**
+         * Whether or not the node is visible on the canvas
+         */
+        bool visible;
+        /**
+         * The type of the node
+         */
+        NodeType type;
+        /**
+         * An array of canvases attached to the document
+         *
+         * An array of top level layers on the canvas
+         *
+         * An array of nodes that are direct children of this node
+         *
+         * An array of nodes that are being boolean operated on
+         */
+        std::unique_ptr<std::vector<struct NodeNode>> children;
+        /**
+         * Background color of the canvas
+         *
+         * Background color of the node
+         */
+        std::unique_ptr<struct Color> background_color;
+        /**
+         * An array of export settings representing images to export from the canvas
+         *
+         * An array of export settings representing images to export from node
+         *
+         * A rectangular region of the canvas that can be exported
+         */
+        std::unique_ptr<std::vector<struct ExportSetting>> export_settings;
+        /**
+         * An array of effects attached to this node (see effects section for more details)
+         */
+        std::unique_ptr<std::vector<struct Effect>> effects;
+        /**
+         * An array of layout grids attached to this node (see layout grids section for more
+         * details). GROUP nodes do not have this attribute
+         */
+        std::unique_ptr<std::vector<struct LayoutGrid>> layout_grids;
+        /**
+         * Opacity of the node
+         */
+        std::unique_ptr<double> opacity;
+        /**
+         * Bounding box of the node in absolute space coordinates
+         */
+        std::unique_ptr<struct Rectangle> absolute_bounding_box;
+        /**
+         * Node ID of node to transition to in prototyping
+         */
+        std::unique_ptr<std::string> transition_node_id;
+        /**
+         * How this node blends with nodes behind it in the scene (see blend mode section for more
+         * details)
+         */
+        std::unique_ptr<BlendMode> blend_mode;
+        /**
+         * How this node blends with nodes behind it in the scene (see blend mode section for more
+         * details)
+         */
+        std::unique_ptr<struct LayoutConstraint> constraints;
+        /**
+         * Does this node mask sibling nodes in front of it?
+         */
+        std::unique_ptr<bool> is_mask;
+        /**
+         * Does this node clip content outside of its bounds?
+         */
+        std::unique_ptr<bool> clips_content;
+        /**
+         * How this node blends with nodes behind it in the scene (see blend mode section for more
+         * details)
+         */
+        std::unique_ptr<bool> preserve_ratio;
+        /**
+         * Where stroke is drawn relative to the vector outline as a string enum
+         *
+         * * INSIDE: draw stroke inside the shape boundary
+         * * OUTSIDE: draw stroke outside the shape boundary
+         * * CENTER: draw stroke centered along the shape boundary
+         */
+        std::unique_ptr<StrokeAlign> stroke_align;
+        /**
+         * The weight of strokes on the node
+         */
+        std::unique_ptr<double> stroke_weight;
+        /**
+         * An array of fill paints applied to the node
+         */
+        std::unique_ptr<std::vector<struct Paint>> fills;
+        /**
+         * An array of stroke paints applied to the node
+         */
+        std::unique_ptr<std::vector<struct Paint>> strokes;
+        /**
+         * Radius of each corner of the rectangle
+         */
+        std::unique_ptr<double> corner_radius;
+        /**
+         * Text contained within text box
+         */
+        std::unique_ptr<std::string> characters;
+        /**
+         * Style of text including font family and weight (see type style section for more
+         * information)
+         */
+        std::unique_ptr<struct TypeStyle> style;
+        /**
+         * Array with same number of elements as characeters in text box, each element is a
+         * reference to the styleOverrideTable defined below and maps to the corresponding character
+         * in the characters field. Elements with value 0 have the default type style
+         */
+        std::unique_ptr<std::vector<double>> character_style_overrides;
+        /**
+         * Map from ID to TypeStyle for looking up style overrides
+         */
+        std::unique_ptr<std::map<std::string, struct TypeStyle>> style_override_table;
+        /**
+         * ID of component that this instance came from, refers to components table (see endpoints
+         * section below)
+         */
+        std::unique_ptr<std::string> component_id;
+    };
+
+    /**
+     * The root node within the document
+     *
+     * An array of canvases attached to the document
+     *
+     * A logical grouping of nodes
+     *
+     * A group that has a boolean operation applied to it
+     *
+     * A regular star shape
+     *
+     * A straight line
+     *
+     * An ellipse
+     *
+     * A regular n-sided polygon
+     *
+     * A text box
+     *
+     * A rectangular region of the canvas that can be exported
+     *
+     * A node that can have instances created of it that share the same properties
+     *
+     * An instance of a component, changes to the component result in the same changes applied
+     * to the instance
+     *
+     * Properties are shared across all nodes
+     *
+     * Red channel value, between 0 and 1
+     *
+     * Green channel value, between 0 and 1
+     *
+     * Blue channel value, between 0 and 1
+     *
+     * Alpha channel value, between 0 and 1
+     *
+     * See type property for effect of this field
+     *
+     * X coordinate of the vector
+     *
+     * Y coordinate of the vector
+     *
+     * Width of column grid or height of row grid or square grid spacing
+     *
+     * Spacing in between columns and rows
+     *
+     * Spacing before the first column or row
+     *
+     * Number of columns or rows
+     *
+     * Opacity of the node
+     *
+     * X coordinate of top left corner of the rectangle
+     *
+     * Y coordinate of top left corner of the rectangle
+     *
+     * Width of the rectangle
+     *
+     * Height of the rectangle
+     *
+     * The weight of strokes on the node
+     *
+     * Overall opacity of paint (colors within the paint can also have opacity values which
+     * would blend with this)
+     *
+     * Value between 0 and 1 representing position along gradient axis
+     *
+     * Radius of each corner of the rectangle
+     *
+     * Line height in px
+     *
+     * Numeric font weight
+     *
+     * Line height as a percentage of normal line height
+     *
+     * Font size in px
+     *
+     * Space between characters in px
+     *
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     *
+     * Whether or not the node is visible on the canvas
+     *
+     * Is the grid currently visible?
+     *
+     * Does this node mask sibling nodes in front of it?
+     *
+     * Does this node clip content outside of its bounds?
+     *
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     *
+     * Is the paint enabled?
+     *
+     * Is text italicized?
+     *
+     * A string uniquely identifying this node within the document
+     *
+     * The name given to the node by the user in the tool
+     *
+     * File suffix to append to all filenames
+     *
+     * Node ID of node to transition to in prototyping
+     *
+     * Text contained within text box
+     *
+     * PostScript font name
+     *
+     * Font family of text (standard name)
+     *
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    struct DocumentNode {
+        /**
+         * A string uniquely identifying this node within the document
+         */
+        std::string id;
+        /**
+         * The name given to the node by the user in the tool
+         */
+        std::string name;
+        /**
+         * Whether or not the node is visible on the canvas
+         */
+        bool visible;
+        /**
+         * The type of the node
+         */
+        NodeType type;
+        /**
+         * An array of canvases attached to the document
+         */
+        std::vector<struct FluffyNode> children;
+    };
+
+    /**
+     * GET /v1/files/:key
+     *
      * Returns the document refered to by :key as a JSON object. The file key can be parsed from
      * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
      * contains a Node of type DOCUMENT.
      */
     struct FileResponse {
         /**
-         * A string uniquely identifying this node within the document
+         * The root node within the document
          */
-        struct FileResponseNode document;
+        struct DocumentNode document;
+        /**
+         * A mapping from node IDs to component metadata. This is to help you determine which
+         * components each instance comes from. Currently the only piece of metadata available on
+         * components is the name of the component, but more properties will be forthcoming.
+         */
+        std::map<std::string, struct ComponentNode> components;
+        double schema_version;
     };
     
     inline json get_untyped(const json &j, const char *property) {
@@ -1200,12 +1799,12 @@ namespace nlohmann {
         _j["letterSpacing"] = _x.letter_spacing;
     }
 
-    inline void from_json(const json& _j, struct quicktype::NodeElement& _x) {
+    inline void from_json(const json& _j, struct quicktype::NodeNode& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeElement>>(_j, "children");
+        _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
         _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
         _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
@@ -1230,7 +1829,7 @@ namespace nlohmann {
         _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
     }
 
-    inline void to_json(json& _j, const struct quicktype::NodeElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::NodeNode& _x) {
         _j = json::object();
         _j["id"] = _x.id;
         _j["name"] = _x.name;
@@ -1261,12 +1860,12 @@ namespace nlohmann {
         _j["componentId"] = _x.component_id;
     }
 
-    inline void from_json(const json& _j, struct quicktype::FileResponseNode& _x) {
+    inline void from_json(const json& _j, struct quicktype::PurpleNode& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeElement>>(_j, "children");
+        _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
         _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
         _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
@@ -1291,7 +1890,7 @@ namespace nlohmann {
         _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
     }
 
-    inline void to_json(json& _j, const struct quicktype::FileResponseNode& _x) {
+    inline void to_json(json& _j, const struct quicktype::PurpleNode& _x) {
         _j = json::object();
         _j["id"] = _x.id;
         _j["name"] = _x.name;
@@ -1320,15 +1919,138 @@ namespace nlohmann {
         _j["characterStyleOverrides"] = _x.character_style_overrides;
         _j["styleOverrideTable"] = _x.style_override_table;
         _j["componentId"] = _x.component_id;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::ComponentNode& _x) {
+        _x.id = _j.at("id").get<std::string>();
+        _x.name = _j.at("name").get<std::string>();
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
+        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
+        _x.opacity = _j.at("opacity").get<double>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
+        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
+        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
+        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
+        _x.is_mask = _j.at("isMask").get<bool>();
+        _x.clips_content = _j.at("clipsContent").get<bool>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
+        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
+        _x.children = _j.at("children").get<std::vector<struct quicktype::PurpleNode>>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::ComponentNode& _x) {
+        _j = json::object();
+        _j["id"] = _x.id;
+        _j["name"] = _x.name;
+        _j["visible"] = _x.visible;
+        _j["type"] = _x.type;
+        _j["effects"] = _x.effects;
+        _j["layoutGrids"] = _x.layout_grids;
+        _j["opacity"] = _x.opacity;
+        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
+        _j["transitionNodeID"] = _x.transition_node_id;
+        _j["blendMode"] = _x.blend_mode;
+        _j["backgroundColor"] = _x.background_color;
+        _j["constraints"] = _x.constraints;
+        _j["isMask"] = _x.is_mask;
+        _j["clipsContent"] = _x.clips_content;
+        _j["exportSettings"] = _x.export_settings;
+        _j["preserveRatio"] = _x.preserve_ratio;
+        _j["children"] = _x.children;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::FluffyNode& _x) {
+        _x.id = _j.at("id").get<std::string>();
+        _x.name = _j.at("name").get<std::string>();
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
+        _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
+        _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
+        _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
+        _x.layout_grids = quicktype::get_optional<std::vector<struct quicktype::LayoutGrid>>(_j, "layoutGrids");
+        _x.opacity = quicktype::get_optional<double>(_j, "opacity");
+        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
+        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
+        _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
+        _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
+        _x.is_mask = quicktype::get_optional<bool>(_j, "isMask");
+        _x.clips_content = quicktype::get_optional<bool>(_j, "clipsContent");
+        _x.preserve_ratio = quicktype::get_optional<bool>(_j, "preserveRatio");
+        _x.stroke_align = quicktype::get_optional<quicktype::StrokeAlign>(_j, "strokeAlign");
+        _x.stroke_weight = quicktype::get_optional<double>(_j, "strokeWeight");
+        _x.fills = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "fills");
+        _x.strokes = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "strokes");
+        _x.corner_radius = quicktype::get_optional<double>(_j, "cornerRadius");
+        _x.characters = quicktype::get_optional<std::string>(_j, "characters");
+        _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
+        _x.character_style_overrides = quicktype::get_optional<std::vector<double>>(_j, "characterStyleOverrides");
+        _x.style_override_table = quicktype::get_optional<std::map<std::string, struct quicktype::TypeStyle>>(_j, "styleOverrideTable");
+        _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
+    }
+
+    inline void to_json(json& _j, const struct quicktype::FluffyNode& _x) {
+        _j = json::object();
+        _j["id"] = _x.id;
+        _j["name"] = _x.name;
+        _j["visible"] = _x.visible;
+        _j["type"] = _x.type;
+        _j["children"] = _x.children;
+        _j["backgroundColor"] = _x.background_color;
+        _j["exportSettings"] = _x.export_settings;
+        _j["effects"] = _x.effects;
+        _j["layoutGrids"] = _x.layout_grids;
+        _j["opacity"] = _x.opacity;
+        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
+        _j["transitionNodeID"] = _x.transition_node_id;
+        _j["blendMode"] = _x.blend_mode;
+        _j["constraints"] = _x.constraints;
+        _j["isMask"] = _x.is_mask;
+        _j["clipsContent"] = _x.clips_content;
+        _j["preserveRatio"] = _x.preserve_ratio;
+        _j["strokeAlign"] = _x.stroke_align;
+        _j["strokeWeight"] = _x.stroke_weight;
+        _j["fills"] = _x.fills;
+        _j["strokes"] = _x.strokes;
+        _j["cornerRadius"] = _x.corner_radius;
+        _j["characters"] = _x.characters;
+        _j["style"] = _x.style;
+        _j["characterStyleOverrides"] = _x.character_style_overrides;
+        _j["styleOverrideTable"] = _x.style_override_table;
+        _j["componentId"] = _x.component_id;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::DocumentNode& _x) {
+        _x.id = _j.at("id").get<std::string>();
+        _x.name = _j.at("name").get<std::string>();
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.children = _j.at("children").get<std::vector<struct quicktype::FluffyNode>>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::DocumentNode& _x) {
+        _j = json::object();
+        _j["id"] = _x.id;
+        _j["name"] = _x.name;
+        _j["visible"] = _x.visible;
+        _j["type"] = _x.type;
+        _j["children"] = _x.children;
     }
 
     inline void from_json(const json& _j, struct quicktype::FileResponse& _x) {
-        _x.document = _j.at("document").get<struct quicktype::FileResponseNode>();
+        _x.document = _j.at("document").get<struct quicktype::DocumentNode>();
+        _x.components = _j.at("components").get<std::map<std::string, struct quicktype::ComponentNode>>();
+        _x.schema_version = _j.at("schemaVersion").get<double>();
     }
 
     inline void to_json(json& _j, const struct quicktype::FileResponse& _x) {
         _j = json::object();
         _j["document"] = _x.document;
+        _j["components"] = _x.components;
+        _j["schemaVersion"] = _x.schema_version;
     }
 
     inline void from_json(const json& _j, quicktype::BlendMode& _x) {

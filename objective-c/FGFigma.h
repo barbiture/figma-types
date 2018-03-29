@@ -6,11 +6,12 @@
 #import <Foundation/Foundation.h>
 
 @class QTFileResponse;
-@class QTFileResponseNode;
+@class QTComponentNode;
 @class QTRectangle;
 @class QTColor;
 @class QTBlendMode;
-@class QTNodeElement;
+@class QTPurpleNode;
+@class QTNodeNode;
 @class QTLayoutConstraint;
 @class QTHorizontal;
 @class QTVertical;
@@ -33,6 +34,8 @@
 @class QTTextAlignHorizontal;
 @class QTTextAlignVertical;
 @class QTNodeType;
+@class QTDocumentNode;
+@class QTFluffyNode;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -238,12 +241,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Object interfaces
 
+/// GET /v1/files/:key
+///
 /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
 /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 /// contains a Node of type DOCUMENT.
 @interface QTFileResponse : NSObject
-/// A string uniquely identifying this node within the document
-@property (nonatomic, strong) QTFileResponseNode *document;
+/// The root node within the document
+@property (nonatomic, strong) QTDocumentNode *document;
+/// A mapping from node IDs to component metadata. This is to help you determine which
+/// components each instance comes from. Currently the only piece of metadata available on
+/// components is the name of the component, but more properties will be forthcoming.
+@property (nonatomic, copy)   NSDictionary<NSString *, QTComponentNode *> *components;
+@property (nonatomic, assign) double schemaVersion;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
@@ -251,7 +261,207 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error;
 @end
 
+/// A mapping from node IDs to component metadata. This is to help you determine which
+/// components each instance comes from. Currently the only piece of metadata available on
+/// components is the name of the component, but more properties will be forthcoming.
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An array of canvases attached to the document
+///
+/// The root node within the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
 /// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+@interface QTComponentNode : NSObject
+/// A string uniquely identifying this node within the document
+@property (nonatomic, copy) NSString *identifier;
+/// The name given to the node by the user in the tool
+@property (nonatomic, copy) NSString *name;
+/// Whether or not the node is visible on the canvas
+@property (nonatomic, assign) BOOL isVisible;
+/// The type of the node
+@property (nonatomic, assign) QTNodeType *type;
+/// An array of effects attached to this node (see effects section for more details)
+@property (nonatomic, copy) NSArray<QTEffect *> *effects;
+/// An array of layout grids attached to this node (see layout grids section for more
+/// details). GROUP nodes do not have this attribute
+@property (nonatomic, copy) NSArray<QTLayoutGrid *> *layoutGrids;
+/// Opacity of the node
+@property (nonatomic, assign) double opacity;
+/// Bounding box of the node in absolute space coordinates
+@property (nonatomic, strong) QTRectangle *absoluteBoundingBox;
+/// Node ID of node to transition to in prototyping
+@property (nonatomic, nullable, copy) NSString *transitionNodeID;
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+@property (nonatomic, assign) QTBlendMode *blendMode;
+/// Background color of the node
+@property (nonatomic, strong) QTColor *backgroundColor;
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+@property (nonatomic, strong) QTLayoutConstraint *constraints;
+/// Does this node mask sibling nodes in front of it?
+@property (nonatomic, assign) BOOL isMask;
+/// Does this node clip content outside of its bounds?
+@property (nonatomic, assign) BOOL isClipsContent;
+/// An array of export settings representing images to export from node
+@property (nonatomic, copy) NSArray<QTExportSetting *> *exportSettings;
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+@property (nonatomic, assign) BOOL isPreserveRatio;
+/// An array of nodes that are direct children of this node
+@property (nonatomic, copy) NSArray<QTPurpleNode *> *children;
+@end
+
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
+@interface QTRectangle : NSObject
+/// X coordinate of top left corner of the rectangle
+@property (nonatomic, assign) double x;
+/// Y coordinate of top left corner of the rectangle
+@property (nonatomic, assign) double y;
+/// Width of the rectangle
+@property (nonatomic, assign) double width;
+/// Height of the rectangle
+@property (nonatomic, assign) double height;
+@end
+
+/// An RGBA color
+///
+/// Background color of the canvas
+///
+/// See type property for effect of this field
+///
+/// Color of the grid
+///
+/// Background color of the node
+///
+/// (For solid paints) Solid color of the paint
+///
+/// Color attached to corresponding position
+@interface QTColor : NSObject
+/// Red channel value, between 0 and 1
+@property (nonatomic, assign) double r;
+/// Green channel value, between 0 and 1
+@property (nonatomic, assign) double g;
+/// Blue channel value, between 0 and 1
+@property (nonatomic, assign) double b;
+/// Alpha channel value, between 0 and 1
+@property (nonatomic, assign) double a;
+@end
+
+/// An array of nodes that are direct children of this node
+///
+/// An array of canvases attached to the document
+///
+/// The root node within the document
 ///
 /// A logical grouping of nodes
 ///
@@ -346,6 +556,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Is text italicized?
 ///
+/// A string uniquely identifying this node within the document
+///
 /// The name given to the node by the user in the tool
 ///
 /// File suffix to append to all filenames
@@ -360,7 +572,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
-@interface QTFileResponseNode : NSObject
+@interface QTPurpleNode : NSObject
 /// A string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// The name given to the node by the user in the tool
@@ -376,7 +588,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// An array of nodes that are direct children of this node
 ///
 /// An array of nodes that are being boolean operated on
-@property (nonatomic, nullable, copy) NSArray<QTNodeElement *> *children;
+@property (nonatomic, nullable, copy) NSArray<QTNodeNode *> *children;
 /// Background color of the canvas
 ///
 /// Background color of the node
@@ -441,47 +653,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSString *componentID;
 @end
 
-/// A rectangle that expresses a bounding box in absolute coordinates
-///
-/// Bounding box of the node in absolute space coordinates
-@interface QTRectangle : NSObject
-/// X coordinate of top left corner of the rectangle
-@property (nonatomic, assign) double x;
-/// Y coordinate of top left corner of the rectangle
-@property (nonatomic, assign) double y;
-/// Width of the rectangle
-@property (nonatomic, assign) double width;
-/// Height of the rectangle
-@property (nonatomic, assign) double height;
-@end
-
-/// An RGBA color
-///
-/// Background color of the canvas
-///
-/// See type property for effect of this field
-///
-/// Color of the grid
-///
-/// Background color of the node
-///
-/// (For solid paints) Solid color of the paint
-///
-/// Color attached to corresponding position
-@interface QTColor : NSObject
-/// Red channel value, between 0 and 1
-@property (nonatomic, assign) double r;
-/// Green channel value, between 0 and 1
-@property (nonatomic, assign) double g;
-/// Blue channel value, between 0 and 1
-@property (nonatomic, assign) double b;
-/// Alpha channel value, between 0 and 1
-@property (nonatomic, assign) double a;
-@end
-
 /// An array of canvases attached to the document
 ///
-/// A string uniquely identifying this node within the document
+/// The root node within the document
 ///
 /// A logical grouping of nodes
 ///
@@ -576,6 +750,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Is text italicized?
 ///
+/// A string uniquely identifying this node within the document
+///
 /// The name given to the node by the user in the tool
 ///
 /// File suffix to append to all filenames
@@ -596,7 +772,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// An array of nodes that are direct children of this node
 ///
 /// An array of nodes that are being boolean operated on
-@interface QTNodeElement : NSObject
+@interface QTNodeNode : NSObject
 /// A string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// The name given to the node by the user in the tool
@@ -612,7 +788,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// An array of nodes that are direct children of this node
 ///
 /// An array of nodes that are being boolean operated on
-@property (nonatomic, nullable, copy) NSArray<QTNodeElement *> *children;
+@property (nonatomic, nullable, copy) NSArray<QTNodeNode *> *children;
 /// Background color of the canvas
 ///
 /// Background color of the node
@@ -871,6 +1047,326 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) QTTextAlignHorizontal *textAlignHorizontal;
 /// Space between characters in px
 @property (nonatomic, assign) double letterSpacing;
+@end
+
+/// The root node within the document
+///
+/// An array of canvases attached to the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
+/// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+@interface QTDocumentNode : NSObject
+/// A string uniquely identifying this node within the document
+@property (nonatomic, copy) NSString *identifier;
+/// The name given to the node by the user in the tool
+@property (nonatomic, copy) NSString *name;
+/// Whether or not the node is visible on the canvas
+@property (nonatomic, assign) BOOL isVisible;
+/// The type of the node
+@property (nonatomic, assign) QTNodeType *type;
+/// An array of canvases attached to the document
+@property (nonatomic, copy) NSArray<QTFluffyNode *> *children;
+@end
+
+/// An array of canvases attached to the document
+///
+/// The root node within the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
+/// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+@interface QTFluffyNode : NSObject
+/// A string uniquely identifying this node within the document
+@property (nonatomic, copy) NSString *identifier;
+/// The name given to the node by the user in the tool
+@property (nonatomic, copy) NSString *name;
+/// Whether or not the node is visible on the canvas
+@property (nonatomic, assign) BOOL isVisible;
+/// The type of the node
+@property (nonatomic, assign) QTNodeType *type;
+/// An array of canvases attached to the document
+///
+/// An array of top level layers on the canvas
+///
+/// An array of nodes that are direct children of this node
+///
+/// An array of nodes that are being boolean operated on
+@property (nonatomic, nullable, copy) NSArray<QTNodeNode *> *children;
+/// Background color of the canvas
+///
+/// Background color of the node
+@property (nonatomic, nullable, strong) QTColor *backgroundColor;
+/// An array of export settings representing images to export from the canvas
+///
+/// An array of export settings representing images to export from node
+///
+/// A rectangular region of the canvas that can be exported
+@property (nonatomic, nullable, copy) NSArray<QTExportSetting *> *exportSettings;
+/// An array of effects attached to this node (see effects section for more details)
+@property (nonatomic, nullable, copy) NSArray<QTEffect *> *effects;
+/// An array of layout grids attached to this node (see layout grids section for more
+/// details). GROUP nodes do not have this attribute
+@property (nonatomic, nullable, copy) NSArray<QTLayoutGrid *> *layoutGrids;
+/// Opacity of the node
+@property (nonatomic, nullable, strong) NSNumber *opacity;
+/// Bounding box of the node in absolute space coordinates
+@property (nonatomic, nullable, strong) QTRectangle *absoluteBoundingBox;
+/// Node ID of node to transition to in prototyping
+@property (nonatomic, nullable, copy) NSString *transitionNodeID;
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+@property (nonatomic, nullable, assign) QTBlendMode *blendMode;
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+@property (nonatomic, nullable, strong) QTLayoutConstraint *constraints;
+/// Does this node mask sibling nodes in front of it?
+@property (nonatomic, nullable, strong) NSNumber *isMask;
+/// Does this node clip content outside of its bounds?
+@property (nonatomic, nullable, strong) NSNumber *clipsContent;
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+@property (nonatomic, nullable, strong) NSNumber *preserveRatio;
+/// Where stroke is drawn relative to the vector outline as a string enum
+///
+/// * INSIDE: draw stroke inside the shape boundary
+/// * OUTSIDE: draw stroke outside the shape boundary
+/// * CENTER: draw stroke centered along the shape boundary
+@property (nonatomic, nullable, assign) QTStrokeAlign *strokeAlign;
+/// The weight of strokes on the node
+@property (nonatomic, nullable, strong) NSNumber *strokeWeight;
+/// An array of fill paints applied to the node
+@property (nonatomic, nullable, copy) NSArray<QTPaint *> *fills;
+/// An array of stroke paints applied to the node
+@property (nonatomic, nullable, copy) NSArray<QTPaint *> *strokes;
+/// Radius of each corner of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *cornerRadius;
+/// Text contained within text box
+@property (nonatomic, nullable, copy) NSString *characters;
+/// Style of text including font family and weight (see type style section for more
+/// information)
+@property (nonatomic, nullable, strong) QTTypeStyle *style;
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+@property (nonatomic, nullable, copy) NSArray<NSNumber *> *characterStyleOverrides;
+/// Map from ID to TypeStyle for looking up style overrides
+@property (nonatomic, nullable, copy) NSDictionary<NSString *, QTTypeStyle *> *styleOverrideTable;
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+@property (nonatomic, nullable, copy) NSString *componentID;
 @end
 
 NS_ASSUME_NONNULL_END

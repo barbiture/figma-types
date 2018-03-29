@@ -8,19 +8,314 @@
 // match the expected interface, even if the JSON is valid.
 
 /**
+ * GET /v1/files/:key
+ *
  * Returns the document refered to by :key as a JSON object. The file key can be parsed from
  * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
  * contains a Node of type DOCUMENT.
  */
 export interface FileResponse {
     /**
-     * A string uniquely identifying this node within the document
+     * The root node within the document
      */
-    document: FileResponseNode;
+    document: DocumentNode;
+    /**
+     * A mapping from node IDs to component metadata. This is to help you determine which
+     * components each instance comes from. Currently the only piece of metadata available on
+     * components is the name of the component, but more properties will be forthcoming.
+     */
+    components:    { [key: string]: ComponentNode };
+    schemaVersion: number;
 }
 
 /**
+ * A mapping from node IDs to component metadata. This is to help you determine which
+ * components each instance comes from. Currently the only piece of metadata available on
+ * components is the name of the component, but more properties will be forthcoming.
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An array of canvases attached to the document
+ *
+ * The root node within the document
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * An ellipse
+ *
+ * A regular n-sided polygon
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Opacity of the node
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the paint enabled?
+ *
+ * Is text italicized?
+ *
  * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * File suffix to append to all filenames
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ */
+export interface ComponentNode {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: NodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: Effect[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids: LayoutGrid[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: Rectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * Background color of the node
+     */
+    backgroundColor: Color;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: LayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSetting[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+    /**
+     * An array of nodes that are direct children of this node
+     */
+    children: Node1[];
+}
+
+/**
+ * A rectangle that expresses a bounding box in absolute coordinates
+ *
+ * Bounding box of the node in absolute space coordinates
+ */
+export interface Rectangle {
+    /**
+     * X coordinate of top left corner of the rectangle
+     */
+    x: number;
+    /**
+     * Y coordinate of top left corner of the rectangle
+     */
+    y: number;
+    /**
+     * Width of the rectangle
+     */
+    width: number;
+    /**
+     * Height of the rectangle
+     */
+    height: number;
+}
+
+/**
+ * An RGBA color
+ *
+ * Background color of the canvas
+ *
+ * See type property for effect of this field
+ *
+ * Color of the grid
+ *
+ * Background color of the node
+ *
+ * (For solid paints) Solid color of the paint
+ *
+ * Color attached to corresponding position
+ */
+export interface Color {
+    /**
+     * Red channel value, between 0 and 1
+     */
+    r: number;
+    /**
+     * Green channel value, between 0 and 1
+     */
+    g: number;
+    /**
+     * Blue channel value, between 0 and 1
+     */
+    b: number;
+    /**
+     * Alpha channel value, between 0 and 1
+     */
+    a: number;
+}
+
+/**
+ * Enum describing how layer blends with layers below
+ *
+ * See type property for effect of this field
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ */
+export enum BlendMode {
+    Color = "COLOR",
+    ColorBurn = "COLOR_BURN",
+    ColorDodge = "COLOR_DODGE",
+    Darken = "DARKEN",
+    Difference = "DIFFERENCE",
+    Exclusion = "EXCLUSION",
+    HardLight = "HARD_LIGHT",
+    Hue = "HUE",
+    Lighten = "LIGHTEN",
+    LinearBurn = "LINEAR_BURN",
+    LinearDodge = "LINEAR_DODGE",
+    Luminosity = "LUMINOSITY",
+    Multiply = "MULTIPLY",
+    Normal = "NORMAL",
+    Overlay = "OVERLAY",
+    PassThrough = "PASS_THROUGH",
+    Saturation = "SATURATION",
+    Screen = "SCREEN",
+    SoftLight = "SOFT_LIGHT",
+}
+
+/**
+ * An array of nodes that are direct children of this node
+ *
+ * An array of canvases attached to the document
+ *
+ * The root node within the document
  *
  * A logical grouping of nodes
  *
@@ -115,6 +410,8 @@ export interface FileResponse {
  *
  * Is text italicized?
  *
+ * A string uniquely identifying this node within the document
+ *
  * The name given to the node by the user in the tool
  *
  * File suffix to append to all filenames
@@ -130,7 +427,7 @@ export interface FileResponse {
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
  */
-export interface FileResponseNode {
+export interface Node1 {
     /**
      * A string uniquely identifying this node within the document
      */
@@ -156,7 +453,7 @@ export interface FileResponseNode {
      *
      * An array of nodes that are being boolean operated on
      */
-    children?: NodeElement[];
+    children?: NodeNode[];
     /**
      * Background color of the canvas
      *
@@ -266,97 +563,9 @@ export interface FileResponseNode {
 }
 
 /**
- * A rectangle that expresses a bounding box in absolute coordinates
- *
- * Bounding box of the node in absolute space coordinates
- */
-export interface Rectangle {
-    /**
-     * X coordinate of top left corner of the rectangle
-     */
-    x: number;
-    /**
-     * Y coordinate of top left corner of the rectangle
-     */
-    y: number;
-    /**
-     * Width of the rectangle
-     */
-    width: number;
-    /**
-     * Height of the rectangle
-     */
-    height: number;
-}
-
-/**
- * An RGBA color
- *
- * Background color of the canvas
- *
- * See type property for effect of this field
- *
- * Color of the grid
- *
- * Background color of the node
- *
- * (For solid paints) Solid color of the paint
- *
- * Color attached to corresponding position
- */
-export interface Color {
-    /**
-     * Red channel value, between 0 and 1
-     */
-    r: number;
-    /**
-     * Green channel value, between 0 and 1
-     */
-    g: number;
-    /**
-     * Blue channel value, between 0 and 1
-     */
-    b: number;
-    /**
-     * Alpha channel value, between 0 and 1
-     */
-    a: number;
-}
-
-/**
- * Enum describing how layer blends with layers below
- *
- * See type property for effect of this field
- *
- * How this node blends with nodes behind it in the scene (see blend mode section for more
- * details)
- */
-export enum BlendMode {
-    Color = "COLOR",
-    ColorBurn = "COLOR_BURN",
-    ColorDodge = "COLOR_DODGE",
-    Darken = "DARKEN",
-    Difference = "DIFFERENCE",
-    Exclusion = "EXCLUSION",
-    HardLight = "HARD_LIGHT",
-    Hue = "HUE",
-    Lighten = "LIGHTEN",
-    LinearBurn = "LINEAR_BURN",
-    LinearDodge = "LINEAR_DODGE",
-    Luminosity = "LUMINOSITY",
-    Multiply = "MULTIPLY",
-    Normal = "NORMAL",
-    Overlay = "OVERLAY",
-    PassThrough = "PASS_THROUGH",
-    Saturation = "SATURATION",
-    Screen = "SCREEN",
-    SoftLight = "SOFT_LIGHT",
-}
-
-/**
  * An array of canvases attached to the document
  *
- * A string uniquely identifying this node within the document
+ * The root node within the document
  *
  * A logical grouping of nodes
  *
@@ -451,6 +660,8 @@ export enum BlendMode {
  *
  * Is text italicized?
  *
+ * A string uniquely identifying this node within the document
+ *
  * The name given to the node by the user in the tool
  *
  * File suffix to append to all filenames
@@ -472,7 +683,7 @@ export enum BlendMode {
  *
  * An array of nodes that are being boolean operated on
  */
-export interface NodeElement {
+export interface NodeNode {
     /**
      * A string uniquely identifying this node within the document
      */
@@ -498,7 +709,7 @@ export interface NodeElement {
      *
      * An array of nodes that are being boolean operated on
      */
-    children?: NodeElement[];
+    children?: NodeNode[];
     /**
      * Background color of the canvas
      *
@@ -1075,6 +1286,394 @@ export enum NodeType {
     Vector = "VECTOR",
 }
 
+/**
+ * The root node within the document
+ *
+ * An array of canvases attached to the document
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * An ellipse
+ *
+ * A regular n-sided polygon
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Opacity of the node
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the paint enabled?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * File suffix to append to all filenames
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ */
+export interface DocumentNode {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: NodeType;
+    /**
+     * An array of canvases attached to the document
+     */
+    children: Node2[];
+}
+
+/**
+ * An array of canvases attached to the document
+ *
+ * The root node within the document
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * An ellipse
+ *
+ * A regular n-sided polygon
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Opacity of the node
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the paint enabled?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * File suffix to append to all filenames
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ */
+export interface Node2 {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: NodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     *
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     *
+     * Background color of the node
+     */
+    backgroundColor?: Color;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings?: ExportSetting[];
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects?: Effect[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGrid[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: Rectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints?: LayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio?: boolean;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign?: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight?: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills?: Paint[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes?: Paint[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style?: TypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides?: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable?: { [key: string]: TypeStyle };
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId?: string;
+}
+
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
@@ -1165,14 +1764,47 @@ export module Convert {
 
     const typeMap: any = {
         "FileResponse": {
-            document: o("FileResponseNode"),
+            document: o("DocumentNode"),
+            components: m(o("ComponentNode")),
+            schemaVersion: 3.14,
         },
-        "FileResponseNode": {
+        "ComponentNode": {
             id: "",
             name: "",
             visible: false,
             type: e("NodeType"),
-            children: u(null, a(o("NodeElement"))),
+            effects: a(o("Effect")),
+            layoutGrids: a(o("LayoutGrid")),
+            opacity: 3.14,
+            absoluteBoundingBox: o("Rectangle"),
+            transitionNodeID: u(null, ""),
+            blendMode: e("BlendMode"),
+            backgroundColor: o("Color"),
+            constraints: o("LayoutConstraint"),
+            isMask: false,
+            clipsContent: false,
+            exportSettings: a(o("ExportSetting")),
+            preserveRatio: false,
+            children: a(o("Node1")),
+        },
+        "Rectangle": {
+            x: 3.14,
+            y: 3.14,
+            width: 3.14,
+            height: 3.14,
+        },
+        "Color": {
+            r: 3.14,
+            g: 3.14,
+            b: 3.14,
+            a: 3.14,
+        },
+        "Node1": {
+            id: "",
+            name: "",
+            visible: false,
+            type: e("NodeType"),
+            children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("Color")),
             exportSettings: u(null, a(o("ExportSetting"))),
             effects: u(null, a(o("Effect"))),
@@ -1196,24 +1828,12 @@ export module Convert {
             styleOverrideTable: u(null, m(o("TypeStyle"))),
             componentId: u(null, ""),
         },
-        "Rectangle": {
-            x: 3.14,
-            y: 3.14,
-            width: 3.14,
-            height: 3.14,
-        },
-        "Color": {
-            r: 3.14,
-            g: 3.14,
-            b: 3.14,
-            a: 3.14,
-        },
-        "NodeElement": {
+        "NodeNode": {
             id: "",
             name: "",
             visible: false,
             type: e("NodeType"),
-            children: u(null, a(o("NodeElement"))),
+            children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("Color")),
             exportSettings: u(null, a(o("ExportSetting"))),
             effects: u(null, a(o("Effect"))),
@@ -1297,6 +1917,42 @@ export module Convert {
             fontFamily: "",
             textAlignHorizontal: e("TextAlignHorizontal"),
             letterSpacing: 3.14,
+        },
+        "DocumentNode": {
+            id: "",
+            name: "",
+            visible: false,
+            type: e("NodeType"),
+            children: a(o("Node2")),
+        },
+        "Node2": {
+            id: "",
+            name: "",
+            visible: false,
+            type: e("NodeType"),
+            children: u(null, a(o("NodeNode"))),
+            backgroundColor: u(null, o("Color")),
+            exportSettings: u(null, a(o("ExportSetting"))),
+            effects: u(null, a(o("Effect"))),
+            layoutGrids: u(null, a(o("LayoutGrid"))),
+            opacity: u(null, 3.14),
+            absoluteBoundingBox: u(null, o("Rectangle")),
+            transitionNodeID: u(null, ""),
+            blendMode: u(null, e("BlendMode")),
+            constraints: u(null, o("LayoutConstraint")),
+            isMask: u(null, false),
+            clipsContent: u(null, false),
+            preserveRatio: u(null, false),
+            strokeAlign: u(null, e("StrokeAlign")),
+            strokeWeight: u(null, 3.14),
+            fills: u(null, a(o("Paint"))),
+            strokes: u(null, a(o("Paint"))),
+            cornerRadius: u(null, 3.14),
+            characters: u(null, ""),
+            style: u(null, o("TypeStyle")),
+            characterStyleOverrides: u(null, a(3.14)),
+            styleOverrideTable: u(null, m(o("TypeStyle"))),
+            componentId: u(null, ""),
         },
         "BlendMode": [
             "COLOR",

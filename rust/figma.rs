@@ -14,17 +14,278 @@
 extern crate serde_json;
 use std::collections::HashMap;
 
+/// GET /v1/files/:key
+///
 /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
 /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 /// contains a Node of type DOCUMENT.
 #[derive(Serialize, Deserialize)]
 pub struct FileResponse {
-    /// A string uniquely identifying this node within the document
+    /// The root node within the document
     #[serde(rename = "document")]
-    document: FileResponseNode,
+    document: DocumentNode,
+
+    /// A mapping from node IDs to component metadata. This is to help you determine which
+    /// components each instance comes from. Currently the only piece of metadata available on
+    /// components is the name of the component, but more properties will be forthcoming.
+    #[serde(rename = "components")]
+    components: HashMap<String, ComponentNode>,
+
+    #[serde(rename = "schemaVersion")]
+    schema_version: f64,
 }
 
+/// A mapping from node IDs to component metadata. This is to help you determine which
+/// components each instance comes from. Currently the only piece of metadata available on
+/// components is the name of the component, but more properties will be forthcoming.
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An array of canvases attached to the document
+///
+/// The root node within the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
 /// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+#[derive(Serialize, Deserialize)]
+pub struct ComponentNode {
+    /// A string uniquely identifying this node within the document
+    #[serde(rename = "id")]
+    id: String,
+
+    /// The name given to the node by the user in the tool
+    #[serde(rename = "name")]
+    name: String,
+
+    /// Whether or not the node is visible on the canvas
+    #[serde(rename = "visible")]
+    visible: bool,
+
+    /// The type of the node
+    #[serde(rename = "type")]
+    component_node_type: NodeType,
+
+    /// An array of effects attached to this node (see effects section for more details)
+    #[serde(rename = "effects")]
+    effects: Vec<Effect>,
+
+    /// An array of layout grids attached to this node (see layout grids section for more
+    /// details). GROUP nodes do not have this attribute
+    #[serde(rename = "layoutGrids")]
+    layout_grids: Vec<LayoutGrid>,
+
+    /// Opacity of the node
+    #[serde(rename = "opacity")]
+    opacity: f64,
+
+    /// Bounding box of the node in absolute space coordinates
+    #[serde(rename = "absoluteBoundingBox")]
+    absolute_bounding_box: Rectangle,
+
+    /// Node ID of node to transition to in prototyping
+    #[serde(rename = "transitionNodeID")]
+    transition_node_id: Option<String>,
+
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    #[serde(rename = "blendMode")]
+    blend_mode: BlendMode,
+
+    /// Background color of the node
+    #[serde(rename = "backgroundColor")]
+    background_color: Color,
+
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    #[serde(rename = "constraints")]
+    constraints: LayoutConstraint,
+
+    /// Does this node mask sibling nodes in front of it?
+    #[serde(rename = "isMask")]
+    is_mask: bool,
+
+    /// Does this node clip content outside of its bounds?
+    #[serde(rename = "clipsContent")]
+    clips_content: bool,
+
+    /// An array of export settings representing images to export from node
+    #[serde(rename = "exportSettings")]
+    export_settings: Vec<ExportSetting>,
+
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    #[serde(rename = "preserveRatio")]
+    preserve_ratio: bool,
+
+    /// An array of nodes that are direct children of this node
+    #[serde(rename = "children")]
+    children: Vec<PurpleNode>,
+}
+
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
+#[derive(Serialize, Deserialize)]
+pub struct Rectangle {
+    /// X coordinate of top left corner of the rectangle
+    #[serde(rename = "x")]
+    x: f64,
+
+    /// Y coordinate of top left corner of the rectangle
+    #[serde(rename = "y")]
+    y: f64,
+
+    /// Width of the rectangle
+    #[serde(rename = "width")]
+    width: f64,
+
+    /// Height of the rectangle
+    #[serde(rename = "height")]
+    height: f64,
+}
+
+/// An RGBA color
+///
+/// Background color of the canvas
+///
+/// See type property for effect of this field
+///
+/// Color of the grid
+///
+/// Background color of the node
+///
+/// (For solid paints) Solid color of the paint
+///
+/// Color attached to corresponding position
+#[derive(Serialize, Deserialize)]
+pub struct Color {
+    /// Red channel value, between 0 and 1
+    #[serde(rename = "r")]
+    r: f64,
+
+    /// Green channel value, between 0 and 1
+    #[serde(rename = "g")]
+    g: f64,
+
+    /// Blue channel value, between 0 and 1
+    #[serde(rename = "b")]
+    b: f64,
+
+    /// Alpha channel value, between 0 and 1
+    #[serde(rename = "a")]
+    a: f64,
+}
+
+/// An array of nodes that are direct children of this node
+///
+/// An array of canvases attached to the document
+///
+/// The root node within the document
 ///
 /// A logical grouping of nodes
 ///
@@ -119,6 +380,8 @@ pub struct FileResponse {
 ///
 /// Is text italicized?
 ///
+/// A string uniquely identifying this node within the document
+///
 /// The name given to the node by the user in the tool
 ///
 /// File suffix to append to all filenames
@@ -134,7 +397,7 @@ pub struct FileResponse {
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 #[derive(Serialize, Deserialize)]
-pub struct FileResponseNode {
+pub struct PurpleNode {
     /// A string uniquely identifying this node within the document
     #[serde(rename = "id")]
     id: String,
@@ -159,7 +422,7 @@ pub struct FileResponseNode {
     ///
     /// An array of nodes that are being boolean operated on
     #[serde(rename = "children")]
-    children: Option<Vec<NodeElement>>,
+    children: Option<Vec<NodeNode>>,
 
     /// Background color of the canvas
     ///
@@ -268,63 +531,9 @@ pub struct FileResponseNode {
     component_id: Option<String>,
 }
 
-/// A rectangle that expresses a bounding box in absolute coordinates
-///
-/// Bounding box of the node in absolute space coordinates
-#[derive(Serialize, Deserialize)]
-pub struct Rectangle {
-    /// X coordinate of top left corner of the rectangle
-    #[serde(rename = "x")]
-    x: f64,
-
-    /// Y coordinate of top left corner of the rectangle
-    #[serde(rename = "y")]
-    y: f64,
-
-    /// Width of the rectangle
-    #[serde(rename = "width")]
-    width: f64,
-
-    /// Height of the rectangle
-    #[serde(rename = "height")]
-    height: f64,
-}
-
-/// An RGBA color
-///
-/// Background color of the canvas
-///
-/// See type property for effect of this field
-///
-/// Color of the grid
-///
-/// Background color of the node
-///
-/// (For solid paints) Solid color of the paint
-///
-/// Color attached to corresponding position
-#[derive(Serialize, Deserialize)]
-pub struct Color {
-    /// Red channel value, between 0 and 1
-    #[serde(rename = "r")]
-    r: f64,
-
-    /// Green channel value, between 0 and 1
-    #[serde(rename = "g")]
-    g: f64,
-
-    /// Blue channel value, between 0 and 1
-    #[serde(rename = "b")]
-    b: f64,
-
-    /// Alpha channel value, between 0 and 1
-    #[serde(rename = "a")]
-    a: f64,
-}
-
 /// An array of canvases attached to the document
 ///
-/// A string uniquely identifying this node within the document
+/// The root node within the document
 ///
 /// A logical grouping of nodes
 ///
@@ -419,6 +628,8 @@ pub struct Color {
 ///
 /// Is text italicized?
 ///
+/// A string uniquely identifying this node within the document
+///
 /// The name given to the node by the user in the tool
 ///
 /// File suffix to append to all filenames
@@ -440,7 +651,7 @@ pub struct Color {
 ///
 /// An array of nodes that are being boolean operated on
 #[derive(Serialize, Deserialize)]
-pub struct NodeElement {
+pub struct NodeNode {
     /// A string uniquely identifying this node within the document
     #[serde(rename = "id")]
     id: String,
@@ -465,7 +676,7 @@ pub struct NodeElement {
     ///
     /// An array of nodes that are being boolean operated on
     #[serde(rename = "children")]
-    children: Option<Vec<NodeElement>>,
+    children: Option<Vec<NodeNode>>,
 
     /// Background color of the canvas
     ///
@@ -854,6 +1065,390 @@ pub struct TypeStyle {
     /// Space between characters in px
     #[serde(rename = "letterSpacing")]
     letter_spacing: f64,
+}
+
+/// The root node within the document
+///
+/// An array of canvases attached to the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
+/// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+#[derive(Serialize, Deserialize)]
+pub struct DocumentNode {
+    /// A string uniquely identifying this node within the document
+    #[serde(rename = "id")]
+    id: String,
+
+    /// The name given to the node by the user in the tool
+    #[serde(rename = "name")]
+    name: String,
+
+    /// Whether or not the node is visible on the canvas
+    #[serde(rename = "visible")]
+    visible: bool,
+
+    /// The type of the node
+    #[serde(rename = "type")]
+    document_node_type: NodeType,
+
+    /// An array of canvases attached to the document
+    #[serde(rename = "children")]
+    children: Vec<FluffyNode>,
+}
+
+/// An array of canvases attached to the document
+///
+/// The root node within the document
+///
+/// A logical grouping of nodes
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An instance of a component, changes to the component result in the same changes applied
+/// to the instance
+///
+/// Properties are shared across all nodes
+///
+/// Red channel value, between 0 and 1
+///
+/// Green channel value, between 0 and 1
+///
+/// Blue channel value, between 0 and 1
+///
+/// Alpha channel value, between 0 and 1
+///
+/// See type property for effect of this field
+///
+/// X coordinate of the vector
+///
+/// Y coordinate of the vector
+///
+/// Width of column grid or height of row grid or square grid spacing
+///
+/// Spacing in between columns and rows
+///
+/// Spacing before the first column or row
+///
+/// Number of columns or rows
+///
+/// Opacity of the node
+///
+/// X coordinate of top left corner of the rectangle
+///
+/// Y coordinate of top left corner of the rectangle
+///
+/// Width of the rectangle
+///
+/// Height of the rectangle
+///
+/// The weight of strokes on the node
+///
+/// Overall opacity of paint (colors within the paint can also have opacity values which
+/// would blend with this)
+///
+/// Value between 0 and 1 representing position along gradient axis
+///
+/// Radius of each corner of the rectangle
+///
+/// Line height in px
+///
+/// Numeric font weight
+///
+/// Line height as a percentage of normal line height
+///
+/// Font size in px
+///
+/// Space between characters in px
+///
+/// Array with same number of elements as characeters in text box, each element is a
+/// reference to the styleOverrideTable defined below and maps to the corresponding character
+/// in the characters field. Elements with value 0 have the default type style
+///
+/// Whether or not the node is visible on the canvas
+///
+/// Is the grid currently visible?
+///
+/// Does this node mask sibling nodes in front of it?
+///
+/// Does this node clip content outside of its bounds?
+///
+/// How this node blends with nodes behind it in the scene (see blend mode section for more
+/// details)
+///
+/// Is the paint enabled?
+///
+/// Is text italicized?
+///
+/// A string uniquely identifying this node within the document
+///
+/// The name given to the node by the user in the tool
+///
+/// File suffix to append to all filenames
+///
+/// Node ID of node to transition to in prototyping
+///
+/// Text contained within text box
+///
+/// PostScript font name
+///
+/// Font family of text (standard name)
+///
+/// ID of component that this instance came from, refers to components table (see endpoints
+/// section below)
+#[derive(Serialize, Deserialize)]
+pub struct FluffyNode {
+    /// A string uniquely identifying this node within the document
+    #[serde(rename = "id")]
+    id: String,
+
+    /// The name given to the node by the user in the tool
+    #[serde(rename = "name")]
+    name: String,
+
+    /// Whether or not the node is visible on the canvas
+    #[serde(rename = "visible")]
+    visible: bool,
+
+    /// The type of the node
+    #[serde(rename = "type")]
+    node_type: NodeType,
+
+    /// An array of canvases attached to the document
+    ///
+    /// An array of top level layers on the canvas
+    ///
+    /// An array of nodes that are direct children of this node
+    ///
+    /// An array of nodes that are being boolean operated on
+    #[serde(rename = "children")]
+    children: Option<Vec<NodeNode>>,
+
+    /// Background color of the canvas
+    ///
+    /// Background color of the node
+    #[serde(rename = "backgroundColor")]
+    background_color: Option<Color>,
+
+    /// An array of export settings representing images to export from the canvas
+    ///
+    /// An array of export settings representing images to export from node
+    ///
+    /// A rectangular region of the canvas that can be exported
+    #[serde(rename = "exportSettings")]
+    export_settings: Option<Vec<ExportSetting>>,
+
+    /// An array of effects attached to this node (see effects section for more details)
+    #[serde(rename = "effects")]
+    effects: Option<Vec<Effect>>,
+
+    /// An array of layout grids attached to this node (see layout grids section for more
+    /// details). GROUP nodes do not have this attribute
+    #[serde(rename = "layoutGrids")]
+    layout_grids: Option<Vec<LayoutGrid>>,
+
+    /// Opacity of the node
+    #[serde(rename = "opacity")]
+    opacity: Option<f64>,
+
+    /// Bounding box of the node in absolute space coordinates
+    #[serde(rename = "absoluteBoundingBox")]
+    absolute_bounding_box: Option<Rectangle>,
+
+    /// Node ID of node to transition to in prototyping
+    #[serde(rename = "transitionNodeID")]
+    transition_node_id: Option<String>,
+
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    #[serde(rename = "blendMode")]
+    blend_mode: Option<BlendMode>,
+
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    #[serde(rename = "constraints")]
+    constraints: Option<LayoutConstraint>,
+
+    /// Does this node mask sibling nodes in front of it?
+    #[serde(rename = "isMask")]
+    is_mask: Option<bool>,
+
+    /// Does this node clip content outside of its bounds?
+    #[serde(rename = "clipsContent")]
+    clips_content: Option<bool>,
+
+    /// How this node blends with nodes behind it in the scene (see blend mode section for more
+    /// details)
+    #[serde(rename = "preserveRatio")]
+    preserve_ratio: Option<bool>,
+
+    /// Where stroke is drawn relative to the vector outline as a string enum
+    ///
+    /// * INSIDE: draw stroke inside the shape boundary
+    /// * OUTSIDE: draw stroke outside the shape boundary
+    /// * CENTER: draw stroke centered along the shape boundary
+    #[serde(rename = "strokeAlign")]
+    stroke_align: Option<StrokeAlign>,
+
+    /// The weight of strokes on the node
+    #[serde(rename = "strokeWeight")]
+    stroke_weight: Option<f64>,
+
+    /// An array of fill paints applied to the node
+    #[serde(rename = "fills")]
+    fills: Option<Vec<Paint>>,
+
+    /// An array of stroke paints applied to the node
+    #[serde(rename = "strokes")]
+    strokes: Option<Vec<Paint>>,
+
+    /// Radius of each corner of the rectangle
+    #[serde(rename = "cornerRadius")]
+    corner_radius: Option<f64>,
+
+    /// Text contained within text box
+    #[serde(rename = "characters")]
+    characters: Option<String>,
+
+    /// Style of text including font family and weight (see type style section for more
+    /// information)
+    #[serde(rename = "style")]
+    style: Option<TypeStyle>,
+
+    /// Array with same number of elements as characeters in text box, each element is a
+    /// reference to the styleOverrideTable defined below and maps to the corresponding character
+    /// in the characters field. Elements with value 0 have the default type style
+    #[serde(rename = "characterStyleOverrides")]
+    character_style_overrides: Option<Vec<f64>>,
+
+    /// Map from ID to TypeStyle for looking up style overrides
+    #[serde(rename = "styleOverrideTable")]
+    style_override_table: Option<HashMap<String, TypeStyle>>,
+
+    /// ID of component that this instance came from, refers to components table (see endpoints
+    /// section below)
+    #[serde(rename = "componentId")]
+    component_id: Option<String>,
 }
 
 /// Enum describing how layer blends with layers below

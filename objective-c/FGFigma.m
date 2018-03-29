@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTFileResponseNode (JSONConversion)
+@interface QTComponentNode (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -28,7 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTNodeElement (JSONConversion)
+@interface QTPurpleNode (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface QTNodeNode (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -74,6 +79,16 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface QTTypeStyle (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface QTDocumentNode (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface QTFluffyNode (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -616,6 +631,8 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
         @"document": @"document",
+        @"components": @"components",
+        @"schemaVersion": @"schemaVersion",
     };
 }
 
@@ -638,7 +655,8 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _document = [QTFileResponseNode fromJSONDictionary:(id)_document];
+        _document = [QTDocumentNode fromJSONDictionary:(id)_document];
+        _components = map(_components, λ(id x, [QTComponentNode fromJSONDictionary:x]));
     }
     return self;
 }
@@ -649,6 +667,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
     [dict addEntriesFromDictionary:@{
         @"document": [_document JSONDictionary],
+        @"components": map(_components, λ(id x, [x JSONDictionary])),
     }];
 
     return dict;
@@ -665,7 +684,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 }
 @end
 
-@implementation QTFileResponseNode
+@implementation QTComponentNode
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -674,35 +693,25 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"name": @"name",
         @"visible": @"isVisible",
         @"type": @"type",
-        @"children": @"children",
-        @"backgroundColor": @"backgroundColor",
-        @"exportSettings": @"exportSettings",
         @"effects": @"effects",
         @"layoutGrids": @"layoutGrids",
         @"opacity": @"opacity",
         @"absoluteBoundingBox": @"absoluteBoundingBox",
         @"transitionNodeID": @"transitionNodeID",
         @"blendMode": @"blendMode",
+        @"backgroundColor": @"backgroundColor",
         @"constraints": @"constraints",
         @"isMask": @"isMask",
-        @"clipsContent": @"clipsContent",
-        @"preserveRatio": @"preserveRatio",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"strokes": @"strokes",
-        @"cornerRadius": @"cornerRadius",
-        @"characters": @"characters",
-        @"style": @"style",
-        @"characterStyleOverrides": @"characterStyleOverrides",
-        @"styleOverrideTable": @"styleOverrideTable",
-        @"componentId": @"componentID",
+        @"clipsContent": @"isClipsContent",
+        @"exportSettings": @"exportSettings",
+        @"preserveRatio": @"isPreserveRatio",
+        @"children": @"children",
     };
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTFileResponseNode alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[QTComponentNode alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -710,34 +719,29 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
         _type = [QTNodeType withValue:(id)_type];
-        _children = map(_children, λ(id x, [QTNodeElement fromJSONDictionary:x]));
-        _backgroundColor = [QTColor fromJSONDictionary:(id)_backgroundColor];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSetting fromJSONDictionary:x]));
         _effects = map(_effects, λ(id x, [QTEffect fromJSONDictionary:x]));
         _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGrid fromJSONDictionary:x]));
         _absoluteBoundingBox = [QTRectangle fromJSONDictionary:(id)_absoluteBoundingBox];
         _blendMode = [QTBlendMode withValue:(id)_blendMode];
+        _backgroundColor = [QTColor fromJSONDictionary:(id)_backgroundColor];
         _constraints = [QTLayoutConstraint fromJSONDictionary:(id)_constraints];
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaint fromJSONDictionary:x]));
-        _strokes = map(_strokes, λ(id x, [QTPaint fromJSONDictionary:x]));
-        _style = [QTTypeStyle fromJSONDictionary:(id)_style];
-        _styleOverrideTable = map(_styleOverrideTable, λ(id x, [QTTypeStyle fromJSONDictionary:x]));
+        _exportSettings = map(_exportSettings, λ(id x, [QTExportSetting fromJSONDictionary:x]));
+        _children = map(_children, λ(id x, [QTPurpleNode fromJSONDictionary:x]));
     }
     return self;
 }
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:QTFileResponseNode.properties[key]];
+    [super setValue:value forKey:QTComponentNode.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTFileResponseNode.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:QTComponentNode.properties.allValues] mutableCopy];
 
-    for (id jsonName in QTFileResponseNode.properties) {
-        id propertyName = QTFileResponseNode.properties[jsonName];
+    for (id jsonName in QTComponentNode.properties) {
+        id propertyName = QTComponentNode.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -747,19 +751,17 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     [dict addEntriesFromDictionary:@{
         @"visible": _isVisible ? @YES : @NO,
         @"type": [_type value],
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-        @"style": NSNullify([_style JSONDictionary]),
-        @"styleOverrideTable": NSNullify(map(_styleOverrideTable, λ(id x, [x JSONDictionary]))),
+        @"effects": map(_effects, λ(id x, [x JSONDictionary])),
+        @"layoutGrids": map(_layoutGrids, λ(id x, [x JSONDictionary])),
+        @"absoluteBoundingBox": [_absoluteBoundingBox JSONDictionary],
+        @"blendMode": [_blendMode value],
+        @"backgroundColor": [_backgroundColor JSONDictionary],
+        @"constraints": [_constraints JSONDictionary],
+        @"isMask": _isMask ? @YES : @NO,
+        @"clipsContent": _isClipsContent ? @YES : @NO,
+        @"exportSettings": map(_exportSettings, λ(id x, [x JSONDictionary])),
+        @"preserveRatio": _isPreserveRatio ? @YES : @NO,
+        @"children": map(_children, λ(id x, [x JSONDictionary])),
     }];
 
     return dict;
@@ -828,7 +830,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 }
 @end
 
-@implementation QTNodeElement
+@implementation QTPurpleNode
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -865,7 +867,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTNodeElement alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[QTPurpleNode alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -873,7 +875,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
         _type = [QTNodeType withValue:(id)_type];
-        _children = map(_children, λ(id x, [QTNodeElement fromJSONDictionary:x]));
+        _children = map(_children, λ(id x, [QTNodeNode fromJSONDictionary:x]));
         _backgroundColor = [QTColor fromJSONDictionary:(id)_backgroundColor];
         _exportSettings = map(_exportSettings, λ(id x, [QTExportSetting fromJSONDictionary:x]));
         _effects = map(_effects, λ(id x, [QTEffect fromJSONDictionary:x]));
@@ -892,15 +894,116 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:QTNodeElement.properties[key]];
+    [super setValue:value forKey:QTPurpleNode.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTNodeElement.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:QTPurpleNode.properties.allValues] mutableCopy];
 
-    for (id jsonName in QTNodeElement.properties) {
-        id propertyName = QTNodeElement.properties[jsonName];
+    for (id jsonName in QTPurpleNode.properties) {
+        id propertyName = QTPurpleNode.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
+        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
+        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
+        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
+        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
+        @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
+        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
+        @"blendMode": NSNullify([_blendMode value]),
+        @"constraints": NSNullify([_constraints JSONDictionary]),
+        @"strokeAlign": NSNullify([_strokeAlign value]),
+        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
+        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
+        @"style": NSNullify([_style JSONDictionary]),
+        @"styleOverrideTable": NSNullify(map(_styleOverrideTable, λ(id x, [x JSONDictionary]))),
+    }];
+
+    return dict;
+}
+@end
+
+@implementation QTNodeNode
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"id": @"identifier",
+        @"name": @"name",
+        @"visible": @"isVisible",
+        @"type": @"type",
+        @"children": @"children",
+        @"backgroundColor": @"backgroundColor",
+        @"exportSettings": @"exportSettings",
+        @"effects": @"effects",
+        @"layoutGrids": @"layoutGrids",
+        @"opacity": @"opacity",
+        @"absoluteBoundingBox": @"absoluteBoundingBox",
+        @"transitionNodeID": @"transitionNodeID",
+        @"blendMode": @"blendMode",
+        @"constraints": @"constraints",
+        @"isMask": @"isMask",
+        @"clipsContent": @"clipsContent",
+        @"preserveRatio": @"preserveRatio",
+        @"strokeAlign": @"strokeAlign",
+        @"strokeWeight": @"strokeWeight",
+        @"fills": @"fills",
+        @"strokes": @"strokes",
+        @"cornerRadius": @"cornerRadius",
+        @"characters": @"characters",
+        @"style": @"style",
+        @"characterStyleOverrides": @"characterStyleOverrides",
+        @"styleOverrideTable": @"styleOverrideTable",
+        @"componentId": @"componentID",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTNodeNode alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _type = [QTNodeType withValue:(id)_type];
+        _children = map(_children, λ(id x, [QTNodeNode fromJSONDictionary:x]));
+        _backgroundColor = [QTColor fromJSONDictionary:(id)_backgroundColor];
+        _exportSettings = map(_exportSettings, λ(id x, [QTExportSetting fromJSONDictionary:x]));
+        _effects = map(_effects, λ(id x, [QTEffect fromJSONDictionary:x]));
+        _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGrid fromJSONDictionary:x]));
+        _absoluteBoundingBox = [QTRectangle fromJSONDictionary:(id)_absoluteBoundingBox];
+        _blendMode = [QTBlendMode withValue:(id)_blendMode];
+        _constraints = [QTLayoutConstraint fromJSONDictionary:(id)_constraints];
+        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
+        _fills = map(_fills, λ(id x, [QTPaint fromJSONDictionary:x]));
+        _strokes = map(_strokes, λ(id x, [QTPaint fromJSONDictionary:x]));
+        _style = [QTTypeStyle fromJSONDictionary:(id)_style];
+        _styleOverrideTable = map(_styleOverrideTable, λ(id x, [QTTypeStyle fromJSONDictionary:x]));
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:QTNodeNode.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTNodeNode.properties.allValues] mutableCopy];
+
+    for (id jsonName in QTNodeNode.properties) {
+        id propertyName = QTNodeNode.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -1347,6 +1450,162 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"italic": _isItalic ? @YES : @NO,
         @"fills": map(_fills, λ(id x, [x JSONDictionary])),
         @"textAlignHorizontal": [_textAlignHorizontal value],
+    }];
+
+    return dict;
+}
+@end
+
+@implementation QTDocumentNode
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"id": @"identifier",
+        @"name": @"name",
+        @"visible": @"isVisible",
+        @"type": @"type",
+        @"children": @"children",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTDocumentNode alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _type = [QTNodeType withValue:(id)_type];
+        _children = map(_children, λ(id x, [QTFluffyNode fromJSONDictionary:x]));
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:QTDocumentNode.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTDocumentNode.properties.allValues] mutableCopy];
+
+    for (id jsonName in QTDocumentNode.properties) {
+        id propertyName = QTDocumentNode.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
+        @"children": map(_children, λ(id x, [x JSONDictionary])),
+    }];
+
+    return dict;
+}
+@end
+
+@implementation QTFluffyNode
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"id": @"identifier",
+        @"name": @"name",
+        @"visible": @"isVisible",
+        @"type": @"type",
+        @"children": @"children",
+        @"backgroundColor": @"backgroundColor",
+        @"exportSettings": @"exportSettings",
+        @"effects": @"effects",
+        @"layoutGrids": @"layoutGrids",
+        @"opacity": @"opacity",
+        @"absoluteBoundingBox": @"absoluteBoundingBox",
+        @"transitionNodeID": @"transitionNodeID",
+        @"blendMode": @"blendMode",
+        @"constraints": @"constraints",
+        @"isMask": @"isMask",
+        @"clipsContent": @"clipsContent",
+        @"preserveRatio": @"preserveRatio",
+        @"strokeAlign": @"strokeAlign",
+        @"strokeWeight": @"strokeWeight",
+        @"fills": @"fills",
+        @"strokes": @"strokes",
+        @"cornerRadius": @"cornerRadius",
+        @"characters": @"characters",
+        @"style": @"style",
+        @"characterStyleOverrides": @"characterStyleOverrides",
+        @"styleOverrideTable": @"styleOverrideTable",
+        @"componentId": @"componentID",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTFluffyNode alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _type = [QTNodeType withValue:(id)_type];
+        _children = map(_children, λ(id x, [QTNodeNode fromJSONDictionary:x]));
+        _backgroundColor = [QTColor fromJSONDictionary:(id)_backgroundColor];
+        _exportSettings = map(_exportSettings, λ(id x, [QTExportSetting fromJSONDictionary:x]));
+        _effects = map(_effects, λ(id x, [QTEffect fromJSONDictionary:x]));
+        _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGrid fromJSONDictionary:x]));
+        _absoluteBoundingBox = [QTRectangle fromJSONDictionary:(id)_absoluteBoundingBox];
+        _blendMode = [QTBlendMode withValue:(id)_blendMode];
+        _constraints = [QTLayoutConstraint fromJSONDictionary:(id)_constraints];
+        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
+        _fills = map(_fills, λ(id x, [QTPaint fromJSONDictionary:x]));
+        _strokes = map(_strokes, λ(id x, [QTPaint fromJSONDictionary:x]));
+        _style = [QTTypeStyle fromJSONDictionary:(id)_style];
+        _styleOverrideTable = map(_styleOverrideTable, λ(id x, [QTTypeStyle fromJSONDictionary:x]));
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:QTFluffyNode.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTFluffyNode.properties.allValues] mutableCopy];
+
+    for (id jsonName in QTFluffyNode.properties) {
+        id propertyName = QTFluffyNode.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
+        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
+        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
+        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
+        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
+        @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
+        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
+        @"blendMode": NSNullify([_blendMode value]),
+        @"constraints": NSNullify([_constraints JSONDictionary]),
+        @"strokeAlign": NSNullify([_strokeAlign value]),
+        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
+        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
+        @"style": NSNullify([_style JSONDictionary]),
+        @"styleOverrideTable": NSNullify(map(_styleOverrideTable, λ(id x, [x JSONDictionary]))),
     }];
 
     return dict;
