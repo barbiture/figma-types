@@ -4,7 +4,7 @@
   "description": "Typed client code for Figma Platform",
   "main": "index.js",
   "scripts": {
-    "build": "script/build.sh"
+    "quicktype": "./quicktype.sh"
   },
   "repository": {
     "type": "git",
