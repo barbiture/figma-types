@@ -1,0 +1,22 @@
+{
+  "name": "figma-types",
+  "version": "1.0.0",
+  "description": "Typed client code for Figma Platform",
+  "main": "index.js",
+  "scripts": {
+    "build": "script/build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/quicktype/figma-types.git"
+  },
+  "author": "David Siegel <david@quicktype.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quicktype/figma-types/issues"
+  },
+  "homepage": "https://github.com/quicktype/figma-types#readme",
+  "dependencies": {
+    "quicktype": "^9.0.31"
+  }
+}
