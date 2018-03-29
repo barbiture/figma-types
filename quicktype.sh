@@ -13,5 +13,8 @@ $QUICKTYPE -o java/Figma.java
 $QUICKTYPE -o typescript/figma.ts
 $QUICKTYPE -o javascript/figma.js
 $QUICKTYPE -o flow/figma.flow
-$QUICKTYPE -o swift/Figma.swift
 $QUICKTYPE -o elm/figma.elm
+
+
+$QUICKTYPE -o swift/Figma.swift
+$QUICKTYPE -o swift-alamofire/Figma.swift --alamofire
