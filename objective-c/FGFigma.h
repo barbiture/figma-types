@@ -2,6 +2,8 @@
 //
 //   NSError *error;
 //   QTFileResponse *fileResponse = [QTFileResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
+//   QTImageResponse *imageResponse = [QTImageResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
+//   QTCommentsResponse *commentsResponse = [QTCommentsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
 
 #import <Foundation/Foundation.h>
 
@@ -36,6 +38,10 @@
 @class QTNodeType;
 @class QTDocument;
 @class QTFluffyNode;
+@class QTImageResponse;
+@class QTCommentsResponse;
+@class QTComment;
+@class QTUser;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -243,9 +249,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// GET /v1/files/:key
 ///
+/// > Description
+///
 /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
 /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 /// contains a Node of type DOCUMENT.
+///
+/// The "components" key contains a mapping from node IDs to component metadata. This is to
+/// help you determine which components each instance comes from. Currently the only piece of
+/// metadata available on components is the name of the component, but more properties will
+/// be forthcoming.
+///
+/// > Path parameters
+///
+/// key String
+/// File to export JSON from
 @interface QTFileResponse : NSObject
 /// The root node within the document
 @property (nonatomic, strong) QTDocument *document;
@@ -366,6 +384,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 @interface QTComponent : NSObject
 /// A string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
@@ -548,6 +572,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 ///
 /// A logical grouping of nodes
 ///
@@ -750,6 +780,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 ///
 /// A logical grouping of nodes
 ///
@@ -1154,6 +1190,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 @interface QTDocument : NSObject
 /// A string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
@@ -1267,6 +1309,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 ///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
+///
 /// A logical grouping of nodes
 ///
 /// A regular star shape
@@ -1367,6 +1415,82 @@ NS_ASSUME_NONNULL_BEGIN
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 @property (nonatomic, nullable, copy) NSString *componentID;
+@end
+
+/// GET /v1/images/:key
+///
+/// > Description
+///
+/// If no error occurs, "images" will be populated with a map from node IDs to URLs of the
+/// rendered images, and "status" will be omitted.
+///
+/// Important: the image map may contain values that are null. This indicates that rendering
+/// of that specific node has failed. This may be due to the node id not existing, or other
+/// reasons such has the node having no renderable components. It is guaranteed that any node
+/// that was requested for rendering will be represented in this map whether or not the
+/// render succeeded.
+///
+/// > Path parameters
+///
+/// key String
+/// File to export images from
+///
+/// > Query parameters
+///
+/// ids String
+/// A comma separated list of node IDs to render
+///
+/// scale Number
+/// A number between 0.01 and 4, the image scaling factor
+///
+/// format String
+/// A string enum for the image output format, can be "jpg", "png", or "svg"
+@interface QTImageResponse : NSObject
+@property (nonatomic, copy)           NSDictionary<NSString *, NSString *> *images;
+@property (nonatomic, assign)         double status;
+@property (nonatomic, nullable, copy) NSString *err;
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+@end
+
+/// GET /v1/files/:key/comments
+///
+/// > Description
+/// A list of comments left on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
+@interface QTCommentsResponse : NSObject
+@property (nonatomic, copy) NSArray<QTComment *> *comments;
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+@end
+
+/// A comment or reply left by a user
+@interface QTComment : NSObject
+/// Unique identifier for comment
+@property (nonatomic, copy) NSString *identifier;
+/// The file in which the comment lives
+@property (nonatomic, copy) NSString *fileKey;
+/// If present, the id of the comment to which this is the reply
+@property (nonatomic, nullable, copy) NSString *parentID;
+/// The user who left the comment
+@property (nonatomic, strong) QTUser *user;
+@end
+
+/// A description of a user
+///
+/// The user who left the comment
+@interface QTUser : NSObject
+@property (nonatomic, copy) NSString *handle;
+@property (nonatomic, copy) NSString *imgURL;
 @end
 
 NS_ASSUME_NONNULL_END

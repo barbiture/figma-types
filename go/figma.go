@@ -2,6 +2,12 @@
 //
 //    fileResponse, err := UnmarshalFileResponse(bytes)
 //    bytes, err = fileResponse.Marshal()
+//
+//    imageResponse, err := UnmarshalImageResponse(bytes)
+//    bytes, err = imageResponse.Marshal()
+//
+//    commentsResponse, err := UnmarshalCommentsResponse(bytes)
+//    bytes, err = commentsResponse.Marshal()
 
 package main
 
@@ -17,11 +23,43 @@ func (r *FileResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
+func UnmarshalImageResponse(data []byte) (ImageResponse, error) {
+	var r ImageResponse
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *ImageResponse) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+func UnmarshalCommentsResponse(data []byte) (CommentsResponse, error) {
+	var r CommentsResponse
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *CommentsResponse) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
 // GET /v1/files/:key
+//
+// > Description
 //
 // Returns the document refered to by :key as a JSON object. The file key can be parsed from
 // any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 // contains a Node of type DOCUMENT.
+//
+// The "components" key contains a mapping from node IDs to component metadata. This is to
+// help you determine which components each instance comes from. Currently the only piece of
+// metadata available on components is the name of the component, but more properties will
+// be forthcoming.
+//
+// > Path parameters
+//
+// key String
+// File to export JSON from
 type FileResponse struct {
 	Document      Document             `json:"document"`     // The root node within the document
 	Components    map[string]Component `json:"components"`   // A mapping from node IDs to component metadata. This is to help you determine which; components each instance comes from. Currently the only piece of metadata available on; components is the name of the component, but more properties will be forthcoming.
@@ -133,6 +171,12 @@ type FileResponse struct {
 //
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
+//
+// Unique identifier for comment
+//
+// The file in which the comment lives
+//
+// If present, the id of the comment to which this is the reply
 type Component struct {
 	ID                  string           `json:"id"`                 // A string uniquely identifying this node within the document
 	Name                string           `json:"name"`               // The name given to the node by the user in the tool
@@ -287,6 +331,12 @@ type Color struct {
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
 //
+// Unique identifier for comment
+//
+// The file in which the comment lives
+//
+// If present, the id of the comment to which this is the reply
+//
 // A logical grouping of nodes
 //
 // A regular star shape
@@ -434,6 +484,12 @@ type PurpleNode struct {
 //
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
+//
+// Unique identifier for comment
+//
+// The file in which the comment lives
+//
+// If present, the id of the comment to which this is the reply
 //
 // A logical grouping of nodes
 //
@@ -708,6 +764,12 @@ type TypeStyle struct {
 //
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
+//
+// Unique identifier for comment
+//
+// The file in which the comment lives
+//
+// If present, the id of the comment to which this is the reply
 type Document struct {
 	ID       string       `json:"id"`      // A string uniquely identifying this node within the document
 	Name     string       `json:"name"`    // The name given to the node by the user in the tool
@@ -816,6 +878,12 @@ type Document struct {
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
 //
+// Unique identifier for comment
+//
+// The file in which the comment lives
+//
+// If present, the id of the comment to which this is the reply
+//
 // A logical grouping of nodes
 //
 // A regular star shape
@@ -862,6 +930,68 @@ type FluffyNode struct {
 	CharacterStyleOverrides []float64            `json:"characterStyleOverrides"`// Array with same number of elements as characeters in text box, each element is a; reference to the styleOverrideTable defined below and maps to the corresponding character; in the characters field. Elements with value 0 have the default type style
 	StyleOverrideTable      map[string]TypeStyle `json:"styleOverrideTable"`     // Map from ID to TypeStyle for looking up style overrides
 	ComponentID             *string              `json:"componentId"`            // ID of component that this instance came from, refers to components table (see endpoints; section below)
+}
+
+// GET /v1/images/:key
+//
+// > Description
+//
+// If no error occurs, "images" will be populated with a map from node IDs to URLs of the
+// rendered images, and "status" will be omitted.
+//
+// Important: the image map may contain values that are null. This indicates that rendering
+// of that specific node has failed. This may be due to the node id not existing, or other
+// reasons such has the node having no renderable components. It is guaranteed that any node
+// that was requested for rendering will be represented in this map whether or not the
+// render succeeded.
+//
+// > Path parameters
+//
+// key String
+// File to export images from
+//
+// > Query parameters
+//
+// ids String
+// A comma separated list of node IDs to render
+//
+// scale Number
+// A number between 0.01 and 4, the image scaling factor
+//
+// format String
+// A string enum for the image output format, can be "jpg", "png", or "svg"
+type ImageResponse struct {
+	Images map[string]string `json:"images"`
+	Status float64           `json:"status"`
+	Err    *string           `json:"err"`   
+}
+
+// GET /v1/files/:key/comments
+//
+// > Description
+// A list of comments left on the file.
+//
+// > Path parameters
+// key String
+// File to get comments from
+type CommentsResponse struct {
+	Comments []Comment `json:"comments"`
+}
+
+// A comment or reply left by a user
+type Comment struct {
+	ID       string  `json:"id"`       // Unique identifier for comment
+	FileKey  string  `json:"file_key"` // The file in which the comment lives
+	ParentID *string `json:"parent_id"`// If present, the id of the comment to which this is the reply
+	User     User    `json:"user"`     // The user who left the comment
+}
+
+// A description of a user
+//
+// The user who left the comment
+type User struct {
+	Handle string `json:"handle"` 
+	ImgURL string `json:"img_url"`
 }
 
 // Enum describing how layer blends with layers below

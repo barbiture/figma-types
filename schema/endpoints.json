@@ -4,7 +4,7 @@
     "FileResponse": {
       "type": "object",
       "description":
-        "GET /v1/files/:key\n\nReturns the document refered to by :key as a JSON object. The file key can be parsed from any Figma file url: https://www.figma.com/file/:key/:title. The \"document\" attribute contains a Node of type DOCUMENT.",
+        "GET /v1/files/:key\n\n> Description\n\nReturns the document refered to by :key as a JSON object. The file key can be parsed from any Figma file url: https://www.figma.com/file/:key/:title. The \"document\" attribute contains a Node of type DOCUMENT.\n\nThe \"components\" key contains a mapping from node IDs to component metadata. This is to help you determine which components each instance comes from. Currently the only piece of metadata available on components is the name of the component, but more properties will be forthcoming.\n\n> Path parameters\n\nkey String\nFile to export JSON from",
       "properties": {
         "document": {
           "$ref": "types.json#/definitions/Document",
@@ -23,6 +23,38 @@
         }
       },
       "required": ["document", "components", "schemaVersion"]
+    },
+    "ImageResponse": {
+      "type": "object",
+      "description":
+        "GET /v1/images/:key\n\n> Description\n\nIf no error occurs, \"images\" will be populated with a map from node IDs to URLs of the rendered images, and \"status\" will be omitted.\n\nImportant: the image map may contain values that are null. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has the node having no renderable components. It is guaranteed that any node that was requested for rendering will be represented in this map whether or not the render succeeded.\n\n> Path parameters\n\nkey String\nFile to export images from\n\n> Query parameters\n\nids String\nA comma separated list of node IDs to render\n\nscale Number\nA number between 0.01 and 4, the image scaling factor\n\nformat String\nA string enum for the image output format, can be \"jpg\", \"png\", or \"svg\"",
+      "properties": {
+        "images": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "status": {
+          "type": "number"
+        },
+        "err": {
+          "type": "string"
+        }
+      },
+      "required": ["images", "status"]
+    },
+    "CommentsResponse": {
+      "type": "object",
+      "description":
+        "GET /v1/files/:key/comments\n\n> Description\nA list of comments left on the file.\n\n> Path parameters\nkey String\nFile to get comments from",
+      "properties": {
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "types.json#/definitions/Comment"
+          }
+        }
+      },
+      "required": ["comments"]
     }
   }
 }

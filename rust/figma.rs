@@ -16,9 +16,21 @@ use std::collections::HashMap;
 
 /// GET /v1/files/:key
 ///
+/// > Description
+///
 /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
 /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 /// contains a Node of type DOCUMENT.
+///
+/// The "components" key contains a mapping from node IDs to component metadata. This is to
+/// help you determine which components each instance comes from. Currently the only piece of
+/// metadata available on components is the name of the component, but more properties will
+/// be forthcoming.
+///
+/// > Path parameters
+///
+/// key String
+/// File to export JSON from
 #[derive(Serialize, Deserialize)]
 pub struct FileResponse {
     /// The root node within the document
@@ -140,6 +152,12 @@ pub struct FileResponse {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 #[derive(Serialize, Deserialize)]
 pub struct Component {
     /// A string uniquely identifying this node within the document
@@ -372,6 +390,12 @@ pub struct Color {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 ///
 /// A logical grouping of nodes
 ///
@@ -634,6 +658,12 @@ pub struct PurpleNode {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 ///
 /// A logical grouping of nodes
 ///
@@ -1184,6 +1214,12 @@ pub struct TypeStyle {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 #[derive(Serialize, Deserialize)]
 pub struct Document {
     /// A string uniquely identifying this node within the document
@@ -1306,6 +1342,12 @@ pub struct Document {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 ///
 /// A logical grouping of nodes
 ///
@@ -1467,6 +1509,92 @@ pub struct FluffyNode {
     /// section below)
     #[serde(rename = "componentId")]
     component_id: Option<String>,
+}
+
+/// GET /v1/images/:key
+///
+/// > Description
+///
+/// If no error occurs, "images" will be populated with a map from node IDs to URLs of the
+/// rendered images, and "status" will be omitted.
+///
+/// Important: the image map may contain values that are null. This indicates that rendering
+/// of that specific node has failed. This may be due to the node id not existing, or other
+/// reasons such has the node having no renderable components. It is guaranteed that any node
+/// that was requested for rendering will be represented in this map whether or not the
+/// render succeeded.
+///
+/// > Path parameters
+///
+/// key String
+/// File to export images from
+///
+/// > Query parameters
+///
+/// ids String
+/// A comma separated list of node IDs to render
+///
+/// scale Number
+/// A number between 0.01 and 4, the image scaling factor
+///
+/// format String
+/// A string enum for the image output format, can be "jpg", "png", or "svg"
+#[derive(Serialize, Deserialize)]
+pub struct ImageResponse {
+    #[serde(rename = "images")]
+    images: HashMap<String, String>,
+
+    #[serde(rename = "status")]
+    status: f64,
+
+    #[serde(rename = "err")]
+    err: Option<String>,
+}
+
+/// GET /v1/files/:key/comments
+///
+/// > Description
+/// A list of comments left on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
+#[derive(Serialize, Deserialize)]
+pub struct CommentsResponse {
+    #[serde(rename = "comments")]
+    comments: Vec<Comment>,
+}
+
+/// A comment or reply left by a user
+#[derive(Serialize, Deserialize)]
+pub struct Comment {
+    /// Unique identifier for comment
+    #[serde(rename = "id")]
+    id: String,
+
+    /// The file in which the comment lives
+    #[serde(rename = "file_key")]
+    file_key: String,
+
+    /// If present, the id of the comment to which this is the reply
+    #[serde(rename = "parent_id")]
+    parent_id: Option<String>,
+
+    /// The user who left the comment
+    #[serde(rename = "user")]
+    user: User,
+}
+
+/// A description of a user
+///
+/// The user who left the comment
+#[derive(Serialize, Deserialize)]
+pub struct User {
+    #[serde(rename = "handle")]
+    handle: String,
+
+    #[serde(rename = "img_url")]
+    img_url: String,
 }
 
 /// Enum describing how layer blends with layers below

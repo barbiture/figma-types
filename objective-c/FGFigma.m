@@ -93,6 +93,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
+@interface QTImageResponse (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface QTCommentsResponse (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface QTComment (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface QTUser (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
 @implementation QTBlendMode
 + (NSDictionary<NSString *, QTBlendMode *> *)values
 {
@@ -622,6 +642,74 @@ NSData *_Nullable QTFileResponseToData(QTFileResponse *fileResponse, NSError **e
 NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringEncoding encoding, NSError **error)
 {
     NSData *data = QTFileResponseToData(fileResponse, error);
+    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
+}
+
+QTImageResponse *_Nullable QTImageResponseFromData(NSData *data, NSError **error)
+{
+    @try {
+        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
+        return *error ? nil : [QTImageResponse fromJSONDictionary:json];
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+QTImageResponse *_Nullable QTImageResponseFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+{
+    return QTImageResponseFromData([json dataUsingEncoding:encoding], error);
+}
+
+NSData *_Nullable QTImageResponseToData(QTImageResponse *imageResponse, NSError **error)
+{
+    @try {
+        id json = [imageResponse JSONDictionary];
+        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
+        return *error ? nil : data;
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+NSString *_Nullable QTImageResponseToJSON(QTImageResponse *imageResponse, NSStringEncoding encoding, NSError **error)
+{
+    NSData *data = QTImageResponseToData(imageResponse, error);
+    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
+}
+
+QTCommentsResponse *_Nullable QTCommentsResponseFromData(NSData *data, NSError **error)
+{
+    @try {
+        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
+        return *error ? nil : [QTCommentsResponse fromJSONDictionary:json];
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+QTCommentsResponse *_Nullable QTCommentsResponseFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+{
+    return QTCommentsResponseFromData([json dataUsingEncoding:encoding], error);
+}
+
+NSData *_Nullable QTCommentsResponseToData(QTCommentsResponse *commentsResponse, NSError **error)
+{
+    @try {
+        id json = [commentsResponse JSONDictionary];
+        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
+        return *error ? nil : data;
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+NSString *_Nullable QTCommentsResponseToJSON(QTCommentsResponse *commentsResponse, NSStringEncoding encoding, NSError **error)
+{
+    NSData *data = QTCommentsResponseToData(commentsResponse, error);
     return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
 }
 
@@ -1613,6 +1701,206 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"style": NSNullify([_style JSONDictionary]),
         @"styleOverrideTable": NSNullify(map(_styleOverrideTable, λ(id x, [x JSONDictionary]))),
     }];
+
+    return dict;
+}
+@end
+
+@implementation QTImageResponse
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"images": @"images",
+        @"status": @"status",
+        @"err": @"err",
+    };
+}
+
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
+{
+    return QTImageResponseFromData(data, error);
+}
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTImageResponseFromJSON(json, encoding, error);
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTImageResponse alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    return [self dictionaryWithValuesForKeys:QTImageResponse.properties.allValues];
+}
+
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error
+{
+    return QTImageResponseToData(self, error);
+}
+
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTImageResponseToJSON(self, encoding, error);
+}
+@end
+
+@implementation QTCommentsResponse
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"comments": @"comments",
+    };
+}
+
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
+{
+    return QTCommentsResponseFromData(data, error);
+}
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTCommentsResponseFromJSON(json, encoding, error);
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTCommentsResponse alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _comments = map(_comments, λ(id x, [QTComment fromJSONDictionary:x]));
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTCommentsResponse.properties.allValues] mutableCopy];
+
+    [dict addEntriesFromDictionary:@{
+        @"comments": map(_comments, λ(id x, [x JSONDictionary])),
+    }];
+
+    return dict;
+}
+
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error
+{
+    return QTCommentsResponseToData(self, error);
+}
+
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTCommentsResponseToJSON(self, encoding, error);
+}
+@end
+
+@implementation QTComment
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"id": @"identifier",
+        @"file_key": @"fileKey",
+        @"parent_id": @"parentID",
+        @"user": @"user",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTComment alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _user = [QTUser fromJSONDictionary:(id)_user];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:QTComment.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTComment.properties.allValues] mutableCopy];
+
+    for (id jsonName in QTComment.properties) {
+        id propertyName = QTComment.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"user": [_user JSONDictionary],
+    }];
+
+    return dict;
+}
+@end
+
+@implementation QTUser
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"handle": @"handle",
+        @"img_url": @"imgURL",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTUser alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:QTUser.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTUser.properties.allValues] mutableCopy];
+
+    for (id jsonName in QTUser.properties) {
+        id propertyName = QTUser.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
 
     return dict;
 }

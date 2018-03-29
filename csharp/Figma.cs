@@ -1,8 +1,10 @@
-// To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
+// To parse this JSON data, add NuGet 'Newtonsoft.Json' then do one of these:
 //
 //    using QuickType;
 //
 //    var fileResponse = FileResponse.FromJson(jsonString);
+//    var imageResponse = ImageResponse.FromJson(jsonString);
+//    var commentsResponse = CommentsResponse.FromJson(jsonString);
 
 namespace QuickType
 {
@@ -17,9 +19,21 @@ namespace QuickType
     /// <summary>
     /// GET /v1/files/:key
     ///
+    /// > Description
+    ///
     /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
     /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
     /// contains a Node of type DOCUMENT.
+    ///
+    /// The "components" key contains a mapping from node IDs to component metadata. This is to
+    /// help you determine which components each instance comes from. Currently the only piece of
+    /// metadata available on components is the name of the component, but more properties will
+    /// be forthcoming.
+    ///
+    /// > Path parameters
+    ///
+    /// key String
+    /// File to export JSON from
     /// </summary>
     public partial class FileResponse
     {
@@ -147,6 +161,12 @@ namespace QuickType
     ///
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
+    ///
+    /// Unique identifier for comment
+    ///
+    /// The file in which the comment lives
+    ///
+    /// If present, the id of the comment to which this is the reply
     /// </summary>
     public partial class Component
     {
@@ -435,6 +455,12 @@ namespace QuickType
     ///
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
+    ///
+    /// Unique identifier for comment
+    ///
+    /// The file in which the comment lives
+    ///
+    /// If present, the id of the comment to which this is the reply
     ///
     /// A logical grouping of nodes
     ///
@@ -759,6 +785,12 @@ namespace QuickType
     ///
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
+    ///
+    /// Unique identifier for comment
+    ///
+    /// The file in which the comment lives
+    ///
+    /// If present, the id of the comment to which this is the reply
     ///
     /// A logical grouping of nodes
     ///
@@ -1475,6 +1507,12 @@ namespace QuickType
     ///
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
+    ///
+    /// Unique identifier for comment
+    ///
+    /// The file in which the comment lives
+    ///
+    /// If present, the id of the comment to which this is the reply
     /// </summary>
     public partial class Document
     {
@@ -1609,6 +1647,12 @@ namespace QuickType
     ///
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
+    ///
+    /// Unique identifier for comment
+    ///
+    /// The file in which the comment lives
+    ///
+    /// If present, the id of the comment to which this is the reply
     ///
     /// A logical grouping of nodes
     ///
@@ -1834,6 +1878,108 @@ namespace QuickType
     }
 
     /// <summary>
+    /// GET /v1/images/:key
+    ///
+    /// > Description
+    ///
+    /// If no error occurs, "images" will be populated with a map from node IDs to URLs of the
+    /// rendered images, and "status" will be omitted.
+    ///
+    /// Important: the image map may contain values that are null. This indicates that rendering
+    /// of that specific node has failed. This may be due to the node id not existing, or other
+    /// reasons such has the node having no renderable components. It is guaranteed that any node
+    /// that was requested for rendering will be represented in this map whether or not the
+    /// render succeeded.
+    ///
+    /// > Path parameters
+    ///
+    /// key String
+    /// File to export images from
+    ///
+    /// > Query parameters
+    ///
+    /// ids String
+    /// A comma separated list of node IDs to render
+    ///
+    /// scale Number
+    /// A number between 0.01 and 4, the image scaling factor
+    ///
+    /// format String
+    /// A string enum for the image output format, can be "jpg", "png", or "svg"
+    /// </summary>
+    public partial class ImageResponse
+    {
+        [JsonProperty("images")]
+        public Dictionary<string, string> Images { get; set; }
+
+        [JsonProperty("status")]
+        public double Status { get; set; }
+
+        [JsonProperty("err")]
+        public string Err { get; set; }
+    }
+
+    /// <summary>
+    /// GET /v1/files/:key/comments
+    ///
+    /// > Description
+    /// A list of comments left on the file.
+    ///
+    /// > Path parameters
+    /// key String
+    /// File to get comments from
+    /// </summary>
+    public partial class CommentsResponse
+    {
+        [JsonProperty("comments")]
+        public Comment[] Comments { get; set; }
+    }
+
+    /// <summary>
+    /// A comment or reply left by a user
+    /// </summary>
+    public partial class Comment
+    {
+        /// <summary>
+        /// Unique identifier for comment
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// The file in which the comment lives
+        /// </summary>
+        [JsonProperty("file_key")]
+        public string FileKey { get; set; }
+
+        /// <summary>
+        /// If present, the id of the comment to which this is the reply
+        /// </summary>
+        [JsonProperty("parent_id")]
+        public string ParentId { get; set; }
+
+        /// <summary>
+        /// The user who left the comment
+        /// </summary>
+        [JsonProperty("user")]
+        public User User { get; set; }
+    }
+
+    /// <summary>
+    /// A description of a user
+    ///
+    /// The user who left the comment
+    /// </summary>
+    public partial class User
+    {
+        [JsonProperty("handle")]
+        public string Handle { get; set; }
+
+        [JsonProperty("img_url")]
+        public string ImgUrl { get; set; }
+    }
+
+    /// <summary>
     /// Enum describing how layer blends with layers below
     ///
     /// See type property for effect of this field
@@ -1939,6 +2085,16 @@ namespace QuickType
     public partial class FileResponse
     {
         public static FileResponse FromJson(string json) => JsonConvert.DeserializeObject<FileResponse>(json, QuickType.Converter.Settings);
+    }
+
+    public partial class ImageResponse
+    {
+        public static ImageResponse FromJson(string json) => JsonConvert.DeserializeObject<ImageResponse>(json, QuickType.Converter.Settings);
+    }
+
+    public partial class CommentsResponse
+    {
+        public static CommentsResponse FromJson(string json) => JsonConvert.DeserializeObject<CommentsResponse>(json, QuickType.Converter.Settings);
     }
 
     static class BlendModeExtensions
@@ -2470,6 +2626,8 @@ namespace QuickType
     public static class Serialize
     {
         public static string ToJson(this FileResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this ImageResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this CommentsResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
     }
 
     internal class Converter: JsonConverter

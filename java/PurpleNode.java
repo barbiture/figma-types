@@ -106,6 +106,12 @@ import com.fasterxml.jackson.annotation.*;
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
  *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ *
  * A logical grouping of nodes
  *
  * A regular star shape

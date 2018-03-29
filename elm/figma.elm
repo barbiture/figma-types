@@ -5,16 +5,24 @@
 -- add these imports
 --
 --     import Json.Decode exposing (decodeString)`);
---     import QuickType exposing (fileResponse)
+--     import QuickType exposing (fileResponse, imageResponse, commentsResponse)
 --
 -- and you're off to the races with
 --
 --     decodeString fileResponse myJsonString
+--     decodeString imageResponse myJsonString
+--     decodeString commentsResponse myJsonString
 
 module QuickType exposing
     ( FileResponse
     , fileResponseToString
     , fileResponse
+    , ImageResponse
+    , imageResponseToString
+    , imageResponse
+    , CommentsResponse
+    , commentsResponseToString
+    , commentsResponse
     , Component
     , Rectangle
     , Color
@@ -31,6 +39,8 @@ module QuickType exposing
     , TypeStyle
     , Document
     , FluffyNode
+    , Comment
+    , User
     , BlendMode(..)
     , Horizontal(..)
     , Vertical(..)
@@ -55,9 +65,21 @@ import Array exposing (Array, map)
 
 {-| GET /v1/files/:key
 
+> Description
+
 Returns the document refered to by :key as a JSON object. The file key can be parsed from
 any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 contains a Node of type DOCUMENT.
+
+The "components" key contains a mapping from node IDs to component metadata. This is to
+help you determine which components each instance comes from. Currently the only piece of
+metadata available on components is the name of the component, but more properties will
+be forthcoming.
+
+> Path parameters
+
+key String
+File to export JSON from
 
 document:
 The root node within the document
@@ -178,6 +200,12 @@ to the instance
 
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
+
+Unique identifier for comment
+
+The file in which the comment lives
+
+If present, the id of the comment to which this is the reply
 
 id:
 A string uniquely identifying this node within the document
@@ -442,6 +470,12 @@ to the instance
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
 
+Unique identifier for comment
+
+The file in which the comment lives
+
+If present, the id of the comment to which this is the reply
+
 A logical grouping of nodes
 
 A regular star shape
@@ -704,6 +738,12 @@ to the instance
 
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
+
+Unique identifier for comment
+
+The file in which the comment lives
+
+If present, the id of the comment to which this is the reply
 
 A logical grouping of nodes
 
@@ -1401,6 +1441,12 @@ to the instance
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
 
+Unique identifier for comment
+
+The file in which the comment lives
+
+If present, the id of the comment to which this is the reply
+
 id:
 A string uniquely identifying this node within the document
 
@@ -1523,6 +1569,12 @@ to the instance
 
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
+
+Unique identifier for comment
+
+The file in which the comment lives
+
+If present, the id of the comment to which this is the reply
 
 A logical grouping of nodes
 
@@ -1687,10 +1739,94 @@ type alias FluffyNode =
     , componentID : Maybe String
     }
 
+{-| GET /v1/images/:key
+
+> Description
+
+If no error occurs, "images" will be populated with a map from node IDs to URLs of the
+rendered images, and "status" will be omitted.
+
+Important: the image map may contain values that are null. This indicates that rendering
+of that specific node has failed. This may be due to the node id not existing, or other
+reasons such has the node having no renderable components. It is guaranteed that any node
+that was requested for rendering will be represented in this map whether or not the
+render succeeded.
+
+> Path parameters
+
+key String
+File to export images from
+
+> Query parameters
+
+ids String
+A comma separated list of node IDs to render
+
+scale Number
+A number between 0.01 and 4, the image scaling factor
+
+format String
+A string enum for the image output format, can be "jpg", "png", or "svg"
+-}
+type alias ImageResponse =
+    { images : Dict String String
+    , status : Float
+    , err : Maybe String
+    }
+
+{-| GET /v1/files/:key/comments
+
+> Description
+A list of comments left on the file.
+
+> Path parameters
+key String
+File to get comments from
+-}
+type alias CommentsResponse =
+    { comments : Array Comment
+    }
+
+{-| A comment or reply left by a user
+
+id:
+Unique identifier for comment
+
+fileKey:
+The file in which the comment lives
+
+parentID:
+If present, the id of the comment to which this is the reply
+
+user:
+The user who left the comment
+-}
+type alias Comment =
+    { id : String
+    , fileKey : String
+    , parentID : Maybe String
+    , user : User
+    }
+
+{-| A description of a user
+
+The user who left the comment
+-}
+type alias User =
+    { handle : String
+    , imgURL : String
+    }
+
 -- decoders and encoders
 
 fileResponseToString : FileResponse -> String
 fileResponseToString r = Jenc.encode 0 (encodeFileResponse r)
+
+imageResponseToString : ImageResponse -> String
+imageResponseToString r = Jenc.encode 0 (encodeImageResponse r)
+
+commentsResponseToString : CommentsResponse -> String
+commentsResponseToString r = Jenc.encode 0 (encodeCommentsResponse r)
 
 fileResponse : Jdec.Decoder FileResponse
 fileResponse =
@@ -2491,6 +2627,62 @@ encodeFluffyNode x =
         , ("characterStyleOverrides", makeNullableEncoder (makeArrayEncoder Jenc.float) x.characterStyleOverrides)
         , ("styleOverrideTable", makeNullableEncoder (makeDictEncoder encodeTypeStyle) x.styleOverrideTable)
         , ("componentId", makeNullableEncoder Jenc.string x.componentID)
+        ]
+
+imageResponse : Jdec.Decoder ImageResponse
+imageResponse =
+    Jpipe.decode ImageResponse
+        |> Jpipe.required "images" (Jdec.dict Jdec.string)
+        |> Jpipe.required "status" Jdec.float
+        |> Jpipe.optional "err" (Jdec.nullable Jdec.string) Nothing
+
+encodeImageResponse : ImageResponse -> Jenc.Value
+encodeImageResponse x =
+    Jenc.object
+        [ ("images", makeDictEncoder Jenc.string x.images)
+        , ("status", Jenc.float x.status)
+        , ("err", makeNullableEncoder Jenc.string x.err)
+        ]
+
+commentsResponse : Jdec.Decoder CommentsResponse
+commentsResponse =
+    Jpipe.decode CommentsResponse
+        |> Jpipe.required "comments" (Jdec.array comment)
+
+encodeCommentsResponse : CommentsResponse -> Jenc.Value
+encodeCommentsResponse x =
+    Jenc.object
+        [ ("comments", makeArrayEncoder encodeComment x.comments)
+        ]
+
+comment : Jdec.Decoder Comment
+comment =
+    Jpipe.decode Comment
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "file_key" Jdec.string
+        |> Jpipe.optional "parent_id" (Jdec.nullable Jdec.string) Nothing
+        |> Jpipe.required "user" user
+
+encodeComment : Comment -> Jenc.Value
+encodeComment x =
+    Jenc.object
+        [ ("id", Jenc.string x.id)
+        , ("file_key", Jenc.string x.fileKey)
+        , ("parent_id", makeNullableEncoder Jenc.string x.parentID)
+        , ("user", encodeUser x.user)
+        ]
+
+user : Jdec.Decoder User
+user =
+    Jpipe.decode User
+        |> Jpipe.required "handle" Jdec.string
+        |> Jpipe.required "img_url" Jdec.string
+
+encodeUser : User -> Jenc.Value
+encodeUser x =
+    Jenc.object
+        [ ("handle", Jenc.string x.handle)
+        , ("img_url", Jenc.string x.imgURL)
         ]
 
 --- encoder helpers

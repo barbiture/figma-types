@@ -6,9 +6,11 @@
 //  Then include this file, and then do
 //
 //     FileResponse data = nlohmann::json::parse(jsonString);
+//     ImageResponse data = nlohmann::json::parse(jsonString);
+//     CommentsResponse data = nlohmann::json::parse(jsonString);
 
-#ifndef __QUICKTYPE_FILERESPONSE_HPP__
-#define __QUICKTYPE_FILERESPONSE_HPP__
+#ifndef __QUICKTYPE_FILERESPONSE_IMAGERESPONSE_COMMENTSRESPONSE_HPP__
+#define __QUICKTYPE_FILERESPONSE_IMAGERESPONSE_COMMENTSRESPONSE_HPP__
 
 #include "json.hpp"
 
@@ -579,6 +581,12 @@ namespace quicktype {
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
      *
+     * Unique identifier for comment
+     *
+     * The file in which the comment lives
+     *
+     * If present, the id of the comment to which this is the reply
+     *
      * A logical grouping of nodes
      *
      * A regular star shape
@@ -851,6 +859,12 @@ namespace quicktype {
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
      *
+     * Unique identifier for comment
+     *
+     * The file in which the comment lives
+     *
+     * If present, the id of the comment to which this is the reply
+     *
      * A logical grouping of nodes
      *
      * A regular star shape
@@ -1120,6 +1134,12 @@ namespace quicktype {
      *
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
+     *
+     * Unique identifier for comment
+     *
+     * The file in which the comment lives
+     *
+     * If present, the id of the comment to which this is the reply
      */
     struct Component {
         /**
@@ -1296,6 +1316,12 @@ namespace quicktype {
      *
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
+     *
+     * Unique identifier for comment
+     *
+     * The file in which the comment lives
+     *
+     * If present, the id of the comment to which this is the reply
      *
      * A logical grouping of nodes
      *
@@ -1560,6 +1586,12 @@ namespace quicktype {
      *
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
+     *
+     * Unique identifier for comment
+     *
+     * The file in which the comment lives
+     *
+     * If present, the id of the comment to which this is the reply
      */
     struct Document {
         /**
@@ -1587,9 +1619,21 @@ namespace quicktype {
     /**
      * GET /v1/files/:key
      *
+     * > Description
+     *
      * Returns the document refered to by :key as a JSON object. The file key can be parsed from
      * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
      * contains a Node of type DOCUMENT.
+     *
+     * The "components" key contains a mapping from node IDs to component metadata. This is to
+     * help you determine which components each instance comes from. Currently the only piece of
+     * metadata available on components is the name of the component, but more properties will
+     * be forthcoming.
+     *
+     * > Path parameters
+     *
+     * key String
+     * File to export JSON from
      */
     struct FileResponse {
         /**
@@ -1603,6 +1647,88 @@ namespace quicktype {
          */
         std::map<std::string, struct Component> components;
         double schema_version;
+    };
+
+    /**
+     * GET /v1/images/:key
+     *
+     * > Description
+     *
+     * If no error occurs, "images" will be populated with a map from node IDs to URLs of the
+     * rendered images, and "status" will be omitted.
+     *
+     * Important: the image map may contain values that are null. This indicates that rendering
+     * of that specific node has failed. This may be due to the node id not existing, or other
+     * reasons such has the node having no renderable components. It is guaranteed that any node
+     * that was requested for rendering will be represented in this map whether or not the
+     * render succeeded.
+     *
+     * > Path parameters
+     *
+     * key String
+     * File to export images from
+     *
+     * > Query parameters
+     *
+     * ids String
+     * A comma separated list of node IDs to render
+     *
+     * scale Number
+     * A number between 0.01 and 4, the image scaling factor
+     *
+     * format String
+     * A string enum for the image output format, can be "jpg", "png", or "svg"
+     */
+    struct ImageResponse {
+        std::map<std::string, std::string> images;
+        double status;
+        std::unique_ptr<std::string> err;
+    };
+
+    /**
+     * A description of a user
+     *
+     * The user who left the comment
+     */
+    struct User {
+        std::string handle;
+        std::string img_url;
+    };
+
+    /**
+     * A comment or reply left by a user
+     */
+    struct Comment {
+        /**
+         * Unique identifier for comment
+         */
+        std::string id;
+        /**
+         * The file in which the comment lives
+         */
+        std::string file_key;
+        /**
+         * If present, the id of the comment to which this is the reply
+         */
+        std::unique_ptr<std::string> parent_id;
+        /**
+         * The user who left the comment
+         */
+        struct User user;
+    };
+
+    /**
+     * GET /v1/files/:key/comments
+     *
+     * > Description
+     * A list of comments left on the file.
+     *
+     * > Path parameters
+     * key String
+     * File to get comments from
+     */
+    struct CommentsResponse {
+        std::vector<struct Comment> comments;
     };
     
     inline json get_untyped(const json &j, const char *property) {
@@ -2087,6 +2213,54 @@ namespace nlohmann {
         _j["document"] = _x.document;
         _j["components"] = _x.components;
         _j["schemaVersion"] = _x.schema_version;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::ImageResponse& _x) {
+        _x.images = _j.at("images").get<std::map<std::string, std::string>>();
+        _x.status = _j.at("status").get<double>();
+        _x.err = quicktype::get_optional<std::string>(_j, "err");
+    }
+
+    inline void to_json(json& _j, const struct quicktype::ImageResponse& _x) {
+        _j = json::object();
+        _j["images"] = _x.images;
+        _j["status"] = _x.status;
+        _j["err"] = _x.err;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::User& _x) {
+        _x.handle = _j.at("handle").get<std::string>();
+        _x.img_url = _j.at("img_url").get<std::string>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::User& _x) {
+        _j = json::object();
+        _j["handle"] = _x.handle;
+        _j["img_url"] = _x.img_url;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::Comment& _x) {
+        _x.id = _j.at("id").get<std::string>();
+        _x.file_key = _j.at("file_key").get<std::string>();
+        _x.parent_id = quicktype::get_optional<std::string>(_j, "parent_id");
+        _x.user = _j.at("user").get<struct quicktype::User>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::Comment& _x) {
+        _j = json::object();
+        _j["id"] = _x.id;
+        _j["file_key"] = _x.file_key;
+        _j["parent_id"] = _x.parent_id;
+        _j["user"] = _x.user;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::CommentsResponse& _x) {
+        _x.comments = _j.at("comments").get<std::vector<struct quicktype::Comment>>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::CommentsResponse& _x) {
+        _j = json::object();
+        _j["comments"] = _x.comments;
     }
 
     inline void from_json(const json& _j, quicktype::BlendMode& _x) {

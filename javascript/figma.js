@@ -3,6 +3,8 @@
 //   const Convert = require("./file");
 //
 //   const fileResponse = Convert.toFileResponse(json);
+//   const imageResponse = Convert.toImageResponse(json);
+//   const commentsResponse = Convert.toCommentsResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -14,6 +16,22 @@ function toFileResponse(json) {
 }
 
 function fileResponseToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function toImageResponse(json) {
+    return cast(JSON.parse(json), o("ImageResponse"));
+}
+
+function imageResponseToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function toCommentsResponse(json) {
+    return cast(JSON.parse(json), o("CommentsResponse"));
+}
+
+function commentsResponseToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
@@ -295,6 +313,24 @@ const typeMap = {
         styleOverrideTable: u(null, m(o("TypeStyle"))),
         componentId: u(null, ""),
     },
+    "ImageResponse": {
+        images: m(""),
+        status: 3.14,
+        err: u(null, ""),
+    },
+    "CommentsResponse": {
+        comments: a(o("Comment")),
+    },
+    "Comment": {
+        id: "",
+        file_key: "",
+        parent_id: u(null, ""),
+        user: o("User"),
+    },
+    "User": {
+        handle: "",
+        img_url: "",
+    },
     "BlendMode": [
         "COLOR",
         "COLOR_BURN",
@@ -409,4 +445,8 @@ const typeMap = {
 module.exports = {
     "fileResponseToJson": fileResponseToJson,
     "toFileResponse": toFileResponse,
+    "imageResponseToJson": imageResponseToJson,
+    "toImageResponse": toImageResponse,
+    "commentsResponseToJson": commentsResponseToJson,
+    "toCommentsResponse": toCommentsResponse,
 };

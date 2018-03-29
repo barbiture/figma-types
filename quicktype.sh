@@ -4,6 +4,9 @@ set -xe
 
 QUICKTYPE="quicktype --src-lang schema schema/endpoints.json --add-schema-top-level /definitions/"
 
+$QUICKTYPE -o swift/Figma.swift
+$QUICKTYPE -o swift-alamofire/Figma.swift --alamofire
+
 $QUICKTYPE -o csharp/Figma.cs
 $QUICKTYPE -o go/figma.go
 $QUICKTYPE -o rust/figma.rs
@@ -14,7 +17,3 @@ $QUICKTYPE -o typescript/figma.ts
 $QUICKTYPE -o javascript/figma.js
 $QUICKTYPE -o flow/figma.flow
 $QUICKTYPE -o elm/figma.elm
-
-
-$QUICKTYPE -o swift/Figma.swift
-$QUICKTYPE -o swift-alamofire/Figma.swift --alamofire

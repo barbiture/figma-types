@@ -1,8 +1,10 @@
 // To parse this data:
 //
-//   import { Convert, FileResponse } from "./file";
+//   import { Convert, FileResponse, ImageResponse, CommentsResponse } from "./file";
 //
 //   const fileResponse = Convert.toFileResponse(json);
+//   const imageResponse = Convert.toImageResponse(json);
+//   const commentsResponse = Convert.toCommentsResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -10,9 +12,21 @@
 /**
  * GET /v1/files/:key
  *
+ * > Description
+ *
  * Returns the document refered to by :key as a JSON object. The file key can be parsed from
  * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
  * contains a Node of type DOCUMENT.
+ *
+ * The "components" key contains a mapping from node IDs to component metadata. This is to
+ * help you determine which components each instance comes from. Currently the only piece of
+ * metadata available on components is the name of the component, but more properties will
+ * be forthcoming.
+ *
+ * > Path parameters
+ *
+ * key String
+ * File to export JSON from
  */
 export interface FileResponse {
     /**
@@ -134,6 +148,12 @@ export interface FileResponse {
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
  */
 export interface Component {
     /**
@@ -403,6 +423,12 @@ export enum BlendMode {
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
  *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ *
  * A logical grouping of nodes
  *
  * A regular star shape
@@ -666,6 +692,12 @@ export interface Node1 {
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
  *
  * A logical grouping of nodes
  *
@@ -1404,6 +1436,12 @@ export enum NodeType {
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
  */
 export interface Document {
     /**
@@ -1528,6 +1566,12 @@ export interface Document {
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
  *
  * A logical grouping of nodes
  *
@@ -1692,6 +1736,88 @@ export interface Node2 {
     componentId?: string;
 }
 
+/**
+ * GET /v1/images/:key
+ *
+ * > Description
+ *
+ * If no error occurs, "images" will be populated with a map from node IDs to URLs of the
+ * rendered images, and "status" will be omitted.
+ *
+ * Important: the image map may contain values that are null. This indicates that rendering
+ * of that specific node has failed. This may be due to the node id not existing, or other
+ * reasons such has the node having no renderable components. It is guaranteed that any node
+ * that was requested for rendering will be represented in this map whether or not the
+ * render succeeded.
+ *
+ * > Path parameters
+ *
+ * key String
+ * File to export images from
+ *
+ * > Query parameters
+ *
+ * ids String
+ * A comma separated list of node IDs to render
+ *
+ * scale Number
+ * A number between 0.01 and 4, the image scaling factor
+ *
+ * format String
+ * A string enum for the image output format, can be "jpg", "png", or "svg"
+ */
+export interface ImageResponse {
+    images: { [key: string]: string };
+    status: number;
+    err?:   string;
+}
+
+/**
+ * GET /v1/files/:key/comments
+ *
+ * > Description
+ * A list of comments left on the file.
+ *
+ * > Path parameters
+ * key String
+ * File to get comments from
+ */
+export interface CommentsResponse {
+    comments: Comment[];
+}
+
+/**
+ * A comment or reply left by a user
+ */
+export interface Comment {
+    /**
+     * Unique identifier for comment
+     */
+    id: string;
+    /**
+     * The file in which the comment lives
+     */
+    file_key: string;
+    /**
+     * If present, the id of the comment to which this is the reply
+     */
+    parent_id?: string;
+    /**
+     * The user who left the comment
+     */
+    user: User;
+}
+
+/**
+ * A description of a user
+ *
+ * The user who left the comment
+ */
+export interface User {
+    handle:  string;
+    img_url: string;
+}
+
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
@@ -1700,6 +1826,22 @@ export module Convert {
     }
 
     export function fileResponseToJson(value: FileResponse): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toImageResponse(json: string): ImageResponse {
+        return cast(JSON.parse(json), o("ImageResponse"));
+    }
+
+    export function imageResponseToJson(value: ImageResponse): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toCommentsResponse(json: string): CommentsResponse {
+        return cast(JSON.parse(json), o("CommentsResponse"));
+    }
+
+    export function commentsResponseToJson(value: CommentsResponse): string {
         return JSON.stringify(value, null, 2);
     }
     
@@ -1980,6 +2122,24 @@ export module Convert {
             characterStyleOverrides: u(null, a(3.14)),
             styleOverrideTable: u(null, m(o("TypeStyle"))),
             componentId: u(null, ""),
+        },
+        "ImageResponse": {
+            images: m(""),
+            status: 3.14,
+            err: u(null, ""),
+        },
+        "CommentsResponse": {
+            comments: a(o("Comment")),
+        },
+        "Comment": {
+            id: "",
+            file_key: "",
+            parent_id: u(null, ""),
+            user: o("User"),
+        },
+        "User": {
+            handle: "",
+            img_url: "",
         },
         "BlendMode": [
             "COLOR",

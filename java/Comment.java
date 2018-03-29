@@ -10,7 +10,7 @@ public class Comment {
     private String id;
     private String fileKey;
     private String parentID;
-    private CommentUser user;
+    private User user;
 
     /**
      * Unique identifier for comment
@@ -40,7 +40,7 @@ public class Comment {
      * The user who left the comment
      */
     @JsonProperty("user")
-    public CommentUser getUser() { return user; }
+    public User getUser() { return user; }
     @JsonProperty("user")
-    public void setUser(CommentUser value) { this.user = value; }
+    public void setUser(User value) { this.user = value; }
 }

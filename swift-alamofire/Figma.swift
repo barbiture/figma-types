@@ -1,11 +1,25 @@
 // To parse the JSON, add this file to your project and do:
 //
 //   let fileResponse = try FileResponse(json)
+//   let imageResponse = try ImageResponse(json)
+//   let commentsResponse = try CommentsResponse(json)
 //
 // To parse values from Alamofire responses:
 //
 //   Alamofire.request(url).responseFileResponse { response in
 //     if let fileResponse = response.result.value {
+//       ...
+//     }
+//   }
+//
+//   Alamofire.request(url).responseImageResponse { response in
+//     if let imageResponse = response.result.value {
+//       ...
+//     }
+//   }
+//
+//   Alamofire.request(url).responseCommentsResponse { response in
+//     if let commentsResponse = response.result.value {
 //       ...
 //     }
 //   }
@@ -15,9 +29,21 @@ import Alamofire
 
 /// GET /v1/files/:key
 ///
+/// > Description
+///
 /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
 /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 /// contains a Node of type DOCUMENT.
+///
+/// The "components" key contains a mapping from node IDs to component metadata. This is to
+/// help you determine which components each instance comes from. Currently the only piece of
+/// metadata available on components is the name of the component, but more properties will
+/// be forthcoming.
+///
+/// > Path parameters
+///
+/// key String
+/// File to export JSON from
 struct FileResponse: Codable {
     /// The root node within the document
     let document: Document
@@ -133,6 +159,12 @@ struct FileResponse: Codable {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 struct Component: Codable {
     /// A string uniquely identifying this node within the document
     let id: String
@@ -344,6 +376,12 @@ enum BlendMode: String, Codable {
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 ///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
+///
 /// A logical grouping of nodes
 ///
 /// A regular star shape
@@ -550,6 +588,12 @@ struct PurpleNode: Codable {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 ///
 /// A logical grouping of nodes
 ///
@@ -1101,6 +1145,12 @@ enum NodeType: String, Codable {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
 struct Document: Codable {
     /// A string uniquely identifying this node within the document
     let id: String
@@ -1214,6 +1264,12 @@ struct Document: Codable {
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 ///
+/// Unique identifier for comment
+///
+/// The file in which the comment lives
+///
+/// If present, the id of the comment to which this is the reply
+///
 /// A logical grouping of nodes
 ///
 /// A regular star shape
@@ -1321,6 +1377,83 @@ struct FluffyNode: Codable {
     }
 }
 
+/// GET /v1/images/:key
+///
+/// > Description
+///
+/// If no error occurs, "images" will be populated with a map from node IDs to URLs of the
+/// rendered images, and "status" will be omitted.
+///
+/// Important: the image map may contain values that are null. This indicates that rendering
+/// of that specific node has failed. This may be due to the node id not existing, or other
+/// reasons such has the node having no renderable components. It is guaranteed that any node
+/// that was requested for rendering will be represented in this map whether or not the
+/// render succeeded.
+///
+/// > Path parameters
+///
+/// key String
+/// File to export images from
+///
+/// > Query parameters
+///
+/// ids String
+/// A comma separated list of node IDs to render
+///
+/// scale Number
+/// A number between 0.01 and 4, the image scaling factor
+///
+/// format String
+/// A string enum for the image output format, can be "jpg", "png", or "svg"
+struct ImageResponse: Codable {
+    let images: [String: String]
+    let status: Double
+    let err: String?
+}
+
+/// GET /v1/files/:key/comments
+///
+/// > Description
+/// A list of comments left on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
+struct CommentsResponse: Codable {
+    let comments: [Comment]
+}
+
+/// A comment or reply left by a user
+struct Comment: Codable {
+    /// Unique identifier for comment
+    let id: String
+    /// The file in which the comment lives
+    let fileKey: String
+    /// If present, the id of the comment to which this is the reply
+    let parentID: String?
+    /// The user who left the comment
+    let user: User
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case fileKey = "file_key"
+        case parentID = "parent_id"
+        case user
+    }
+}
+
+/// A description of a user
+///
+/// The user who left the comment
+struct User: Codable {
+    let handle, imgURL: String
+
+    enum CodingKeys: String, CodingKey {
+        case handle
+        case imgURL = "img_url"
+    }
+}
+
 // MARK: - Alamofire response handlers
 
 extension DataRequest {
@@ -1343,6 +1476,16 @@ extension DataRequest {
 
     @discardableResult
     func responseFileResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<FileResponse>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    func responseImageResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ImageResponse>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    func responseCommentsResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<CommentsResponse>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }
@@ -1752,6 +1895,106 @@ extension Document {
 extension FluffyNode {
     init(data: Data) throws {
         self = try JSONDecoder().decode(FluffyNode.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension ImageResponse {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(ImageResponse.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension CommentsResponse {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(CommentsResponse.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension Comment {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(Comment.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension User {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(User.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
