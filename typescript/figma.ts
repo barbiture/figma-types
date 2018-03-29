@@ -1,9 +1,11 @@
 // To parse this data:
 //
-//   import { Convert, Comment, User } from "./file";
+//   import { Convert, Comment, User, Color, Constraint } from "./file";
 //
 //   const comment = Convert.toComment(json);
 //   const user = Convert.toUser(json);
+//   const color = Convert.toColor(json);
+//   const constraint = Convert.toConstraint(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -48,6 +50,59 @@ export interface User {
     img_url: string;
 }
 
+/**
+ * An RGBA color
+ */
+export interface Color {
+    /**
+     * Red channel value, between 0 and 1
+     */
+    r: number;
+    /**
+     * Green channel value, between 0 and 1
+     */
+    g: number;
+    /**
+     * Blue channel value, between 0 and 1
+     */
+    b: number;
+    /**
+     * Alpha channel value, between 0 and 1
+     */
+    a: number;
+}
+
+/**
+ * Sizing constraint for exports
+ */
+export interface Constraint {
+    /**
+     * Type of constraint to apply; string enum with potential values below
+     *
+     * * "SCALE": Scale by value
+     * * "WIDTH": Scale proportionally and set width to value
+     * * "HEIGHT": Scale proportionally and set height to value
+     */
+    type: Type;
+    /**
+     * See type property for effect of this field
+     */
+    value?: number;
+}
+
+/**
+ * Type of constraint to apply; string enum with potential values below
+ *
+ * * "SCALE": Scale by value
+ * * "WIDTH": Scale proportionally and set width to value
+ * * "HEIGHT": Scale proportionally and set height to value
+ */
+export enum Type {
+    Height = "HEIGHT",
+    Scale = "SCALE",
+    Width = "WIDTH",
+}
+
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
@@ -64,6 +119,22 @@ export module Convert {
     }
 
     export function userToJson(value: User): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toColor(json: string): Color {
+        return cast(JSON.parse(json), o("Color"));
+    }
+
+    export function colorToJson(value: Color): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toConstraint(json: string): Constraint {
+        return cast(JSON.parse(json), o("Constraint"));
+    }
+
+    export function constraintToJson(value: Constraint): string {
         return JSON.stringify(value, null, 2);
     }
     
@@ -159,5 +230,20 @@ export module Convert {
             handle: "",
             img_url: "",
         },
+        "Color": {
+            r: 3.14,
+            g: 3.14,
+            b: 3.14,
+            a: 3.14,
+        },
+        "Constraint": {
+            type: e("Type"),
+            value: u(null, 3.14),
+        },
+        "Type": [
+            "HEIGHT",
+            "SCALE",
+            "WIDTH",
+        ],
     };
 }

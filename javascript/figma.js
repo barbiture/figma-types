@@ -4,6 +4,8 @@
 //
 //   const comment = Convert.toComment(json);
 //   const user = Convert.toUser(json);
+//   const color = Convert.toColor(json);
+//   const constraint = Convert.toConstraint(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -23,6 +25,22 @@ function toUser(json) {
 }
 
 function userToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function toColor(json) {
+    return cast(JSON.parse(json), o("Color"));
+}
+
+function colorToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function toConstraint(json) {
+    return cast(JSON.parse(json), o("Constraint"));
+}
+
+function constraintToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
@@ -118,6 +136,21 @@ const typeMap = {
         handle: "",
         img_url: "",
     },
+    "Color": {
+        r: 3.14,
+        g: 3.14,
+        b: 3.14,
+        a: 3.14,
+    },
+    "Constraint": {
+        type: e("Type"),
+        value: u(null, 3.14),
+    },
+    "Type": [
+        "HEIGHT",
+        "SCALE",
+        "WIDTH",
+    ],
 };
 
 module.exports = {
@@ -125,4 +158,8 @@ module.exports = {
     "toComment": toComment,
     "userToJson": userToJson,
     "toUser": toUser,
+    "colorToJson": colorToJson,
+    "toColor": toColor,
+    "constraintToJson": constraintToJson,
+    "toConstraint": toConstraint,
 };

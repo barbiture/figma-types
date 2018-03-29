@@ -26,7 +26,6 @@
       "required": ["id", "file_key", "user"]
     },
     "User": {
-      "title": "User",
       "type": "object",
       "description": "A description of a user",
       "properties": {
@@ -34,6 +33,45 @@
         "img_url": { "type": "string" }
       },
       "required": ["handle", "img_url"]
+    },
+    "Color": {
+      "type": "object",
+      "description": "An RGBA color",
+      "properties": {
+        "r": {
+          "type": "number",
+          "description": "Red channel value, between 0 and 1"
+        },
+        "g": {
+          "type": "number",
+          "description": "Green channel value, between 0 and 1"
+        },
+        "b": {
+          "type": "number",
+          "description": "Blue channel value, between 0 and 1"
+        },
+        "a": {
+          "type": "number",
+          "description": "Alpha channel value, between 0 and 1"
+        }
+      },
+      "required": ["r", "g", "b", "a"]
+    },
+    "Constraint": {
+      "type": "object",
+      "description": "Sizing constraint for exports",
+      "properties": {
+        "type": {
+          "enum": ["SCALE", "WIDTH", "HEIGHT"],
+          "description":
+            "Type of constraint to apply; string enum with potential values below\n\n  * \"SCALE\": Scale by value\n  * \"WIDTH\": Scale proportionally and set width to value\n  * \"HEIGHT\": Scale proportionally and set height to value"
+        },
+        "value": {
+          "type": "number",
+          "description": "See type property for effect of this field"
+        }
+      },
+      "required": ["type"]
     }
   }
 }

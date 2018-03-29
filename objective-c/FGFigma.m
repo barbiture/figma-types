@@ -23,6 +23,45 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
+@interface QTColor (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface QTConstraint (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@implementation QTType
++ (NSDictionary<NSString *, QTType *> *)values
+{
+    static NSDictionary<NSString *, QTType *> *values;
+    return values = values ? values : @{
+        @"HEIGHT": [[QTType alloc] initWithValue:@"HEIGHT"],
+        @"SCALE": [[QTType alloc] initWithValue:@"SCALE"],
+        @"WIDTH": [[QTType alloc] initWithValue:@"WIDTH"],
+    };
+}
+
++ (QTType *)height { return QTType.values[@"HEIGHT"]; }
++ (QTType *)scale { return QTType.values[@"SCALE"]; }
++ (QTType *)width { return QTType.values[@"WIDTH"]; }
+
++ (instancetype _Nullable)withValue:(NSString *)value
+{
+    return QTType.values[value];
+}
+
+- (instancetype)initWithValue:(NSString *)value
+{
+    if (self = [super init]) _value = value;
+    return self;
+}
+
+- (NSUInteger)hash { return _value.hash; }
+@end
+
 #pragma mark - JSON serialization
 
 QTComment *_Nullable QTCommentFromData(NSData *data, NSError **error)
@@ -90,6 +129,74 @@ NSData *_Nullable QTUserToData(QTUser *user, NSError **error)
 NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSError **error)
 {
     NSData *data = QTUserToData(user, error);
+    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
+}
+
+QTColor *_Nullable QTColorFromData(NSData *data, NSError **error)
+{
+    @try {
+        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
+        return *error ? nil : [QTColor fromJSONDictionary:json];
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+QTColor *_Nullable QTColorFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+{
+    return QTColorFromData([json dataUsingEncoding:encoding], error);
+}
+
+NSData *_Nullable QTColorToData(QTColor *color, NSError **error)
+{
+    @try {
+        id json = [color JSONDictionary];
+        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
+        return *error ? nil : data;
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+NSString *_Nullable QTColorToJSON(QTColor *color, NSStringEncoding encoding, NSError **error)
+{
+    NSData *data = QTColorToData(color, error);
+    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
+}
+
+QTConstraint *_Nullable QTConstraintFromData(NSData *data, NSError **error)
+{
+    @try {
+        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
+        return *error ? nil : [QTConstraint fromJSONDictionary:json];
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+QTConstraint *_Nullable QTConstraintFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+{
+    return QTConstraintFromData([json dataUsingEncoding:encoding], error);
+}
+
+NSData *_Nullable QTConstraintToData(QTConstraint *constraint, NSError **error)
+{
+    @try {
+        id json = [constraint JSONDictionary];
+        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
+        return *error ? nil : data;
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+NSString *_Nullable QTConstraintToJSON(QTConstraint *constraint, NSStringEncoding encoding, NSError **error)
+{
+    NSData *data = QTConstraintToData(constraint, error);
     return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
 }
 
@@ -269,6 +376,113 @@ NSString *_Nullable QTUserToJSON(QTUser *user, NSStringEncoding encoding, NSErro
 - (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
 {
     return QTUserToJSON(self, encoding, error);
+}
+@end
+
+@implementation QTColor
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"r": @"r",
+        @"g": @"g",
+        @"b": @"b",
+        @"a": @"a",
+    };
+}
+
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
+{
+    return QTColorFromData(data, error);
+}
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTColorFromJSON(json, encoding, error);
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTColor alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    return [self dictionaryWithValuesForKeys:QTColor.properties.allValues];
+}
+
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error
+{
+    return QTColorToData(self, error);
+}
+
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTColorToJSON(self, encoding, error);
+}
+@end
+
+@implementation QTConstraint
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"type": @"type",
+        @"value": @"value",
+    };
+}
+
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
+{
+    return QTConstraintFromData(data, error);
+}
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTConstraintFromJSON(json, encoding, error);
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[QTConstraint alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _type = [QTType withValue:(id)_type];
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:QTConstraint.properties.allValues] mutableCopy];
+
+    [dict addEntriesFromDictionary:@{
+        @"type": [_type value],
+    }];
+
+    return dict;
+}
+
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error
+{
+    return QTConstraintToData(self, error);
+}
+
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return QTConstraintToJSON(self, encoding, error);
 }
 @end
 

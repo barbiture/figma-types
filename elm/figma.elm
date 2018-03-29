@@ -5,12 +5,14 @@
 -- add these imports
 --
 --     import Json.Decode exposing (decodeString)`);
---     import QuickType exposing (comment, user)
+--     import QuickType exposing (comment, user, color, constraint)
 --
 -- and you're off to the races with
 --
 --     decodeString comment myJsonString
 --     decodeString user myJsonString
+--     decodeString color myJsonString
+--     decodeString constraint myJsonString
 
 module QuickType exposing
     ( Comment
@@ -19,7 +21,14 @@ module QuickType exposing
     , User
     , userToString
     , user
+    , Color
+    , colorToString
+    , color
+    , Constraint
+    , constraintToString
+    , constraint
     , CommentUser
+    , Type(..)
     )
 
 import Json.Decode as Jdec
@@ -64,6 +73,55 @@ type alias User =
     , imgURL : String
     }
 
+{-| An RGBA color
+
+r:
+Red channel value, between 0 and 1
+
+g:
+Green channel value, between 0 and 1
+
+b:
+Blue channel value, between 0 and 1
+
+a:
+Alpha channel value, between 0 and 1
+-}
+type alias Color =
+    { r : Float
+    , g : Float
+    , b : Float
+    , a : Float
+    }
+
+{-| Sizing constraint for exports
+
+constraintType:
+Type of constraint to apply; string enum with potential values below
+
+* "SCALE": Scale by value
+* "WIDTH": Scale proportionally and set width to value
+* "HEIGHT": Scale proportionally and set height to value
+
+value:
+See type property for effect of this field
+-}
+type alias Constraint =
+    { constraintType : Type
+    , value : Maybe Float
+    }
+
+{-| Type of constraint to apply; string enum with potential values below
+
+* "SCALE": Scale by value
+* "WIDTH": Scale proportionally and set width to value
+* "HEIGHT": Scale proportionally and set height to value
+-}
+type Type
+    = Height
+    | Scale
+    | Width
+
 -- decoders and encoders
 
 commentToString : Comment -> String
@@ -71,6 +129,12 @@ commentToString r = Jenc.encode 0 (encodeComment r)
 
 userToString : User -> String
 userToString r = Jenc.encode 0 (encodeUser r)
+
+colorToString : Color -> String
+colorToString r = Jenc.encode 0 (encodeColor r)
+
+constraintToString : Constraint -> String
+constraintToString r = Jenc.encode 0 (encodeConstraint r)
 
 comment : Jdec.Decoder Comment
 comment =
@@ -114,6 +178,53 @@ encodeUser x =
         [ ("handle", Jenc.string x.handle)
         , ("img_url", Jenc.string x.imgURL)
         ]
+
+color : Jdec.Decoder Color
+color =
+    Jpipe.decode Color
+        |> Jpipe.required "r" Jdec.float
+        |> Jpipe.required "g" Jdec.float
+        |> Jpipe.required "b" Jdec.float
+        |> Jpipe.required "a" Jdec.float
+
+encodeColor : Color -> Jenc.Value
+encodeColor x =
+    Jenc.object
+        [ ("r", Jenc.float x.r)
+        , ("g", Jenc.float x.g)
+        , ("b", Jenc.float x.b)
+        , ("a", Jenc.float x.a)
+        ]
+
+constraint : Jdec.Decoder Constraint
+constraint =
+    Jpipe.decode Constraint
+        |> Jpipe.required "type" purpleType
+        |> Jpipe.optional "value" (Jdec.nullable Jdec.float) Nothing
+
+encodeConstraint : Constraint -> Jenc.Value
+encodeConstraint x =
+    Jenc.object
+        [ ("type", encodeType x.constraintType)
+        , ("value", makeNullableEncoder Jenc.float x.value)
+        ]
+
+purpleType : Jdec.Decoder Type
+purpleType =
+    Jdec.string
+        |> Jdec.andThen (\str ->
+            case str of
+                "HEIGHT" -> Jdec.succeed Height
+                "SCALE" -> Jdec.succeed Scale
+                "WIDTH" -> Jdec.succeed Width
+                somethingElse -> Jdec.fail <| "Invalid Type: " ++ somethingElse
+        )
+
+encodeType : Type -> Jenc.Value
+encodeType x = case x of
+    Height -> Jenc.string "HEIGHT"
+    Scale -> Jenc.string "SCALE"
+    Width -> Jenc.string "WIDTH"
 
 --- encoder helpers
 

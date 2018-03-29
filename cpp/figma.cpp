@@ -7,9 +7,11 @@
 //
 //     Comment data = nlohmann::json::parse(jsonString);
 //     User data = nlohmann::json::parse(jsonString);
+//     Color data = nlohmann::json::parse(jsonString);
+//     Constraint data = nlohmann::json::parse(jsonString);
 
-#ifndef __QUICKTYPE_COMMENT_USER_HPP__
-#define __QUICKTYPE_COMMENT_USER_HPP__
+#ifndef __QUICKTYPE_COMMENT_USER_COLOR_CONSTRAINT_HPP__
+#define __QUICKTYPE_COMMENT_USER_COLOR_CONSTRAINT_HPP__
 
 #include "json.hpp"
 
@@ -54,6 +56,55 @@ namespace quicktype {
     struct User {
         std::string handle;
         std::string img_url;
+    };
+
+    /**
+     * An RGBA color
+     */
+    struct Color {
+        /**
+         * Red channel value, between 0 and 1
+         */
+        double r;
+        /**
+         * Green channel value, between 0 and 1
+         */
+        double g;
+        /**
+         * Blue channel value, between 0 and 1
+         */
+        double b;
+        /**
+         * Alpha channel value, between 0 and 1
+         */
+        double a;
+    };
+
+    /**
+     * Type of constraint to apply; string enum with potential values below
+     *
+     * * "SCALE": Scale by value
+     * * "WIDTH": Scale proportionally and set width to value
+     * * "HEIGHT": Scale proportionally and set height to value
+     */
+    enum class Type { HEIGHT, SCALE, WIDTH };
+
+    /**
+     * Sizing constraint for exports
+     */
+    struct Constraint {
+        /**
+         * Type of constraint to apply; string enum with potential values below
+         *
+         * * "SCALE": Scale by value
+         * * "WIDTH": Scale proportionally and set width to value
+         * * "HEIGHT": Scale proportionally and set height to value
+         */
+        Type type;
+        /**
+         * See type property for effect of this field
+         */
+        std::unique_ptr<double> value;
     };
     
     inline json get_untyped(const json &j, const char *property) {
@@ -124,6 +175,48 @@ namespace nlohmann {
         _j = json::object();
         _j["handle"] = _x.handle;
         _j["img_url"] = _x.img_url;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::Color& _x) {
+        _x.r = _j.at("r").get<double>();
+        _x.g = _j.at("g").get<double>();
+        _x.b = _j.at("b").get<double>();
+        _x.a = _j.at("a").get<double>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::Color& _x) {
+        _j = json::object();
+        _j["r"] = _x.r;
+        _j["g"] = _x.g;
+        _j["b"] = _x.b;
+        _j["a"] = _x.a;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::Constraint& _x) {
+        _x.type = _j.at("type").get<quicktype::Type>();
+        _x.value = quicktype::get_optional<double>(_j, "value");
+    }
+
+    inline void to_json(json& _j, const struct quicktype::Constraint& _x) {
+        _j = json::object();
+        _j["type"] = _x.type;
+        _j["value"] = _x.value;
+    }
+
+    inline void from_json(const json& _j, quicktype::Type& _x) {
+        if (_j == "HEIGHT") _x = quicktype::Type::HEIGHT;
+        else if (_j == "SCALE") _x = quicktype::Type::SCALE;
+        else if (_j == "WIDTH") _x = quicktype::Type::WIDTH;
+        else throw "Input JSON does not conform to schema";
+    }
+
+    inline void to_json(json& _j, const quicktype::Type& _x) {
+        switch (_x) {
+            case quicktype::Type::HEIGHT: _j = "HEIGHT"; break;
+            case quicktype::Type::SCALE: _j = "SCALE"; break;
+            case quicktype::Type::WIDTH: _j = "WIDTH"; break;
+            default: throw "This should not happen";
+        }
     }
 }
 

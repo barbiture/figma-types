@@ -10,6 +10,8 @@
 //
 //     Comment data = Converter.CommentFromJsonString(jsonString);
 //     User data = Converter.UserFromJsonString(jsonString);
+//     Color data = Converter.ColorFromJsonString(jsonString);
+//     Constraint data = Converter.ConstraintFromJsonString(jsonString);
 
 package io.quicktype;
 
@@ -35,6 +37,22 @@ public class Converter {
 
     public static String UserToJsonString(User obj) throws JsonProcessingException {
         return getUserObjectWriter().writeValueAsString(obj);
+    }
+
+    public static Color ColorFromJsonString(String json) throws IOException {
+        return getColorObjectReader().readValue(json);
+    }
+
+    public static String ColorToJsonString(Color obj) throws JsonProcessingException {
+        return getColorObjectWriter().writeValueAsString(obj);
+    }
+
+    public static Constraint ConstraintFromJsonString(String json) throws IOException {
+        return getConstraintObjectReader().readValue(json);
+    }
+
+    public static String ConstraintToJsonString(Constraint obj) throws JsonProcessingException {
+        return getConstraintObjectWriter().writeValueAsString(obj);
     }
 
     private static ObjectReader CommentReader;
@@ -73,5 +91,43 @@ public class Converter {
     private static ObjectWriter getUserObjectWriter() {
         if (UserWriter == null) instantiateMapper();
         return UserWriter;
+    }
+
+    private static ObjectReader ColorReader;
+    private static ObjectWriter ColorWriter;
+
+    private static void instantiateColorMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        ColorReader = mapper.reader(Color.class);
+        ColorWriter = mapper.writerFor(Color.class);
+    }
+
+    private static ObjectReader getColorObjectReader() {
+        if (ColorReader == null) instantiateMapper();
+        return ColorReader;
+    }
+
+    private static ObjectWriter getColorObjectWriter() {
+        if (ColorWriter == null) instantiateMapper();
+        return ColorWriter;
+    }
+
+    private static ObjectReader ConstraintReader;
+    private static ObjectWriter ConstraintWriter;
+
+    private static void instantiateConstraintMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        ConstraintReader = mapper.reader(Constraint.class);
+        ConstraintWriter = mapper.writerFor(Constraint.class);
+    }
+
+    private static ObjectReader getConstraintObjectReader() {
+        if (ConstraintReader == null) instantiateMapper();
+        return ConstraintReader;
+    }
+
+    private static ObjectWriter getConstraintObjectWriter() {
+        if (ConstraintWriter == null) instantiateMapper();
+        return ConstraintWriter;
     }
 }

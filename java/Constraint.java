@@ -1,0 +1,32 @@
+package io.quicktype;
+
+import java.util.Map;
+import com.fasterxml.jackson.annotation.*;
+
+/**
+ * Sizing constraint for exports
+ */
+public class Constraint {
+    private Type type;
+    private Double value;
+
+    /**
+     * Type of constraint to apply; string enum with potential values below
+     *
+     * * "SCALE": Scale by value
+     * * "WIDTH": Scale proportionally and set width to value
+     * * "HEIGHT": Scale proportionally and set height to value
+     */
+    @JsonProperty("type")
+    public Type getType() { return type; }
+    @JsonProperty("type")
+    public void setType(Type value) { this.type = value; }
+
+    /**
+     * See type property for effect of this field
+     */
+    @JsonProperty("value")
+    public Double getValue() { return value; }
+    @JsonProperty("value")
+    public void setValue(Double value) { this.value = value; }
+}

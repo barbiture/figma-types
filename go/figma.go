@@ -5,6 +5,12 @@
 //
 //    user, err := UnmarshalUser(bytes)
 //    bytes, err = user.Marshal()
+//
+//    color, err := UnmarshalColor(bytes)
+//    bytes, err = color.Marshal()
+//
+//    constraint, err := UnmarshalConstraint(bytes)
+//    bytes, err = constraint.Marshal()
 
 package main
 
@@ -30,6 +36,26 @@ func (r *User) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
+func UnmarshalColor(data []byte) (Color, error) {
+	var r Color
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *Color) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+func UnmarshalConstraint(data []byte) (Constraint, error) {
+	var r Constraint
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *Constraint) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
 // A comment or reply left by a user
 type Comment struct {
 	ID       string      `json:"id"`       // Unique identifier for comment
@@ -51,3 +77,29 @@ type User struct {
 	Handle string `json:"handle"` 
 	ImgURL string `json:"img_url"`
 }
+
+// An RGBA color
+type Color struct {
+	R float64 `json:"r"`// Red channel value, between 0 and 1
+	G float64 `json:"g"`// Green channel value, between 0 and 1
+	B float64 `json:"b"`// Blue channel value, between 0 and 1
+	A float64 `json:"a"`// Alpha channel value, between 0 and 1
+}
+
+// Sizing constraint for exports
+type Constraint struct {
+	Type  Type     `json:"type"` // Type of constraint to apply; string enum with potential values below; ; * "SCALE": Scale by value; * "WIDTH": Scale proportionally and set width to value; * "HEIGHT": Scale proportionally and set height to value
+	Value *float64 `json:"value"`// See type property for effect of this field
+}
+
+// Type of constraint to apply; string enum with potential values below
+//
+// * "SCALE": Scale by value
+// * "WIDTH": Scale proportionally and set width to value
+// * "HEIGHT": Scale proportionally and set height to value
+type Type string
+const (
+	Height Type = "HEIGHT"
+	Scale Type = "SCALE"
+	Width Type = "WIDTH"
+)
