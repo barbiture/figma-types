@@ -1,7 +1,95 @@
 {
+  "$schema": "http://json-schema.org/schema",
   "definitions": {
+    "Global": {
+      "type": "object",
+      "description": "Properties are shared across all nodes",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description":
+            "A string uniquely identifying this node within the document"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name given to the node by the user in the tool"
+        },
+        "visible": {
+          "type": "boolean",
+          "description": "Whether or not the node is visible on the canvas"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the node",
+          "enum": [
+            "DOCUMENT",
+            "CANVAS",
+            "FRAME",
+            "GROUP",
+            "VECTOR",
+            "BOOLEAN",
+            "STAR",
+            "LINE",
+            "ELLIPSE",
+            "REGULAR_POLYGON",
+            "RECTANGLE",
+            "TEXT",
+            "SLICE",
+            "COMPONENT",
+            "INSTANCE"
+          ]
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "Node": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/definitions/Document" },
+        { "$ref": "#/definitions/Canvas" }
+      ]
+    },
+    "Document": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/Global" },
+        {
+          "properties": {
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Node"
+              },
+              "description": "An array of canvases attached to the document"
+            }
+          }
+        }
+      ],
+      "required": ["children"]
+    },
+    "Canvas": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/Global" },
+        {
+          "properties": {
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Node"
+              },
+              "description": "An array of top level layers on the canvas"
+            },
+            "backgroundColor": {
+              "$ref": "#/definitions/Color",
+              "description": "Background color of the canvas"
+            }
+          }
+        }
+      ],
+      "required": ["children", "backgroundColor"]
+    },
     "Comment": {
-      "title": "Comment",
       "type": "object",
       "description": "A comment or reply left by a user",
       "properties": {
@@ -72,6 +160,36 @@
         }
       },
       "required": ["type"]
+    },
+    "BlendMode": {
+      "type": "string",
+      "description": "Enum describing how layer blends with layers below",
+      "enum": [
+        "PASS_THROUGH",
+        "NORMAL",
+
+        "DARKEN",
+        "MULTIPLY",
+        "LINEAR_BURN",
+        "COLOR_BURN",
+
+        "LIGHTEN",
+        "SCREEN",
+        "LINEAR_DODGE",
+        "COLOR_DODGE",
+
+        "OVERLAY",
+        "SOFT_LIGHT",
+        "HARD_LIGHT",
+
+        "DIFFERENCE",
+        "EXCLUSION",
+
+        "HUE",
+        "SATURATION",
+        "COLOR",
+        "LUMINOSITY"
+      ]
     }
   }
 }

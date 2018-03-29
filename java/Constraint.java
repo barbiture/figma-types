@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.*;
  * Sizing constraint for exports
  */
 public class Constraint {
-    private Type type;
+    private ConstraintType type;
     private Double value;
 
     /**
@@ -18,9 +18,9 @@ public class Constraint {
      * * "HEIGHT": Scale proportionally and set height to value
      */
     @JsonProperty("type")
-    public Type getType() { return type; }
+    public ConstraintType getType() { return type; }
     @JsonProperty("type")
-    public void setType(Type value) { this.type = value; }
+    public void setType(ConstraintType value) { this.type = value; }
 
     /**
      * See type property for effect of this field

@@ -1,14 +1,504 @@
 // To parse this data:
 //
-//   import { Convert, Comment, User, Color, Constraint } from "./file";
+//   import { Convert, Node, Color, Global, User, BlendMode, Canvas, Document, Constraint, Comment } from "./file";
 //
-//   const comment = Convert.toComment(json);
-//   const user = Convert.toUser(json);
+//   const node = Convert.toNode(json);
 //   const color = Convert.toColor(json);
+//   const global = Convert.toGlobal(json);
+//   const user = Convert.toUser(json);
+//   const blendMode = Convert.toBlendMode(json);
+//   const canvas = Convert.toCanvas(json);
+//   const document = Convert.toDocument(json);
 //   const constraint = Convert.toConstraint(json);
+//   const comment = Convert.toComment(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
+
+/**
+ * An array of canvases attached to the document
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export interface Node {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible?: boolean;
+    /**
+     * The type of the node
+     */
+    type?: NodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     */
+    backgroundColor?: NodeColor;
+}
+
+/**
+ * An RGBA color
+ *
+ * Background color of the canvas
+ */
+export interface NodeColor {
+    /**
+     * Red channel value, between 0 and 1
+     */
+    r: number;
+    /**
+     * Green channel value, between 0 and 1
+     */
+    g: number;
+    /**
+     * Blue channel value, between 0 and 1
+     */
+    b: number;
+    /**
+     * Alpha channel value, between 0 and 1
+     */
+    a: number;
+}
+
+/**
+ * An array of canvases attached to the document
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ *
+ * An array of top level layers on the canvas
+ */
+export interface NodeNode {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible?: boolean;
+    /**
+     * The type of the node
+     */
+    type?: NodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     */
+    backgroundColor?: NodeColor;
+}
+
+/**
+ * The type of the node
+ */
+export enum NodeType {
+    Boolean = "BOOLEAN",
+    Canvas = "CANVAS",
+    Component = "COMPONENT",
+    Document = "DOCUMENT",
+    Ellipse = "ELLIPSE",
+    Frame = "FRAME",
+    Group = "GROUP",
+    Instance = "INSTANCE",
+    Line = "LINE",
+    Rectangle = "RECTANGLE",
+    RegularPolygon = "REGULAR_POLYGON",
+    Slice = "SLICE",
+    Star = "STAR",
+    Text = "TEXT",
+    Vector = "VECTOR",
+}
+
+/**
+ * An RGBA color
+ */
+export interface Color {
+    /**
+     * Red channel value, between 0 and 1
+     */
+    r: number;
+    /**
+     * Green channel value, between 0 and 1
+     */
+    g: number;
+    /**
+     * Blue channel value, between 0 and 1
+     */
+    b: number;
+    /**
+     * Alpha channel value, between 0 and 1
+     */
+    a: number;
+}
+
+/**
+ * Properties are shared across all nodes
+ */
+export interface Global {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible?: boolean;
+    /**
+     * The type of the node
+     */
+    type?: NodeType;
+}
+
+/**
+ * A description of a user
+ */
+export interface User {
+    handle:  string;
+    img_url: string;
+}
+
+/**
+ * Enum describing how layer blends with layers below
+ */
+export enum BlendMode {
+    Color = "COLOR",
+    ColorBurn = "COLOR_BURN",
+    ColorDodge = "COLOR_DODGE",
+    Darken = "DARKEN",
+    Difference = "DIFFERENCE",
+    Exclusion = "EXCLUSION",
+    HardLight = "HARD_LIGHT",
+    Hue = "HUE",
+    Lighten = "LIGHTEN",
+    LinearBurn = "LINEAR_BURN",
+    LinearDodge = "LINEAR_DODGE",
+    Luminosity = "LUMINOSITY",
+    Multiply = "MULTIPLY",
+    Normal = "NORMAL",
+    Overlay = "OVERLAY",
+    PassThrough = "PASS_THROUGH",
+    Saturation = "SATURATION",
+    Screen = "SCREEN",
+    SoftLight = "SOFT_LIGHT",
+}
+
+/**
+ * An array of canvases attached to the document
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export interface Canvas {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible?: boolean;
+    /**
+     * The type of the node
+     */
+    type?: NodeType;
+    /**
+     * An array of top level layers on the canvas
+     */
+    children?: Node1[];
+    /**
+     * Background color of the canvas
+     */
+    backgroundColor?: NodeColor;
+}
+
+/**
+ * An array of top level layers on the canvas
+ *
+ * An array of canvases attached to the document
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export interface Node1 {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible?: boolean;
+    /**
+     * The type of the node
+     */
+    type?: NodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     */
+    backgroundColor?: NodeColor;
+}
+
+/**
+ * An array of canvases attached to the document
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export interface Document {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible?: boolean;
+    /**
+     * The type of the node
+     */
+    type?: NodeType;
+    /**
+     * An array of canvases attached to the document
+     */
+    children?: Node2[];
+}
+
+/**
+ * An array of canvases attached to the document
+ *
+ * Properties are shared across all nodes
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * See type property for effect of this field
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export interface Node2 {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible?: boolean;
+    /**
+     * The type of the node
+     */
+    type?: NodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     */
+    backgroundColor?: NodeColor;
+}
+
+/**
+ * Sizing constraint for exports
+ */
+export interface Constraint {
+    /**
+     * Type of constraint to apply; string enum with potential values below
+     *
+     * * "SCALE": Scale by value
+     * * "WIDTH": Scale proportionally and set width to value
+     * * "HEIGHT": Scale proportionally and set height to value
+     */
+    type: ConstraintType;
+    /**
+     * See type property for effect of this field
+     */
+    value?: number;
+}
+
+/**
+ * Type of constraint to apply; string enum with potential values below
+ *
+ * * "SCALE": Scale by value
+ * * "WIDTH": Scale proportionally and set width to value
+ * * "HEIGHT": Scale proportionally and set height to value
+ */
+export enum ConstraintType {
+    Height = "HEIGHT",
+    Scale = "SCALE",
+    Width = "WIDTH",
+}
 
 /**
  * A comment or reply left by a user
@@ -42,83 +532,14 @@ export interface CommentUser {
     img_url: string;
 }
 
-/**
- * A description of a user
- */
-export interface User {
-    handle:  string;
-    img_url: string;
-}
-
-/**
- * An RGBA color
- */
-export interface Color {
-    /**
-     * Red channel value, between 0 and 1
-     */
-    r: number;
-    /**
-     * Green channel value, between 0 and 1
-     */
-    g: number;
-    /**
-     * Blue channel value, between 0 and 1
-     */
-    b: number;
-    /**
-     * Alpha channel value, between 0 and 1
-     */
-    a: number;
-}
-
-/**
- * Sizing constraint for exports
- */
-export interface Constraint {
-    /**
-     * Type of constraint to apply; string enum with potential values below
-     *
-     * * "SCALE": Scale by value
-     * * "WIDTH": Scale proportionally and set width to value
-     * * "HEIGHT": Scale proportionally and set height to value
-     */
-    type: Type;
-    /**
-     * See type property for effect of this field
-     */
-    value?: number;
-}
-
-/**
- * Type of constraint to apply; string enum with potential values below
- *
- * * "SCALE": Scale by value
- * * "WIDTH": Scale proportionally and set width to value
- * * "HEIGHT": Scale proportionally and set height to value
- */
-export enum Type {
-    Height = "HEIGHT",
-    Scale = "SCALE",
-    Width = "WIDTH",
-}
-
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
-    export function toComment(json: string): Comment {
-        return cast(JSON.parse(json), o("Comment"));
+    export function toNode(json: string): Node {
+        return cast(JSON.parse(json), o("Node"));
     }
 
-    export function commentToJson(value: Comment): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toUser(json: string): User {
-        return cast(JSON.parse(json), o("User"));
-    }
-
-    export function userToJson(value: User): string {
+    export function nodeToJson(value: Node): string {
         return JSON.stringify(value, null, 2);
     }
 
@@ -130,11 +551,59 @@ export module Convert {
         return JSON.stringify(value, null, 2);
     }
 
+    export function toGlobal(json: string): Global {
+        return cast(JSON.parse(json), o("Global"));
+    }
+
+    export function globalToJson(value: Global): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toUser(json: string): User {
+        return cast(JSON.parse(json), o("User"));
+    }
+
+    export function userToJson(value: User): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toBlendMode(json: string): BlendMode {
+        return cast(JSON.parse(json), e("BlendMode"));
+    }
+
+    export function blendModeToJson(value: BlendMode): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toCanvas(json: string): Canvas {
+        return cast(JSON.parse(json), o("Canvas"));
+    }
+
+    export function canvasToJson(value: Canvas): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toDocument(json: string): Document {
+        return cast(JSON.parse(json), o("Document"));
+    }
+
+    export function documentToJson(value: Document): string {
+        return JSON.stringify(value, null, 2);
+    }
+
     export function toConstraint(json: string): Constraint {
         return cast(JSON.parse(json), o("Constraint"));
     }
 
     export function constraintToJson(value: Constraint): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toComment(json: string): Comment {
+        return cast(JSON.parse(json), o("Comment"));
+    }
+
+    export function commentToJson(value: Comment): string {
         return JSON.stringify(value, null, 2);
     }
     
@@ -216,6 +685,79 @@ export module Convert {
     }
 
     const typeMap: any = {
+        "Node": {
+            id: "",
+            name: "",
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
+            children: u(null, a(o("NodeNode"))),
+            backgroundColor: u(null, o("NodeColor")),
+        },
+        "NodeColor": {
+            r: 3.14,
+            g: 3.14,
+            b: 3.14,
+            a: 3.14,
+        },
+        "NodeNode": {
+            id: "",
+            name: "",
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
+            children: u(null, a(o("NodeNode"))),
+            backgroundColor: u(null, o("NodeColor")),
+        },
+        "Color": {
+            r: 3.14,
+            g: 3.14,
+            b: 3.14,
+            a: 3.14,
+        },
+        "Global": {
+            id: "",
+            name: "",
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
+        },
+        "User": {
+            handle: "",
+            img_url: "",
+        },
+        "Canvas": {
+            id: "",
+            name: "",
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
+            children: u(null, a(o("Node1"))),
+            backgroundColor: u(null, o("NodeColor")),
+        },
+        "Node1": {
+            id: "",
+            name: "",
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
+            children: u(null, a(o("NodeNode"))),
+            backgroundColor: u(null, o("NodeColor")),
+        },
+        "Document": {
+            id: "",
+            name: "",
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
+            children: u(null, a(o("Node2"))),
+        },
+        "Node2": {
+            id: "",
+            name: "",
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
+            children: u(null, a(o("NodeNode"))),
+            backgroundColor: u(null, o("NodeColor")),
+        },
+        "Constraint": {
+            type: e("ConstraintType"),
+            value: u(null, 3.14),
+        },
         "Comment": {
             id: "",
             file_key: "",
@@ -226,21 +768,45 @@ export module Convert {
             handle: "",
             img_url: "",
         },
-        "User": {
-            handle: "",
-            img_url: "",
-        },
-        "Color": {
-            r: 3.14,
-            g: 3.14,
-            b: 3.14,
-            a: 3.14,
-        },
-        "Constraint": {
-            type: e("Type"),
-            value: u(null, 3.14),
-        },
-        "Type": [
+        "NodeType": [
+            "BOOLEAN",
+            "CANVAS",
+            "COMPONENT",
+            "DOCUMENT",
+            "ELLIPSE",
+            "FRAME",
+            "GROUP",
+            "INSTANCE",
+            "LINE",
+            "RECTANGLE",
+            "REGULAR_POLYGON",
+            "SLICE",
+            "STAR",
+            "TEXT",
+            "VECTOR",
+        ],
+        "BlendMode": [
+            "COLOR",
+            "COLOR_BURN",
+            "COLOR_DODGE",
+            "DARKEN",
+            "DIFFERENCE",
+            "EXCLUSION",
+            "HARD_LIGHT",
+            "HUE",
+            "LIGHTEN",
+            "LINEAR_BURN",
+            "LINEAR_DODGE",
+            "LUMINOSITY",
+            "MULTIPLY",
+            "NORMAL",
+            "OVERLAY",
+            "PASS_THROUGH",
+            "SATURATION",
+            "SCREEN",
+            "SOFT_LIGHT",
+        ],
+        "ConstraintType": [
             "HEIGHT",
             "SCALE",
             "WIDTH",
