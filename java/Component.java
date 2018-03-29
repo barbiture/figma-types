@@ -12,28 +12,11 @@ import com.fasterxml.jackson.annotation.*;
  *
  * An array of canvases attached to the document
  *
+ * Properties are shared across all nodes
+ *
  * The root node within the document
  *
- * A logical grouping of nodes
- *
- * A group that has a boolean operation applied to it
- *
- * A regular star shape
- *
- * A straight line
- *
- * An ellipse
- *
- * A regular n-sided polygon
- *
- * A text box
- *
  * A rectangular region of the canvas that can be exported
- *
- * An instance of a component, changes to the component result in the same changes applied
- * to the instance
- *
- * Properties are shared across all nodes
  *
  * Red channel value, between 0 and 1
  *
@@ -111,11 +94,18 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Node ID of node to transition to in prototyping
  *
+ * A group that has a boolean operation applied to it
+ *
+ * A text box
+ *
  * Text contained within text box
  *
  * PostScript font name
  *
  * Font family of text (standard name)
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)

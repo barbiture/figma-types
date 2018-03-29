@@ -81,28 +81,11 @@ A node that can have instances created of it that share the same properties
 
 An array of canvases attached to the document
 
+Properties are shared across all nodes
+
 The root node within the document
 
-A logical grouping of nodes
-
-A group that has a boolean operation applied to it
-
-A regular star shape
-
-A straight line
-
-An ellipse
-
-A regular n-sided polygon
-
-A text box
-
 A rectangular region of the canvas that can be exported
-
-An instance of a component, changes to the component result in the same changes applied
-to the instance
-
-Properties are shared across all nodes
 
 Red channel value, between 0 and 1
 
@@ -180,11 +163,18 @@ File suffix to append to all filenames
 
 Node ID of node to transition to in prototyping
 
+A group that has a boolean operation applied to it
+
+A text box
+
 Text contained within text box
 
 PostScript font name
 
 Font family of text (standard name)
+
+An instance of a component, changes to the component result in the same changes applied
+to the instance
 
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
@@ -356,28 +346,9 @@ An array of canvases attached to the document
 
 The root node within the document
 
-A logical grouping of nodes
-
-A group that has a boolean operation applied to it
-
-A regular star shape
-
-A straight line
-
-An ellipse
-
-A regular n-sided polygon
-
-A text box
+Properties are shared across all nodes
 
 A rectangular region of the canvas that can be exported
-
-A node that can have instances created of it that share the same properties
-
-An instance of a component, changes to the component result in the same changes applied
-to the instance
-
-Properties are shared across all nodes
 
 Red channel value, between 0 and 1
 
@@ -455,18 +426,37 @@ File suffix to append to all filenames
 
 Node ID of node to transition to in prototyping
 
+A group that has a boolean operation applied to it
+
+A text box
+
 Text contained within text box
 
 PostScript font name
 
 Font family of text (standard name)
 
+An instance of a component, changes to the component result in the same changes applied
+to the instance
+
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
+
+A logical grouping of nodes
+
+A regular star shape
+
+A straight line
+
+An ellipse
+
+A regular n-sided polygon
 
 A rectangle that expresses a bounding box in absolute coordinates
 
 Bounding box of the node in absolute space coordinates
+
+A node that can have instances created of it that share the same properties
 
 id:
 A string uniquely identifying this node within the document
@@ -619,28 +609,9 @@ type alias PurpleNode =
 
 The root node within the document
 
-A logical grouping of nodes
-
-A group that has a boolean operation applied to it
-
-A regular star shape
-
-A straight line
-
-An ellipse
-
-A regular n-sided polygon
-
-A text box
+Properties are shared across all nodes
 
 A rectangular region of the canvas that can be exported
-
-A node that can have instances created of it that share the same properties
-
-An instance of a component, changes to the component result in the same changes applied
-to the instance
-
-Properties are shared across all nodes
 
 Red channel value, between 0 and 1
 
@@ -718,18 +689,37 @@ File suffix to append to all filenames
 
 Node ID of node to transition to in prototyping
 
+A group that has a boolean operation applied to it
+
+A text box
+
 Text contained within text box
 
 PostScript font name
 
 Font family of text (standard name)
 
+An instance of a component, changes to the component result in the same changes applied
+to the instance
+
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
+
+A logical grouping of nodes
+
+A regular star shape
+
+A straight line
+
+An ellipse
+
+A regular n-sided polygon
 
 A rectangle that expresses a bounding box in absolute coordinates
 
 Bounding box of the node in absolute space coordinates
+
+A node that can have instances created of it that share the same properties
 
 An array of top level layers on the canvas
 
@@ -1313,30 +1303,11 @@ type TextAlignVertical
 
 {-| The root node within the document
 
+Properties are shared across all nodes
+
 An array of canvases attached to the document
 
-A logical grouping of nodes
-
-A group that has a boolean operation applied to it
-
-A regular star shape
-
-A straight line
-
-An ellipse
-
-A regular n-sided polygon
-
-A text box
-
 A rectangular region of the canvas that can be exported
-
-A node that can have instances created of it that share the same properties
-
-An instance of a component, changes to the component result in the same changes applied
-to the instance
-
-Properties are shared across all nodes
 
 Red channel value, between 0 and 1
 
@@ -1414,11 +1385,18 @@ File suffix to append to all filenames
 
 Node ID of node to transition to in prototyping
 
+A group that has a boolean operation applied to it
+
+A text box
+
 Text contained within text box
 
 PostScript font name
 
 Font family of text (standard name)
+
+An instance of a component, changes to the component result in the same changes applied
+to the instance
 
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
@@ -1450,28 +1428,9 @@ type alias Document =
 
 The root node within the document
 
-A logical grouping of nodes
-
-A group that has a boolean operation applied to it
-
-A regular star shape
-
-A straight line
-
-An ellipse
-
-A regular n-sided polygon
-
-A text box
+Properties are shared across all nodes
 
 A rectangular region of the canvas that can be exported
-
-A node that can have instances created of it that share the same properties
-
-An instance of a component, changes to the component result in the same changes applied
-to the instance
-
-Properties are shared across all nodes
 
 Red channel value, between 0 and 1
 
@@ -1549,18 +1508,37 @@ File suffix to append to all filenames
 
 Node ID of node to transition to in prototyping
 
+A group that has a boolean operation applied to it
+
+A text box
+
 Text contained within text box
 
 PostScript font name
 
 Font family of text (standard name)
 
+An instance of a component, changes to the component result in the same changes applied
+to the instance
+
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
+
+A logical grouping of nodes
+
+A regular star shape
+
+A straight line
+
+An ellipse
+
+A regular n-sided polygon
 
 A rectangle that expresses a bounding box in absolute coordinates
 
 Bounding box of the node in absolute space coordinates
+
+A node that can have instances created of it that share the same properties
 
 id:
 A string uniquely identifying this node within the document
