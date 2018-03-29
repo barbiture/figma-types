@@ -10,7 +10,7 @@ public class Global {
     private String id;
     private String name;
     private boolean visible;
-    private NodeType type;
+    private RegularPolygonNodeType type;
 
     /**
      * A string uniquely identifying this node within the document
@@ -40,7 +40,7 @@ public class Global {
      * The type of the node
      */
     @JsonProperty("type")
-    public NodeType getType() { return type; }
+    public RegularPolygonNodeType getType() { return type; }
     @JsonProperty("type")
-    public void setType(NodeType value) { this.type = value; }
+    public void setType(RegularPolygonNodeType value) { this.type = value; }
 }

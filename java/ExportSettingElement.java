@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.*;
 /**
  * Format and size to export an asset at
  *
- * * CANVAS: An array of export settings representing images to export from the canvas
+ * An array of export settings representing images to export from node
+ *
+ * An array of export settings representing images to export from the canvas
+ *
+ * A rectangular region of the canvas that can be exported
  */
 public class ExportSettingElement {
     private String suffix;

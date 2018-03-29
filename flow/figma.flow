@@ -4,23 +4,68 @@
 //
 //   const Convert = require("./file");
 //
+//   const regularPolygonNode = Convert.toRegularPolygonNode(json);
+//   const ellipseNode = Convert.toEllipseNode(json);
+//   const groupNode = Convert.toGroupNode(json);
 //   const node = Convert.toNode(json);
+//   const vector = Convert.toVector(json);
 //   const color = Convert.toColor(json);
 //   const global = Convert.toGlobal(json);
+//   const colorStop = Convert.toColorStop(json);
+//   const vectorNode = Convert.toVectorNode(json);
+//   const layoutConstraint = Convert.toLayoutConstraint(json);
+//   const booleanNode = Convert.toBooleanNode(json);
 //   const user = Convert.toUser(json);
+//   const textNode = Convert.toTextNode(json);
+//   const frameNode = Convert.toFrameNode(json);
+//   const rectangle = Convert.toRectangle(json);
+//   const layoutGrid = Convert.toLayoutGrid(json);
+//   const effect = Convert.toEffect(json);
+//   const rectangleNode = Convert.toRectangleNode(json);
 //   const blendMode = Convert.toBlendMode(json);
-//   const canvas = Convert.toCanvas(json);
-//   const document = Convert.toDocument(json);
+//   const sliceNode = Convert.toSliceNode(json);
+//   const starNode = Convert.toStarNode(json);
+//   const lineNode = Convert.toLineNode(json);
+//   const instanceNode = Convert.toInstanceNode(json);
+//   const typeStyle = Convert.toTypeStyle(json);
+//   const canvasNode = Convert.toCanvasNode(json);
+//   const exportSetting = Convert.toExportSetting(json);
+//   const documentNode = Convert.toDocumentNode(json);
 //   const constraint = Convert.toConstraint(json);
+//   const paint = Convert.toPaint(json);
+//   const componentNode = Convert.toComponentNode(json);
 //   const comment = Convert.toComment(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
 /**
- * An array of canvases attached to the document
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
  *
  * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
  *
  * Red channel value, between 0 and 1
  *
@@ -30,13 +75,1726 @@
  *
  * Alpha channel value, between 0 and 1
  *
- * See type property for effect of this field
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
  *
  * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
  *
  * A string uniquely identifying this node within the document
  *
  * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type RegularPolygonNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills: PaintElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes: PaintElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+};
+
+/**
+ * A rectangle that expresses a bounding box in absolute coordinates
+ *
+ * Bounding box of the node in absolute space coordinates
+ */
+export type RegularPolygonNodeRectangle = {
+    /**
+     * X coordinate of top left corner of the rectangle
+     */
+    x: number;
+    /**
+     * Y coordinate of top left corner of the rectangle
+     */
+    y: number;
+    /**
+     * Width of the rectangle
+     */
+    width: number;
+    /**
+     * Height of the rectangle
+     */
+    height: number;
+};
+
+/**
+ * Enum describing how layer blends with layers below
+ *
+ * See type property for effect of this field
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ */
+export type BlendMode =
+      "COLOR"
+    | "COLOR_BURN"
+    | "COLOR_DODGE"
+    | "DARKEN"
+    | "DIFFERENCE"
+    | "EXCLUSION"
+    | "HARD_LIGHT"
+    | "HUE"
+    | "LIGHTEN"
+    | "LINEAR_BURN"
+    | "LINEAR_DODGE"
+    | "LUMINOSITY"
+    | "MULTIPLY"
+    | "NORMAL"
+    | "OVERLAY"
+    | "PASS_THROUGH"
+    | "SATURATION"
+    | "SCREEN"
+    | "SOFT_LIGHT";
+
+/**
+ * Layout constraint relative to containing Frame
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ */
+export type RegularPolygonNodeLayoutConstraint = {
+    /**
+     * * TOP: Node is laid out relative to top of the containing frame
+     * * BOTTOM: Node is laid out relative to bottom of the containing frame
+     * * CENTER: Node is vertically centered relative to containing frame
+     * * TOP_BOTTOM: Both top and bottom of node are constrained relative to containing frame
+     * (node stretches with frame)
+     * * SCALE: Node scales vertically with containing frame
+     */
+    vertical: Vertical;
+    /**
+     * * LEFT: Node is laid out relative to left of the containing frame
+     * * RIGHT: Node is laid out relative to right of the containing frame
+     * * CENTER: Node is horizontally centered relative to containing frame
+     * * LEFT_RIGHT: Both left and right of node are constrained relative to containing frame
+     * (node stretches with frame)
+     * * SCALE: Node scales horizontally with containing frame
+     */
+    horizontal: Horizontal;
+};
+
+/**
+ * * LEFT: Node is laid out relative to left of the containing frame
+ * * RIGHT: Node is laid out relative to right of the containing frame
+ * * CENTER: Node is horizontally centered relative to containing frame
+ * * LEFT_RIGHT: Both left and right of node are constrained relative to containing frame
+ * (node stretches with frame)
+ * * SCALE: Node scales horizontally with containing frame
+ */
+export type Horizontal =
+      "CENTER"
+    | "LEFT"
+    | "LEFT_RIGHT"
+    | "RIGHT"
+    | "SCALE";
+
+/**
+ * * TOP: Node is laid out relative to top of the containing frame
+ * * BOTTOM: Node is laid out relative to bottom of the containing frame
+ * * CENTER: Node is vertically centered relative to containing frame
+ * * TOP_BOTTOM: Both top and bottom of node are constrained relative to containing frame
+ * (node stretches with frame)
+ * * SCALE: Node scales vertically with containing frame
+ */
+export type Vertical =
+      "BOTTOM"
+    | "CENTER"
+    | "SCALE"
+    | "TOP"
+    | "TOP_BOTTOM";
+
+/**
+ * A visual effect such as a shadow or blur
+ *
+ * An array of effects attached to this node (see effects section for more details)
+ */
+export type EffectElement = {
+    /**
+     * Type of effect as a string enum
+     */
+    type: EffectType;
+    /**
+     * See type property for effect of this field
+     */
+    radius: number;
+    /**
+     * See type property for effect of this field
+     */
+    visible: boolean;
+    /**
+     * See type property for effect of this field
+     */
+    color: EffectColor;
+    /**
+     * See type property for effect of this field
+     */
+    blendMode: BlendMode;
+    /**
+     * See type property for effect of this field
+     */
+    offset: EffectVector;
+};
+
+/**
+ * An RGBA color
+ *
+ * See type property for effect of this field
+ *
+ * (For solid paints) Solid color of the paint
+ *
+ * Color attached to corresponding position
+ *
+ * Color of the grid
+ *
+ * Background color of the node
+ *
+ * Background color of the canvas
+ */
+export type EffectColor = {
+    /**
+     * Red channel value, between 0 and 1
+     */
+    r: number;
+    /**
+     * Green channel value, between 0 and 1
+     */
+    g: number;
+    /**
+     * Blue channel value, between 0 and 1
+     */
+    b: number;
+    /**
+     * Alpha channel value, between 0 and 1
+     */
+    a: number;
+};
+
+/**
+ * A 2d vector
+ *
+ * See type property for effect of this field
+ *
+ * (For gradient paints) This field contains three vectors, each of which are a position in
+ * normalized object space (normalized object space is if the top left corner of the
+ * bounding box of the object is (0, 0) and the bottom right is (1,1)). The first position
+ * corresponds to the start of the gradient (value 0 for the purposes of calculating
+ * gradient stops), the second position is the end of the gradient (value 1), and the third
+ * handle position determines the width of the gradient (only relevant for non-linear
+ * gradients).
+ */
+export type EffectVector = {
+    /**
+     * X coordinate of the vector
+     */
+    x: number;
+    /**
+     * Y coordinate of the vector
+     */
+    y: number;
+};
+
+/**
+ * Type of effect as a string enum
+ */
+export type EffectType =
+      "BACKGROUND_BLUR"
+    | "DROP_SHADOW"
+    | "INNER_SHADOW"
+    | "LAYER_BLUR";
+
+/**
+ * Format and size to export an asset at
+ *
+ * An array of export settings representing images to export from node
+ *
+ * An array of export settings representing images to export from the canvas
+ *
+ * A rectangular region of the canvas that can be exported
+ */
+export type ExportSettingElement = {
+    /**
+     * File suffix to append to all filenames
+     */
+    suffix: string;
+    /**
+     * Type of constraint to apply; string enum with potential values below
+     *
+     * * "SCALE": Scale by value
+     * * "WIDTH": Scale proportionally and set width to value
+     * * "HEIGHT": Scale proportionally and set height to value
+     */
+    format: Format;
+    /**
+     * Constraint that determines sizing of exported asset
+     */
+    constraint: ExportSettingConstraint;
+};
+
+/**
+ * Sizing constraint for exports
+ *
+ * Constraint that determines sizing of exported asset
+ */
+export type ExportSettingConstraint = {
+    /**
+     * Type of constraint to apply; string enum with potential values below
+     *
+     * * "SCALE": Scale by value
+     * * "WIDTH": Scale proportionally and set width to value
+     * * "HEIGHT": Scale proportionally and set height to value
+     */
+    type: ConstraintType;
+    /**
+     * See type property for effect of this field
+     */
+    value?: number;
+};
+
+/**
+ * Type of constraint to apply; string enum with potential values below
+ *
+ * * "SCALE": Scale by value
+ * * "WIDTH": Scale proportionally and set width to value
+ * * "HEIGHT": Scale proportionally and set height to value
+ */
+export type ConstraintType =
+      "HEIGHT"
+    | "SCALE"
+    | "WIDTH";
+
+/**
+ * Type of constraint to apply; string enum with potential values below
+ *
+ * * "SCALE": Scale by value
+ * * "WIDTH": Scale proportionally and set width to value
+ * * "HEIGHT": Scale proportionally and set height to value
+ */
+export type Format =
+      "JPG"
+    | "PNG"
+    | "SVG";
+
+/**
+ * A solid color, gradient, or image texture that can be applied as fills or strokes
+ *
+ * An array of fill paints applied to the node
+ *
+ * An array of stroke paints applied to the node
+ *
+ * Paints applied to characters
+ */
+export type PaintElement = {
+    /**
+     * Type of paint as a string enum
+     */
+    type: PaintType;
+    /**
+     * Is the paint enabled?
+     */
+    visible: boolean;
+    /**
+     * Overall opacity of paint (colors within the paint can also have opacity values which
+     * would blend with this)
+     */
+    opacity: number;
+    /**
+     * (For solid paints) Solid color of the paint
+     */
+    color?: EffectColor;
+    /**
+     * (For gradient paints) This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left corner of the
+     * bounding box of the object is (0, 0) and the bottom right is (1,1)). The first position
+     * corresponds to the start of the gradient (value 0 for the purposes of calculating
+     * gradient stops), the second position is the end of the gradient (value 1), and the third
+     * handle position determines the width of the gradient (only relevant for non-linear
+     * gradients).
+     */
+    gradientHandlePositions?: EffectVector[];
+    /**
+     * (For gradient paints) Positions of key points along the gradient axis with the colors
+     * anchored there. Colors along the gradient are interpolated smoothly between neighboring
+     * gradient stops.
+     */
+    gradientStops?: ColorStopElement[];
+    /**
+     * (For image paints) Image scaling mode
+     */
+    scaleMode?: ScaleMode;
+};
+
+/**
+ * A position color pair representing a gradient stop
+ *
+ * (For gradient paints) Positions of key points along the gradient axis with the colors
+ * anchored there. Colors along the gradient are interpolated smoothly between neighboring
+ * gradient stops.
+ */
+export type ColorStopElement = {
+    /**
+     * Color attached to corresponding position
+     */
+    color: EffectColor;
+    /**
+     * Value between 0 and 1 representing position along gradient axis
+     */
+    position: number;
+};
+
+/**
+ * (For image paints) Image scaling mode
+ */
+export type ScaleMode =
+      "FILL"
+    | "FIT"
+    | "STRETCH"
+    | "TILE";
+
+/**
+ * Type of paint as a string enum
+ */
+export type PaintType =
+      "EMOJI"
+    | "GRADIENT_ANGULAR"
+    | "GRADIENT_DIAMOND"
+    | "GRADIENT_LINEAR"
+    | "GRADIENT_RADIAL"
+    | "IMAGE"
+    | "SOLID";
+
+/**
+ * Where stroke is drawn relative to the vector outline as a string enum
+ *
+ * * INSIDE: draw stroke inside the shape boundary
+ * * OUTSIDE: draw stroke outside the shape boundary
+ * * CENTER: draw stroke centered along the shape boundary
+ */
+export type StrokeAlign =
+      "CENTER"
+    | "INSIDE"
+    | "OUTSIDE";
+
+/**
+ * The type of the node
+ */
+export type RegularPolygonNodeType =
+      "BOOLEAN"
+    | "CANVAS"
+    | "COMPONENT"
+    | "DOCUMENT"
+    | "ELLIPSE"
+    | "FRAME"
+    | "GROUP"
+    | "INSTANCE"
+    | "LINE"
+    | "RECTANGLE"
+    | "REGULAR_POLYGON"
+    | "SLICE"
+    | "STAR"
+    | "TEXT"
+    | "VECTOR";
+
+/**
+ * An ellipse
+ *
+ * A regular n-sided polygon
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type EllipseNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills: PaintElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes: PaintElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+};
+
+/**
+ * A logical grouping of nodes
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type GroupNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * Background color of the node
+     */
+    backgroundColor: EffectColor;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+    /**
+     * An array of nodes that are direct children of this node
+     */
+    children: Node1[];
+};
+
+/**
+ * An array of nodes that are direct children of this node
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type Node1 = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     *
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     *
+     * Background color of the node
+     */
+    backgroundColor?: EffectColor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings?: ExportSettingElement[];
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects?: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints?: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio?: boolean;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign?: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight?: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills?: PaintElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes?: PaintElement[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style?: NodeTypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides?: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable?: { [key: string]: NodeTypeStyle };
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId?: string;
+};
+
+/**
+ * An array of canvases attached to the document
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ *
+ * An array of top level layers on the canvas
+ *
+ * An array of nodes that are being boolean operated on
+ */
+export type NodeNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     *
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     *
+     * Background color of the node
+     */
+    backgroundColor?: EffectColor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings?: ExportSettingElement[];
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects?: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints?: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio?: boolean;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign?: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight?: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills?: PaintElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes?: PaintElement[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style?: NodeTypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides?: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable?: { [key: string]: NodeTypeStyle };
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId?: string;
+};
+
+/**
+ * Guides to align and place objects within a frame
+ *
+ * An array of layout grids attached to this node (see layout grids section for more
+ * details). GROUP nodes do not have this attribute
+ */
+export type LayoutGridElement = {
+    /**
+     * * COLUMNS: Vertical grid
+     * * ROWS: Horizontal grid
+     * * GRID: Square grid
+     */
+    pattern: Pattern;
+    /**
+     * Width of column grid or height of row grid or square grid spacing
+     */
+    sectionSize: number;
+    /**
+     * Is the grid currently visible?
+     */
+    visible: boolean;
+    /**
+     * Color of the grid
+     */
+    color: EffectColor;
+    /**
+     * Positioning of grid as a string enum
+     *
+     * * MIN: Grid starts at the left or top of the frame
+     * * MAX: Grid starts at the right or bottom of the frame
+     * * CENTER: Grid is center aligned
+     */
+    alignment: Alignment;
+    /**
+     * Spacing in between columns and rows
+     */
+    gutterSize: number;
+    /**
+     * Spacing before the first column or row
+     */
+    offset: number;
+    /**
+     * Number of columns or rows
+     */
+    count: number;
+};
+
+/**
+ * Positioning of grid as a string enum
+ *
+ * * MIN: Grid starts at the left or top of the frame
+ * * MAX: Grid starts at the right or bottom of the frame
+ * * CENTER: Grid is center aligned
+ */
+export type Alignment =
+      "CENTER"
+    | "MAX"
+    | "MIN";
+
+/**
+ * * COLUMNS: Vertical grid
+ * * ROWS: Horizontal grid
+ * * GRID: Square grid
+ */
+export type Pattern =
+      "COLUMNS"
+    | "GRID"
+    | "ROWS";
+
+/**
+ * Metadata for character formatting
+ *
+ * Style of text including font family and weight (see type style section for more
+ * information)
+ *
+ * Map from ID to TypeStyle for looking up style overrides
+ */
+export type NodeTypeStyle = {
+    /**
+     * Line height in px
+     */
+    lineHeightPx: number;
+    /**
+     * PostScript font name
+     */
+    fontPostScriptName: string;
+    /**
+     * Numeric font weight
+     */
+    fontWeight: number;
+    /**
+     * Line height as a percentage of normal line height
+     */
+    lineHeightPercent: number;
+    /**
+     * Vertical text alignment as string enum
+     */
+    textAlignVertical: TextAlignVertical;
+    /**
+     * Font size in px
+     */
+    fontSize: number;
+    /**
+     * Is text italicized?
+     */
+    italic: boolean;
+    /**
+     * Paints applied to characters
+     */
+    fills: PaintElement[];
+    /**
+     * Font family of text (standard name)
+     */
+    fontFamily: string;
+    /**
+     * Horizontal text alignment as string enum
+     */
+    textAlignHorizontal: TextAlignHorizontal;
+    /**
+     * Space between characters in px
+     */
+    letterSpacing: number;
+};
+
+/**
+ * Horizontal text alignment as string enum
+ */
+export type TextAlignHorizontal =
+      "CENTER"
+    | "JUSTIFIED"
+    | "LEFT"
+    | "RIGHT";
+
+/**
+ * Vertical text alignment as string enum
+ */
+export type TextAlignVertical =
+      "BOTTOM"
+    | "CENTER"
+    | "TOP";
+
+/**
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
  *
  * Unique identifier for comment
  *
@@ -60,120 +1818,138 @@ export type Node = {
     /**
      * The type of the node
      */
-    type: NodeType;
+    type: RegularPolygonNodeType;
     /**
      * An array of canvases attached to the document
      *
      * An array of top level layers on the canvas
-     */
-    children?: NodeNode[];
-    /**
-     * Background color of the canvas
-     */
-    backgroundColor?: NodeColor;
-};
-
-/**
- * An RGBA color
- *
- * Background color of the canvas
- */
-export type NodeColor = {
-    /**
-     * Red channel value, between 0 and 1
-     */
-    r: number;
-    /**
-     * Green channel value, between 0 and 1
-     */
-    g: number;
-    /**
-     * Blue channel value, between 0 and 1
-     */
-    b: number;
-    /**
-     * Alpha channel value, between 0 and 1
-     */
-    a: number;
-};
-
-/**
- * An array of canvases attached to the document
- *
- * Properties are shared across all nodes
- *
- * Red channel value, between 0 and 1
- *
- * Green channel value, between 0 and 1
- *
- * Blue channel value, between 0 and 1
- *
- * Alpha channel value, between 0 and 1
- *
- * See type property for effect of this field
- *
- * Whether or not the node is visible on the canvas
- *
- * A string uniquely identifying this node within the document
- *
- * The name given to the node by the user in the tool
- *
- * Unique identifier for comment
- *
- * The file in which the comment lives
- *
- * If present, the id of the comment to which this is the reply
- *
- * An array of top level layers on the canvas
- */
-export type NodeNode = {
-    /**
-     * A string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * The name given to the node by the user in the tool
-     */
-    name: string;
-    /**
-     * Whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * The type of the node
-     */
-    type: NodeType;
-    /**
-     * An array of canvases attached to the document
      *
-     * An array of top level layers on the canvas
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
      */
     children?: NodeNode[];
     /**
      * Background color of the canvas
+     *
+     * Background color of the node
      */
-    backgroundColor?: NodeColor;
+    backgroundColor?: EffectColor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings?: ExportSettingElement[];
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects?: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints?: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio?: boolean;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign?: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight?: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills?: PaintElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes?: PaintElement[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style?: NodeTypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides?: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable?: { [key: string]: NodeTypeStyle };
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId?: string;
 };
 
 /**
- * The type of the node
+ * A 2d vector
  */
-export type NodeType =
-      "BOOLEAN"
-    | "CANVAS"
-    | "COMPONENT"
-    | "DOCUMENT"
-    | "ELLIPSE"
-    | "FRAME"
-    | "GROUP"
-    | "INSTANCE"
-    | "LINE"
-    | "RECTANGLE"
-    | "REGULAR_POLYGON"
-    | "SLICE"
-    | "STAR"
-    | "TEXT"
-    | "VECTOR";
+export type Vector = {
+    /**
+     * X coordinate of the vector
+     */
+    x: number;
+    /**
+     * Y coordinate of the vector
+     */
+    y: number;
+};
 
 /**
  * An RGBA color
@@ -216,45 +1992,50 @@ export type Global = {
     /**
      * The type of the node
      */
-    type: NodeType;
+    type: RegularPolygonNodeType;
 };
 
 /**
- * A description of a user
+ * A position color pair representing a gradient stop
  */
-export type User = {
-    handle:  string;
-    img_url: string;
+export type ColorStop = {
+    /**
+     * Color attached to corresponding position
+     */
+    color: EffectColor;
+    /**
+     * Value between 0 and 1 representing position along gradient axis
+     */
+    position: number;
 };
 
 /**
- * Enum describing how layer blends with layers below
- */
-export type BlendMode =
-      "COLOR"
-    | "COLOR_BURN"
-    | "COLOR_DODGE"
-    | "DARKEN"
-    | "DIFFERENCE"
-    | "EXCLUSION"
-    | "HARD_LIGHT"
-    | "HUE"
-    | "LIGHTEN"
-    | "LINEAR_BURN"
-    | "LINEAR_DODGE"
-    | "LUMINOSITY"
-    | "MULTIPLY"
-    | "NORMAL"
-    | "OVERLAY"
-    | "PASS_THROUGH"
-    | "SATURATION"
-    | "SCREEN"
-    | "SOFT_LIGHT";
-
-/**
- * An array of canvases attached to the document
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
  *
  * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
  *
  * Red channel value, between 0 and 1
  *
@@ -264,13 +2045,82 @@ export type BlendMode =
  *
  * Alpha channel value, between 0 and 1
  *
- * See type property for effect of this field
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
  *
  * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
  *
  * A string uniquely identifying this node within the document
  *
  * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
  *
  * Unique identifier for comment
  *
@@ -278,7 +2128,7 @@ export type BlendMode =
  *
  * If present, the id of the comment to which this is the reply
  */
-export type Canvas = {
+export type VectorNode = {
     /**
      * A string uniquely identifying this node within the document
      */
@@ -294,79 +2144,119 @@ export type Canvas = {
     /**
      * The type of the node
      */
-    type: NodeType;
+    type: RegularPolygonNodeType;
     /**
-     * An array of top level layers on the canvas
+     * An array of effects attached to this node (see effects section for more details)
      */
-    children?: Node1[];
+    effects: EffectElement[];
     /**
-     * Background color of the canvas
+     * Opacity of the node
      */
-    backgroundColor?: NodeColor;
-};
-
-/**
- * An array of top level layers on the canvas
- *
- * An array of canvases attached to the document
- *
- * Properties are shared across all nodes
- *
- * Red channel value, between 0 and 1
- *
- * Green channel value, between 0 and 1
- *
- * Blue channel value, between 0 and 1
- *
- * Alpha channel value, between 0 and 1
- *
- * See type property for effect of this field
- *
- * Whether or not the node is visible on the canvas
- *
- * A string uniquely identifying this node within the document
- *
- * The name given to the node by the user in the tool
- *
- * Unique identifier for comment
- *
- * The file in which the comment lives
- *
- * If present, the id of the comment to which this is the reply
- */
-export type Node1 = {
+    opacity: number;
     /**
-     * A string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * The name given to the node by the user in the tool
-     */
-    name: string;
-    /**
-     * Whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * The type of the node
-     */
-    type: NodeType;
-    /**
-     * An array of canvases attached to the document
+     * Where stroke is drawn relative to the vector outline as a string enum
      *
-     * An array of top level layers on the canvas
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
      */
-    children?: NodeNode[];
+    strokeAlign: StrokeAlign;
     /**
-     * Background color of the canvas
+     * The weight of strokes on the node
      */
-    backgroundColor?: NodeColor;
+    strokeWeight: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills: PaintElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes: PaintElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
 };
 
 /**
- * An array of canvases attached to the document
+ * Layout constraint relative to containing Frame
+ */
+export type LayoutConstraint = {
+    /**
+     * * TOP: Node is laid out relative to top of the containing frame
+     * * BOTTOM: Node is laid out relative to bottom of the containing frame
+     * * CENTER: Node is vertically centered relative to containing frame
+     * * TOP_BOTTOM: Both top and bottom of node are constrained relative to containing frame
+     * (node stretches with frame)
+     * * SCALE: Node scales vertically with containing frame
+     */
+    vertical: Vertical;
+    /**
+     * * LEFT: Node is laid out relative to left of the containing frame
+     * * RIGHT: Node is laid out relative to right of the containing frame
+     * * CENTER: Node is horizontally centered relative to containing frame
+     * * LEFT_RIGHT: Both left and right of node are constrained relative to containing frame
+     * (node stretches with frame)
+     * * SCALE: Node scales horizontally with containing frame
+     */
+    horizontal: Horizontal;
+};
+
+/**
+ * A group that has a boolean operation applied to it
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
  *
  * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
  *
  * Red channel value, between 0 and 1
  *
@@ -376,13 +2266,82 @@ export type Node1 = {
  *
  * Alpha channel value, between 0 and 1
  *
- * See type property for effect of this field
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
  *
  * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
  *
  * A string uniquely identifying this node within the document
  *
  * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
  *
  * Unique identifier for comment
  *
@@ -390,7 +2349,7 @@ export type Node1 = {
  *
  * If present, the id of the comment to which this is the reply
  */
-export type Document = {
+export type BooleanNode = {
     /**
      * A string uniquely identifying this node within the document
      */
@@ -406,17 +2365,101 @@ export type Document = {
     /**
      * The type of the node
      */
-    type: NodeType;
+    type: RegularPolygonNodeType;
     /**
-     * An array of canvases attached to the document
+     * An array of effects attached to this node (see effects section for more details)
      */
-    children?: Node2[];
+    effects: EffectElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills: PaintElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes: PaintElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+    /**
+     * An array of nodes that are being boolean operated on
+     */
+    children: Node2[];
 };
 
 /**
- * An array of canvases attached to the document
+ * An array of nodes that are being boolean operated on
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
  *
  * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
  *
  * Red channel value, between 0 and 1
  *
@@ -426,13 +2469,82 @@ export type Document = {
  *
  * Alpha channel value, between 0 and 1
  *
- * See type property for effect of this field
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
  *
  * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
  *
  * A string uniquely identifying this node within the document
  *
  * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
  *
  * Unique identifier for comment
  *
@@ -456,17 +2568,2707 @@ export type Node2 = {
     /**
      * The type of the node
      */
-    type: NodeType;
+    type: RegularPolygonNodeType;
     /**
      * An array of canvases attached to the document
      *
      * An array of top level layers on the canvas
+     *
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
      */
     children?: NodeNode[];
     /**
      * Background color of the canvas
+     *
+     * Background color of the node
      */
-    backgroundColor?: NodeColor;
+    backgroundColor?: EffectColor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings?: ExportSettingElement[];
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects?: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints?: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio?: boolean;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign?: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight?: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills?: PaintElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes?: PaintElement[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style?: NodeTypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides?: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable?: { [key: string]: NodeTypeStyle };
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId?: string;
+};
+
+/**
+ * A description of a user
+ */
+export type User = {
+    handle:  string;
+    img_url: string;
+};
+
+/**
+ * A text box
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type TextNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills: PaintElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes: PaintElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+    /**
+     * Text contained within text box
+     */
+    characters: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style: NodeTypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable: { [key: string]: NodeTypeStyle };
+};
+
+/**
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type FrameNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * Background color of the node
+     */
+    backgroundColor: EffectColor;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+    /**
+     * An array of nodes that are direct children of this node
+     */
+    children: FrameNodeNode[];
+};
+
+/**
+ * An array of nodes that are direct children of this node
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type FrameNodeNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     *
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     *
+     * Background color of the node
+     */
+    backgroundColor?: EffectColor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings?: ExportSettingElement[];
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects?: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints?: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio?: boolean;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign?: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight?: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills?: PaintElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes?: PaintElement[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style?: NodeTypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides?: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable?: { [key: string]: NodeTypeStyle };
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId?: string;
+};
+
+/**
+ * A rectangle that expresses a bounding box in absolute coordinates
+ */
+export type Rectangle = {
+    /**
+     * X coordinate of top left corner of the rectangle
+     */
+    x: number;
+    /**
+     * Y coordinate of top left corner of the rectangle
+     */
+    y: number;
+    /**
+     * Width of the rectangle
+     */
+    width: number;
+    /**
+     * Height of the rectangle
+     */
+    height: number;
+};
+
+/**
+ * Guides to align and place objects within a frame
+ */
+export type LayoutGrid = {
+    /**
+     * * COLUMNS: Vertical grid
+     * * ROWS: Horizontal grid
+     * * GRID: Square grid
+     */
+    pattern: Pattern;
+    /**
+     * Width of column grid or height of row grid or square grid spacing
+     */
+    sectionSize: number;
+    /**
+     * Is the grid currently visible?
+     */
+    visible: boolean;
+    /**
+     * Color of the grid
+     */
+    color: EffectColor;
+    /**
+     * Positioning of grid as a string enum
+     *
+     * * MIN: Grid starts at the left or top of the frame
+     * * MAX: Grid starts at the right or bottom of the frame
+     * * CENTER: Grid is center aligned
+     */
+    alignment: Alignment;
+    /**
+     * Spacing in between columns and rows
+     */
+    gutterSize: number;
+    /**
+     * Spacing before the first column or row
+     */
+    offset: number;
+    /**
+     * Number of columns or rows
+     */
+    count: number;
+};
+
+/**
+ * A visual effect such as a shadow or blur
+ */
+export type Effect = {
+    /**
+     * Type of effect as a string enum
+     */
+    type: EffectType;
+    /**
+     * See type property for effect of this field
+     */
+    radius: number;
+    /**
+     * See type property for effect of this field
+     */
+    visible: boolean;
+    /**
+     * See type property for effect of this field
+     */
+    color: EffectColor;
+    /**
+     * See type property for effect of this field
+     */
+    blendMode: BlendMode;
+    /**
+     * See type property for effect of this field
+     */
+    offset: EffectVector;
+};
+
+/**
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type RectangleNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills: PaintElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes: PaintElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius: number;
+};
+
+/**
+ * A rectangular region of the canvas that can be exported
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type SliceNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+};
+
+/**
+ * A regular star shape
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type StarNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills: PaintElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes: PaintElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+};
+
+/**
+ * A straight line
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type LineNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills: PaintElement[];
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes: PaintElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+};
+
+/**
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * A logical grouping of nodes
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type InstanceNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * Background color of the node
+     */
+    backgroundColor: EffectColor;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+    /**
+     * An array of nodes that are direct children of this node
+     */
+    children: Node1[];
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId: string;
+};
+
+/**
+ * Metadata for character formatting
+ */
+export type TypeStyle = {
+    /**
+     * Line height in px
+     */
+    lineHeightPx: number;
+    /**
+     * PostScript font name
+     */
+    fontPostScriptName: string;
+    /**
+     * Numeric font weight
+     */
+    fontWeight: number;
+    /**
+     * Line height as a percentage of normal line height
+     */
+    lineHeightPercent: number;
+    /**
+     * Vertical text alignment as string enum
+     */
+    textAlignVertical: TextAlignVertical;
+    /**
+     * Font size in px
+     */
+    fontSize: number;
+    /**
+     * Is text italicized?
+     */
+    italic: boolean;
+    /**
+     * Paints applied to characters
+     */
+    fills: PaintElement[];
+    /**
+     * Font family of text (standard name)
+     */
+    fontFamily: string;
+    /**
+     * Horizontal text alignment as string enum
+     */
+    textAlignHorizontal: TextAlignHorizontal;
+    /**
+     * Space between characters in px
+     */
+    letterSpacing: number;
+};
+
+/**
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type CanvasNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of top level layers on the canvas
+     */
+    children: Node3[];
+    /**
+     * Background color of the canvas
+     */
+    backgroundColor: EffectColor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     */
+    exportSettings: ExportSettingElement[];
+};
+
+/**
+ * An array of top level layers on the canvas
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type Node3 = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     *
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     *
+     * Background color of the node
+     */
+    backgroundColor?: EffectColor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings?: ExportSettingElement[];
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects?: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints?: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio?: boolean;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign?: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight?: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills?: PaintElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes?: PaintElement[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style?: NodeTypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides?: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable?: { [key: string]: NodeTypeStyle };
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId?: string;
+};
+
+/**
+ * Format and size to export an asset at
+ */
+export type ExportSetting = {
+    /**
+     * File suffix to append to all filenames
+     */
+    suffix: string;
+    /**
+     * Type of constraint to apply; string enum with potential values below
+     *
+     * * "SCALE": Scale by value
+     * * "WIDTH": Scale proportionally and set width to value
+     * * "HEIGHT": Scale proportionally and set height to value
+     */
+    format: Format;
+    /**
+     * Constraint that determines sizing of exported asset
+     */
+    constraint: ExportSettingConstraint;
+};
+
+/**
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type DocumentNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of canvases attached to the document
+     */
+    children: Node4[];
+};
+
+/**
+ * An array of canvases attached to the document
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type Node4 = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     *
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
+     */
+    children?: NodeNode[];
+    /**
+     * Background color of the canvas
+     *
+     * Background color of the node
+     */
+    backgroundColor?: EffectColor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * A rectangular region of the canvas that can be exported
+     */
+    exportSettings?: ExportSettingElement[];
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects?: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints?: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio?: boolean;
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    strokeAlign?: StrokeAlign;
+    /**
+     * The weight of strokes on the node
+     */
+    strokeWeight?: number;
+    /**
+     * An array of fill paints applied to the node
+     */
+    fills?: PaintElement[];
+    /**
+     * An array of stroke paints applied to the node
+     */
+    strokes?: PaintElement[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
+    /**
+     * Style of text including font family and weight (see type style section for more
+     * information)
+     */
+    style?: NodeTypeStyle;
+    /**
+     * Array with same number of elements as characeters in text box, each element is a
+     * reference to the styleOverrideTable defined below and maps to the corresponding character
+     * in the characters field. Elements with value 0 have the default type style
+     */
+    characterStyleOverrides?: number[];
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    styleOverrideTable?: { [key: string]: NodeTypeStyle };
+    /**
+     * ID of component that this instance came from, refers to components table (see endpoints
+     * section below)
+     */
+    componentId?: string;
 };
 
 /**
@@ -488,16 +5290,241 @@ export type Constraint = {
 };
 
 /**
- * Type of constraint to apply; string enum with potential values below
- *
- * * "SCALE": Scale by value
- * * "WIDTH": Scale proportionally and set width to value
- * * "HEIGHT": Scale proportionally and set height to value
+ * A solid color, gradient, or image texture that can be applied as fills or strokes
  */
-export type ConstraintType =
-      "HEIGHT"
-    | "SCALE"
-    | "WIDTH";
+export type Paint = {
+    /**
+     * Type of paint as a string enum
+     */
+    type: PaintType;
+    /**
+     * Is the paint enabled?
+     */
+    visible: boolean;
+    /**
+     * Overall opacity of paint (colors within the paint can also have opacity values which
+     * would blend with this)
+     */
+    opacity: number;
+    /**
+     * (For solid paints) Solid color of the paint
+     */
+    color?: EffectColor;
+    /**
+     * (For gradient paints) This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left corner of the
+     * bounding box of the object is (0, 0) and the bottom right is (1,1)). The first position
+     * corresponds to the start of the gradient (value 0 for the purposes of calculating
+     * gradient stops), the second position is the end of the gradient (value 1), and the third
+     * handle position determines the width of the gradient (only relevant for non-linear
+     * gradients).
+     */
+    gradientHandlePositions?: EffectVector[];
+    /**
+     * (For gradient paints) Positions of key points along the gradient axis with the colors
+     * anchored there. Colors along the gradient are interpolated smoothly between neighboring
+     * gradient stops.
+     */
+    gradientStops?: ColorStopElement[];
+    /**
+     * (For image paints) Image scaling mode
+     */
+    scaleMode?: ScaleMode;
+};
+
+/**
+ * A node that can have instances created of it that share the same properties
+ *
+ * A logical grouping of nodes
+ *
+ * A regular n-sided polygon
+ *
+ * An ellipse
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
+ *
+ * Properties are shared across all nodes
+ *
+ * See type property for effect of this field
+ *
+ * Red channel value, between 0 and 1
+ *
+ * Green channel value, between 0 and 1
+ *
+ * Blue channel value, between 0 and 1
+ *
+ * Alpha channel value, between 0 and 1
+ *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Opacity of the node
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Radius of each corner of the rectangle
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
+ * Whether or not the node is visible on the canvas
+ *
+ * Is the paint enabled?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * Is text italicized?
+ *
+ * A string uniquely identifying this node within the document
+ *
+ * The name given to the node by the user in the tool
+ *
+ * Node ID of node to transition to in prototyping
+ *
+ * File suffix to append to all filenames
+ *
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
+ *
+ * Unique identifier for comment
+ *
+ * The file in which the comment lives
+ *
+ * If present, the id of the comment to which this is the reply
+ */
+export type ComponentNode = {
+    /**
+     * A string uniquely identifying this node within the document
+     */
+    id: string;
+    /**
+     * The name given to the node by the user in the tool
+     */
+    name: string;
+    /**
+     * Whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * The type of the node
+     */
+    type: RegularPolygonNodeType;
+    /**
+     * An array of effects attached to this node (see effects section for more details)
+     */
+    effects: EffectElement[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section for more
+     * details). GROUP nodes do not have this attribute
+     */
+    layoutGrids: LayoutGridElement[];
+    /**
+     * Opacity of the node
+     */
+    opacity: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox: RegularPolygonNodeRectangle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    blendMode: BlendMode;
+    /**
+     * Background color of the node
+     */
+    backgroundColor: EffectColor;
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    constraints: RegularPolygonNodeLayoutConstraint;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     */
+    exportSettings: ExportSettingElement[];
+    /**
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
+     */
+    preserveRatio: boolean;
+    /**
+     * An array of nodes that are direct children of this node
+     */
+    children: Node1[];
+};
 
 /**
  * A comment or reply left by a user
@@ -533,11 +5560,43 @@ export type CommentUser = {
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
+function toRegularPolygonNode(json: string): RegularPolygonNode {
+    return cast(JSON.parse(json), o("RegularPolygonNode"));
+}
+
+function regularPolygonNodeToJson(value: RegularPolygonNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toEllipseNode(json: string): EllipseNode {
+    return cast(JSON.parse(json), o("EllipseNode"));
+}
+
+function ellipseNodeToJson(value: EllipseNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toGroupNode(json: string): GroupNode {
+    return cast(JSON.parse(json), o("GroupNode"));
+}
+
+function groupNodeToJson(value: GroupNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
 function toNode(json: string): Node {
     return cast(JSON.parse(json), o("Node"));
 }
 
 function nodeToJson(value: Node): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toVector(json: string): Vector {
+    return cast(JSON.parse(json), o("Vector"));
+}
+
+function vectorToJson(value: Vector): string {
     return JSON.stringify(value, null, 2);
 }
 
@@ -557,11 +5616,91 @@ function globalToJson(value: Global): string {
     return JSON.stringify(value, null, 2);
 }
 
+function toColorStop(json: string): ColorStop {
+    return cast(JSON.parse(json), o("ColorStop"));
+}
+
+function colorStopToJson(value: ColorStop): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toVectorNode(json: string): VectorNode {
+    return cast(JSON.parse(json), o("VectorNode"));
+}
+
+function vectorNodeToJson(value: VectorNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toLayoutConstraint(json: string): LayoutConstraint {
+    return cast(JSON.parse(json), o("LayoutConstraint"));
+}
+
+function layoutConstraintToJson(value: LayoutConstraint): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toBooleanNode(json: string): BooleanNode {
+    return cast(JSON.parse(json), o("BooleanNode"));
+}
+
+function booleanNodeToJson(value: BooleanNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
 function toUser(json: string): User {
     return cast(JSON.parse(json), o("User"));
 }
 
 function userToJson(value: User): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toTextNode(json: string): TextNode {
+    return cast(JSON.parse(json), o("TextNode"));
+}
+
+function textNodeToJson(value: TextNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toFrameNode(json: string): FrameNode {
+    return cast(JSON.parse(json), o("FrameNode"));
+}
+
+function frameNodeToJson(value: FrameNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toRectangle(json: string): Rectangle {
+    return cast(JSON.parse(json), o("Rectangle"));
+}
+
+function rectangleToJson(value: Rectangle): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toLayoutGrid(json: string): LayoutGrid {
+    return cast(JSON.parse(json), o("LayoutGrid"));
+}
+
+function layoutGridToJson(value: LayoutGrid): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toEffect(json: string): Effect {
+    return cast(JSON.parse(json), o("Effect"));
+}
+
+function effectToJson(value: Effect): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toRectangleNode(json: string): RectangleNode {
+    return cast(JSON.parse(json), o("RectangleNode"));
+}
+
+function rectangleNodeToJson(value: RectangleNode): string {
     return JSON.stringify(value, null, 2);
 }
 
@@ -573,19 +5712,67 @@ function blendModeToJson(value: BlendMode): string {
     return JSON.stringify(value, null, 2);
 }
 
-function toCanvas(json: string): Canvas {
-    return cast(JSON.parse(json), o("Canvas"));
+function toSliceNode(json: string): SliceNode {
+    return cast(JSON.parse(json), o("SliceNode"));
 }
 
-function canvasToJson(value: Canvas): string {
+function sliceNodeToJson(value: SliceNode): string {
     return JSON.stringify(value, null, 2);
 }
 
-function toDocument(json: string): Document {
-    return cast(JSON.parse(json), o("Document"));
+function toStarNode(json: string): StarNode {
+    return cast(JSON.parse(json), o("StarNode"));
 }
 
-function documentToJson(value: Document): string {
+function starNodeToJson(value: StarNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toLineNode(json: string): LineNode {
+    return cast(JSON.parse(json), o("LineNode"));
+}
+
+function lineNodeToJson(value: LineNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toInstanceNode(json: string): InstanceNode {
+    return cast(JSON.parse(json), o("InstanceNode"));
+}
+
+function instanceNodeToJson(value: InstanceNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toTypeStyle(json: string): TypeStyle {
+    return cast(JSON.parse(json), o("TypeStyle"));
+}
+
+function typeStyleToJson(value: TypeStyle): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toCanvasNode(json: string): CanvasNode {
+    return cast(JSON.parse(json), o("CanvasNode"));
+}
+
+function canvasNodeToJson(value: CanvasNode): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toExportSetting(json: string): ExportSetting {
+    return cast(JSON.parse(json), o("ExportSetting"));
+}
+
+function exportSettingToJson(value: ExportSetting): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toDocumentNode(json: string): DocumentNode {
+    return cast(JSON.parse(json), o("DocumentNode"));
+}
+
+function documentNodeToJson(value: DocumentNode): string {
     return JSON.stringify(value, null, 2);
 }
 
@@ -594,6 +5781,22 @@ function toConstraint(json: string): Constraint {
 }
 
 function constraintToJson(value: Constraint): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toPaint(json: string): Paint {
+    return cast(JSON.parse(json), o("Paint"));
+}
+
+function paintToJson(value: Paint): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toComponentNode(json: string): ComponentNode {
+    return cast(JSON.parse(json), o("ComponentNode"));
+}
+
+function componentNodeToJson(value: ComponentNode): string {
     return JSON.stringify(value, null, 2);
 }
 
@@ -683,27 +5886,226 @@ function o(className: string) {
 }
 
 const typeMap: any = {
-    "Node": {
+    "RegularPolygonNode": {
         id: "",
         name: "",
         visible: false,
-        type: e("NodeType"),
-        children: u(null, a(o("NodeNode"))),
-        backgroundColor: u(null, o("NodeColor")),
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        opacity: 3.14,
+        strokeAlign: e("StrokeAlign"),
+        strokeWeight: 3.14,
+        fills: a(o("PaintElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        exportSettings: a(o("ExportSettingElement")),
+        strokes: a(o("PaintElement")),
+        preserveRatio: false,
     },
-    "NodeColor": {
+    "RegularPolygonNodeRectangle": {
+        x: 3.14,
+        y: 3.14,
+        width: 3.14,
+        height: 3.14,
+    },
+    "RegularPolygonNodeLayoutConstraint": {
+        vertical: e("Vertical"),
+        horizontal: e("Horizontal"),
+    },
+    "EffectElement": {
+        type: e("EffectType"),
+        radius: 3.14,
+        visible: false,
+        color: o("EffectColor"),
+        blendMode: e("BlendMode"),
+        offset: o("EffectVector"),
+    },
+    "EffectColor": {
         r: 3.14,
         g: 3.14,
         b: 3.14,
         a: 3.14,
     },
+    "EffectVector": {
+        x: 3.14,
+        y: 3.14,
+    },
+    "ExportSettingElement": {
+        suffix: "",
+        format: e("Format"),
+        constraint: o("ExportSettingConstraint"),
+    },
+    "ExportSettingConstraint": {
+        type: e("ConstraintType"),
+        value: u(null, 3.14),
+    },
+    "PaintElement": {
+        type: e("PaintType"),
+        visible: false,
+        opacity: 3.14,
+        color: u(null, o("EffectColor")),
+        gradientHandlePositions: u(null, a(o("EffectVector"))),
+        gradientStops: u(null, a(o("ColorStopElement"))),
+        scaleMode: u(null, e("ScaleMode")),
+    },
+    "ColorStopElement": {
+        color: o("EffectColor"),
+        position: 3.14,
+    },
+    "EllipseNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        opacity: 3.14,
+        strokeAlign: e("StrokeAlign"),
+        strokeWeight: 3.14,
+        fills: a(o("PaintElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        exportSettings: a(o("ExportSettingElement")),
+        strokes: a(o("PaintElement")),
+        preserveRatio: false,
+    },
+    "GroupNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        layoutGrids: a(o("LayoutGridElement")),
+        opacity: 3.14,
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        backgroundColor: o("EffectColor"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        clipsContent: false,
+        exportSettings: a(o("ExportSettingElement")),
+        preserveRatio: false,
+        children: a(o("Node1")),
+    },
+    "Node1": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        children: u(null, a(o("NodeNode"))),
+        backgroundColor: u(null, o("EffectColor")),
+        exportSettings: u(null, a(o("ExportSettingElement"))),
+        effects: u(null, a(o("EffectElement"))),
+        layoutGrids: u(null, a(o("LayoutGridElement"))),
+        opacity: u(null, 3.14),
+        absoluteBoundingBox: u(null, o("RegularPolygonNodeRectangle")),
+        transitionNodeID: u(null, ""),
+        blendMode: u(null, e("BlendMode")),
+        constraints: u(null, o("RegularPolygonNodeLayoutConstraint")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        preserveRatio: u(null, false),
+        strokeAlign: u(null, e("StrokeAlign")),
+        strokeWeight: u(null, 3.14),
+        fills: u(null, a(o("PaintElement"))),
+        strokes: u(null, a(o("PaintElement"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
+        style: u(null, o("NodeTypeStyle")),
+        characterStyleOverrides: u(null, a(3.14)),
+        styleOverrideTable: u(null, m(o("NodeTypeStyle"))),
+        componentId: u(null, ""),
+    },
     "NodeNode": {
         id: "",
         name: "",
         visible: false,
-        type: e("NodeType"),
+        type: e("RegularPolygonNodeType"),
         children: u(null, a(o("NodeNode"))),
-        backgroundColor: u(null, o("NodeColor")),
+        backgroundColor: u(null, o("EffectColor")),
+        exportSettings: u(null, a(o("ExportSettingElement"))),
+        effects: u(null, a(o("EffectElement"))),
+        layoutGrids: u(null, a(o("LayoutGridElement"))),
+        opacity: u(null, 3.14),
+        absoluteBoundingBox: u(null, o("RegularPolygonNodeRectangle")),
+        transitionNodeID: u(null, ""),
+        blendMode: u(null, e("BlendMode")),
+        constraints: u(null, o("RegularPolygonNodeLayoutConstraint")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        preserveRatio: u(null, false),
+        strokeAlign: u(null, e("StrokeAlign")),
+        strokeWeight: u(null, 3.14),
+        fills: u(null, a(o("PaintElement"))),
+        strokes: u(null, a(o("PaintElement"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
+        style: u(null, o("NodeTypeStyle")),
+        characterStyleOverrides: u(null, a(3.14)),
+        styleOverrideTable: u(null, m(o("NodeTypeStyle"))),
+        componentId: u(null, ""),
+    },
+    "LayoutGridElement": {
+        pattern: e("Pattern"),
+        sectionSize: 3.14,
+        visible: false,
+        color: o("EffectColor"),
+        alignment: e("Alignment"),
+        gutterSize: 3.14,
+        offset: 3.14,
+        count: 3.14,
+    },
+    "NodeTypeStyle": {
+        lineHeightPx: 3.14,
+        fontPostScriptName: "",
+        fontWeight: 3.14,
+        lineHeightPercent: 3.14,
+        textAlignVertical: e("TextAlignVertical"),
+        fontSize: 3.14,
+        italic: false,
+        fills: a(o("PaintElement")),
+        fontFamily: "",
+        textAlignHorizontal: e("TextAlignHorizontal"),
+        letterSpacing: 3.14,
+    },
+    "Node": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        children: u(null, a(o("NodeNode"))),
+        backgroundColor: u(null, o("EffectColor")),
+        exportSettings: u(null, a(o("ExportSettingElement"))),
+        effects: u(null, a(o("EffectElement"))),
+        layoutGrids: u(null, a(o("LayoutGridElement"))),
+        opacity: u(null, 3.14),
+        absoluteBoundingBox: u(null, o("RegularPolygonNodeRectangle")),
+        transitionNodeID: u(null, ""),
+        blendMode: u(null, e("BlendMode")),
+        constraints: u(null, o("RegularPolygonNodeLayoutConstraint")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        preserveRatio: u(null, false),
+        strokeAlign: u(null, e("StrokeAlign")),
+        strokeWeight: u(null, 3.14),
+        fills: u(null, a(o("PaintElement"))),
+        strokes: u(null, a(o("PaintElement"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
+        style: u(null, o("NodeTypeStyle")),
+        characterStyleOverrides: u(null, a(3.14)),
+        styleOverrideTable: u(null, m(o("NodeTypeStyle"))),
+        componentId: u(null, ""),
+    },
+    "Vector": {
+        x: 3.14,
+        y: 3.14,
     },
     "Color": {
         r: 3.14,
@@ -715,46 +6117,392 @@ const typeMap: any = {
         id: "",
         name: "",
         visible: false,
-        type: e("NodeType"),
+        type: e("RegularPolygonNodeType"),
     },
-    "User": {
-        handle: "",
-        img_url: "",
+    "ColorStop": {
+        color: o("EffectColor"),
+        position: 3.14,
     },
-    "Canvas": {
+    "VectorNode": {
         id: "",
         name: "",
         visible: false,
-        type: e("NodeType"),
-        children: u(null, a(o("Node1"))),
-        backgroundColor: u(null, o("NodeColor")),
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        opacity: 3.14,
+        strokeAlign: e("StrokeAlign"),
+        strokeWeight: 3.14,
+        fills: a(o("PaintElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        exportSettings: a(o("ExportSettingElement")),
+        strokes: a(o("PaintElement")),
+        preserveRatio: false,
     },
-    "Node1": {
+    "LayoutConstraint": {
+        vertical: e("Vertical"),
+        horizontal: e("Horizontal"),
+    },
+    "BooleanNode": {
         id: "",
         name: "",
         visible: false,
-        type: e("NodeType"),
-        children: u(null, a(o("NodeNode"))),
-        backgroundColor: u(null, o("NodeColor")),
-    },
-    "Document": {
-        id: "",
-        name: "",
-        visible: false,
-        type: e("NodeType"),
-        children: u(null, a(o("Node2"))),
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        opacity: 3.14,
+        strokeAlign: e("StrokeAlign"),
+        strokeWeight: 3.14,
+        fills: a(o("PaintElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        exportSettings: a(o("ExportSettingElement")),
+        strokes: a(o("PaintElement")),
+        preserveRatio: false,
+        children: a(o("Node2")),
     },
     "Node2": {
         id: "",
         name: "",
         visible: false,
-        type: e("NodeType"),
+        type: e("RegularPolygonNodeType"),
         children: u(null, a(o("NodeNode"))),
-        backgroundColor: u(null, o("NodeColor")),
+        backgroundColor: u(null, o("EffectColor")),
+        exportSettings: u(null, a(o("ExportSettingElement"))),
+        effects: u(null, a(o("EffectElement"))),
+        layoutGrids: u(null, a(o("LayoutGridElement"))),
+        opacity: u(null, 3.14),
+        absoluteBoundingBox: u(null, o("RegularPolygonNodeRectangle")),
+        transitionNodeID: u(null, ""),
+        blendMode: u(null, e("BlendMode")),
+        constraints: u(null, o("RegularPolygonNodeLayoutConstraint")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        preserveRatio: u(null, false),
+        strokeAlign: u(null, e("StrokeAlign")),
+        strokeWeight: u(null, 3.14),
+        fills: u(null, a(o("PaintElement"))),
+        strokes: u(null, a(o("PaintElement"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
+        style: u(null, o("NodeTypeStyle")),
+        characterStyleOverrides: u(null, a(3.14)),
+        styleOverrideTable: u(null, m(o("NodeTypeStyle"))),
+        componentId: u(null, ""),
+    },
+    "User": {
+        handle: "",
+        img_url: "",
+    },
+    "TextNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        opacity: 3.14,
+        strokeAlign: e("StrokeAlign"),
+        strokeWeight: 3.14,
+        fills: a(o("PaintElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        exportSettings: a(o("ExportSettingElement")),
+        strokes: a(o("PaintElement")),
+        preserveRatio: false,
+        characters: "",
+        style: o("NodeTypeStyle"),
+        characterStyleOverrides: a(3.14),
+        styleOverrideTable: m(o("NodeTypeStyle")),
+    },
+    "FrameNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        layoutGrids: a(o("LayoutGridElement")),
+        opacity: 3.14,
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        backgroundColor: o("EffectColor"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        clipsContent: false,
+        exportSettings: a(o("ExportSettingElement")),
+        preserveRatio: false,
+        children: a(o("FrameNodeNode")),
+    },
+    "FrameNodeNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        children: u(null, a(o("NodeNode"))),
+        backgroundColor: u(null, o("EffectColor")),
+        exportSettings: u(null, a(o("ExportSettingElement"))),
+        effects: u(null, a(o("EffectElement"))),
+        layoutGrids: u(null, a(o("LayoutGridElement"))),
+        opacity: u(null, 3.14),
+        absoluteBoundingBox: u(null, o("RegularPolygonNodeRectangle")),
+        transitionNodeID: u(null, ""),
+        blendMode: u(null, e("BlendMode")),
+        constraints: u(null, o("RegularPolygonNodeLayoutConstraint")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        preserveRatio: u(null, false),
+        strokeAlign: u(null, e("StrokeAlign")),
+        strokeWeight: u(null, 3.14),
+        fills: u(null, a(o("PaintElement"))),
+        strokes: u(null, a(o("PaintElement"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
+        style: u(null, o("NodeTypeStyle")),
+        characterStyleOverrides: u(null, a(3.14)),
+        styleOverrideTable: u(null, m(o("NodeTypeStyle"))),
+        componentId: u(null, ""),
+    },
+    "Rectangle": {
+        x: 3.14,
+        y: 3.14,
+        width: 3.14,
+        height: 3.14,
+    },
+    "LayoutGrid": {
+        pattern: e("Pattern"),
+        sectionSize: 3.14,
+        visible: false,
+        color: o("EffectColor"),
+        alignment: e("Alignment"),
+        gutterSize: 3.14,
+        offset: 3.14,
+        count: 3.14,
+    },
+    "Effect": {
+        type: e("EffectType"),
+        radius: 3.14,
+        visible: false,
+        color: o("EffectColor"),
+        blendMode: e("BlendMode"),
+        offset: o("EffectVector"),
+    },
+    "RectangleNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        opacity: 3.14,
+        strokeAlign: e("StrokeAlign"),
+        strokeWeight: 3.14,
+        fills: a(o("PaintElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        exportSettings: a(o("ExportSettingElement")),
+        strokes: a(o("PaintElement")),
+        preserveRatio: false,
+        cornerRadius: 3.14,
+    },
+    "SliceNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        exportSettings: a(o("ExportSettingElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+    },
+    "StarNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        opacity: 3.14,
+        strokeAlign: e("StrokeAlign"),
+        strokeWeight: 3.14,
+        fills: a(o("PaintElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        exportSettings: a(o("ExportSettingElement")),
+        strokes: a(o("PaintElement")),
+        preserveRatio: false,
+    },
+    "LineNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        opacity: 3.14,
+        strokeAlign: e("StrokeAlign"),
+        strokeWeight: 3.14,
+        fills: a(o("PaintElement")),
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        exportSettings: a(o("ExportSettingElement")),
+        strokes: a(o("PaintElement")),
+        preserveRatio: false,
+    },
+    "InstanceNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        layoutGrids: a(o("LayoutGridElement")),
+        opacity: 3.14,
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        backgroundColor: o("EffectColor"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        clipsContent: false,
+        exportSettings: a(o("ExportSettingElement")),
+        preserveRatio: false,
+        children: a(o("Node1")),
+        componentId: "",
+    },
+    "TypeStyle": {
+        lineHeightPx: 3.14,
+        fontPostScriptName: "",
+        fontWeight: 3.14,
+        lineHeightPercent: 3.14,
+        textAlignVertical: e("TextAlignVertical"),
+        fontSize: 3.14,
+        italic: false,
+        fills: a(o("PaintElement")),
+        fontFamily: "",
+        textAlignHorizontal: e("TextAlignHorizontal"),
+        letterSpacing: 3.14,
+    },
+    "CanvasNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        children: a(o("Node3")),
+        backgroundColor: o("EffectColor"),
+        exportSettings: a(o("ExportSettingElement")),
+    },
+    "Node3": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        children: u(null, a(o("NodeNode"))),
+        backgroundColor: u(null, o("EffectColor")),
+        exportSettings: u(null, a(o("ExportSettingElement"))),
+        effects: u(null, a(o("EffectElement"))),
+        layoutGrids: u(null, a(o("LayoutGridElement"))),
+        opacity: u(null, 3.14),
+        absoluteBoundingBox: u(null, o("RegularPolygonNodeRectangle")),
+        transitionNodeID: u(null, ""),
+        blendMode: u(null, e("BlendMode")),
+        constraints: u(null, o("RegularPolygonNodeLayoutConstraint")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        preserveRatio: u(null, false),
+        strokeAlign: u(null, e("StrokeAlign")),
+        strokeWeight: u(null, 3.14),
+        fills: u(null, a(o("PaintElement"))),
+        strokes: u(null, a(o("PaintElement"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
+        style: u(null, o("NodeTypeStyle")),
+        characterStyleOverrides: u(null, a(3.14)),
+        styleOverrideTable: u(null, m(o("NodeTypeStyle"))),
+        componentId: u(null, ""),
+    },
+    "ExportSetting": {
+        suffix: "",
+        format: e("Format"),
+        constraint: o("ExportSettingConstraint"),
+    },
+    "DocumentNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        children: a(o("Node4")),
+    },
+    "Node4": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        children: u(null, a(o("NodeNode"))),
+        backgroundColor: u(null, o("EffectColor")),
+        exportSettings: u(null, a(o("ExportSettingElement"))),
+        effects: u(null, a(o("EffectElement"))),
+        layoutGrids: u(null, a(o("LayoutGridElement"))),
+        opacity: u(null, 3.14),
+        absoluteBoundingBox: u(null, o("RegularPolygonNodeRectangle")),
+        transitionNodeID: u(null, ""),
+        blendMode: u(null, e("BlendMode")),
+        constraints: u(null, o("RegularPolygonNodeLayoutConstraint")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        preserveRatio: u(null, false),
+        strokeAlign: u(null, e("StrokeAlign")),
+        strokeWeight: u(null, 3.14),
+        fills: u(null, a(o("PaintElement"))),
+        strokes: u(null, a(o("PaintElement"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
+        style: u(null, o("NodeTypeStyle")),
+        characterStyleOverrides: u(null, a(3.14)),
+        styleOverrideTable: u(null, m(o("NodeTypeStyle"))),
+        componentId: u(null, ""),
     },
     "Constraint": {
         type: e("ConstraintType"),
         value: u(null, 3.14),
+    },
+    "Paint": {
+        type: e("PaintType"),
+        visible: false,
+        opacity: 3.14,
+        color: u(null, o("EffectColor")),
+        gradientHandlePositions: u(null, a(o("EffectVector"))),
+        gradientStops: u(null, a(o("ColorStopElement"))),
+        scaleMode: u(null, e("ScaleMode")),
+    },
+    "ComponentNode": {
+        id: "",
+        name: "",
+        visible: false,
+        type: e("RegularPolygonNodeType"),
+        effects: a(o("EffectElement")),
+        layoutGrids: a(o("LayoutGridElement")),
+        opacity: 3.14,
+        absoluteBoundingBox: o("RegularPolygonNodeRectangle"),
+        transitionNodeID: u(null, ""),
+        blendMode: e("BlendMode"),
+        backgroundColor: o("EffectColor"),
+        constraints: o("RegularPolygonNodeLayoutConstraint"),
+        isMask: false,
+        clipsContent: false,
+        exportSettings: a(o("ExportSettingElement")),
+        preserveRatio: false,
+        children: a(o("Node1")),
     },
     "Comment": {
         id: "",
@@ -766,23 +6514,6 @@ const typeMap: any = {
         handle: "",
         img_url: "",
     },
-    "NodeType": [
-        "BOOLEAN",
-        "CANVAS",
-        "COMPONENT",
-        "DOCUMENT",
-        "ELLIPSE",
-        "FRAME",
-        "GROUP",
-        "INSTANCE",
-        "LINE",
-        "RECTANGLE",
-        "REGULAR_POLYGON",
-        "SLICE",
-        "STAR",
-        "TEXT",
-        "VECTOR",
-    ],
     "BlendMode": [
         "COLOR",
         "COLOR_BURN",
@@ -804,30 +6535,157 @@ const typeMap: any = {
         "SCREEN",
         "SOFT_LIGHT",
     ],
+    "Horizontal": [
+        "CENTER",
+        "LEFT",
+        "LEFT_RIGHT",
+        "RIGHT",
+        "SCALE",
+    ],
+    "Vertical": [
+        "BOTTOM",
+        "CENTER",
+        "SCALE",
+        "TOP",
+        "TOP_BOTTOM",
+    ],
+    "EffectType": [
+        "BACKGROUND_BLUR",
+        "DROP_SHADOW",
+        "INNER_SHADOW",
+        "LAYER_BLUR",
+    ],
     "ConstraintType": [
         "HEIGHT",
         "SCALE",
         "WIDTH",
     ],
+    "Format": [
+        "JPG",
+        "PNG",
+        "SVG",
+    ],
+    "ScaleMode": [
+        "FILL",
+        "FIT",
+        "STRETCH",
+        "TILE",
+    ],
+    "PaintType": [
+        "EMOJI",
+        "GRADIENT_ANGULAR",
+        "GRADIENT_DIAMOND",
+        "GRADIENT_LINEAR",
+        "GRADIENT_RADIAL",
+        "IMAGE",
+        "SOLID",
+    ],
+    "StrokeAlign": [
+        "CENTER",
+        "INSIDE",
+        "OUTSIDE",
+    ],
+    "RegularPolygonNodeType": [
+        "BOOLEAN",
+        "CANVAS",
+        "COMPONENT",
+        "DOCUMENT",
+        "ELLIPSE",
+        "FRAME",
+        "GROUP",
+        "INSTANCE",
+        "LINE",
+        "RECTANGLE",
+        "REGULAR_POLYGON",
+        "SLICE",
+        "STAR",
+        "TEXT",
+        "VECTOR",
+    ],
+    "Alignment": [
+        "CENTER",
+        "MAX",
+        "MIN",
+    ],
+    "Pattern": [
+        "COLUMNS",
+        "GRID",
+        "ROWS",
+    ],
+    "TextAlignHorizontal": [
+        "CENTER",
+        "JUSTIFIED",
+        "LEFT",
+        "RIGHT",
+    ],
+    "TextAlignVertical": [
+        "BOTTOM",
+        "CENTER",
+        "TOP",
+    ],
 };
 
 module.exports = {
+    "regularPolygonNodeToJson": regularPolygonNodeToJson,
+    "toRegularPolygonNode": toRegularPolygonNode,
+    "ellipseNodeToJson": ellipseNodeToJson,
+    "toEllipseNode": toEllipseNode,
+    "groupNodeToJson": groupNodeToJson,
+    "toGroupNode": toGroupNode,
     "nodeToJson": nodeToJson,
     "toNode": toNode,
+    "vectorToJson": vectorToJson,
+    "toVector": toVector,
     "colorToJson": colorToJson,
     "toColor": toColor,
     "globalToJson": globalToJson,
     "toGlobal": toGlobal,
+    "colorStopToJson": colorStopToJson,
+    "toColorStop": toColorStop,
+    "vectorNodeToJson": vectorNodeToJson,
+    "toVectorNode": toVectorNode,
+    "layoutConstraintToJson": layoutConstraintToJson,
+    "toLayoutConstraint": toLayoutConstraint,
+    "booleanNodeToJson": booleanNodeToJson,
+    "toBooleanNode": toBooleanNode,
     "userToJson": userToJson,
     "toUser": toUser,
+    "textNodeToJson": textNodeToJson,
+    "toTextNode": toTextNode,
+    "frameNodeToJson": frameNodeToJson,
+    "toFrameNode": toFrameNode,
+    "rectangleToJson": rectangleToJson,
+    "toRectangle": toRectangle,
+    "layoutGridToJson": layoutGridToJson,
+    "toLayoutGrid": toLayoutGrid,
+    "effectToJson": effectToJson,
+    "toEffect": toEffect,
+    "rectangleNodeToJson": rectangleNodeToJson,
+    "toRectangleNode": toRectangleNode,
     "blendModeToJson": blendModeToJson,
     "toBlendMode": toBlendMode,
-    "canvasToJson": canvasToJson,
-    "toCanvas": toCanvas,
-    "documentToJson": documentToJson,
-    "toDocument": toDocument,
+    "sliceNodeToJson": sliceNodeToJson,
+    "toSliceNode": toSliceNode,
+    "starNodeToJson": starNodeToJson,
+    "toStarNode": toStarNode,
+    "lineNodeToJson": lineNodeToJson,
+    "toLineNode": toLineNode,
+    "instanceNodeToJson": instanceNodeToJson,
+    "toInstanceNode": toInstanceNode,
+    "typeStyleToJson": typeStyleToJson,
+    "toTypeStyle": toTypeStyle,
+    "canvasNodeToJson": canvasNodeToJson,
+    "toCanvasNode": toCanvasNode,
+    "exportSettingToJson": exportSettingToJson,
+    "toExportSetting": toExportSetting,
+    "documentNodeToJson": documentNodeToJson,
+    "toDocumentNode": toDocumentNode,
     "constraintToJson": constraintToJson,
     "toConstraint": toConstraint,
+    "paintToJson": paintToJson,
+    "toPaint": toPaint,
+    "componentNodeToJson": componentNodeToJson,
+    "toComponentNode": toComponentNode,
     "commentToJson": commentToJson,
     "toComment": toComment,
 };

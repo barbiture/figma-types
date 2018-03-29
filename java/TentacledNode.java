@@ -4,7 +4,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * An array of nodes that are being boolean operated on
+ * An array of top level layers on the canvas
  *
  * An array of nodes that are direct children of this node
  *
@@ -124,7 +124,7 @@ import com.fasterxml.jackson.annotation.*;
  *
  * If present, the id of the comment to which this is the reply
  */
-public class FluffyNode {
+public class TentacledNode {
     private String id;
     private String name;
     private boolean visible;

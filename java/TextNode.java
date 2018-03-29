@@ -4,9 +4,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * An array of nodes that are being boolean operated on
- *
- * An array of nodes that are direct children of this node
+ * A text box
  *
  * A regular n-sided polygon
  *
@@ -14,13 +12,13 @@ import com.fasterxml.jackson.annotation.*;
  *
  * A logical grouping of nodes
  *
+ * An array of nodes that are direct children of this node
+ *
  * A group that has a boolean operation applied to it
  *
  * A regular star shape
  *
  * A straight line
- *
- * A text box
  *
  * A rectangular region of the canvas that can be exported
  *
@@ -124,34 +122,28 @@ import com.fasterxml.jackson.annotation.*;
  *
  * If present, the id of the comment to which this is the reply
  */
-public class FluffyNode {
+public class TextNode {
     private String id;
     private String name;
     private boolean visible;
     private RegularPolygonNodeType type;
-    private NodeNode[] children;
-    private EffectColor backgroundColor;
-    private ExportSettingElement[] exportSettings;
     private EffectElement[] effects;
-    private LayoutGridElement[] layoutGrids;
-    private Double opacity;
+    private double opacity;
+    private StrokeAlign strokeAlign;
+    private double strokeWeight;
+    private PaintElement[] fills;
     private RegularPolygonNodeRectangle absoluteBoundingBox;
     private String transitionNodeID;
     private BlendMode blendMode;
     private RegularPolygonNodeLayoutConstraint constraints;
-    private Boolean isMask;
-    private Boolean clipsContent;
-    private Boolean preserveRatio;
-    private StrokeAlign strokeAlign;
-    private Double strokeWeight;
-    private PaintElement[] fills;
+    private boolean isMask;
+    private ExportSettingElement[] exportSettings;
     private PaintElement[] strokes;
-    private Double cornerRadius;
+    private boolean preserveRatio;
     private String characters;
     private NodeTypeStyle style;
     private double[] characterStyleOverrides;
     private Map<String, NodeTypeStyle> styleOverrideTable;
-    private String componentID;
 
     /**
      * A string uniquely identifying this node within the document
@@ -186,42 +178,6 @@ public class FluffyNode {
     public void setType(RegularPolygonNodeType value) { this.type = value; }
 
     /**
-     * An array of canvases attached to the document
-     *
-     * An array of top level layers on the canvas
-     *
-     * An array of nodes that are direct children of this node
-     *
-     * An array of nodes that are being boolean operated on
-     */
-    @JsonProperty("children")
-    public NodeNode[] getChildren() { return children; }
-    @JsonProperty("children")
-    public void setChildren(NodeNode[] value) { this.children = value; }
-
-    /**
-     * Background color of the canvas
-     *
-     * Background color of the node
-     */
-    @JsonProperty("backgroundColor")
-    public EffectColor getBackgroundColor() { return backgroundColor; }
-    @JsonProperty("backgroundColor")
-    public void setBackgroundColor(EffectColor value) { this.backgroundColor = value; }
-
-    /**
-     * An array of export settings representing images to export from the canvas
-     *
-     * An array of export settings representing images to export from node
-     *
-     * A rectangular region of the canvas that can be exported
-     */
-    @JsonProperty("exportSettings")
-    public ExportSettingElement[] getExportSettings() { return exportSettings; }
-    @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
-
-    /**
      * An array of effects attached to this node (see effects section for more details)
      */
     @JsonProperty("effects")
@@ -230,21 +186,40 @@ public class FluffyNode {
     public void setEffects(EffectElement[] value) { this.effects = value; }
 
     /**
-     * An array of layout grids attached to this node (see layout grids section for more
-     * details). GROUP nodes do not have this attribute
-     */
-    @JsonProperty("layoutGrids")
-    public LayoutGridElement[] getLayoutGrids() { return layoutGrids; }
-    @JsonProperty("layoutGrids")
-    public void setLayoutGrids(LayoutGridElement[] value) { this.layoutGrids = value; }
-
-    /**
      * Opacity of the node
      */
     @JsonProperty("opacity")
-    public Double getOpacity() { return opacity; }
+    public double getOpacity() { return opacity; }
     @JsonProperty("opacity")
-    public void setOpacity(Double value) { this.opacity = value; }
+    public void setOpacity(double value) { this.opacity = value; }
+
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     *
+     * * INSIDE: draw stroke inside the shape boundary
+     * * OUTSIDE: draw stroke outside the shape boundary
+     * * CENTER: draw stroke centered along the shape boundary
+     */
+    @JsonProperty("strokeAlign")
+    public StrokeAlign getStrokeAlign() { return strokeAlign; }
+    @JsonProperty("strokeAlign")
+    public void setStrokeAlign(StrokeAlign value) { this.strokeAlign = value; }
+
+    /**
+     * The weight of strokes on the node
+     */
+    @JsonProperty("strokeWeight")
+    public double getStrokeWeight() { return strokeWeight; }
+    @JsonProperty("strokeWeight")
+    public void setStrokeWeight(double value) { this.strokeWeight = value; }
+
+    /**
+     * An array of fill paints applied to the node
+     */
+    @JsonProperty("fills")
+    public PaintElement[] getFills() { return fills; }
+    @JsonProperty("fills")
+    public void setFills(PaintElement[] value) { this.fills = value; }
 
     /**
      * Bounding box of the node in absolute space coordinates
@@ -284,54 +259,17 @@ public class FluffyNode {
      * Does this node mask sibling nodes in front of it?
      */
     @JsonProperty("isMask")
-    public Boolean getIsMask() { return isMask; }
+    public boolean getIsMask() { return isMask; }
     @JsonProperty("isMask")
-    public void setIsMask(Boolean value) { this.isMask = value; }
+    public void setIsMask(boolean value) { this.isMask = value; }
 
     /**
-     * Does this node clip content outside of its bounds?
+     * An array of export settings representing images to export from node
      */
-    @JsonProperty("clipsContent")
-    public Boolean getClipsContent() { return clipsContent; }
-    @JsonProperty("clipsContent")
-    public void setClipsContent(Boolean value) { this.clipsContent = value; }
-
-    /**
-     * How this node blends with nodes behind it in the scene (see blend mode section for more
-     * details)
-     */
-    @JsonProperty("preserveRatio")
-    public Boolean getPreserveRatio() { return preserveRatio; }
-    @JsonProperty("preserveRatio")
-    public void setPreserveRatio(Boolean value) { this.preserveRatio = value; }
-
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     *
-     * * INSIDE: draw stroke inside the shape boundary
-     * * OUTSIDE: draw stroke outside the shape boundary
-     * * CENTER: draw stroke centered along the shape boundary
-     */
-    @JsonProperty("strokeAlign")
-    public StrokeAlign getStrokeAlign() { return strokeAlign; }
-    @JsonProperty("strokeAlign")
-    public void setStrokeAlign(StrokeAlign value) { this.strokeAlign = value; }
-
-    /**
-     * The weight of strokes on the node
-     */
-    @JsonProperty("strokeWeight")
-    public Double getStrokeWeight() { return strokeWeight; }
-    @JsonProperty("strokeWeight")
-    public void setStrokeWeight(Double value) { this.strokeWeight = value; }
-
-    /**
-     * An array of fill paints applied to the node
-     */
-    @JsonProperty("fills")
-    public PaintElement[] getFills() { return fills; }
-    @JsonProperty("fills")
-    public void setFills(PaintElement[] value) { this.fills = value; }
+    @JsonProperty("exportSettings")
+    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    @JsonProperty("exportSettings")
+    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
 
     /**
      * An array of stroke paints applied to the node
@@ -342,12 +280,13 @@ public class FluffyNode {
     public void setStrokes(PaintElement[] value) { this.strokes = value; }
 
     /**
-     * Radius of each corner of the rectangle
+     * How this node blends with nodes behind it in the scene (see blend mode section for more
+     * details)
      */
-    @JsonProperty("cornerRadius")
-    public Double getCornerRadius() { return cornerRadius; }
-    @JsonProperty("cornerRadius")
-    public void setCornerRadius(Double value) { this.cornerRadius = value; }
+    @JsonProperty("preserveRatio")
+    public boolean getPreserveRatio() { return preserveRatio; }
+    @JsonProperty("preserveRatio")
+    public void setPreserveRatio(boolean value) { this.preserveRatio = value; }
 
     /**
      * Text contained within text box
@@ -383,13 +322,4 @@ public class FluffyNode {
     public Map<String, NodeTypeStyle> getStyleOverrideTable() { return styleOverrideTable; }
     @JsonProperty("styleOverrideTable")
     public void setStyleOverrideTable(Map<String, NodeTypeStyle> value) { this.styleOverrideTable = value; }
-
-    /**
-     * ID of component that this instance came from, refers to components table (see endpoints
-     * section below)
-     */
-    @JsonProperty("componentId")
-    public String getComponentID() { return componentID; }
-    @JsonProperty("componentId")
-    public void setComponentID(String value) { this.componentID = value; }
 }

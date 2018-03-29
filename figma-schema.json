@@ -42,13 +42,28 @@
       },
       "required": ["id", "name", "visible", "type"]
     },
+
     "Node": {
       "type": "object",
       "oneOf": [
         { "$ref": "#/definitions/DocumentNode" },
-        { "$ref": "#/definitions/CanvasNode" }
+        { "$ref": "#/definitions/CanvasNode" },
+        { "$ref": "#/definitions/FrameNode" },
+        { "$ref": "#/definitions/GroupNode" },
+        { "$ref": "#/definitions/VectorNode" },
+        { "$ref": "#/definitions/BooleanNode" },
+        { "$ref": "#/definitions/StarNode" },
+        { "$ref": "#/definitions/LineNode" },
+        { "$ref": "#/definitions/EllipseNode" },
+        { "$ref": "#/definitions/RegularPolygonNode" },
+        { "$ref": "#/definitions/RectangleNode" },
+        { "$ref": "#/definitions/TextNode" },
+        { "$ref": "#/definitions/SliceNode" },
+        { "$ref": "#/definitions/ComponentNode" },
+        { "$ref": "#/definitions/InstanceNode" }
       ]
     },
+
     "DocumentNode": {
       "type": "object",
       "allOf": [
@@ -67,6 +82,7 @@
         }
       ]
     },
+
     "CanvasNode": {
       "type": "object",
       "allOf": [
@@ -97,6 +113,7 @@
         }
       ]
     },
+
     "FrameNode": {
       "type": "object",
       "allOf": [
@@ -194,10 +211,13 @@
         }
       ]
     },
+
     "GroupNode": {
       "type": "object",
-      "allOf": [{ "$ref": "#/definitions/FrameNode" }]
+      "description": "A logical grouping of nodes",
+      "$ref": "#/definitions/FrameNode"
     },
+
     "VectorNode": {
       "type": "object",
       "allOf": [
@@ -293,8 +313,10 @@
         }
       ]
     },
+
     "BooleanNode": {
       "type": "object",
+      "description": "A group that has a boolean operation applied to it",
       "allOf": [
         { "$ref": "#/definitions/VectorNode" },
         {
@@ -312,22 +334,138 @@
         }
       ]
     },
+
     "StarNode": {
       "type": "object",
-      "allOf": [{ "$ref": "#/definitions/VectorNode" }]
+      "description": "A regular star shape",
+      "$ref": "#/definitions/VectorNode"
     },
+
     "LineNode": {
       "type": "object",
-      "allOf": [{ "$ref": "#/definitions/VectorNode" }]
+      "description": "A straight line",
+      "$ref": "#/definitions/VectorNode"
     },
+
     "EllipseNode": {
       "type": "object",
-      "allOf": [{ "$ref": "#/definitions/VectorNode" }]
+      "description": "An ellipse",
+      "$ref": "#/definitions/VectorNode"
     },
+
     "RegularPolygonNode": {
       "type": "object",
-      "allOf": [{ "$ref": "#/definitions/VectorNode" }]
+      "description": "A regular n-sided polygon",
+      "$ref": "#/definitions/VectorNode"
     },
+
+    "RectangleNode": {
+      "type": "object",
+      "allOf": [
+        { "$ref": "#/definitions/VectorNode" },
+        {
+          "properties": {
+            "cornerRadius": {
+              "type": "number",
+              "description": "Radius of each corner of the rectangle"
+            }
+          },
+          "required": ["cornerRadius"]
+        }
+      ]
+    },
+
+    "TextNode": {
+      "type": "object",
+      "description": "A text box",
+      "allOf": [
+        { "$ref": "#/definitions/VectorNode" },
+        {
+          "properties": {
+            "characters": {
+              "type": "string",
+              "description": "Text contained within text box"
+            },
+            "style": {
+              "$ref": "#/definitions/TypeStyle",
+              "description":
+                "Style of text including font family and weight (see type style section for more information)"
+            },
+            "characterStyleOverrides": {
+              "type": "array",
+              "items": { "type": "number" },
+              "description":
+                "Array with same number of elements as characeters in text box, each element is a reference to the styleOverrideTable defined below and maps to the corresponding character in the characters field. Elements with value 0 have the default type style"
+            },
+            "styleOverrideTable": {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/definitions/TypeStyle" },
+              "description":
+                "Map from ID to TypeStyle for looking up style overrides"
+            }
+          },
+          "required": [
+            "characters",
+            "style",
+            "characterStyleOverrides",
+            "styleOverrideTable"
+          ]
+        }
+      ]
+    },
+
+    "SliceNode": {
+      "type": "object",
+      "description": "A rectangular region of the canvas that can be exported",
+      "allOf": [
+        { "$ref": "#/definitions/Global" },
+        {
+          "properties": {
+            "exportSettings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ExportSetting"
+              },
+              "description":
+                "A rectangular region of the canvas that can be exported"
+            },
+            "absoluteBoundingBox": {
+              "$ref": "#/definitions/Rectangle",
+              "description":
+                "Bounding box of the node in absolute space coordinates"
+            }
+          },
+          "required": ["exportSettings", "absoluteBoundingBox"]
+        }
+      ]
+    },
+
+    "ComponentNode": {
+      "type": "object",
+      "description":
+        "A node that can have instances created of it that share the same properties",
+      "$ref": "#/definitions/FrameNode"
+    },
+
+    "InstanceNode": {
+      "type": "object",
+      "description":
+        "An instance of a component, changes to the component result in the same changes applied to the instance",
+      "allOf": [
+        { "$ref": "#/definitions/FrameNode" },
+        {
+          "properties": {
+            "componentId": {
+              "type": "string",
+              "description":
+                "ID of component that this instance came from, refers to components table (see endpoints section below)"
+            }
+          },
+          "required": ["componentId"]
+        }
+      ]
+    },
+
     "Comment": {
       "type": "object",
       "description": "A comment or reply left by a user",
@@ -632,6 +770,74 @@
       },
       "required": ["type", "radius", "visible", "color", "blendMode", "offset"]
     },
+
+    "TypeStyle": {
+      "type": "object",
+      "description": "Metadata for character formatting",
+      "properties": {
+        "fontFamily": {
+          "type": "string",
+          "description": "Font family of text (standard name)"
+        },
+        "fontPostScriptName": {
+          "type": "string",
+          "description": "PostScript font name"
+        },
+        "italic": {
+          "type": "boolean",
+          "description": "Is text italicized?"
+        },
+        "fontWeight": {
+          "type": "number",
+          "description": "Numeric font weight"
+        },
+        "fontSize": {
+          "type": "number",
+          "description": "Font size in px"
+        },
+        "textAlignHorizontal": {
+          "enum": ["LEFT", "RIGHT", "CENTER", "JUSTIFIED"],
+          "description": "Horizontal text alignment as string enum"
+        },
+        "textAlignVertical": {
+          "enum": ["TOP", "CENTER", "BOTTOM"],
+          "description": "Vertical text alignment as string enum"
+        },
+        "letterSpacing": {
+          "type": "number",
+          "description": "Space between characters in px"
+        },
+        "fills": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Paint"
+          },
+          "description": "Paints applied to characters"
+        },
+        "lineHeightPx": {
+          "type": "number",
+          "description": "Line height in px"
+        },
+        "lineHeightPercent": {
+          "type": "number",
+          "description": "Line height as a percentage of normal line height"
+        }
+      },
+      "required": [
+        "fontFamily",
+        "fontPostScriptName",
+        "italic",
+        "fontWeight",
+        "fontSize",
+        "textAlignHorizontal",
+        "textAlignVertical",
+        "letterSpacing",
+        "fills",
+        "lineHeightPx",
+        "lineHeightPercent"
+      ]
+    },
+
     "BlendMode": {
       "type": "string",
       "description": "Enum describing how layer blends with layers below",
