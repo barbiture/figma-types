@@ -46,25 +46,25 @@
     "Node": {
       "type": "object",
       "oneOf": [
-        { "$ref": "#/definitions/DocumentNode" },
-        { "$ref": "#/definitions/CanvasNode" },
-        { "$ref": "#/definitions/FrameNode" },
-        { "$ref": "#/definitions/GroupNode" },
-        { "$ref": "#/definitions/VectorNode" },
-        { "$ref": "#/definitions/BooleanNode" },
-        { "$ref": "#/definitions/StarNode" },
-        { "$ref": "#/definitions/LineNode" },
-        { "$ref": "#/definitions/EllipseNode" },
-        { "$ref": "#/definitions/RegularPolygonNode" },
-        { "$ref": "#/definitions/RectangleNode" },
-        { "$ref": "#/definitions/TextNode" },
-        { "$ref": "#/definitions/SliceNode" },
-        { "$ref": "#/definitions/ComponentNode" },
-        { "$ref": "#/definitions/InstanceNode" }
+        { "$ref": "#/definitions/Document" },
+        { "$ref": "#/definitions/Canvas" },
+        { "$ref": "#/definitions/Frame" },
+        { "$ref": "#/definitions/Group" },
+        { "$ref": "#/definitions/Vector" },
+        { "$ref": "#/definitions/Boolean" },
+        { "$ref": "#/definitions/Star" },
+        { "$ref": "#/definitions/Line" },
+        { "$ref": "#/definitions/Ellipse" },
+        { "$ref": "#/definitions/RegularPolygon" },
+        { "$ref": "#/definitions/Rectangle" },
+        { "$ref": "#/definitions/Text" },
+        { "$ref": "#/definitions/Slice" },
+        { "$ref": "#/definitions/Component" },
+        { "$ref": "#/definitions/Instance" }
       ]
     },
 
-    "DocumentNode": {
+    "Document": {
       "type": "object",
       "allOf": [
         { "$ref": "#/definitions/Global" },
@@ -83,7 +83,7 @@
       ]
     },
 
-    "CanvasNode": {
+    "Canvas": {
       "type": "object",
       "allOf": [
         { "$ref": "#/definitions/Global" },
@@ -114,7 +114,7 @@
       ]
     },
 
-    "FrameNode": {
+    "Frame": {
       "type": "object",
       "allOf": [
         { "$ref": "#/definitions/Global" },
@@ -155,7 +155,7 @@
               "description":
                 "How this node blends with nodes behind it in the scene (see blend mode section for more details)"
             },
-            "transitionNodeID": {
+            "transitionID": {
               "type": "string",
               "description": "Node ID of node to transition to in prototyping"
             },
@@ -212,13 +212,13 @@
       ]
     },
 
-    "GroupNode": {
+    "Group": {
       "type": "object",
       "description": "A logical grouping of nodes",
-      "$ref": "#/definitions/FrameNode"
+      "$ref": "#/definitions/Frame"
     },
 
-    "VectorNode": {
+    "Vector": {
       "type": "object",
       "allOf": [
         { "$ref": "#/definitions/Global" },
@@ -247,7 +247,7 @@
               "description":
                 "How this node blends with nodes behind it in the scene (see blend mode section for more details)"
             },
-            "transitionNodeID": {
+            "transitionID": {
               "type": "string",
               "description": "Node ID of node to transition to in prototyping"
             },
@@ -314,11 +314,11 @@
       ]
     },
 
-    "BooleanNode": {
+    "Boolean": {
       "type": "object",
       "description": "A group that has a boolean operation applied to it",
       "allOf": [
-        { "$ref": "#/definitions/VectorNode" },
+        { "$ref": "#/definitions/Vector" },
         {
           "properties": {
             "children": {
@@ -335,34 +335,34 @@
       ]
     },
 
-    "StarNode": {
+    "Star": {
       "type": "object",
       "description": "A regular star shape",
-      "$ref": "#/definitions/VectorNode"
+      "$ref": "#/definitions/Vector"
     },
 
-    "LineNode": {
+    "Line": {
       "type": "object",
       "description": "A straight line",
-      "$ref": "#/definitions/VectorNode"
+      "$ref": "#/definitions/Vector"
     },
 
-    "EllipseNode": {
+    "Ellipse": {
       "type": "object",
       "description": "An ellipse",
-      "$ref": "#/definitions/VectorNode"
+      "$ref": "#/definitions/Vector"
     },
 
-    "RegularPolygonNode": {
+    "RegularPolygon": {
       "type": "object",
       "description": "A regular n-sided polygon",
-      "$ref": "#/definitions/VectorNode"
+      "$ref": "#/definitions/Vector"
     },
 
-    "RectangleNode": {
+    "Rectangle": {
       "type": "object",
       "allOf": [
-        { "$ref": "#/definitions/VectorNode" },
+        { "$ref": "#/definitions/Vector" },
         {
           "properties": {
             "cornerRadius": {
@@ -375,11 +375,11 @@
       ]
     },
 
-    "TextNode": {
+    "Text": {
       "type": "object",
       "description": "A text box",
       "allOf": [
-        { "$ref": "#/definitions/VectorNode" },
+        { "$ref": "#/definitions/Vector" },
         {
           "properties": {
             "characters": {
@@ -414,7 +414,7 @@
       ]
     },
 
-    "SliceNode": {
+    "Slice": {
       "type": "object",
       "description": "A rectangular region of the canvas that can be exported",
       "allOf": [
@@ -440,19 +440,19 @@
       ]
     },
 
-    "ComponentNode": {
+    "Component": {
       "type": "object",
       "description":
         "A node that can have instances created of it that share the same properties",
-      "$ref": "#/definitions/FrameNode"
+      "$ref": "#/definitions/Frame"
     },
 
-    "InstanceNode": {
+    "Instance": {
       "type": "object",
       "description":
         "An instance of a component, changes to the component result in the same changes applied to the instance",
       "allOf": [
-        { "$ref": "#/definitions/FrameNode" },
+        { "$ref": "#/definitions/Frame" },
         {
           "properties": {
             "componentId": {
@@ -522,7 +522,7 @@
       },
       "required": ["r", "g", "b", "a"]
     },
-    "Vector": {
+    "Vector2D": {
       "type": "object",
       "description": "A 2d vector",
       "properties": {
@@ -614,7 +614,7 @@
         "gradientHandlePositions": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Vector"
+            "$ref": "#/definitions/Vector2D"
           },
           "description":
             "(For gradient paints) This field contains three vectors, each of which are a position in normalized object space (normalized object space is if the top left corner of the bounding box of the object is (0, 0) and the bottom right is (1,1)). The first position corresponds to the start of the gradient (value 0 for the purposes of calculating gradient stops), the second position is the end of the gradient (value 1), and the third handle position determines the width of the gradient (only relevant for non-linear gradients)."
@@ -764,7 +764,7 @@
           "description": "See type property for effect of this field"
         },
         "offset": {
-          "$ref": "#/definitions/Vector",
+          "$ref": "#/definitions/Vector2D",
           "description": "See type property for effect of this field"
         }
       },

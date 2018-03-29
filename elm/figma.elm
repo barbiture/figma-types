@@ -15,21 +15,21 @@ module QuickType exposing
     ( FileResponse
     , fileResponseToString
     , fileResponse
-    , ComponentNode
+    , Component
     , Rectangle
     , Color
     , PurpleNode
     , NodeNode
     , LayoutConstraint
     , Effect
-    , Vector
+    , Vector2D
     , ExportSetting
     , Constraint
     , Paint
     , ColorStop
     , LayoutGrid
     , TypeStyle
-    , DocumentNode
+    , Document
     , FluffyNode
     , BlendMode(..)
     , Horizontal(..)
@@ -68,8 +68,8 @@ components each instance comes from. Currently the only piece of metadata availa
 components is the name of the component, but more properties will be forthcoming.
 -}
 type alias FileResponse =
-    { document : DocumentNode
-    , components : Dict String ComponentNode
+    { document : Document
+    , components : Dict String Component
     , schemaVersion : Float
     }
 
@@ -143,8 +143,6 @@ would blend with this)
 
 Value between 0 and 1 representing position along gradient axis
 
-Radius of each corner of the rectangle
-
 Line height in px
 
 Numeric font weight
@@ -200,7 +198,7 @@ The name given to the node by the user in the tool
 visible:
 Whether or not the node is visible on the canvas
 
-componentNodeType:
+componentType:
 The type of the node
 
 effects:
@@ -213,11 +211,11 @@ details). GROUP nodes do not have this attribute
 opacity:
 Opacity of the node
 
+transitionID:
+Node ID of node to transition to in prototyping
+
 absoluteBoundingBox:
 Bounding box of the node in absolute space coordinates
-
-transitionNodeID:
-Node ID of node to transition to in prototyping
 
 blendMode:
 How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -246,16 +244,16 @@ details)
 children:
 An array of nodes that are direct children of this node
 -}
-type alias ComponentNode =
+type alias Component =
     { id : String
     , name : String
     , visible : Bool
-    , componentNodeType : NodeType
+    , componentType : NodeType
     , effects : Array Effect
     , layoutGrids : Array LayoutGrid
     , opacity : Float
+    , transitionID : Maybe String
     , absoluteBoundingBox : Rectangle
-    , transitionNodeID : Maybe String
     , blendMode : BlendMode
     , backgroundColor : Color
     , constraints : LayoutConstraint
@@ -269,6 +267,8 @@ type alias ComponentNode =
 {-| A rectangle that expresses a bounding box in absolute coordinates
 
 Bounding box of the node in absolute space coordinates
+
+An array of canvases attached to the document
 
 x:
 X coordinate of top left corner of the rectangle
@@ -418,8 +418,6 @@ would blend with this)
 
 Value between 0 and 1 representing position along gradient axis
 
-Radius of each corner of the rectangle
-
 Line height in px
 
 Numeric font weight
@@ -466,6 +464,10 @@ Font family of text (standard name)
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
 
+A rectangle that expresses a bounding box in absolute coordinates
+
+Bounding box of the node in absolute space coordinates
+
 id:
 A string uniquely identifying this node within the document
 
@@ -509,11 +511,11 @@ details). GROUP nodes do not have this attribute
 opacity:
 Opacity of the node
 
+transitionID:
+Node ID of node to transition to in prototyping
+
 absoluteBoundingBox:
 Bounding box of the node in absolute space coordinates
-
-transitionNodeID:
-Node ID of node to transition to in prototyping
 
 blendMode:
 How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -549,8 +551,17 @@ An array of fill paints applied to the node
 strokes:
 An array of stroke paints applied to the node
 
-cornerRadius:
-Radius of each corner of the rectangle
+x:
+X coordinate of top left corner of the rectangle
+
+y:
+Y coordinate of top left corner of the rectangle
+
+width:
+Width of the rectangle
+
+height:
+Height of the rectangle
 
 characters:
 Text contained within text box
@@ -572,18 +583,18 @@ ID of component that this instance came from, refers to components table (see en
 section below)
 -}
 type alias PurpleNode =
-    { id : String
-    , name : String
-    , visible : Bool
-    , nodeType : NodeType
+    { id : Maybe String
+    , name : Maybe String
+    , visible : Maybe Bool
+    , nodeType : Maybe NodeType
     , children : Maybe (Array NodeNode)
     , backgroundColor : Maybe Color
     , exportSettings : Maybe (Array ExportSetting)
     , effects : Maybe (Array Effect)
     , layoutGrids : Maybe (Array LayoutGrid)
     , opacity : Maybe Float
+    , transitionID : Maybe String
     , absoluteBoundingBox : Maybe Rectangle
-    , transitionNodeID : Maybe String
     , blendMode : Maybe BlendMode
     , constraints : Maybe LayoutConstraint
     , isMask : Maybe Bool
@@ -593,7 +604,10 @@ type alias PurpleNode =
     , strokeWeight : Maybe Float
     , fills : Maybe (Array Paint)
     , strokes : Maybe (Array Paint)
-    , cornerRadius : Maybe Float
+    , x : Maybe Float
+    , y : Maybe Float
+    , width : Maybe Float
+    , height : Maybe Float
     , characters : Maybe String
     , style : Maybe TypeStyle
     , characterStyleOverrides : Maybe (Array Float)
@@ -667,8 +681,6 @@ would blend with this)
 
 Value between 0 and 1 representing position along gradient axis
 
-Radius of each corner of the rectangle
-
 Line height in px
 
 Numeric font weight
@@ -714,6 +726,10 @@ Font family of text (standard name)
 
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
+
+A rectangle that expresses a bounding box in absolute coordinates
+
+Bounding box of the node in absolute space coordinates
 
 An array of top level layers on the canvas
 
@@ -764,11 +780,11 @@ details). GROUP nodes do not have this attribute
 opacity:
 Opacity of the node
 
+transitionID:
+Node ID of node to transition to in prototyping
+
 absoluteBoundingBox:
 Bounding box of the node in absolute space coordinates
-
-transitionNodeID:
-Node ID of node to transition to in prototyping
 
 blendMode:
 How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -804,8 +820,17 @@ An array of fill paints applied to the node
 strokes:
 An array of stroke paints applied to the node
 
-cornerRadius:
-Radius of each corner of the rectangle
+x:
+X coordinate of top left corner of the rectangle
+
+y:
+Y coordinate of top left corner of the rectangle
+
+width:
+Width of the rectangle
+
+height:
+Height of the rectangle
 
 characters:
 Text contained within text box
@@ -827,18 +852,18 @@ ID of component that this instance came from, refers to components table (see en
 section below)
 -}
 type alias NodeNode =
-    { id : String
-    , name : String
-    , visible : Bool
-    , nodeType : NodeType
+    { id : Maybe String
+    , name : Maybe String
+    , visible : Maybe Bool
+    , nodeType : Maybe NodeType
     , children : Maybe (Array NodeNode)
     , backgroundColor : Maybe Color
     , exportSettings : Maybe (Array ExportSetting)
     , effects : Maybe (Array Effect)
     , layoutGrids : Maybe (Array LayoutGrid)
     , opacity : Maybe Float
+    , transitionID : Maybe String
     , absoluteBoundingBox : Maybe Rectangle
-    , transitionNodeID : Maybe String
     , blendMode : Maybe BlendMode
     , constraints : Maybe LayoutConstraint
     , isMask : Maybe Bool
@@ -848,7 +873,10 @@ type alias NodeNode =
     , strokeWeight : Maybe Float
     , fills : Maybe (Array Paint)
     , strokes : Maybe (Array Paint)
-    , cornerRadius : Maybe Float
+    , x : Maybe Float
+    , y : Maybe Float
+    , width : Maybe Float
+    , height : Maybe Float
     , characters : Maybe String
     , style : Maybe TypeStyle
     , characterStyleOverrides : Maybe (Array Float)
@@ -938,7 +966,7 @@ type alias Effect =
     , visible : Bool
     , color : Color
     , blendMode : BlendMode
-    , offset : Vector
+    , offset : Vector2D
     }
 
 {-| Type of effect as a string enum -}
@@ -966,7 +994,7 @@ X coordinate of the vector
 y:
 Y coordinate of the vector
 -}
-type alias Vector =
+type alias Vector2D =
     { x : Float
     , y : Float
     }
@@ -1082,7 +1110,7 @@ type alias Paint =
     , visible : Bool
     , opacity : Float
     , color : Maybe Color
-    , gradientHandlePositions : Maybe (Array Vector)
+    , gradientHandlePositions : Maybe (Array Vector2D)
     , gradientStops : Maybe (Array ColorStop)
     , scaleMode : Maybe ScaleMode
     }
@@ -1191,8 +1219,6 @@ type Pattern
 type NodeType
     = Boolean
     | Canvas
-    | Component
-    | Document
     | Ellipse
     | Frame
     | Group
@@ -1202,8 +1228,10 @@ type NodeType
     | Slice
     | Star
     | Text
+    | TypeCOMPONENT
+    | TypeDOCUMENT
     | TypeRECTANGLE
-    | TypeVECTOR
+    | Vector
 
 {-| Where stroke is drawn relative to the vector outline as a string enum
 
@@ -1349,8 +1377,6 @@ would blend with this)
 
 Value between 0 and 1 representing position along gradient axis
 
-Radius of each corner of the rectangle
-
 Line height in px
 
 Numeric font weight
@@ -1406,17 +1432,17 @@ The name given to the node by the user in the tool
 visible:
 Whether or not the node is visible on the canvas
 
-documentNodeType:
+documentType:
 The type of the node
 
 children:
 An array of canvases attached to the document
 -}
-type alias DocumentNode =
+type alias Document =
     { id : String
     , name : String
     , visible : Bool
-    , documentNodeType : NodeType
+    , documentType : NodeType
     , children : Array FluffyNode
     }
 
@@ -1486,8 +1512,6 @@ would blend with this)
 
 Value between 0 and 1 representing position along gradient axis
 
-Radius of each corner of the rectangle
-
 Line height in px
 
 Numeric font weight
@@ -1534,6 +1558,10 @@ Font family of text (standard name)
 ID of component that this instance came from, refers to components table (see endpoints
 section below)
 
+A rectangle that expresses a bounding box in absolute coordinates
+
+Bounding box of the node in absolute space coordinates
+
 id:
 A string uniquely identifying this node within the document
 
@@ -1577,11 +1605,11 @@ details). GROUP nodes do not have this attribute
 opacity:
 Opacity of the node
 
+transitionID:
+Node ID of node to transition to in prototyping
+
 absoluteBoundingBox:
 Bounding box of the node in absolute space coordinates
-
-transitionNodeID:
-Node ID of node to transition to in prototyping
 
 blendMode:
 How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -1617,8 +1645,17 @@ An array of fill paints applied to the node
 strokes:
 An array of stroke paints applied to the node
 
-cornerRadius:
-Radius of each corner of the rectangle
+x:
+X coordinate of top left corner of the rectangle
+
+y:
+Y coordinate of top left corner of the rectangle
+
+width:
+Width of the rectangle
+
+height:
+Height of the rectangle
 
 characters:
 Text contained within text box
@@ -1640,18 +1677,18 @@ ID of component that this instance came from, refers to components table (see en
 section below)
 -}
 type alias FluffyNode =
-    { id : String
-    , name : String
-    , visible : Bool
-    , nodeType : NodeType
+    { id : Maybe String
+    , name : Maybe String
+    , visible : Maybe Bool
+    , nodeType : Maybe NodeType
     , children : Maybe (Array NodeNode)
     , backgroundColor : Maybe Color
     , exportSettings : Maybe (Array ExportSetting)
     , effects : Maybe (Array Effect)
     , layoutGrids : Maybe (Array LayoutGrid)
     , opacity : Maybe Float
+    , transitionID : Maybe String
     , absoluteBoundingBox : Maybe Rectangle
-    , transitionNodeID : Maybe String
     , blendMode : Maybe BlendMode
     , constraints : Maybe LayoutConstraint
     , isMask : Maybe Bool
@@ -1661,7 +1698,10 @@ type alias FluffyNode =
     , strokeWeight : Maybe Float
     , fills : Maybe (Array Paint)
     , strokes : Maybe (Array Paint)
-    , cornerRadius : Maybe Float
+    , x : Maybe Float
+    , y : Maybe Float
+    , width : Maybe Float
+    , height : Maybe Float
     , characters : Maybe String
     , style : Maybe TypeStyle
     , characterStyleOverrides : Maybe (Array Float)
@@ -1677,21 +1717,21 @@ fileResponseToString r = Jenc.encode 0 (encodeFileResponse r)
 fileResponse : Jdec.Decoder FileResponse
 fileResponse =
     Jpipe.decode FileResponse
-        |> Jpipe.required "document" documentNode
-        |> Jpipe.required "components" (Jdec.dict componentNode)
+        |> Jpipe.required "document" document
+        |> Jpipe.required "components" (Jdec.dict component)
         |> Jpipe.required "schemaVersion" Jdec.float
 
 encodeFileResponse : FileResponse -> Jenc.Value
 encodeFileResponse x =
     Jenc.object
-        [ ("document", encodeDocumentNode x.document)
-        , ("components", makeDictEncoder encodeComponentNode x.components)
+        [ ("document", encodeDocument x.document)
+        , ("components", makeDictEncoder encodeComponent x.components)
         , ("schemaVersion", Jenc.float x.schemaVersion)
         ]
 
-componentNode : Jdec.Decoder ComponentNode
-componentNode =
-    Jpipe.decode ComponentNode
+component : Jdec.Decoder Component
+component =
+    Jpipe.decode Component
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
         |> Jpipe.required "visible" Jdec.bool
@@ -1699,8 +1739,8 @@ componentNode =
         |> Jpipe.required "effects" (Jdec.array effect)
         |> Jpipe.required "layoutGrids" (Jdec.array layoutGrid)
         |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.optional "transitionID" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.required "absoluteBoundingBox" rectangle
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.required "blendMode" blendMode
         |> Jpipe.required "backgroundColor" color
         |> Jpipe.required "constraints" layoutConstraint
@@ -1710,18 +1750,18 @@ componentNode =
         |> Jpipe.required "preserveRatio" Jdec.bool
         |> Jpipe.required "children" (Jdec.array purpleNode)
 
-encodeComponentNode : ComponentNode -> Jenc.Value
-encodeComponentNode x =
+encodeComponent : Component -> Jenc.Value
+encodeComponent x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
         , ("visible", Jenc.bool x.visible)
-        , ("type", encodeNodeType x.componentNodeType)
+        , ("type", encodeNodeType x.componentType)
         , ("effects", makeArrayEncoder encodeEffect x.effects)
         , ("layoutGrids", makeArrayEncoder encodeLayoutGrid x.layoutGrids)
         , ("opacity", Jenc.float x.opacity)
+        , ("transitionID", makeNullableEncoder Jenc.string x.transitionID)
         , ("absoluteBoundingBox", encodeRectangle x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
         , ("blendMode", encodeBlendMode x.blendMode)
         , ("backgroundColor", encodeColor x.backgroundColor)
         , ("constraints", encodeLayoutConstraint x.constraints)
@@ -1818,18 +1858,18 @@ encodeBlendMode x = case x of
 purpleNode : Jdec.Decoder PurpleNode
 purpleNode =
     Jpipe.decode PurpleNode
-        |> Jpipe.required "id" Jdec.string
-        |> Jpipe.required "name" Jdec.string
-        |> Jpipe.required "visible" Jdec.bool
-        |> Jpipe.required "type" nodeType
+        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
+        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
+        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array nodeNode)) Nothing
         |> Jpipe.optional "backgroundColor" (Jdec.nullable color) Nothing
         |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSetting)) Nothing
         |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effect)) Nothing
         |> Jpipe.optional "layoutGrids" (Jdec.nullable (Jdec.array layoutGrid)) Nothing
         |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "transitionID" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable rectangle) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
         |> Jpipe.optional "constraints" (Jdec.nullable layoutConstraint) Nothing
         |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
@@ -1839,7 +1879,10 @@ purpleNode =
         |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
         |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paint)) Nothing
         |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paint)) Nothing
-        |> Jpipe.optional "cornerRadius" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "x" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "y" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "width" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "height" (Jdec.nullable Jdec.float) Nothing
         |> Jpipe.optional "characters" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "style" (Jdec.nullable typeStyle) Nothing
         |> Jpipe.optional "characterStyleOverrides" (Jdec.nullable (Jdec.array Jdec.float)) Nothing
@@ -1849,18 +1892,18 @@ purpleNode =
 encodePurpleNode : PurpleNode -> Jenc.Value
 encodePurpleNode x =
     Jenc.object
-        [ ("id", Jenc.string x.id)
-        , ("name", Jenc.string x.name)
-        , ("visible", Jenc.bool x.visible)
-        , ("type", encodeNodeType x.nodeType)
+        [ ("id", makeNullableEncoder Jenc.string x.id)
+        , ("name", makeNullableEncoder Jenc.string x.name)
+        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        , ("type", makeNullableEncoder encodeNodeType x.nodeType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodeNodeNode) x.children)
         , ("backgroundColor", makeNullableEncoder encodeColor x.backgroundColor)
         , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSetting) x.exportSettings)
         , ("effects", makeNullableEncoder (makeArrayEncoder encodeEffect) x.effects)
         , ("layoutGrids", makeNullableEncoder (makeArrayEncoder encodeLayoutGrid) x.layoutGrids)
         , ("opacity", makeNullableEncoder Jenc.float x.opacity)
+        , ("transitionID", makeNullableEncoder Jenc.string x.transitionID)
         , ("absoluteBoundingBox", makeNullableEncoder encodeRectangle x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
         , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
         , ("constraints", makeNullableEncoder encodeLayoutConstraint x.constraints)
         , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
@@ -1870,7 +1913,10 @@ encodePurpleNode x =
         , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
         , ("fills", makeNullableEncoder (makeArrayEncoder encodePaint) x.fills)
         , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaint) x.strokes)
-        , ("cornerRadius", makeNullableEncoder Jenc.float x.cornerRadius)
+        , ("x", makeNullableEncoder Jenc.float x.x)
+        , ("y", makeNullableEncoder Jenc.float x.y)
+        , ("width", makeNullableEncoder Jenc.float x.width)
+        , ("height", makeNullableEncoder Jenc.float x.height)
         , ("characters", makeNullableEncoder Jenc.string x.characters)
         , ("style", makeNullableEncoder encodeTypeStyle x.style)
         , ("characterStyleOverrides", makeNullableEncoder (makeArrayEncoder Jenc.float) x.characterStyleOverrides)
@@ -1881,18 +1927,18 @@ encodePurpleNode x =
 nodeNode : Jdec.Decoder NodeNode
 nodeNode =
     Jpipe.decode NodeNode
-        |> Jpipe.required "id" Jdec.string
-        |> Jpipe.required "name" Jdec.string
-        |> Jpipe.required "visible" Jdec.bool
-        |> Jpipe.required "type" nodeType
+        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
+        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
+        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array nodeNode)) Nothing
         |> Jpipe.optional "backgroundColor" (Jdec.nullable color) Nothing
         |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSetting)) Nothing
         |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effect)) Nothing
         |> Jpipe.optional "layoutGrids" (Jdec.nullable (Jdec.array layoutGrid)) Nothing
         |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "transitionID" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable rectangle) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
         |> Jpipe.optional "constraints" (Jdec.nullable layoutConstraint) Nothing
         |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
@@ -1902,7 +1948,10 @@ nodeNode =
         |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
         |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paint)) Nothing
         |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paint)) Nothing
-        |> Jpipe.optional "cornerRadius" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "x" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "y" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "width" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "height" (Jdec.nullable Jdec.float) Nothing
         |> Jpipe.optional "characters" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "style" (Jdec.nullable typeStyle) Nothing
         |> Jpipe.optional "characterStyleOverrides" (Jdec.nullable (Jdec.array Jdec.float)) Nothing
@@ -1912,18 +1961,18 @@ nodeNode =
 encodeNodeNode : NodeNode -> Jenc.Value
 encodeNodeNode x =
     Jenc.object
-        [ ("id", Jenc.string x.id)
-        , ("name", Jenc.string x.name)
-        , ("visible", Jenc.bool x.visible)
-        , ("type", encodeNodeType x.nodeType)
+        [ ("id", makeNullableEncoder Jenc.string x.id)
+        , ("name", makeNullableEncoder Jenc.string x.name)
+        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        , ("type", makeNullableEncoder encodeNodeType x.nodeType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodeNodeNode) x.children)
         , ("backgroundColor", makeNullableEncoder encodeColor x.backgroundColor)
         , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSetting) x.exportSettings)
         , ("effects", makeNullableEncoder (makeArrayEncoder encodeEffect) x.effects)
         , ("layoutGrids", makeNullableEncoder (makeArrayEncoder encodeLayoutGrid) x.layoutGrids)
         , ("opacity", makeNullableEncoder Jenc.float x.opacity)
+        , ("transitionID", makeNullableEncoder Jenc.string x.transitionID)
         , ("absoluteBoundingBox", makeNullableEncoder encodeRectangle x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
         , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
         , ("constraints", makeNullableEncoder encodeLayoutConstraint x.constraints)
         , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
@@ -1933,7 +1982,10 @@ encodeNodeNode x =
         , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
         , ("fills", makeNullableEncoder (makeArrayEncoder encodePaint) x.fills)
         , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaint) x.strokes)
-        , ("cornerRadius", makeNullableEncoder Jenc.float x.cornerRadius)
+        , ("x", makeNullableEncoder Jenc.float x.x)
+        , ("y", makeNullableEncoder Jenc.float x.y)
+        , ("width", makeNullableEncoder Jenc.float x.width)
+        , ("height", makeNullableEncoder Jenc.float x.height)
         , ("characters", makeNullableEncoder Jenc.string x.characters)
         , ("style", makeNullableEncoder encodeTypeStyle x.style)
         , ("characterStyleOverrides", makeNullableEncoder (makeArrayEncoder Jenc.float) x.characterStyleOverrides)
@@ -2004,7 +2056,7 @@ effect =
         |> Jpipe.required "visible" Jdec.bool
         |> Jpipe.required "color" color
         |> Jpipe.required "blendMode" blendMode
-        |> Jpipe.required "offset" vector
+        |> Jpipe.required "offset" vector2D
 
 encodeEffect : Effect -> Jenc.Value
 encodeEffect x =
@@ -2014,7 +2066,7 @@ encodeEffect x =
         , ("visible", Jenc.bool x.visible)
         , ("color", encodeColor x.color)
         , ("blendMode", encodeBlendMode x.blendMode)
-        , ("offset", encodeVector x.offset)
+        , ("offset", encodeVector2D x.offset)
         ]
 
 effectType : Jdec.Decoder EffectType
@@ -2036,14 +2088,14 @@ encodeEffectType x = case x of
     InnerShadow -> Jenc.string "INNER_SHADOW"
     LayerBlur -> Jenc.string "LAYER_BLUR"
 
-vector : Jdec.Decoder Vector
-vector =
-    Jpipe.decode Vector
+vector2D : Jdec.Decoder Vector2D
+vector2D =
+    Jpipe.decode Vector2D
         |> Jpipe.required "x" Jdec.float
         |> Jpipe.required "y" Jdec.float
 
-encodeVector : Vector -> Jenc.Value
-encodeVector x =
+encodeVector2D : Vector2D -> Jenc.Value
+encodeVector2D x =
     Jenc.object
         [ ("x", Jenc.float x.x)
         , ("y", Jenc.float x.y)
@@ -2118,7 +2170,7 @@ paint =
         |> Jpipe.required "visible" Jdec.bool
         |> Jpipe.required "opacity" Jdec.float
         |> Jpipe.optional "color" (Jdec.nullable color) Nothing
-        |> Jpipe.optional "gradientHandlePositions" (Jdec.nullable (Jdec.array vector)) Nothing
+        |> Jpipe.optional "gradientHandlePositions" (Jdec.nullable (Jdec.array vector2D)) Nothing
         |> Jpipe.optional "gradientStops" (Jdec.nullable (Jdec.array colorStop)) Nothing
         |> Jpipe.optional "scaleMode" (Jdec.nullable scaleMode) Nothing
 
@@ -2129,7 +2181,7 @@ encodePaint x =
         , ("visible", Jenc.bool x.visible)
         , ("opacity", Jenc.float x.opacity)
         , ("color", makeNullableEncoder encodeColor x.color)
-        , ("gradientHandlePositions", makeNullableEncoder (makeArrayEncoder encodeVector) x.gradientHandlePositions)
+        , ("gradientHandlePositions", makeNullableEncoder (makeArrayEncoder encodeVector2D) x.gradientHandlePositions)
         , ("gradientStops", makeNullableEncoder (makeArrayEncoder encodeColorStop) x.gradientStops)
         , ("scaleMode", makeNullableEncoder encodeScaleMode x.scaleMode)
         ]
@@ -2257,8 +2309,6 @@ nodeType =
             case str of
                 "BOOLEAN" -> Jdec.succeed Boolean
                 "CANVAS" -> Jdec.succeed Canvas
-                "COMPONENT" -> Jdec.succeed Component
-                "DOCUMENT" -> Jdec.succeed Document
                 "ELLIPSE" -> Jdec.succeed Ellipse
                 "FRAME" -> Jdec.succeed Frame
                 "GROUP" -> Jdec.succeed Group
@@ -2268,8 +2318,10 @@ nodeType =
                 "SLICE" -> Jdec.succeed Slice
                 "STAR" -> Jdec.succeed Star
                 "TEXT" -> Jdec.succeed Text
+                "COMPONENT" -> Jdec.succeed TypeCOMPONENT
+                "DOCUMENT" -> Jdec.succeed TypeDOCUMENT
                 "RECTANGLE" -> Jdec.succeed TypeRECTANGLE
-                "VECTOR" -> Jdec.succeed TypeVECTOR
+                "VECTOR" -> Jdec.succeed Vector
                 somethingElse -> Jdec.fail <| "Invalid NodeType: " ++ somethingElse
         )
 
@@ -2277,8 +2329,6 @@ encodeNodeType : NodeType -> Jenc.Value
 encodeNodeType x = case x of
     Boolean -> Jenc.string "BOOLEAN"
     Canvas -> Jenc.string "CANVAS"
-    Component -> Jenc.string "COMPONENT"
-    Document -> Jenc.string "DOCUMENT"
     Ellipse -> Jenc.string "ELLIPSE"
     Frame -> Jenc.string "FRAME"
     Group -> Jenc.string "GROUP"
@@ -2288,8 +2338,10 @@ encodeNodeType x = case x of
     Slice -> Jenc.string "SLICE"
     Star -> Jenc.string "STAR"
     Text -> Jenc.string "TEXT"
+    TypeCOMPONENT -> Jenc.string "COMPONENT"
+    TypeDOCUMENT -> Jenc.string "DOCUMENT"
     TypeRECTANGLE -> Jenc.string "RECTANGLE"
-    TypeVECTOR -> Jenc.string "VECTOR"
+    Vector -> Jenc.string "VECTOR"
 
 strokeAlign : Jdec.Decoder StrokeAlign
 strokeAlign =
@@ -2375,40 +2427,40 @@ encodeTextAlignVertical x = case x of
     TextAlignVerticalCENTER -> Jenc.string "CENTER"
     TextAlignVerticalTOP -> Jenc.string "TOP"
 
-documentNode : Jdec.Decoder DocumentNode
-documentNode =
-    Jpipe.decode DocumentNode
+document : Jdec.Decoder Document
+document =
+    Jpipe.decode Document
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
         |> Jpipe.required "visible" Jdec.bool
         |> Jpipe.required "type" nodeType
         |> Jpipe.required "children" (Jdec.array fluffyNode)
 
-encodeDocumentNode : DocumentNode -> Jenc.Value
-encodeDocumentNode x =
+encodeDocument : Document -> Jenc.Value
+encodeDocument x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
         , ("visible", Jenc.bool x.visible)
-        , ("type", encodeNodeType x.documentNodeType)
+        , ("type", encodeNodeType x.documentType)
         , ("children", makeArrayEncoder encodeFluffyNode x.children)
         ]
 
 fluffyNode : Jdec.Decoder FluffyNode
 fluffyNode =
     Jpipe.decode FluffyNode
-        |> Jpipe.required "id" Jdec.string
-        |> Jpipe.required "name" Jdec.string
-        |> Jpipe.required "visible" Jdec.bool
-        |> Jpipe.required "type" nodeType
+        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
+        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
+        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array nodeNode)) Nothing
         |> Jpipe.optional "backgroundColor" (Jdec.nullable color) Nothing
         |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSetting)) Nothing
         |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effect)) Nothing
         |> Jpipe.optional "layoutGrids" (Jdec.nullable (Jdec.array layoutGrid)) Nothing
         |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "transitionID" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable rectangle) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
         |> Jpipe.optional "constraints" (Jdec.nullable layoutConstraint) Nothing
         |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
@@ -2418,7 +2470,10 @@ fluffyNode =
         |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
         |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paint)) Nothing
         |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paint)) Nothing
-        |> Jpipe.optional "cornerRadius" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "x" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "y" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "width" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "height" (Jdec.nullable Jdec.float) Nothing
         |> Jpipe.optional "characters" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "style" (Jdec.nullable typeStyle) Nothing
         |> Jpipe.optional "characterStyleOverrides" (Jdec.nullable (Jdec.array Jdec.float)) Nothing
@@ -2428,18 +2483,18 @@ fluffyNode =
 encodeFluffyNode : FluffyNode -> Jenc.Value
 encodeFluffyNode x =
     Jenc.object
-        [ ("id", Jenc.string x.id)
-        , ("name", Jenc.string x.name)
-        , ("visible", Jenc.bool x.visible)
-        , ("type", encodeNodeType x.nodeType)
+        [ ("id", makeNullableEncoder Jenc.string x.id)
+        , ("name", makeNullableEncoder Jenc.string x.name)
+        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        , ("type", makeNullableEncoder encodeNodeType x.nodeType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodeNodeNode) x.children)
         , ("backgroundColor", makeNullableEncoder encodeColor x.backgroundColor)
         , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSetting) x.exportSettings)
         , ("effects", makeNullableEncoder (makeArrayEncoder encodeEffect) x.effects)
         , ("layoutGrids", makeNullableEncoder (makeArrayEncoder encodeLayoutGrid) x.layoutGrids)
         , ("opacity", makeNullableEncoder Jenc.float x.opacity)
+        , ("transitionID", makeNullableEncoder Jenc.string x.transitionID)
         , ("absoluteBoundingBox", makeNullableEncoder encodeRectangle x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
         , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
         , ("constraints", makeNullableEncoder encodeLayoutConstraint x.constraints)
         , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
@@ -2449,7 +2504,10 @@ encodeFluffyNode x =
         , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
         , ("fills", makeNullableEncoder (makeArrayEncoder encodePaint) x.fills)
         , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaint) x.strokes)
-        , ("cornerRadius", makeNullableEncoder Jenc.float x.cornerRadius)
+        , ("x", makeNullableEncoder Jenc.float x.x)
+        , ("y", makeNullableEncoder Jenc.float x.y)
+        , ("width", makeNullableEncoder Jenc.float x.width)
+        , ("height", makeNullableEncoder Jenc.float x.height)
         , ("characters", makeNullableEncoder Jenc.string x.characters)
         , ("style", makeNullableEncoder encodeTypeStyle x.style)
         , ("characterStyleOverrides", makeNullableEncoder (makeArrayEncoder Jenc.float) x.characterStyleOverrides)

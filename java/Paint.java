@@ -17,7 +17,7 @@ public class Paint {
     private boolean visible;
     private double opacity;
     private Color color;
-    private Vector[] gradientHandlePositions;
+    private Vector2D[] gradientHandlePositions;
     private ColorStop[] gradientStops;
     private ScaleMode scaleMode;
 
@@ -64,9 +64,9 @@ public class Paint {
      * gradients).
      */
     @JsonProperty("gradientHandlePositions")
-    public Vector[] getGradientHandlePositions() { return gradientHandlePositions; }
+    public Vector2D[] getGradientHandlePositions() { return gradientHandlePositions; }
     @JsonProperty("gradientHandlePositions")
-    public void setGradientHandlePositions(Vector[] value) { this.gradientHandlePositions = value; }
+    public void setGradientHandlePositions(Vector2D[] value) { this.gradientHandlePositions = value; }
 
     /**
      * (For gradient paints) Positions of key points along the gradient axis with the colors

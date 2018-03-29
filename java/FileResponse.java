@@ -11,17 +11,17 @@ import com.fasterxml.jackson.annotation.*;
  * contains a Node of type DOCUMENT.
  */
 public class FileResponse {
-    private DocumentNode document;
-    private Map<String, ComponentNode> components;
+    private Document document;
+    private Map<String, Component> components;
     private double schemaVersion;
 
     /**
      * The root node within the document
      */
     @JsonProperty("document")
-    public DocumentNode getDocument() { return document; }
+    public Document getDocument() { return document; }
     @JsonProperty("document")
-    public void setDocument(DocumentNode value) { this.document = value; }
+    public void setDocument(Document value) { this.document = value; }
 
     /**
      * A mapping from node IDs to component metadata. This is to help you determine which
@@ -29,9 +29,9 @@ public class FileResponse {
      * components is the name of the component, but more properties will be forthcoming.
      */
     @JsonProperty("components")
-    public Map<String, ComponentNode> getComponents() { return components; }
+    public Map<String, Component> getComponents() { return components; }
     @JsonProperty("components")
-    public void setComponents(Map<String, ComponentNode> value) { this.components = value; }
+    public void setComponents(Map<String, Component> value) { this.components = value; }
 
     @JsonProperty("schemaVersion")
     public double getSchemaVersion() { return schemaVersion; }

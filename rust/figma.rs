@@ -23,13 +23,13 @@ use std::collections::HashMap;
 pub struct FileResponse {
     /// The root node within the document
     #[serde(rename = "document")]
-    document: DocumentNode,
+    document: Document,
 
     /// A mapping from node IDs to component metadata. This is to help you determine which
     /// components each instance comes from. Currently the only piece of metadata available on
     /// components is the name of the component, but more properties will be forthcoming.
     #[serde(rename = "components")]
-    components: HashMap<String, ComponentNode>,
+    components: HashMap<String, Component>,
 
     #[serde(rename = "schemaVersion")]
     schema_version: f64,
@@ -105,8 +105,6 @@ pub struct FileResponse {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -153,7 +151,7 @@ pub struct FileResponse {
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 #[derive(Serialize, Deserialize)]
-pub struct ComponentNode {
+pub struct Component {
     /// A string uniquely identifying this node within the document
     #[serde(rename = "id")]
     id: String,
@@ -168,7 +166,7 @@ pub struct ComponentNode {
 
     /// The type of the node
     #[serde(rename = "type")]
-    component_node_type: NodeType,
+    component_type: NodeType,
 
     /// An array of effects attached to this node (see effects section for more details)
     #[serde(rename = "effects")]
@@ -183,13 +181,13 @@ pub struct ComponentNode {
     #[serde(rename = "opacity")]
     opacity: f64,
 
+    /// Node ID of node to transition to in prototyping
+    #[serde(rename = "transitionID")]
+    transition_id: Option<String>,
+
     /// Bounding box of the node in absolute space coordinates
     #[serde(rename = "absoluteBoundingBox")]
     absolute_bounding_box: Rectangle,
-
-    /// Node ID of node to transition to in prototyping
-    #[serde(rename = "transitionNodeID")]
-    transition_node_id: Option<String>,
 
     /// How this node blends with nodes behind it in the scene (see blend mode section for more
     /// details)
@@ -230,6 +228,8 @@ pub struct ComponentNode {
 /// A rectangle that expresses a bounding box in absolute coordinates
 ///
 /// Bounding box of the node in absolute space coordinates
+///
+/// An array of canvases attached to the document
 #[derive(Serialize, Deserialize)]
 pub struct Rectangle {
     /// X coordinate of top left corner of the rectangle
@@ -349,8 +349,6 @@ pub struct Color {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -396,23 +394,27 @@ pub struct Color {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
 #[derive(Serialize, Deserialize)]
 pub struct PurpleNode {
     /// A string uniquely identifying this node within the document
     #[serde(rename = "id")]
-    id: String,
+    id: Option<String>,
 
     /// The name given to the node by the user in the tool
     #[serde(rename = "name")]
-    name: String,
+    name: Option<String>,
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: bool,
+    visible: Option<bool>,
 
     /// The type of the node
     #[serde(rename = "type")]
-    node_type: NodeType,
+    node_type: Option<NodeType>,
 
     /// An array of canvases attached to the document
     ///
@@ -451,13 +453,13 @@ pub struct PurpleNode {
     #[serde(rename = "opacity")]
     opacity: Option<f64>,
 
+    /// Node ID of node to transition to in prototyping
+    #[serde(rename = "transitionID")]
+    transition_id: Option<String>,
+
     /// Bounding box of the node in absolute space coordinates
     #[serde(rename = "absoluteBoundingBox")]
     absolute_bounding_box: Option<Rectangle>,
-
-    /// Node ID of node to transition to in prototyping
-    #[serde(rename = "transitionNodeID")]
-    transition_node_id: Option<String>,
 
     /// How this node blends with nodes behind it in the scene (see blend mode section for more
     /// details)
@@ -502,9 +504,21 @@ pub struct PurpleNode {
     #[serde(rename = "strokes")]
     strokes: Option<Vec<Paint>>,
 
-    /// Radius of each corner of the rectangle
-    #[serde(rename = "cornerRadius")]
-    corner_radius: Option<f64>,
+    /// X coordinate of top left corner of the rectangle
+    #[serde(rename = "x")]
+    x: Option<f64>,
+
+    /// Y coordinate of top left corner of the rectangle
+    #[serde(rename = "y")]
+    y: Option<f64>,
+
+    /// Width of the rectangle
+    #[serde(rename = "width")]
+    width: Option<f64>,
+
+    /// Height of the rectangle
+    #[serde(rename = "height")]
+    height: Option<f64>,
 
     /// Text contained within text box
     #[serde(rename = "characters")]
@@ -597,8 +611,6 @@ pub struct PurpleNode {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -645,6 +657,10 @@ pub struct PurpleNode {
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 ///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
+///
 /// An array of top level layers on the canvas
 ///
 /// An array of nodes that are direct children of this node
@@ -654,19 +670,19 @@ pub struct PurpleNode {
 pub struct NodeNode {
     /// A string uniquely identifying this node within the document
     #[serde(rename = "id")]
-    id: String,
+    id: Option<String>,
 
     /// The name given to the node by the user in the tool
     #[serde(rename = "name")]
-    name: String,
+    name: Option<String>,
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: bool,
+    visible: Option<bool>,
 
     /// The type of the node
     #[serde(rename = "type")]
-    node_type: NodeType,
+    node_type: Option<NodeType>,
 
     /// An array of canvases attached to the document
     ///
@@ -705,13 +721,13 @@ pub struct NodeNode {
     #[serde(rename = "opacity")]
     opacity: Option<f64>,
 
+    /// Node ID of node to transition to in prototyping
+    #[serde(rename = "transitionID")]
+    transition_id: Option<String>,
+
     /// Bounding box of the node in absolute space coordinates
     #[serde(rename = "absoluteBoundingBox")]
     absolute_bounding_box: Option<Rectangle>,
-
-    /// Node ID of node to transition to in prototyping
-    #[serde(rename = "transitionNodeID")]
-    transition_node_id: Option<String>,
 
     /// How this node blends with nodes behind it in the scene (see blend mode section for more
     /// details)
@@ -756,9 +772,21 @@ pub struct NodeNode {
     #[serde(rename = "strokes")]
     strokes: Option<Vec<Paint>>,
 
-    /// Radius of each corner of the rectangle
-    #[serde(rename = "cornerRadius")]
-    corner_radius: Option<f64>,
+    /// X coordinate of top left corner of the rectangle
+    #[serde(rename = "x")]
+    x: Option<f64>,
+
+    /// Y coordinate of top left corner of the rectangle
+    #[serde(rename = "y")]
+    y: Option<f64>,
+
+    /// Width of the rectangle
+    #[serde(rename = "width")]
+    width: Option<f64>,
+
+    /// Height of the rectangle
+    #[serde(rename = "height")]
+    height: Option<f64>,
 
     /// Text contained within text box
     #[serde(rename = "characters")]
@@ -837,7 +865,7 @@ pub struct Effect {
 
     /// See type property for effect of this field
     #[serde(rename = "offset")]
-    offset: Vector,
+    offset: Vector2D,
 }
 
 /// A 2d vector
@@ -852,7 +880,7 @@ pub struct Effect {
 /// handle position determines the width of the gradient (only relevant for non-linear
 /// gradients).
 #[derive(Serialize, Deserialize)]
-pub struct Vector {
+pub struct Vector2D {
     /// X coordinate of the vector
     #[serde(rename = "x")]
     x: f64,
@@ -940,7 +968,7 @@ pub struct Paint {
     /// handle position determines the width of the gradient (only relevant for non-linear
     /// gradients).
     #[serde(rename = "gradientHandlePositions")]
-    gradient_handle_positions: Option<Vec<Vector>>,
+    gradient_handle_positions: Option<Vec<Vector2D>>,
 
     /// (For gradient paints) Positions of key points along the gradient axis with the colors
     /// anchored there. Colors along the gradient are interpolated smoothly between neighboring
@@ -1133,8 +1161,6 @@ pub struct TypeStyle {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -1181,7 +1207,7 @@ pub struct TypeStyle {
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 #[derive(Serialize, Deserialize)]
-pub struct DocumentNode {
+pub struct Document {
     /// A string uniquely identifying this node within the document
     #[serde(rename = "id")]
     id: String,
@@ -1196,7 +1222,7 @@ pub struct DocumentNode {
 
     /// The type of the node
     #[serde(rename = "type")]
-    document_node_type: NodeType,
+    document_type: NodeType,
 
     /// An array of canvases attached to the document
     #[serde(rename = "children")]
@@ -1269,8 +1295,6 @@ pub struct DocumentNode {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -1316,23 +1340,27 @@ pub struct DocumentNode {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
 #[derive(Serialize, Deserialize)]
 pub struct FluffyNode {
     /// A string uniquely identifying this node within the document
     #[serde(rename = "id")]
-    id: String,
+    id: Option<String>,
 
     /// The name given to the node by the user in the tool
     #[serde(rename = "name")]
-    name: String,
+    name: Option<String>,
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: bool,
+    visible: Option<bool>,
 
     /// The type of the node
     #[serde(rename = "type")]
-    node_type: NodeType,
+    node_type: Option<NodeType>,
 
     /// An array of canvases attached to the document
     ///
@@ -1371,13 +1399,13 @@ pub struct FluffyNode {
     #[serde(rename = "opacity")]
     opacity: Option<f64>,
 
+    /// Node ID of node to transition to in prototyping
+    #[serde(rename = "transitionID")]
+    transition_id: Option<String>,
+
     /// Bounding box of the node in absolute space coordinates
     #[serde(rename = "absoluteBoundingBox")]
     absolute_bounding_box: Option<Rectangle>,
-
-    /// Node ID of node to transition to in prototyping
-    #[serde(rename = "transitionNodeID")]
-    transition_node_id: Option<String>,
 
     /// How this node blends with nodes behind it in the scene (see blend mode section for more
     /// details)
@@ -1422,9 +1450,21 @@ pub struct FluffyNode {
     #[serde(rename = "strokes")]
     strokes: Option<Vec<Paint>>,
 
-    /// Radius of each corner of the rectangle
-    #[serde(rename = "cornerRadius")]
-    corner_radius: Option<f64>,
+    /// X coordinate of top left corner of the rectangle
+    #[serde(rename = "x")]
+    x: Option<f64>,
+
+    /// Y coordinate of top left corner of the rectangle
+    #[serde(rename = "y")]
+    y: Option<f64>,
+
+    /// Width of the rectangle
+    #[serde(rename = "width")]
+    width: Option<f64>,
+
+    /// Height of the rectangle
+    #[serde(rename = "height")]
+    height: Option<f64>,
 
     /// Text contained within text box
     #[serde(rename = "characters")]

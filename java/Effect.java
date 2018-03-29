@@ -14,7 +14,7 @@ public class Effect {
     private boolean visible;
     private Color color;
     private BlendMode blendMode;
-    private Vector offset;
+    private Vector2D offset;
 
     /**
      * Type of effect as a string enum
@@ -60,7 +60,7 @@ public class Effect {
      * See type property for effect of this field
      */
     @JsonProperty("offset")
-    public Vector getOffset() { return offset; }
+    public Vector2D getOffset() { return offset; }
     @JsonProperty("offset")
-    public void setOffset(Vector value) { this.offset = value; }
+    public void setOffset(Vector2D value) { this.offset = value; }
 }

@@ -27,7 +27,7 @@ namespace QuickType
         /// The root node within the document
         /// </summary>
         [JsonProperty("document")]
-        public DocumentNode Document { get; set; }
+        public Document Document { get; set; }
 
         /// <summary>
         /// A mapping from node IDs to component metadata. This is to help you determine which
@@ -35,7 +35,7 @@ namespace QuickType
         /// components is the name of the component, but more properties will be forthcoming.
         /// </summary>
         [JsonProperty("components")]
-        public Dictionary<string, ComponentNode> Components { get; set; }
+        public Dictionary<string, Component> Components { get; set; }
 
         [JsonProperty("schemaVersion")]
         public double SchemaVersion { get; set; }
@@ -112,8 +112,6 @@ namespace QuickType
     ///
     /// Value between 0 and 1 representing position along gradient axis
     ///
-    /// Radius of each corner of the rectangle
-    ///
     /// Line height in px
     ///
     /// Numeric font weight
@@ -160,7 +158,7 @@ namespace QuickType
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
     /// </summary>
-    public partial class ComponentNode
+    public partial class Component
     {
         /// <summary>
         /// A string uniquely identifying this node within the document
@@ -206,16 +204,16 @@ namespace QuickType
         public double Opacity { get; set; }
 
         /// <summary>
+        /// Node ID of node to transition to in prototyping
+        /// </summary>
+        [JsonProperty("transitionID")]
+        public string TransitionId { get; set; }
+
+        /// <summary>
         /// Bounding box of the node in absolute space coordinates
         /// </summary>
         [JsonProperty("absoluteBoundingBox")]
         public Rectangle AbsoluteBoundingBox { get; set; }
-
-        /// <summary>
-        /// Node ID of node to transition to in prototyping
-        /// </summary>
-        [JsonProperty("transitionNodeID")]
-        public string TransitionNodeId { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -273,6 +271,8 @@ namespace QuickType
     /// A rectangle that expresses a bounding box in absolute coordinates
     ///
     /// Bounding box of the node in absolute space coordinates
+    ///
+    /// An array of canvases attached to the document
     /// </summary>
     public partial class Rectangle
     {
@@ -412,8 +412,6 @@ namespace QuickType
     ///
     /// Value between 0 and 1 representing position along gradient axis
     ///
-    /// Radius of each corner of the rectangle
-    ///
     /// Line height in px
     ///
     /// Numeric font weight
@@ -459,6 +457,10 @@ namespace QuickType
     ///
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
+    ///
+    /// A rectangle that expresses a bounding box in absolute coordinates
+    ///
+    /// Bounding box of the node in absolute space coordinates
     /// </summary>
     public partial class PurpleNode
     {
@@ -478,13 +480,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool Visible { get; set; }
+        public bool? Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType Type { get; set; }
+        public NodeType? Type { get; set; }
 
         /// <summary>
         /// An array of canvases attached to the document
@@ -536,16 +538,16 @@ namespace QuickType
         public double? Opacity { get; set; }
 
         /// <summary>
+        /// Node ID of node to transition to in prototyping
+        /// </summary>
+        [JsonProperty("transitionID")]
+        public string TransitionId { get; set; }
+
+        /// <summary>
         /// Bounding box of the node in absolute space coordinates
         /// </summary>
         [JsonProperty("absoluteBoundingBox")]
         public Rectangle AbsoluteBoundingBox { get; set; }
-
-        /// <summary>
-        /// Node ID of node to transition to in prototyping
-        /// </summary>
-        [JsonProperty("transitionNodeID")]
-        public string TransitionNodeId { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -609,10 +611,28 @@ namespace QuickType
         public Paint[] Strokes { get; set; }
 
         /// <summary>
-        /// Radius of each corner of the rectangle
+        /// X coordinate of top left corner of the rectangle
         /// </summary>
-        [JsonProperty("cornerRadius")]
-        public double? CornerRadius { get; set; }
+        [JsonProperty("x")]
+        public double? X { get; set; }
+
+        /// <summary>
+        /// Y coordinate of top left corner of the rectangle
+        /// </summary>
+        [JsonProperty("y")]
+        public double? Y { get; set; }
+
+        /// <summary>
+        /// Width of the rectangle
+        /// </summary>
+        [JsonProperty("width")]
+        public double? Width { get; set; }
+
+        /// <summary>
+        /// Height of the rectangle
+        /// </summary>
+        [JsonProperty("height")]
+        public double? Height { get; set; }
 
         /// <summary>
         /// Text contained within text box
@@ -716,8 +736,6 @@ namespace QuickType
     ///
     /// Value between 0 and 1 representing position along gradient axis
     ///
-    /// Radius of each corner of the rectangle
-    ///
     /// Line height in px
     ///
     /// Numeric font weight
@@ -764,6 +782,10 @@ namespace QuickType
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
     ///
+    /// A rectangle that expresses a bounding box in absolute coordinates
+    ///
+    /// Bounding box of the node in absolute space coordinates
+    ///
     /// An array of top level layers on the canvas
     ///
     /// An array of nodes that are direct children of this node
@@ -788,13 +810,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool Visible { get; set; }
+        public bool? Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType Type { get; set; }
+        public NodeType? Type { get; set; }
 
         /// <summary>
         /// An array of canvases attached to the document
@@ -846,16 +868,16 @@ namespace QuickType
         public double? Opacity { get; set; }
 
         /// <summary>
+        /// Node ID of node to transition to in prototyping
+        /// </summary>
+        [JsonProperty("transitionID")]
+        public string TransitionId { get; set; }
+
+        /// <summary>
         /// Bounding box of the node in absolute space coordinates
         /// </summary>
         [JsonProperty("absoluteBoundingBox")]
         public Rectangle AbsoluteBoundingBox { get; set; }
-
-        /// <summary>
-        /// Node ID of node to transition to in prototyping
-        /// </summary>
-        [JsonProperty("transitionNodeID")]
-        public string TransitionNodeId { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -919,10 +941,28 @@ namespace QuickType
         public Paint[] Strokes { get; set; }
 
         /// <summary>
-        /// Radius of each corner of the rectangle
+        /// X coordinate of top left corner of the rectangle
         /// </summary>
-        [JsonProperty("cornerRadius")]
-        public double? CornerRadius { get; set; }
+        [JsonProperty("x")]
+        public double? X { get; set; }
+
+        /// <summary>
+        /// Y coordinate of top left corner of the rectangle
+        /// </summary>
+        [JsonProperty("y")]
+        public double? Y { get; set; }
+
+        /// <summary>
+        /// Width of the rectangle
+        /// </summary>
+        [JsonProperty("width")]
+        public double? Width { get; set; }
+
+        /// <summary>
+        /// Height of the rectangle
+        /// </summary>
+        [JsonProperty("height")]
+        public double? Height { get; set; }
 
         /// <summary>
         /// Text contained within text box
@@ -1031,7 +1071,7 @@ namespace QuickType
         /// See type property for effect of this field
         /// </summary>
         [JsonProperty("offset")]
-        public Vector Offset { get; set; }
+        public Vector2D Offset { get; set; }
     }
 
     /// <summary>
@@ -1047,7 +1087,7 @@ namespace QuickType
     /// handle position determines the width of the gradient (only relevant for non-linear
     /// gradients).
     /// </summary>
-    public partial class Vector
+    public partial class Vector2D
     {
         /// <summary>
         /// X coordinate of the vector
@@ -1166,7 +1206,7 @@ namespace QuickType
         /// gradients).
         /// </summary>
         [JsonProperty("gradientHandlePositions")]
-        public Vector[] GradientHandlePositions { get; set; }
+        public Vector2D[] GradientHandlePositions { get; set; }
 
         /// <summary>
         /// (For gradient paints) Positions of key points along the gradient axis with the colors
@@ -1412,8 +1452,6 @@ namespace QuickType
     ///
     /// Value between 0 and 1 representing position along gradient axis
     ///
-    /// Radius of each corner of the rectangle
-    ///
     /// Line height in px
     ///
     /// Numeric font weight
@@ -1460,7 +1498,7 @@ namespace QuickType
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
     /// </summary>
-    public partial class DocumentNode
+    public partial class Document
     {
         /// <summary>
         /// A string uniquely identifying this node within the document
@@ -1560,8 +1598,6 @@ namespace QuickType
     ///
     /// Value between 0 and 1 representing position along gradient axis
     ///
-    /// Radius of each corner of the rectangle
-    ///
     /// Line height in px
     ///
     /// Numeric font weight
@@ -1607,6 +1643,10 @@ namespace QuickType
     ///
     /// ID of component that this instance came from, refers to components table (see endpoints
     /// section below)
+    ///
+    /// A rectangle that expresses a bounding box in absolute coordinates
+    ///
+    /// Bounding box of the node in absolute space coordinates
     /// </summary>
     public partial class FluffyNode
     {
@@ -1626,13 +1666,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool Visible { get; set; }
+        public bool? Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType Type { get; set; }
+        public NodeType? Type { get; set; }
 
         /// <summary>
         /// An array of canvases attached to the document
@@ -1684,16 +1724,16 @@ namespace QuickType
         public double? Opacity { get; set; }
 
         /// <summary>
+        /// Node ID of node to transition to in prototyping
+        /// </summary>
+        [JsonProperty("transitionID")]
+        public string TransitionId { get; set; }
+
+        /// <summary>
         /// Bounding box of the node in absolute space coordinates
         /// </summary>
         [JsonProperty("absoluteBoundingBox")]
         public Rectangle AbsoluteBoundingBox { get; set; }
-
-        /// <summary>
-        /// Node ID of node to transition to in prototyping
-        /// </summary>
-        [JsonProperty("transitionNodeID")]
-        public string TransitionNodeId { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -1757,10 +1797,28 @@ namespace QuickType
         public Paint[] Strokes { get; set; }
 
         /// <summary>
-        /// Radius of each corner of the rectangle
+        /// X coordinate of top left corner of the rectangle
         /// </summary>
-        [JsonProperty("cornerRadius")]
-        public double? CornerRadius { get; set; }
+        [JsonProperty("x")]
+        public double? X { get; set; }
+
+        /// <summary>
+        /// Y coordinate of top left corner of the rectangle
+        /// </summary>
+        [JsonProperty("y")]
+        public double? Y { get; set; }
+
+        /// <summary>
+        /// Width of the rectangle
+        /// </summary>
+        [JsonProperty("width")]
+        public double? Width { get; set; }
+
+        /// <summary>
+        /// Height of the rectangle
+        /// </summary>
+        [JsonProperty("height")]
+        public double? Height { get; set; }
 
         /// <summary>
         /// Text contained within text box

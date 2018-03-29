@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 @class QTFileResponse;
-@class QTComponentNode;
+@class QTComponent;
 @class QTRectangle;
 @class QTColor;
 @class QTBlendMode;
@@ -16,7 +16,7 @@
 @class QTHorizontal;
 @class QTVertical;
 @class QTEffect;
-@class QTVector;
+@class QTVector2D;
 @class QTEffectType;
 @class QTExportSetting;
 @class QTConstraint;
@@ -34,7 +34,7 @@
 @class QTTextAlignHorizontal;
 @class QTTextAlignVertical;
 @class QTNodeType;
-@class QTDocumentNode;
+@class QTDocument;
 @class QTFluffyNode;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -248,11 +248,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// contains a Node of type DOCUMENT.
 @interface QTFileResponse : NSObject
 /// The root node within the document
-@property (nonatomic, strong) QTDocumentNode *document;
+@property (nonatomic, strong) QTDocument *document;
 /// A mapping from node IDs to component metadata. This is to help you determine which
 /// components each instance comes from. Currently the only piece of metadata available on
 /// components is the name of the component, but more properties will be forthcoming.
-@property (nonatomic, copy)   NSDictionary<NSString *, QTComponentNode *> *components;
+@property (nonatomic, copy)   NSDictionary<NSString *, QTComponent *> *components;
 @property (nonatomic, assign) double schemaVersion;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
@@ -331,8 +331,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -378,7 +376,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
-@interface QTComponentNode : NSObject
+@interface QTComponent : NSObject
 /// A string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// The name given to the node by the user in the tool
@@ -394,10 +392,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSArray<QTLayoutGrid *> *layoutGrids;
 /// Opacity of the node
 @property (nonatomic, assign) double opacity;
+/// Node ID of node to transition to in prototyping
+@property (nonatomic, nullable, copy) NSString *transitionID;
 /// Bounding box of the node in absolute space coordinates
 @property (nonatomic, strong) QTRectangle *absoluteBoundingBox;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
 /// How this node blends with nodes behind it in the scene (see blend mode section for more
 /// details)
 @property (nonatomic, assign) QTBlendMode *blendMode;
@@ -422,6 +420,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// A rectangle that expresses a bounding box in absolute coordinates
 ///
 /// Bounding box of the node in absolute space coordinates
+///
+/// An array of canvases attached to the document
 @interface QTRectangle : NSObject
 /// X coordinate of top left corner of the rectangle
 @property (nonatomic, assign) double x;
@@ -525,8 +525,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -572,15 +570,19 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
 @interface QTPurpleNode : NSObject
 /// A string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, nullable, copy) NSString *identifier;
 /// The name given to the node by the user in the tool
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, nullable, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
+@property (nonatomic, nullable, strong) NSNumber *visible;
 /// The type of the node
-@property (nonatomic, assign) QTNodeType *type;
+@property (nonatomic, nullable, assign) QTNodeType *type;
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -606,10 +608,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSArray<QTLayoutGrid *> *layoutGrids;
 /// Opacity of the node
 @property (nonatomic, nullable, strong) NSNumber *opacity;
+/// Node ID of node to transition to in prototyping
+@property (nonatomic, nullable, copy) NSString *transitionID;
 /// Bounding box of the node in absolute space coordinates
 @property (nonatomic, nullable, strong) QTRectangle *absoluteBoundingBox;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
 /// How this node blends with nodes behind it in the scene (see blend mode section for more
 /// details)
 @property (nonatomic, nullable, assign) QTBlendMode *blendMode;
@@ -635,8 +637,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSArray<QTPaint *> *fills;
 /// An array of stroke paints applied to the node
 @property (nonatomic, nullable, copy) NSArray<QTPaint *> *strokes;
-/// Radius of each corner of the rectangle
-@property (nonatomic, nullable, strong) NSNumber *cornerRadius;
+/// X coordinate of top left corner of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *x;
+/// Y coordinate of top left corner of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *y;
+/// Width of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *width;
+/// Height of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *height;
 /// Text contained within text box
 @property (nonatomic, nullable, copy) NSString *characters;
 /// Style of text including font family and weight (see type style section for more
@@ -719,8 +727,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -767,6 +773,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 ///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
+///
 /// An array of top level layers on the canvas
 ///
 /// An array of nodes that are direct children of this node
@@ -774,13 +784,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// An array of nodes that are being boolean operated on
 @interface QTNodeNode : NSObject
 /// A string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, nullable, copy) NSString *identifier;
 /// The name given to the node by the user in the tool
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, nullable, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
+@property (nonatomic, nullable, strong) NSNumber *visible;
 /// The type of the node
-@property (nonatomic, assign) QTNodeType *type;
+@property (nonatomic, nullable, assign) QTNodeType *type;
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -806,10 +816,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSArray<QTLayoutGrid *> *layoutGrids;
 /// Opacity of the node
 @property (nonatomic, nullable, strong) NSNumber *opacity;
+/// Node ID of node to transition to in prototyping
+@property (nonatomic, nullable, copy) NSString *transitionID;
 /// Bounding box of the node in absolute space coordinates
 @property (nonatomic, nullable, strong) QTRectangle *absoluteBoundingBox;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
 /// How this node blends with nodes behind it in the scene (see blend mode section for more
 /// details)
 @property (nonatomic, nullable, assign) QTBlendMode *blendMode;
@@ -835,8 +845,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSArray<QTPaint *> *fills;
 /// An array of stroke paints applied to the node
 @property (nonatomic, nullable, copy) NSArray<QTPaint *> *strokes;
-/// Radius of each corner of the rectangle
-@property (nonatomic, nullable, strong) NSNumber *cornerRadius;
+/// X coordinate of top left corner of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *x;
+/// Y coordinate of top left corner of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *y;
+/// Width of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *width;
+/// Height of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *height;
 /// Text contained within text box
 @property (nonatomic, nullable, copy) NSString *characters;
 /// Style of text including font family and weight (see type style section for more
@@ -889,7 +905,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// See type property for effect of this field
 @property (nonatomic, assign) QTBlendMode *blendMode;
 /// See type property for effect of this field
-@property (nonatomic, strong) QTVector *offset;
+@property (nonatomic, strong) QTVector2D *offset;
 @end
 
 /// A 2d vector
@@ -903,7 +919,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// gradient stops), the second position is the end of the gradient (value 1), and the third
 /// handle position determines the width of the gradient (only relevant for non-linear
 /// gradients).
-@interface QTVector : NSObject
+@interface QTVector2D : NSObject
 /// X coordinate of the vector
 @property (nonatomic, assign) double x;
 /// Y coordinate of the vector
@@ -968,7 +984,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// gradient stops), the second position is the end of the gradient (value 1), and the third
 /// handle position determines the width of the gradient (only relevant for non-linear
 /// gradients).
-@property (nonatomic, nullable, copy) NSArray<QTVector *> *gradientHandlePositions;
+@property (nonatomic, nullable, copy) NSArray<QTVector2D *> *gradientHandlePositions;
 /// (For gradient paints) Positions of key points along the gradient axis with the colors
 /// anchored there. Colors along the gradient are interpolated smoothly between neighboring
 /// gradient stops.
@@ -1115,8 +1131,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -1162,7 +1176,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
-@interface QTDocumentNode : NSObject
+@interface QTDocument : NSObject
 /// A string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// The name given to the node by the user in the tool
@@ -1241,8 +1255,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -1288,15 +1300,19 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
 @interface QTFluffyNode : NSObject
 /// A string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, nullable, copy) NSString *identifier;
 /// The name given to the node by the user in the tool
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, nullable, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
+@property (nonatomic, nullable, strong) NSNumber *visible;
 /// The type of the node
-@property (nonatomic, assign) QTNodeType *type;
+@property (nonatomic, nullable, assign) QTNodeType *type;
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -1322,10 +1338,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSArray<QTLayoutGrid *> *layoutGrids;
 /// Opacity of the node
 @property (nonatomic, nullable, strong) NSNumber *opacity;
+/// Node ID of node to transition to in prototyping
+@property (nonatomic, nullable, copy) NSString *transitionID;
 /// Bounding box of the node in absolute space coordinates
 @property (nonatomic, nullable, strong) QTRectangle *absoluteBoundingBox;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
 /// How this node blends with nodes behind it in the scene (see blend mode section for more
 /// details)
 @property (nonatomic, nullable, assign) QTBlendMode *blendMode;
@@ -1351,8 +1367,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSArray<QTPaint *> *fills;
 /// An array of stroke paints applied to the node
 @property (nonatomic, nullable, copy) NSArray<QTPaint *> *strokes;
-/// Radius of each corner of the rectangle
-@property (nonatomic, nullable, strong) NSNumber *cornerRadius;
+/// X coordinate of top left corner of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *x;
+/// Y coordinate of top left corner of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *y;
+/// Width of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *width;
+/// Height of the rectangle
+@property (nonatomic, nullable, strong) NSNumber *height;
 /// Text contained within text box
 @property (nonatomic, nullable, copy) NSString *characters;
 /// Style of text including font family and weight (see type style section for more

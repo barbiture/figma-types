@@ -11,11 +11,11 @@ import Foundation
 /// contains a Node of type DOCUMENT.
 struct FileResponse: Codable {
     /// The root node within the document
-    let document: DocumentNode
+    let document: Document
     /// A mapping from node IDs to component metadata. This is to help you determine which
     /// components each instance comes from. Currently the only piece of metadata available on
     /// components is the name of the component, but more properties will be forthcoming.
-    let components: [String: ComponentNode]
+    let components: [String: Component]
     let schemaVersion: Double
 }
 
@@ -89,8 +89,6 @@ struct FileResponse: Codable {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -136,7 +134,7 @@ struct FileResponse: Codable {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
-struct ComponentNode: Codable {
+struct Component: Codable {
     /// A string uniquely identifying this node within the document
     let id: String
     /// The name given to the node by the user in the tool
@@ -152,10 +150,10 @@ struct ComponentNode: Codable {
     let layoutGrids: [LayoutGrid]
     /// Opacity of the node
     let opacity: Double
+    /// Node ID of node to transition to in prototyping
+    let transitionID: String?
     /// Bounding box of the node in absolute space coordinates
     let absoluteBoundingBox: Rectangle
-    /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String?
     /// How this node blends with nodes behind it in the scene (see blend mode section for more
     /// details)
     let blendMode: BlendMode
@@ -180,6 +178,8 @@ struct ComponentNode: Codable {
 /// A rectangle that expresses a bounding box in absolute coordinates
 ///
 /// Bounding box of the node in absolute space coordinates
+///
+/// An array of canvases attached to the document
 struct Rectangle: Codable {
     /// X coordinate of top left corner of the rectangle
     let x: Double
@@ -311,8 +311,6 @@ enum BlendMode: String, Codable {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -358,15 +356,19 @@ enum BlendMode: String, Codable {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
 struct PurpleNode: Codable {
     /// A string uniquely identifying this node within the document
-    let id: String
+    let id: String?
     /// The name given to the node by the user in the tool
-    let name: String
+    let name: String?
     /// Whether or not the node is visible on the canvas
-    let visible: Bool
+    let visible: Bool?
     /// The type of the node
-    let type: NodeType
+    let type: NodeType?
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -392,10 +394,10 @@ struct PurpleNode: Codable {
     let layoutGrids: [LayoutGrid]?
     /// Opacity of the node
     let opacity: Double?
+    /// Node ID of node to transition to in prototyping
+    let transitionID: String?
     /// Bounding box of the node in absolute space coordinates
     let absoluteBoundingBox: Rectangle?
-    /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String?
     /// How this node blends with nodes behind it in the scene (see blend mode section for more
     /// details)
     let blendMode: BlendMode?
@@ -421,8 +423,14 @@ struct PurpleNode: Codable {
     let fills: [Paint]?
     /// An array of stroke paints applied to the node
     let strokes: [Paint]?
-    /// Radius of each corner of the rectangle
-    let cornerRadius: Double?
+    /// X coordinate of top left corner of the rectangle
+    let x: Double?
+    /// Y coordinate of top left corner of the rectangle
+    let y: Double?
+    /// Width of the rectangle
+    let width: Double?
+    /// Height of the rectangle
+    let height: Double?
     /// Text contained within text box
     let characters: String?
     /// Style of text including font family and weight (see type style section for more
@@ -439,7 +447,7 @@ struct PurpleNode: Codable {
     let componentID: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, name, visible, type, children, backgroundColor, exportSettings, effects, layoutGrids, opacity, absoluteBoundingBox, transitionNodeID, blendMode, constraints, isMask, clipsContent, preserveRatio, strokeAlign, strokeWeight, fills, strokes, cornerRadius, characters, style, characterStyleOverrides, styleOverrideTable
+        case id, name, visible, type, children, backgroundColor, exportSettings, effects, layoutGrids, opacity, transitionID, absoluteBoundingBox, blendMode, constraints, isMask, clipsContent, preserveRatio, strokeAlign, strokeWeight, fills, strokes, x, y, width, height, characters, style, characterStyleOverrides, styleOverrideTable
         case componentID = "componentId"
     }
 }
@@ -510,8 +518,6 @@ struct PurpleNode: Codable {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -558,6 +564,10 @@ struct PurpleNode: Codable {
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
 ///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
+///
 /// An array of top level layers on the canvas
 ///
 /// An array of nodes that are direct children of this node
@@ -565,13 +575,13 @@ struct PurpleNode: Codable {
 /// An array of nodes that are being boolean operated on
 struct NodeNode: Codable {
     /// A string uniquely identifying this node within the document
-    let id: String
+    let id: String?
     /// The name given to the node by the user in the tool
-    let name: String
+    let name: String?
     /// Whether or not the node is visible on the canvas
-    let visible: Bool
+    let visible: Bool?
     /// The type of the node
-    let type: NodeType
+    let type: NodeType?
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -597,10 +607,10 @@ struct NodeNode: Codable {
     let layoutGrids: [LayoutGrid]?
     /// Opacity of the node
     let opacity: Double?
+    /// Node ID of node to transition to in prototyping
+    let transitionID: String?
     /// Bounding box of the node in absolute space coordinates
     let absoluteBoundingBox: Rectangle?
-    /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String?
     /// How this node blends with nodes behind it in the scene (see blend mode section for more
     /// details)
     let blendMode: BlendMode?
@@ -626,8 +636,14 @@ struct NodeNode: Codable {
     let fills: [Paint]?
     /// An array of stroke paints applied to the node
     let strokes: [Paint]?
-    /// Radius of each corner of the rectangle
-    let cornerRadius: Double?
+    /// X coordinate of top left corner of the rectangle
+    let x: Double?
+    /// Y coordinate of top left corner of the rectangle
+    let y: Double?
+    /// Width of the rectangle
+    let width: Double?
+    /// Height of the rectangle
+    let height: Double?
     /// Text contained within text box
     let characters: String?
     /// Style of text including font family and weight (see type style section for more
@@ -644,7 +660,7 @@ struct NodeNode: Codable {
     let componentID: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, name, visible, type, children, backgroundColor, exportSettings, effects, layoutGrids, opacity, absoluteBoundingBox, transitionNodeID, blendMode, constraints, isMask, clipsContent, preserveRatio, strokeAlign, strokeWeight, fills, strokes, cornerRadius, characters, style, characterStyleOverrides, styleOverrideTable
+        case id, name, visible, type, children, backgroundColor, exportSettings, effects, layoutGrids, opacity, transitionID, absoluteBoundingBox, blendMode, constraints, isMask, clipsContent, preserveRatio, strokeAlign, strokeWeight, fills, strokes, x, y, width, height, characters, style, characterStyleOverrides, styleOverrideTable
         case componentID = "componentId"
     }
 }
@@ -713,7 +729,7 @@ struct Effect: Codable {
     /// See type property for effect of this field
     let blendMode: BlendMode
     /// See type property for effect of this field
-    let offset: Vector
+    let offset: Vector2D
 }
 
 /// A 2d vector
@@ -727,7 +743,7 @@ struct Effect: Codable {
 /// gradient stops), the second position is the end of the gradient (value 1), and the third
 /// handle position determines the width of the gradient (only relevant for non-linear
 /// gradients).
-struct Vector: Codable {
+struct Vector2D: Codable {
     /// X coordinate of the vector
     let x: Double
     /// Y coordinate of the vector
@@ -822,7 +838,7 @@ struct Paint: Codable {
     /// gradient stops), the second position is the end of the gradient (value 1), and the third
     /// handle position determines the width of the gradient (only relevant for non-linear
     /// gradients).
-    let gradientHandlePositions: [Vector]?
+    let gradientHandlePositions: [Vector2D]?
     /// (For gradient paints) Positions of key points along the gradient axis with the colors
     /// anchored there. Colors along the gradient are interpolated smoothly between neighboring
     /// gradient stops.
@@ -1053,8 +1069,6 @@ enum NodeType: String, Codable {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -1100,7 +1114,7 @@ enum NodeType: String, Codable {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
-struct DocumentNode: Codable {
+struct Document: Codable {
     /// A string uniquely identifying this node within the document
     let id: String
     /// The name given to the node by the user in the tool
@@ -1179,8 +1193,6 @@ struct DocumentNode: Codable {
 ///
 /// Value between 0 and 1 representing position along gradient axis
 ///
-/// Radius of each corner of the rectangle
-///
 /// Line height in px
 ///
 /// Numeric font weight
@@ -1226,15 +1238,19 @@ struct DocumentNode: Codable {
 ///
 /// ID of component that this instance came from, refers to components table (see endpoints
 /// section below)
+///
+/// A rectangle that expresses a bounding box in absolute coordinates
+///
+/// Bounding box of the node in absolute space coordinates
 struct FluffyNode: Codable {
     /// A string uniquely identifying this node within the document
-    let id: String
+    let id: String?
     /// The name given to the node by the user in the tool
-    let name: String
+    let name: String?
     /// Whether or not the node is visible on the canvas
-    let visible: Bool
+    let visible: Bool?
     /// The type of the node
-    let type: NodeType
+    let type: NodeType?
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -1260,10 +1276,10 @@ struct FluffyNode: Codable {
     let layoutGrids: [LayoutGrid]?
     /// Opacity of the node
     let opacity: Double?
+    /// Node ID of node to transition to in prototyping
+    let transitionID: String?
     /// Bounding box of the node in absolute space coordinates
     let absoluteBoundingBox: Rectangle?
-    /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String?
     /// How this node blends with nodes behind it in the scene (see blend mode section for more
     /// details)
     let blendMode: BlendMode?
@@ -1289,8 +1305,14 @@ struct FluffyNode: Codable {
     let fills: [Paint]?
     /// An array of stroke paints applied to the node
     let strokes: [Paint]?
-    /// Radius of each corner of the rectangle
-    let cornerRadius: Double?
+    /// X coordinate of top left corner of the rectangle
+    let x: Double?
+    /// Y coordinate of top left corner of the rectangle
+    let y: Double?
+    /// Width of the rectangle
+    let width: Double?
+    /// Height of the rectangle
+    let height: Double?
     /// Text contained within text box
     let characters: String?
     /// Style of text including font family and weight (see type style section for more
@@ -1307,7 +1329,7 @@ struct FluffyNode: Codable {
     let componentID: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, name, visible, type, children, backgroundColor, exportSettings, effects, layoutGrids, opacity, absoluteBoundingBox, transitionNodeID, blendMode, constraints, isMask, clipsContent, preserveRatio, strokeAlign, strokeWeight, fills, strokes, cornerRadius, characters, style, characterStyleOverrides, styleOverrideTable
+        case id, name, visible, type, children, backgroundColor, exportSettings, effects, layoutGrids, opacity, transitionID, absoluteBoundingBox, blendMode, constraints, isMask, clipsContent, preserveRatio, strokeAlign, strokeWeight, fills, strokes, x, y, width, height, characters, style, characterStyleOverrides, styleOverrideTable
         case componentID = "componentId"
     }
 }
@@ -1339,9 +1361,9 @@ extension FileResponse {
     }
 }
 
-extension ComponentNode {
+extension Component {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(ComponentNode.self, from: data)
+        self = try JSONDecoder().decode(Component.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1514,9 +1536,9 @@ extension Effect {
     }
 }
 
-extension Vector {
+extension Vector2D {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(Vector.self, from: data)
+        self = try JSONDecoder().decode(Vector2D.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1689,9 +1711,9 @@ extension TypeStyle {
     }
 }
 
-extension DocumentNode {
+extension Document {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(DocumentNode.self, from: data)
+        self = try JSONDecoder().decode(Document.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {

@@ -18,13 +18,13 @@ export interface FileResponse {
     /**
      * The root node within the document
      */
-    document: DocumentNode;
+    document: Document;
     /**
      * A mapping from node IDs to component metadata. This is to help you determine which
      * components each instance comes from. Currently the only piece of metadata available on
      * components is the name of the component, but more properties will be forthcoming.
      */
-    components:    { [key: string]: ComponentNode };
+    components:    { [key: string]: Component };
     schemaVersion: number;
 }
 
@@ -99,8 +99,6 @@ export interface FileResponse {
  *
  * Value between 0 and 1 representing position along gradient axis
  *
- * Radius of each corner of the rectangle
- *
  * Line height in px
  *
  * Numeric font weight
@@ -147,7 +145,7 @@ export interface FileResponse {
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
  */
-export interface ComponentNode {
+export interface Component {
     /**
      * A string uniquely identifying this node within the document
      */
@@ -178,13 +176,13 @@ export interface ComponentNode {
      */
     opacity: number;
     /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionID?: string;
+    /**
      * Bounding box of the node in absolute space coordinates
      */
     absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID?: string;
     /**
      * How this node blends with nodes behind it in the scene (see blend mode section for more
      * details)
@@ -226,6 +224,8 @@ export interface ComponentNode {
  * A rectangle that expresses a bounding box in absolute coordinates
  *
  * Bounding box of the node in absolute space coordinates
+ *
+ * An array of canvases attached to the document
  */
 export interface Rectangle {
     /**
@@ -379,8 +379,6 @@ export enum BlendMode {
  *
  * Value between 0 and 1 representing position along gradient axis
  *
- * Radius of each corner of the rectangle
- *
  * Line height in px
  *
  * Numeric font weight
@@ -426,24 +424,28 @@ export enum BlendMode {
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
+ *
+ * A rectangle that expresses a bounding box in absolute coordinates
+ *
+ * Bounding box of the node in absolute space coordinates
  */
 export interface Node1 {
     /**
      * A string uniquely identifying this node within the document
      */
-    id: string;
+    id?: string;
     /**
      * The name given to the node by the user in the tool
      */
-    name: string;
+    name?: string;
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible: boolean;
+    visible?: boolean;
     /**
      * The type of the node
      */
-    type: NodeType;
+    type?: NodeType;
     /**
      * An array of canvases attached to the document
      *
@@ -482,13 +484,13 @@ export interface Node1 {
      */
     opacity?: number;
     /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionID?: string;
+    /**
      * Bounding box of the node in absolute space coordinates
      */
     absoluteBoundingBox?: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID?: string;
     /**
      * How this node blends with nodes behind it in the scene (see blend mode section for more
      * details)
@@ -533,9 +535,21 @@ export interface Node1 {
      */
     strokes?: Paint[];
     /**
-     * Radius of each corner of the rectangle
+     * X coordinate of top left corner of the rectangle
      */
-    cornerRadius?: number;
+    x?: number;
+    /**
+     * Y coordinate of top left corner of the rectangle
+     */
+    y?: number;
+    /**
+     * Width of the rectangle
+     */
+    width?: number;
+    /**
+     * Height of the rectangle
+     */
+    height?: number;
     /**
      * Text contained within text box
      */
@@ -629,8 +643,6 @@ export interface Node1 {
  *
  * Value between 0 and 1 representing position along gradient axis
  *
- * Radius of each corner of the rectangle
- *
  * Line height in px
  *
  * Numeric font weight
@@ -677,6 +689,10 @@ export interface Node1 {
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
  *
+ * A rectangle that expresses a bounding box in absolute coordinates
+ *
+ * Bounding box of the node in absolute space coordinates
+ *
  * An array of top level layers on the canvas
  *
  * An array of nodes that are direct children of this node
@@ -687,19 +703,19 @@ export interface NodeNode {
     /**
      * A string uniquely identifying this node within the document
      */
-    id: string;
+    id?: string;
     /**
      * The name given to the node by the user in the tool
      */
-    name: string;
+    name?: string;
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible: boolean;
+    visible?: boolean;
     /**
      * The type of the node
      */
-    type: NodeType;
+    type?: NodeType;
     /**
      * An array of canvases attached to the document
      *
@@ -738,13 +754,13 @@ export interface NodeNode {
      */
     opacity?: number;
     /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionID?: string;
+    /**
      * Bounding box of the node in absolute space coordinates
      */
     absoluteBoundingBox?: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID?: string;
     /**
      * How this node blends with nodes behind it in the scene (see blend mode section for more
      * details)
@@ -789,9 +805,21 @@ export interface NodeNode {
      */
     strokes?: Paint[];
     /**
-     * Radius of each corner of the rectangle
+     * X coordinate of top left corner of the rectangle
      */
-    cornerRadius?: number;
+    x?: number;
+    /**
+     * Y coordinate of top left corner of the rectangle
+     */
+    y?: number;
+    /**
+     * Width of the rectangle
+     */
+    width?: number;
+    /**
+     * Height of the rectangle
+     */
+    height?: number;
     /**
      * Text contained within text box
      */
@@ -906,7 +934,7 @@ export interface Effect {
     /**
      * See type property for effect of this field
      */
-    offset: Vector;
+    offset: Vector2D;
 }
 
 /**
@@ -922,7 +950,7 @@ export interface Effect {
  * handle position determines the width of the gradient (only relevant for non-linear
  * gradients).
  */
-export interface Vector {
+export interface Vector2D {
     /**
      * X coordinate of the vector
      */
@@ -1053,7 +1081,7 @@ export interface Paint {
      * handle position determines the width of the gradient (only relevant for non-linear
      * gradients).
      */
-    gradientHandlePositions?: Vector[];
+    gradientHandlePositions?: Vector2D[];
     /**
      * (For gradient paints) Positions of key points along the gradient axis with the colors
      * anchored there. Colors along the gradient are interpolated smoothly between neighboring
@@ -1353,8 +1381,6 @@ export enum NodeType {
  *
  * Value between 0 and 1 representing position along gradient axis
  *
- * Radius of each corner of the rectangle
- *
  * Line height in px
  *
  * Numeric font weight
@@ -1401,7 +1427,7 @@ export enum NodeType {
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
  */
-export interface DocumentNode {
+export interface Document {
     /**
      * A string uniquely identifying this node within the document
      */
@@ -1491,8 +1517,6 @@ export interface DocumentNode {
  *
  * Value between 0 and 1 representing position along gradient axis
  *
- * Radius of each corner of the rectangle
- *
  * Line height in px
  *
  * Numeric font weight
@@ -1538,24 +1562,28 @@ export interface DocumentNode {
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
+ *
+ * A rectangle that expresses a bounding box in absolute coordinates
+ *
+ * Bounding box of the node in absolute space coordinates
  */
 export interface Node2 {
     /**
      * A string uniquely identifying this node within the document
      */
-    id: string;
+    id?: string;
     /**
      * The name given to the node by the user in the tool
      */
-    name: string;
+    name?: string;
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible: boolean;
+    visible?: boolean;
     /**
      * The type of the node
      */
-    type: NodeType;
+    type?: NodeType;
     /**
      * An array of canvases attached to the document
      *
@@ -1594,13 +1622,13 @@ export interface Node2 {
      */
     opacity?: number;
     /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionID?: string;
+    /**
      * Bounding box of the node in absolute space coordinates
      */
     absoluteBoundingBox?: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID?: string;
     /**
      * How this node blends with nodes behind it in the scene (see blend mode section for more
      * details)
@@ -1645,9 +1673,21 @@ export interface Node2 {
      */
     strokes?: Paint[];
     /**
-     * Radius of each corner of the rectangle
+     * X coordinate of top left corner of the rectangle
      */
-    cornerRadius?: number;
+    x?: number;
+    /**
+     * Y coordinate of top left corner of the rectangle
+     */
+    y?: number;
+    /**
+     * Width of the rectangle
+     */
+    width?: number;
+    /**
+     * Height of the rectangle
+     */
+    height?: number;
     /**
      * Text contained within text box
      */
@@ -1764,11 +1804,11 @@ export module Convert {
 
     const typeMap: any = {
         "FileResponse": {
-            document: o("DocumentNode"),
-            components: m(o("ComponentNode")),
+            document: o("Document"),
+            components: m(o("Component")),
             schemaVersion: 3.14,
         },
-        "ComponentNode": {
+        "Component": {
             id: "",
             name: "",
             visible: false,
@@ -1776,8 +1816,8 @@ export module Convert {
             effects: a(o("Effect")),
             layoutGrids: a(o("LayoutGrid")),
             opacity: 3.14,
+            transitionID: u(null, ""),
             absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: u(null, ""),
             blendMode: e("BlendMode"),
             backgroundColor: o("Color"),
             constraints: o("LayoutConstraint"),
@@ -1800,18 +1840,18 @@ export module Convert {
             a: 3.14,
         },
         "Node1": {
-            id: "",
-            name: "",
-            visible: false,
-            type: e("NodeType"),
+            id: u(null, ""),
+            name: u(null, ""),
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
             children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("Color")),
             exportSettings: u(null, a(o("ExportSetting"))),
             effects: u(null, a(o("Effect"))),
             layoutGrids: u(null, a(o("LayoutGrid"))),
             opacity: u(null, 3.14),
+            transitionID: u(null, ""),
             absoluteBoundingBox: u(null, o("Rectangle")),
-            transitionNodeID: u(null, ""),
             blendMode: u(null, e("BlendMode")),
             constraints: u(null, o("LayoutConstraint")),
             isMask: u(null, false),
@@ -1821,7 +1861,10 @@ export module Convert {
             strokeWeight: u(null, 3.14),
             fills: u(null, a(o("Paint"))),
             strokes: u(null, a(o("Paint"))),
-            cornerRadius: u(null, 3.14),
+            x: u(null, 3.14),
+            y: u(null, 3.14),
+            width: u(null, 3.14),
+            height: u(null, 3.14),
             characters: u(null, ""),
             style: u(null, o("TypeStyle")),
             characterStyleOverrides: u(null, a(3.14)),
@@ -1829,18 +1872,18 @@ export module Convert {
             componentId: u(null, ""),
         },
         "NodeNode": {
-            id: "",
-            name: "",
-            visible: false,
-            type: e("NodeType"),
+            id: u(null, ""),
+            name: u(null, ""),
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
             children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("Color")),
             exportSettings: u(null, a(o("ExportSetting"))),
             effects: u(null, a(o("Effect"))),
             layoutGrids: u(null, a(o("LayoutGrid"))),
             opacity: u(null, 3.14),
+            transitionID: u(null, ""),
             absoluteBoundingBox: u(null, o("Rectangle")),
-            transitionNodeID: u(null, ""),
             blendMode: u(null, e("BlendMode")),
             constraints: u(null, o("LayoutConstraint")),
             isMask: u(null, false),
@@ -1850,7 +1893,10 @@ export module Convert {
             strokeWeight: u(null, 3.14),
             fills: u(null, a(o("Paint"))),
             strokes: u(null, a(o("Paint"))),
-            cornerRadius: u(null, 3.14),
+            x: u(null, 3.14),
+            y: u(null, 3.14),
+            width: u(null, 3.14),
+            height: u(null, 3.14),
             characters: u(null, ""),
             style: u(null, o("TypeStyle")),
             characterStyleOverrides: u(null, a(3.14)),
@@ -1867,9 +1913,9 @@ export module Convert {
             visible: false,
             color: o("Color"),
             blendMode: e("BlendMode"),
-            offset: o("Vector"),
+            offset: o("Vector2D"),
         },
-        "Vector": {
+        "Vector2D": {
             x: 3.14,
             y: 3.14,
         },
@@ -1887,7 +1933,7 @@ export module Convert {
             visible: false,
             opacity: 3.14,
             color: u(null, o("Color")),
-            gradientHandlePositions: u(null, a(o("Vector"))),
+            gradientHandlePositions: u(null, a(o("Vector2D"))),
             gradientStops: u(null, a(o("ColorStop"))),
             scaleMode: u(null, e("ScaleMode")),
         },
@@ -1918,7 +1964,7 @@ export module Convert {
             textAlignHorizontal: e("TextAlignHorizontal"),
             letterSpacing: 3.14,
         },
-        "DocumentNode": {
+        "Document": {
             id: "",
             name: "",
             visible: false,
@@ -1926,18 +1972,18 @@ export module Convert {
             children: a(o("Node2")),
         },
         "Node2": {
-            id: "",
-            name: "",
-            visible: false,
-            type: e("NodeType"),
+            id: u(null, ""),
+            name: u(null, ""),
+            visible: u(null, false),
+            type: u(null, e("NodeType")),
             children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("Color")),
             exportSettings: u(null, a(o("ExportSetting"))),
             effects: u(null, a(o("Effect"))),
             layoutGrids: u(null, a(o("LayoutGrid"))),
             opacity: u(null, 3.14),
+            transitionID: u(null, ""),
             absoluteBoundingBox: u(null, o("Rectangle")),
-            transitionNodeID: u(null, ""),
             blendMode: u(null, e("BlendMode")),
             constraints: u(null, o("LayoutConstraint")),
             isMask: u(null, false),
@@ -1947,7 +1993,10 @@ export module Convert {
             strokeWeight: u(null, 3.14),
             fills: u(null, a(o("Paint"))),
             strokes: u(null, a(o("Paint"))),
-            cornerRadius: u(null, 3.14),
+            x: u(null, 3.14),
+            y: u(null, 3.14),
+            width: u(null, 3.14),
+            height: u(null, 3.14),
             characters: u(null, ""),
             style: u(null, o("TypeStyle")),
             characterStyleOverrides: u(null, a(3.14)),

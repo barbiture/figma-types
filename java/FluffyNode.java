@@ -70,8 +70,6 @@ import com.fasterxml.jackson.annotation.*;
  *
  * Value between 0 and 1 representing position along gradient axis
  *
- * Radius of each corner of the rectangle
- *
  * Line height in px
  *
  * Numeric font weight
@@ -117,11 +115,15 @@ import com.fasterxml.jackson.annotation.*;
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
+ *
+ * A rectangle that expresses a bounding box in absolute coordinates
+ *
+ * Bounding box of the node in absolute space coordinates
  */
 public class FluffyNode {
     private String id;
     private String name;
-    private boolean visible;
+    private Boolean visible;
     private NodeType type;
     private NodeNode[] children;
     private Color backgroundColor;
@@ -129,8 +131,8 @@ public class FluffyNode {
     private Effect[] effects;
     private LayoutGrid[] layoutGrids;
     private Double opacity;
+    private String transitionID;
     private Rectangle absoluteBoundingBox;
-    private String transitionNodeID;
     private BlendMode blendMode;
     private LayoutConstraint constraints;
     private Boolean isMask;
@@ -140,7 +142,10 @@ public class FluffyNode {
     private Double strokeWeight;
     private Paint[] fills;
     private Paint[] strokes;
-    private Double cornerRadius;
+    private Double x;
+    private Double y;
+    private Double width;
+    private Double height;
     private String characters;
     private TypeStyle style;
     private double[] characterStyleOverrides;
@@ -167,9 +172,9 @@ public class FluffyNode {
      * Whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
-    public boolean getVisible() { return visible; }
+    public Boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(boolean value) { this.visible = value; }
+    public void setVisible(Boolean value) { this.visible = value; }
 
     /**
      * The type of the node
@@ -241,20 +246,20 @@ public class FluffyNode {
     public void setOpacity(Double value) { this.opacity = value; }
 
     /**
+     * Node ID of node to transition to in prototyping
+     */
+    @JsonProperty("transitionID")
+    public String getTransitionID() { return transitionID; }
+    @JsonProperty("transitionID")
+    public void setTransitionID(String value) { this.transitionID = value; }
+
+    /**
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
     public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
     public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
-
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    @JsonProperty("transitionNodeID")
-    public String getTransitionNodeID() { return transitionNodeID; }
-    @JsonProperty("transitionNodeID")
-    public void setTransitionNodeID(String value) { this.transitionNodeID = value; }
 
     /**
      * How this node blends with nodes behind it in the scene (see blend mode section for more
@@ -336,12 +341,36 @@ public class FluffyNode {
     public void setStrokes(Paint[] value) { this.strokes = value; }
 
     /**
-     * Radius of each corner of the rectangle
+     * X coordinate of top left corner of the rectangle
      */
-    @JsonProperty("cornerRadius")
-    public Double getCornerRadius() { return cornerRadius; }
-    @JsonProperty("cornerRadius")
-    public void setCornerRadius(Double value) { this.cornerRadius = value; }
+    @JsonProperty("x")
+    public Double getX() { return x; }
+    @JsonProperty("x")
+    public void setX(Double value) { this.x = value; }
+
+    /**
+     * Y coordinate of top left corner of the rectangle
+     */
+    @JsonProperty("y")
+    public Double getY() { return y; }
+    @JsonProperty("y")
+    public void setY(Double value) { this.y = value; }
+
+    /**
+     * Width of the rectangle
+     */
+    @JsonProperty("width")
+    public Double getWidth() { return width; }
+    @JsonProperty("width")
+    public void setWidth(Double value) { this.width = value; }
+
+    /**
+     * Height of the rectangle
+     */
+    @JsonProperty("height")
+    public Double getHeight() { return height; }
+    @JsonProperty("height")
+    public void setHeight(Double value) { this.height = value; }
 
     /**
      * Text contained within text box

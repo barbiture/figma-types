@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTComponentNode (JSONConversion)
+@interface QTComponent (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTVector (JSONConversion)
+@interface QTVector2D (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTDocumentNode (JSONConversion)
+@interface QTDocument (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -655,8 +655,8 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _document = [QTDocumentNode fromJSONDictionary:(id)_document];
-        _components = map(_components, λ(id x, [QTComponentNode fromJSONDictionary:x]));
+        _document = [QTDocument fromJSONDictionary:(id)_document];
+        _components = map(_components, λ(id x, [QTComponent fromJSONDictionary:x]));
     }
     return self;
 }
@@ -684,7 +684,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 }
 @end
 
-@implementation QTComponentNode
+@implementation QTComponent
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -696,8 +696,8 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"effects": @"effects",
         @"layoutGrids": @"layoutGrids",
         @"opacity": @"opacity",
+        @"transitionID": @"transitionID",
         @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
         @"blendMode": @"blendMode",
         @"backgroundColor": @"backgroundColor",
         @"constraints": @"constraints",
@@ -711,7 +711,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTComponentNode alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[QTComponent alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -733,15 +733,15 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:QTComponentNode.properties[key]];
+    [super setValue:value forKey:QTComponent.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTComponentNode.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:QTComponent.properties.allValues] mutableCopy];
 
-    for (id jsonName in QTComponentNode.properties) {
-        id propertyName = QTComponentNode.properties[jsonName];
+    for (id jsonName in QTComponent.properties) {
+        id propertyName = QTComponent.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -837,7 +837,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"isVisible",
+        @"visible": @"visible",
         @"type": @"type",
         @"children": @"children",
         @"backgroundColor": @"backgroundColor",
@@ -845,8 +845,8 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"effects": @"effects",
         @"layoutGrids": @"layoutGrids",
         @"opacity": @"opacity",
+        @"transitionID": @"transitionID",
         @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
         @"blendMode": @"blendMode",
         @"constraints": @"constraints",
         @"isMask": @"isMask",
@@ -856,7 +856,10 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"strokeWeight": @"strokeWeight",
         @"fills": @"fills",
         @"strokes": @"strokes",
-        @"cornerRadius": @"cornerRadius",
+        @"x": @"x",
+        @"y": @"y",
+        @"width": @"width",
+        @"height": @"height",
         @"characters": @"characters",
         @"style": @"style",
         @"characterStyleOverrides": @"characterStyleOverrides",
@@ -910,8 +913,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     }
 
     [dict addEntriesFromDictionary:@{
-        @"visible": _isVisible ? @YES : @NO,
-        @"type": [_type value],
+        @"type": NSNullify([_type value]),
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
         @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
         @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
@@ -938,7 +940,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"isVisible",
+        @"visible": @"visible",
         @"type": @"type",
         @"children": @"children",
         @"backgroundColor": @"backgroundColor",
@@ -946,8 +948,8 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"effects": @"effects",
         @"layoutGrids": @"layoutGrids",
         @"opacity": @"opacity",
+        @"transitionID": @"transitionID",
         @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
         @"blendMode": @"blendMode",
         @"constraints": @"constraints",
         @"isMask": @"isMask",
@@ -957,7 +959,10 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"strokeWeight": @"strokeWeight",
         @"fills": @"fills",
         @"strokes": @"strokes",
-        @"cornerRadius": @"cornerRadius",
+        @"x": @"x",
+        @"y": @"y",
+        @"width": @"width",
+        @"height": @"height",
         @"characters": @"characters",
         @"style": @"style",
         @"characterStyleOverrides": @"characterStyleOverrides",
@@ -1011,8 +1016,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     }
 
     [dict addEntriesFromDictionary:@{
-        @"visible": _isVisible ? @YES : @NO,
-        @"type": [_type value],
+        @"type": NSNullify([_type value]),
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
         @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
         @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
@@ -1096,7 +1100,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         _type = [QTEffectType withValue:(id)_type];
         _color = [QTColor fromJSONDictionary:(id)_color];
         _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _offset = [QTVector fromJSONDictionary:(id)_offset];
+        _offset = [QTVector2D fromJSONDictionary:(id)_offset];
     }
     return self;
 }
@@ -1130,7 +1134,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 }
 @end
 
-@implementation QTVector
+@implementation QTVector2D
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1142,7 +1146,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTVector alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[QTVector2D alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -1155,7 +1159,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
 - (NSDictionary *)JSONDictionary
 {
-    return [self dictionaryWithValuesForKeys:QTVector.properties.allValues];
+    return [self dictionaryWithValuesForKeys:QTVector2D.properties.allValues];
 }
 @end
 
@@ -1260,7 +1264,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         [self setValuesForKeysWithDictionary:dict];
         _type = [QTPaintType withValue:(id)_type];
         _color = [QTColor fromJSONDictionary:(id)_color];
-        _gradientHandlePositions = map(_gradientHandlePositions, λ(id x, [QTVector fromJSONDictionary:x]));
+        _gradientHandlePositions = map(_gradientHandlePositions, λ(id x, [QTVector2D fromJSONDictionary:x]));
         _gradientStops = map(_gradientStops, λ(id x, [QTColorStop fromJSONDictionary:x]));
         _scaleMode = [QTScaleMode withValue:(id)_scaleMode];
     }
@@ -1456,7 +1460,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 }
 @end
 
-@implementation QTDocumentNode
+@implementation QTDocument
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1471,7 +1475,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTDocumentNode alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[QTDocument alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -1486,15 +1490,15 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:QTDocumentNode.properties[key]];
+    [super setValue:value forKey:QTDocument.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTDocumentNode.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:QTDocument.properties.allValues] mutableCopy];
 
-    for (id jsonName in QTDocumentNode.properties) {
-        id propertyName = QTDocumentNode.properties[jsonName];
+    for (id jsonName in QTDocument.properties) {
+        id propertyName = QTDocument.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -1518,7 +1522,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"isVisible",
+        @"visible": @"visible",
         @"type": @"type",
         @"children": @"children",
         @"backgroundColor": @"backgroundColor",
@@ -1526,8 +1530,8 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"effects": @"effects",
         @"layoutGrids": @"layoutGrids",
         @"opacity": @"opacity",
+        @"transitionID": @"transitionID",
         @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
         @"blendMode": @"blendMode",
         @"constraints": @"constraints",
         @"isMask": @"isMask",
@@ -1537,7 +1541,10 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
         @"strokeWeight": @"strokeWeight",
         @"fills": @"fills",
         @"strokes": @"strokes",
-        @"cornerRadius": @"cornerRadius",
+        @"x": @"x",
+        @"y": @"y",
+        @"width": @"width",
+        @"height": @"height",
         @"characters": @"characters",
         @"style": @"style",
         @"characterStyleOverrides": @"characterStyleOverrides",
@@ -1591,8 +1598,7 @@ NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringE
     }
 
     [dict addEntriesFromDictionary:@{
-        @"visible": _isVisible ? @YES : @NO,
-        @"type": [_type value],
+        @"type": NSNullify([_type value]),
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
         @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
         @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),

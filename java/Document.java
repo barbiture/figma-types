@@ -4,7 +4,30 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
+ * The root node within the document
+ *
  * An array of canvases attached to the document
+ *
+ * A logical grouping of nodes
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * An ellipse
+ *
+ * A regular n-sided polygon
+ *
+ * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same changes applied
+ * to the instance
  *
  * Properties are shared across all nodes
  *
@@ -18,17 +41,80 @@ import com.fasterxml.jackson.annotation.*;
  *
  * See type property for effect of this field
  *
+ * X coordinate of the vector
+ *
+ * Y coordinate of the vector
+ *
+ * Width of column grid or height of row grid or square grid spacing
+ *
+ * Spacing in between columns and rows
+ *
+ * Spacing before the first column or row
+ *
+ * Number of columns or rows
+ *
+ * Opacity of the node
+ *
+ * X coordinate of top left corner of the rectangle
+ *
+ * Y coordinate of top left corner of the rectangle
+ *
+ * Width of the rectangle
+ *
+ * Height of the rectangle
+ *
+ * The weight of strokes on the node
+ *
+ * Overall opacity of paint (colors within the paint can also have opacity values which
+ * would blend with this)
+ *
+ * Value between 0 and 1 representing position along gradient axis
+ *
+ * Line height in px
+ *
+ * Numeric font weight
+ *
+ * Line height as a percentage of normal line height
+ *
+ * Font size in px
+ *
+ * Space between characters in px
+ *
+ * Array with same number of elements as characeters in text box, each element is a
+ * reference to the styleOverrideTable defined below and maps to the corresponding character
+ * in the characters field. Elements with value 0 have the default type style
+ *
  * Whether or not the node is visible on the canvas
+ *
+ * Is the grid currently visible?
+ *
+ * Does this node mask sibling nodes in front of it?
+ *
+ * Does this node clip content outside of its bounds?
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
+ *
+ * Is the paint enabled?
+ *
+ * Is text italicized?
  *
  * A string uniquely identifying this node within the document
  *
  * The name given to the node by the user in the tool
  *
- * Unique identifier for comment
+ * File suffix to append to all filenames
  *
- * The file in which the comment lives
+ * Node ID of node to transition to in prototyping
  *
- * If present, the id of the comment to which this is the reply
+ * Text contained within text box
+ *
+ * PostScript font name
+ *
+ * Font family of text (standard name)
+ *
+ * ID of component that this instance came from, refers to components table (see endpoints
+ * section below)
  */
 public class Document {
     private String id;

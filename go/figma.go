@@ -23,9 +23,9 @@ func (r *FileResponse) Marshal() ([]byte, error) {
 // any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
 // contains a Node of type DOCUMENT.
 type FileResponse struct {
-	Document      DocumentNode             `json:"document"`     // The root node within the document
-	Components    map[string]ComponentNode `json:"components"`   // A mapping from node IDs to component metadata. This is to help you determine which; components each instance comes from. Currently the only piece of metadata available on; components is the name of the component, but more properties will be forthcoming.
-	SchemaVersion float64                  `json:"schemaVersion"`
+	Document      Document             `json:"document"`     // The root node within the document
+	Components    map[string]Component `json:"components"`   // A mapping from node IDs to component metadata. This is to help you determine which; components each instance comes from. Currently the only piece of metadata available on; components is the name of the component, but more properties will be forthcoming.
+	SchemaVersion float64              `json:"schemaVersion"`
 }
 
 // A mapping from node IDs to component metadata. This is to help you determine which
@@ -98,8 +98,6 @@ type FileResponse struct {
 //
 // Value between 0 and 1 representing position along gradient axis
 //
-// Radius of each corner of the rectangle
-//
 // Line height in px
 //
 // Numeric font weight
@@ -145,7 +143,7 @@ type FileResponse struct {
 //
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
-type ComponentNode struct {
+type Component struct {
 	ID                  string           `json:"id"`                 // A string uniquely identifying this node within the document
 	Name                string           `json:"name"`               // The name given to the node by the user in the tool
 	Visible             bool             `json:"visible"`            // Whether or not the node is visible on the canvas
@@ -153,8 +151,8 @@ type ComponentNode struct {
 	Effects             []Effect         `json:"effects"`            // An array of effects attached to this node (see effects section for more details)
 	LayoutGrids         []LayoutGrid     `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section for more; details). GROUP nodes do not have this attribute
 	Opacity             float64          `json:"opacity"`            // Opacity of the node
+	TransitionID        *string          `json:"transitionID"`       // Node ID of node to transition to in prototyping
 	AbsoluteBoundingBox Rectangle        `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string          `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
 	BlendMode           BlendMode        `json:"blendMode"`          // How this node blends with nodes behind it in the scene (see blend mode section for more; details)
 	BackgroundColor     Color            `json:"backgroundColor"`    // Background color of the node
 	Constraints         LayoutConstraint `json:"constraints"`        // How this node blends with nodes behind it in the scene (see blend mode section for more; details)
@@ -168,6 +166,8 @@ type ComponentNode struct {
 // A rectangle that expresses a bounding box in absolute coordinates
 //
 // Bounding box of the node in absolute space coordinates
+//
+// An array of canvases attached to the document
 type Rectangle struct {
 	X      float64 `json:"x"`     // X coordinate of top left corner of the rectangle
 	Y      float64 `json:"y"`     // Y coordinate of top left corner of the rectangle
@@ -263,8 +263,6 @@ type Color struct {
 //
 // Value between 0 and 1 representing position along gradient axis
 //
-// Radius of each corner of the rectangle
-//
 // Line height in px
 //
 // Numeric font weight
@@ -310,19 +308,23 @@ type Color struct {
 //
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
+//
+// A rectangle that expresses a bounding box in absolute coordinates
+//
+// Bounding box of the node in absolute space coordinates
 type PurpleNode struct {
-	ID                      string               `json:"id"`                     // A string uniquely identifying this node within the document
-	Name                    string               `json:"name"`                   // The name given to the node by the user in the tool
-	Visible                 bool                 `json:"visible"`                // Whether or not the node is visible on the canvas
-	Type                    NodeType             `json:"type"`                   // The type of the node
+	ID                      *string              `json:"id"`                     // A string uniquely identifying this node within the document
+	Name                    *string              `json:"name"`                   // The name given to the node by the user in the tool
+	Visible                 *bool                `json:"visible"`                // Whether or not the node is visible on the canvas
+	Type                    *NodeType            `json:"type"`                   // The type of the node
 	Children                []NodeNode           `json:"children"`               // An array of canvases attached to the document; ; An array of top level layers on the canvas; ; An array of nodes that are direct children of this node; ; An array of nodes that are being boolean operated on
 	BackgroundColor         *Color               `json:"backgroundColor"`        // Background color of the canvas; ; Background color of the node
 	ExportSettings          []ExportSetting      `json:"exportSettings"`         // An array of export settings representing images to export from the canvas; ; An array of export settings representing images to export from node; ; A rectangular region of the canvas that can be exported
 	Effects                 []Effect             `json:"effects"`                // An array of effects attached to this node (see effects section for more details)
 	LayoutGrids             []LayoutGrid         `json:"layoutGrids"`            // An array of layout grids attached to this node (see layout grids section for more; details). GROUP nodes do not have this attribute
 	Opacity                 *float64             `json:"opacity"`                // Opacity of the node
+	TransitionID            *string              `json:"transitionID"`           // Node ID of node to transition to in prototyping
 	AbsoluteBoundingBox     *Rectangle           `json:"absoluteBoundingBox"`    // Bounding box of the node in absolute space coordinates
-	TransitionNodeID        *string              `json:"transitionNodeID"`       // Node ID of node to transition to in prototyping
 	BlendMode               *BlendMode           `json:"blendMode"`              // How this node blends with nodes behind it in the scene (see blend mode section for more; details)
 	Constraints             *LayoutConstraint    `json:"constraints"`            // How this node blends with nodes behind it in the scene (see blend mode section for more; details)
 	IsMask                  *bool                `json:"isMask"`                 // Does this node mask sibling nodes in front of it?
@@ -332,7 +334,10 @@ type PurpleNode struct {
 	StrokeWeight            *float64             `json:"strokeWeight"`           // The weight of strokes on the node
 	Fills                   []Paint              `json:"fills"`                  // An array of fill paints applied to the node
 	Strokes                 []Paint              `json:"strokes"`                // An array of stroke paints applied to the node
-	CornerRadius            *float64             `json:"cornerRadius"`           // Radius of each corner of the rectangle
+	X                       *float64             `json:"x"`                      // X coordinate of top left corner of the rectangle
+	Y                       *float64             `json:"y"`                      // Y coordinate of top left corner of the rectangle
+	Width                   *float64             `json:"width"`                  // Width of the rectangle
+	Height                  *float64             `json:"height"`                 // Height of the rectangle
 	Characters              *string              `json:"characters"`             // Text contained within text box
 	Style                   *TypeStyle           `json:"style"`                  // Style of text including font family and weight (see type style section for more; information)
 	CharacterStyleOverrides []float64            `json:"characterStyleOverrides"`// Array with same number of elements as characeters in text box, each element is a; reference to the styleOverrideTable defined below and maps to the corresponding character; in the characters field. Elements with value 0 have the default type style
@@ -406,8 +411,6 @@ type PurpleNode struct {
 //
 // Value between 0 and 1 representing position along gradient axis
 //
-// Radius of each corner of the rectangle
-//
 // Line height in px
 //
 // Numeric font weight
@@ -454,24 +457,28 @@ type PurpleNode struct {
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
 //
+// A rectangle that expresses a bounding box in absolute coordinates
+//
+// Bounding box of the node in absolute space coordinates
+//
 // An array of top level layers on the canvas
 //
 // An array of nodes that are direct children of this node
 //
 // An array of nodes that are being boolean operated on
 type NodeNode struct {
-	ID                      string               `json:"id"`                     // A string uniquely identifying this node within the document
-	Name                    string               `json:"name"`                   // The name given to the node by the user in the tool
-	Visible                 bool                 `json:"visible"`                // Whether or not the node is visible on the canvas
-	Type                    NodeType             `json:"type"`                   // The type of the node
+	ID                      *string              `json:"id"`                     // A string uniquely identifying this node within the document
+	Name                    *string              `json:"name"`                   // The name given to the node by the user in the tool
+	Visible                 *bool                `json:"visible"`                // Whether or not the node is visible on the canvas
+	Type                    *NodeType            `json:"type"`                   // The type of the node
 	Children                []NodeNode           `json:"children"`               // An array of canvases attached to the document; ; An array of top level layers on the canvas; ; An array of nodes that are direct children of this node; ; An array of nodes that are being boolean operated on
 	BackgroundColor         *Color               `json:"backgroundColor"`        // Background color of the canvas; ; Background color of the node
 	ExportSettings          []ExportSetting      `json:"exportSettings"`         // An array of export settings representing images to export from the canvas; ; An array of export settings representing images to export from node; ; A rectangular region of the canvas that can be exported
 	Effects                 []Effect             `json:"effects"`                // An array of effects attached to this node (see effects section for more details)
 	LayoutGrids             []LayoutGrid         `json:"layoutGrids"`            // An array of layout grids attached to this node (see layout grids section for more; details). GROUP nodes do not have this attribute
 	Opacity                 *float64             `json:"opacity"`                // Opacity of the node
+	TransitionID            *string              `json:"transitionID"`           // Node ID of node to transition to in prototyping
 	AbsoluteBoundingBox     *Rectangle           `json:"absoluteBoundingBox"`    // Bounding box of the node in absolute space coordinates
-	TransitionNodeID        *string              `json:"transitionNodeID"`       // Node ID of node to transition to in prototyping
 	BlendMode               *BlendMode           `json:"blendMode"`              // How this node blends with nodes behind it in the scene (see blend mode section for more; details)
 	Constraints             *LayoutConstraint    `json:"constraints"`            // How this node blends with nodes behind it in the scene (see blend mode section for more; details)
 	IsMask                  *bool                `json:"isMask"`                 // Does this node mask sibling nodes in front of it?
@@ -481,7 +488,10 @@ type NodeNode struct {
 	StrokeWeight            *float64             `json:"strokeWeight"`           // The weight of strokes on the node
 	Fills                   []Paint              `json:"fills"`                  // An array of fill paints applied to the node
 	Strokes                 []Paint              `json:"strokes"`                // An array of stroke paints applied to the node
-	CornerRadius            *float64             `json:"cornerRadius"`           // Radius of each corner of the rectangle
+	X                       *float64             `json:"x"`                      // X coordinate of top left corner of the rectangle
+	Y                       *float64             `json:"y"`                      // Y coordinate of top left corner of the rectangle
+	Width                   *float64             `json:"width"`                  // Width of the rectangle
+	Height                  *float64             `json:"height"`                 // Height of the rectangle
 	Characters              *string              `json:"characters"`             // Text contained within text box
 	Style                   *TypeStyle           `json:"style"`                  // Style of text including font family and weight (see type style section for more; information)
 	CharacterStyleOverrides []float64            `json:"characterStyleOverrides"`// Array with same number of elements as characeters in text box, each element is a; reference to the styleOverrideTable defined below and maps to the corresponding character; in the characters field. Elements with value 0 have the default type style
@@ -507,7 +517,7 @@ type Effect struct {
 	Visible   bool       `json:"visible"`  // See type property for effect of this field
 	Color     Color      `json:"color"`    // See type property for effect of this field
 	BlendMode BlendMode  `json:"blendMode"`// See type property for effect of this field
-	Offset    Vector     `json:"offset"`   // See type property for effect of this field
+	Offset    Vector2D   `json:"offset"`   // See type property for effect of this field
 }
 
 // A 2d vector
@@ -521,7 +531,7 @@ type Effect struct {
 // gradient stops), the second position is the end of the gradient (value 1), and the third
 // handle position determines the width of the gradient (only relevant for non-linear
 // gradients).
-type Vector struct {
+type Vector2D struct {
 	X float64 `json:"x"`// X coordinate of the vector
 	Y float64 `json:"y"`// Y coordinate of the vector
 }
@@ -559,7 +569,7 @@ type Paint struct {
 	Visible                 bool        `json:"visible"`                // Is the paint enabled?
 	Opacity                 float64     `json:"opacity"`                // Overall opacity of paint (colors within the paint can also have opacity values which; would blend with this)
 	Color                   *Color      `json:"color"`                  // (For solid paints) Solid color of the paint
-	GradientHandlePositions []Vector    `json:"gradientHandlePositions"`// (For gradient paints) This field contains three vectors, each of which are a position in; normalized object space (normalized object space is if the top left corner of the; bounding box of the object is (0, 0) and the bottom right is (1,1)). The first position; corresponds to the start of the gradient (value 0 for the purposes of calculating; gradient stops), the second position is the end of the gradient (value 1), and the third; handle position determines the width of the gradient (only relevant for non-linear; gradients).
+	GradientHandlePositions []Vector2D  `json:"gradientHandlePositions"`// (For gradient paints) This field contains three vectors, each of which are a position in; normalized object space (normalized object space is if the top left corner of the; bounding box of the object is (0, 0) and the bottom right is (1,1)). The first position; corresponds to the start of the gradient (value 0 for the purposes of calculating; gradient stops), the second position is the end of the gradient (value 1), and the third; handle position determines the width of the gradient (only relevant for non-linear; gradients).
 	GradientStops           []ColorStop `json:"gradientStops"`          // (For gradient paints) Positions of key points along the gradient axis with the colors; anchored there. Colors along the gradient are interpolated smoothly between neighboring; gradient stops.
 	ScaleMode               *ScaleMode  `json:"scaleMode"`              // (For image paints) Image scaling mode
 }
@@ -675,8 +685,6 @@ type TypeStyle struct {
 //
 // Value between 0 and 1 representing position along gradient axis
 //
-// Radius of each corner of the rectangle
-//
 // Line height in px
 //
 // Numeric font weight
@@ -722,7 +730,7 @@ type TypeStyle struct {
 //
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
-type DocumentNode struct {
+type Document struct {
 	ID       string       `json:"id"`      // A string uniquely identifying this node within the document
 	Name     string       `json:"name"`    // The name given to the node by the user in the tool
 	Visible  bool         `json:"visible"` // Whether or not the node is visible on the canvas
@@ -796,8 +804,6 @@ type DocumentNode struct {
 //
 // Value between 0 and 1 representing position along gradient axis
 //
-// Radius of each corner of the rectangle
-//
 // Line height in px
 //
 // Numeric font weight
@@ -843,19 +849,23 @@ type DocumentNode struct {
 //
 // ID of component that this instance came from, refers to components table (see endpoints
 // section below)
+//
+// A rectangle that expresses a bounding box in absolute coordinates
+//
+// Bounding box of the node in absolute space coordinates
 type FluffyNode struct {
-	ID                      string               `json:"id"`                     // A string uniquely identifying this node within the document
-	Name                    string               `json:"name"`                   // The name given to the node by the user in the tool
-	Visible                 bool                 `json:"visible"`                // Whether or not the node is visible on the canvas
-	Type                    NodeType             `json:"type"`                   // The type of the node
+	ID                      *string              `json:"id"`                     // A string uniquely identifying this node within the document
+	Name                    *string              `json:"name"`                   // The name given to the node by the user in the tool
+	Visible                 *bool                `json:"visible"`                // Whether or not the node is visible on the canvas
+	Type                    *NodeType            `json:"type"`                   // The type of the node
 	Children                []NodeNode           `json:"children"`               // An array of canvases attached to the document; ; An array of top level layers on the canvas; ; An array of nodes that are direct children of this node; ; An array of nodes that are being boolean operated on
 	BackgroundColor         *Color               `json:"backgroundColor"`        // Background color of the canvas; ; Background color of the node
 	ExportSettings          []ExportSetting      `json:"exportSettings"`         // An array of export settings representing images to export from the canvas; ; An array of export settings representing images to export from node; ; A rectangular region of the canvas that can be exported
 	Effects                 []Effect             `json:"effects"`                // An array of effects attached to this node (see effects section for more details)
 	LayoutGrids             []LayoutGrid         `json:"layoutGrids"`            // An array of layout grids attached to this node (see layout grids section for more; details). GROUP nodes do not have this attribute
 	Opacity                 *float64             `json:"opacity"`                // Opacity of the node
+	TransitionID            *string              `json:"transitionID"`           // Node ID of node to transition to in prototyping
 	AbsoluteBoundingBox     *Rectangle           `json:"absoluteBoundingBox"`    // Bounding box of the node in absolute space coordinates
-	TransitionNodeID        *string              `json:"transitionNodeID"`       // Node ID of node to transition to in prototyping
 	BlendMode               *BlendMode           `json:"blendMode"`              // How this node blends with nodes behind it in the scene (see blend mode section for more; details)
 	Constraints             *LayoutConstraint    `json:"constraints"`            // How this node blends with nodes behind it in the scene (see blend mode section for more; details)
 	IsMask                  *bool                `json:"isMask"`                 // Does this node mask sibling nodes in front of it?
@@ -865,7 +875,10 @@ type FluffyNode struct {
 	StrokeWeight            *float64             `json:"strokeWeight"`           // The weight of strokes on the node
 	Fills                   []Paint              `json:"fills"`                  // An array of fill paints applied to the node
 	Strokes                 []Paint              `json:"strokes"`                // An array of stroke paints applied to the node
-	CornerRadius            *float64             `json:"cornerRadius"`           // Radius of each corner of the rectangle
+	X                       *float64             `json:"x"`                      // X coordinate of top left corner of the rectangle
+	Y                       *float64             `json:"y"`                      // Y coordinate of top left corner of the rectangle
+	Width                   *float64             `json:"width"`                  // Width of the rectangle
+	Height                  *float64             `json:"height"`                 // Height of the rectangle
 	Characters              *string              `json:"characters"`             // Text contained within text box
 	Style                   *TypeStyle           `json:"style"`                  // Style of text including font family and weight (see type style section for more; information)
 	CharacterStyleOverrides []float64            `json:"characterStyleOverrides"`// Array with same number of elements as characeters in text box, each element is a; reference to the styleOverrideTable defined below and maps to the corresponding character; in the characters field. Elements with value 0 have the default type style
@@ -1042,8 +1055,6 @@ type NodeType string
 const (
 	Boolean NodeType = "BOOLEAN"
 	Canvas NodeType = "CANVAS"
-	Component NodeType = "COMPONENT"
-	Document NodeType = "DOCUMENT"
 	Ellipse NodeType = "ELLIPSE"
 	Frame NodeType = "FRAME"
 	Group NodeType = "GROUP"
@@ -1053,6 +1064,8 @@ const (
 	Slice NodeType = "SLICE"
 	Star NodeType = "STAR"
 	Text NodeType = "TEXT"
+	TypeCOMPONENT NodeType = "COMPONENT"
+	TypeDOCUMENT NodeType = "DOCUMENT"
 	TypeRECTANGLE NodeType = "RECTANGLE"
-	TypeVECTOR NodeType = "VECTOR"
+	Vector NodeType = "VECTOR"
 )

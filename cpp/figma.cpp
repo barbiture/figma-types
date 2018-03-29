@@ -19,6 +19,8 @@ namespace quicktype {
      * A rectangle that expresses a bounding box in absolute coordinates
      *
      * Bounding box of the node in absolute space coordinates
+     *
+     * An array of canvases attached to the document
      */
     struct Rectangle {
         /**
@@ -143,7 +145,7 @@ namespace quicktype {
      * handle position determines the width of the gradient (only relevant for non-linear
      * gradients).
      */
-    struct Vector {
+    struct Vector2D {
         /**
          * X coordinate of the vector
          */
@@ -188,7 +190,7 @@ namespace quicktype {
         /**
          * See type property for effect of this field
          */
-        struct Vector offset;
+        struct Vector2D offset;
     };
 
     /**
@@ -321,7 +323,7 @@ namespace quicktype {
          * handle position determines the width of the gradient (only relevant for non-linear
          * gradients).
          */
-        std::unique_ptr<std::vector<struct Vector>> gradient_handle_positions;
+        std::unique_ptr<std::vector<struct Vector2D>> gradient_handle_positions;
         /**
          * (For gradient paints) Positions of key points along the gradient axis with the colors
          * anchored there. Colors along the gradient are interpolated smoothly between neighboring
@@ -543,8 +545,6 @@ namespace quicktype {
      *
      * Value between 0 and 1 representing position along gradient axis
      *
-     * Radius of each corner of the rectangle
-     *
      * Line height in px
      *
      * Numeric font weight
@@ -591,6 +591,10 @@ namespace quicktype {
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
      *
+     * A rectangle that expresses a bounding box in absolute coordinates
+     *
+     * Bounding box of the node in absolute space coordinates
+     *
      * An array of top level layers on the canvas
      *
      * An array of nodes that are direct children of this node
@@ -601,19 +605,19 @@ namespace quicktype {
         /**
          * A string uniquely identifying this node within the document
          */
-        std::string id;
+        std::unique_ptr<std::string> id;
         /**
          * The name given to the node by the user in the tool
          */
-        std::string name;
+        std::unique_ptr<std::string> name;
         /**
          * Whether or not the node is visible on the canvas
          */
-        bool visible;
+        std::unique_ptr<bool> visible;
         /**
          * The type of the node
          */
-        NodeType type;
+        std::unique_ptr<NodeType> type;
         /**
          * An array of canvases attached to the document
          *
@@ -652,13 +656,13 @@ namespace quicktype {
          */
         std::unique_ptr<double> opacity;
         /**
+         * Node ID of node to transition to in prototyping
+         */
+        std::unique_ptr<std::string> transition_id;
+        /**
          * Bounding box of the node in absolute space coordinates
          */
         std::unique_ptr<struct Rectangle> absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::unique_ptr<std::string> transition_node_id;
         /**
          * How this node blends with nodes behind it in the scene (see blend mode section for more
          * details)
@@ -703,9 +707,21 @@ namespace quicktype {
          */
         std::unique_ptr<std::vector<struct Paint>> strokes;
         /**
-         * Radius of each corner of the rectangle
+         * X coordinate of top left corner of the rectangle
          */
-        std::unique_ptr<double> corner_radius;
+        std::unique_ptr<double> x;
+        /**
+         * Y coordinate of top left corner of the rectangle
+         */
+        std::unique_ptr<double> y;
+        /**
+         * Width of the rectangle
+         */
+        std::unique_ptr<double> width;
+        /**
+         * Height of the rectangle
+         */
+        std::unique_ptr<double> height;
         /**
          * Text contained within text box
          */
@@ -801,8 +817,6 @@ namespace quicktype {
      *
      * Value between 0 and 1 representing position along gradient axis
      *
-     * Radius of each corner of the rectangle
-     *
      * Line height in px
      *
      * Numeric font weight
@@ -848,24 +862,28 @@ namespace quicktype {
      *
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
+     *
+     * A rectangle that expresses a bounding box in absolute coordinates
+     *
+     * Bounding box of the node in absolute space coordinates
      */
     struct PurpleNode {
         /**
          * A string uniquely identifying this node within the document
          */
-        std::string id;
+        std::unique_ptr<std::string> id;
         /**
          * The name given to the node by the user in the tool
          */
-        std::string name;
+        std::unique_ptr<std::string> name;
         /**
          * Whether or not the node is visible on the canvas
          */
-        bool visible;
+        std::unique_ptr<bool> visible;
         /**
          * The type of the node
          */
-        NodeType type;
+        std::unique_ptr<NodeType> type;
         /**
          * An array of canvases attached to the document
          *
@@ -904,13 +922,13 @@ namespace quicktype {
          */
         std::unique_ptr<double> opacity;
         /**
+         * Node ID of node to transition to in prototyping
+         */
+        std::unique_ptr<std::string> transition_id;
+        /**
          * Bounding box of the node in absolute space coordinates
          */
         std::unique_ptr<struct Rectangle> absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::unique_ptr<std::string> transition_node_id;
         /**
          * How this node blends with nodes behind it in the scene (see blend mode section for more
          * details)
@@ -955,9 +973,21 @@ namespace quicktype {
          */
         std::unique_ptr<std::vector<struct Paint>> strokes;
         /**
-         * Radius of each corner of the rectangle
+         * X coordinate of top left corner of the rectangle
          */
-        std::unique_ptr<double> corner_radius;
+        std::unique_ptr<double> x;
+        /**
+         * Y coordinate of top left corner of the rectangle
+         */
+        std::unique_ptr<double> y;
+        /**
+         * Width of the rectangle
+         */
+        std::unique_ptr<double> width;
+        /**
+         * Height of the rectangle
+         */
+        std::unique_ptr<double> height;
         /**
          * Text contained within text box
          */
@@ -1055,8 +1085,6 @@ namespace quicktype {
      *
      * Value between 0 and 1 representing position along gradient axis
      *
-     * Radius of each corner of the rectangle
-     *
      * Line height in px
      *
      * Numeric font weight
@@ -1103,7 +1131,7 @@ namespace quicktype {
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
      */
-    struct ComponentNode {
+    struct Component {
         /**
          * A string uniquely identifying this node within the document
          */
@@ -1134,13 +1162,13 @@ namespace quicktype {
          */
         double opacity;
         /**
+         * Node ID of node to transition to in prototyping
+         */
+        std::unique_ptr<std::string> transition_id;
+        /**
          * Bounding box of the node in absolute space coordinates
          */
         struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::unique_ptr<std::string> transition_node_id;
         /**
          * How this node blends with nodes behind it in the scene (see blend mode section for more
          * details)
@@ -1245,8 +1273,6 @@ namespace quicktype {
      *
      * Value between 0 and 1 representing position along gradient axis
      *
-     * Radius of each corner of the rectangle
-     *
      * Line height in px
      *
      * Numeric font weight
@@ -1292,24 +1318,28 @@ namespace quicktype {
      *
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
+     *
+     * A rectangle that expresses a bounding box in absolute coordinates
+     *
+     * Bounding box of the node in absolute space coordinates
      */
     struct FluffyNode {
         /**
          * A string uniquely identifying this node within the document
          */
-        std::string id;
+        std::unique_ptr<std::string> id;
         /**
          * The name given to the node by the user in the tool
          */
-        std::string name;
+        std::unique_ptr<std::string> name;
         /**
          * Whether or not the node is visible on the canvas
          */
-        bool visible;
+        std::unique_ptr<bool> visible;
         /**
          * The type of the node
          */
-        NodeType type;
+        std::unique_ptr<NodeType> type;
         /**
          * An array of canvases attached to the document
          *
@@ -1348,13 +1378,13 @@ namespace quicktype {
          */
         std::unique_ptr<double> opacity;
         /**
+         * Node ID of node to transition to in prototyping
+         */
+        std::unique_ptr<std::string> transition_id;
+        /**
          * Bounding box of the node in absolute space coordinates
          */
         std::unique_ptr<struct Rectangle> absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::unique_ptr<std::string> transition_node_id;
         /**
          * How this node blends with nodes behind it in the scene (see blend mode section for more
          * details)
@@ -1399,9 +1429,21 @@ namespace quicktype {
          */
         std::unique_ptr<std::vector<struct Paint>> strokes;
         /**
-         * Radius of each corner of the rectangle
+         * X coordinate of top left corner of the rectangle
          */
-        std::unique_ptr<double> corner_radius;
+        std::unique_ptr<double> x;
+        /**
+         * Y coordinate of top left corner of the rectangle
+         */
+        std::unique_ptr<double> y;
+        /**
+         * Width of the rectangle
+         */
+        std::unique_ptr<double> width;
+        /**
+         * Height of the rectangle
+         */
+        std::unique_ptr<double> height;
         /**
          * Text contained within text box
          */
@@ -1495,8 +1537,6 @@ namespace quicktype {
      *
      * Value between 0 and 1 representing position along gradient axis
      *
-     * Radius of each corner of the rectangle
-     *
      * Line height in px
      *
      * Numeric font weight
@@ -1543,7 +1583,7 @@ namespace quicktype {
      * ID of component that this instance came from, refers to components table (see endpoints
      * section below)
      */
-    struct DocumentNode {
+    struct Document {
         /**
          * A string uniquely identifying this node within the document
          */
@@ -1577,13 +1617,13 @@ namespace quicktype {
         /**
          * The root node within the document
          */
-        struct DocumentNode document;
+        struct Document document;
         /**
          * A mapping from node IDs to component metadata. This is to help you determine which
          * components each instance comes from. Currently the only piece of metadata available on
          * components is the name of the component, but more properties will be forthcoming.
          */
-        std::map<std::string, struct ComponentNode> components;
+        std::map<std::string, struct Component> components;
         double schema_version;
     };
     
@@ -1661,12 +1701,12 @@ namespace nlohmann {
         _j["horizontal"] = _x.horizontal;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Vector& _x) {
+    inline void from_json(const json& _j, struct quicktype::Vector2D& _x) {
         _x.x = _j.at("x").get<double>();
         _x.y = _j.at("y").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Vector& _x) {
+    inline void to_json(json& _j, const struct quicktype::Vector2D& _x) {
         _j = json::object();
         _j["x"] = _x.x;
         _j["y"] = _x.y;
@@ -1678,7 +1718,7 @@ namespace nlohmann {
         _x.visible = _j.at("visible").get<bool>();
         _x.color = _j.at("color").get<struct quicktype::Color>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.offset = _j.at("offset").get<struct quicktype::Vector>();
+        _x.offset = _j.at("offset").get<struct quicktype::Vector2D>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Effect& _x) {
@@ -1731,7 +1771,7 @@ namespace nlohmann {
         _x.visible = _j.at("visible").get<bool>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
-        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Vector>>(_j, "gradientHandlePositions");
+        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Vector2D>>(_j, "gradientHandlePositions");
         _x.gradient_stops = quicktype::get_optional<std::vector<struct quicktype::ColorStop>>(_j, "gradientStops");
         _x.scale_mode = quicktype::get_optional<quicktype::ScaleMode>(_j, "scaleMode");
     }
@@ -1800,18 +1840,18 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::NodeNode& _x) {
-        _x.id = _j.at("id").get<std::string>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.id = quicktype::get_optional<std::string>(_j, "id");
+        _x.name = quicktype::get_optional<std::string>(_j, "name");
+        _x.visible = quicktype::get_optional<bool>(_j, "visible");
+        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
         _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
         _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
         _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
         _x.layout_grids = quicktype::get_optional<std::vector<struct quicktype::LayoutGrid>>(_j, "layoutGrids");
         _x.opacity = quicktype::get_optional<double>(_j, "opacity");
+        _x.transition_id = quicktype::get_optional<std::string>(_j, "transitionID");
         _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
-        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
         _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
         _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
         _x.is_mask = quicktype::get_optional<bool>(_j, "isMask");
@@ -1821,7 +1861,10 @@ namespace nlohmann {
         _x.stroke_weight = quicktype::get_optional<double>(_j, "strokeWeight");
         _x.fills = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "fills");
         _x.strokes = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "strokes");
-        _x.corner_radius = quicktype::get_optional<double>(_j, "cornerRadius");
+        _x.x = quicktype::get_optional<double>(_j, "x");
+        _x.y = quicktype::get_optional<double>(_j, "y");
+        _x.width = quicktype::get_optional<double>(_j, "width");
+        _x.height = quicktype::get_optional<double>(_j, "height");
         _x.characters = quicktype::get_optional<std::string>(_j, "characters");
         _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
         _x.character_style_overrides = quicktype::get_optional<std::vector<double>>(_j, "characterStyleOverrides");
@@ -1841,8 +1884,8 @@ namespace nlohmann {
         _j["effects"] = _x.effects;
         _j["layoutGrids"] = _x.layout_grids;
         _j["opacity"] = _x.opacity;
+        _j["transitionID"] = _x.transition_id;
         _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
         _j["blendMode"] = _x.blend_mode;
         _j["constraints"] = _x.constraints;
         _j["isMask"] = _x.is_mask;
@@ -1852,7 +1895,10 @@ namespace nlohmann {
         _j["strokeWeight"] = _x.stroke_weight;
         _j["fills"] = _x.fills;
         _j["strokes"] = _x.strokes;
-        _j["cornerRadius"] = _x.corner_radius;
+        _j["x"] = _x.x;
+        _j["y"] = _x.y;
+        _j["width"] = _x.width;
+        _j["height"] = _x.height;
         _j["characters"] = _x.characters;
         _j["style"] = _x.style;
         _j["characterStyleOverrides"] = _x.character_style_overrides;
@@ -1861,18 +1907,18 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::PurpleNode& _x) {
-        _x.id = _j.at("id").get<std::string>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.id = quicktype::get_optional<std::string>(_j, "id");
+        _x.name = quicktype::get_optional<std::string>(_j, "name");
+        _x.visible = quicktype::get_optional<bool>(_j, "visible");
+        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
         _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
         _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
         _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
         _x.layout_grids = quicktype::get_optional<std::vector<struct quicktype::LayoutGrid>>(_j, "layoutGrids");
         _x.opacity = quicktype::get_optional<double>(_j, "opacity");
+        _x.transition_id = quicktype::get_optional<std::string>(_j, "transitionID");
         _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
-        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
         _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
         _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
         _x.is_mask = quicktype::get_optional<bool>(_j, "isMask");
@@ -1882,7 +1928,10 @@ namespace nlohmann {
         _x.stroke_weight = quicktype::get_optional<double>(_j, "strokeWeight");
         _x.fills = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "fills");
         _x.strokes = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "strokes");
-        _x.corner_radius = quicktype::get_optional<double>(_j, "cornerRadius");
+        _x.x = quicktype::get_optional<double>(_j, "x");
+        _x.y = quicktype::get_optional<double>(_j, "y");
+        _x.width = quicktype::get_optional<double>(_j, "width");
+        _x.height = quicktype::get_optional<double>(_j, "height");
         _x.characters = quicktype::get_optional<std::string>(_j, "characters");
         _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
         _x.character_style_overrides = quicktype::get_optional<std::vector<double>>(_j, "characterStyleOverrides");
@@ -1902,8 +1951,8 @@ namespace nlohmann {
         _j["effects"] = _x.effects;
         _j["layoutGrids"] = _x.layout_grids;
         _j["opacity"] = _x.opacity;
+        _j["transitionID"] = _x.transition_id;
         _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
         _j["blendMode"] = _x.blend_mode;
         _j["constraints"] = _x.constraints;
         _j["isMask"] = _x.is_mask;
@@ -1913,7 +1962,10 @@ namespace nlohmann {
         _j["strokeWeight"] = _x.stroke_weight;
         _j["fills"] = _x.fills;
         _j["strokes"] = _x.strokes;
-        _j["cornerRadius"] = _x.corner_radius;
+        _j["x"] = _x.x;
+        _j["y"] = _x.y;
+        _j["width"] = _x.width;
+        _j["height"] = _x.height;
         _j["characters"] = _x.characters;
         _j["style"] = _x.style;
         _j["characterStyleOverrides"] = _x.character_style_overrides;
@@ -1921,7 +1973,7 @@ namespace nlohmann {
         _j["componentId"] = _x.component_id;
     }
 
-    inline void from_json(const json& _j, struct quicktype::ComponentNode& _x) {
+    inline void from_json(const json& _j, struct quicktype::Component& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
@@ -1929,8 +1981,8 @@ namespace nlohmann {
         _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
         _x.opacity = _j.at("opacity").get<double>();
+        _x.transition_id = quicktype::get_optional<std::string>(_j, "transitionID");
         _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
         _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
         _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
@@ -1941,7 +1993,7 @@ namespace nlohmann {
         _x.children = _j.at("children").get<std::vector<struct quicktype::PurpleNode>>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::ComponentNode& _x) {
+    inline void to_json(json& _j, const struct quicktype::Component& _x) {
         _j = json::object();
         _j["id"] = _x.id;
         _j["name"] = _x.name;
@@ -1950,8 +2002,8 @@ namespace nlohmann {
         _j["effects"] = _x.effects;
         _j["layoutGrids"] = _x.layout_grids;
         _j["opacity"] = _x.opacity;
+        _j["transitionID"] = _x.transition_id;
         _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
         _j["blendMode"] = _x.blend_mode;
         _j["backgroundColor"] = _x.background_color;
         _j["constraints"] = _x.constraints;
@@ -1963,18 +2015,18 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::FluffyNode& _x) {
-        _x.id = _j.at("id").get<std::string>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.id = quicktype::get_optional<std::string>(_j, "id");
+        _x.name = quicktype::get_optional<std::string>(_j, "name");
+        _x.visible = quicktype::get_optional<bool>(_j, "visible");
+        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
         _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
         _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
         _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
         _x.layout_grids = quicktype::get_optional<std::vector<struct quicktype::LayoutGrid>>(_j, "layoutGrids");
         _x.opacity = quicktype::get_optional<double>(_j, "opacity");
+        _x.transition_id = quicktype::get_optional<std::string>(_j, "transitionID");
         _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
-        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
         _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
         _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
         _x.is_mask = quicktype::get_optional<bool>(_j, "isMask");
@@ -1984,7 +2036,10 @@ namespace nlohmann {
         _x.stroke_weight = quicktype::get_optional<double>(_j, "strokeWeight");
         _x.fills = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "fills");
         _x.strokes = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "strokes");
-        _x.corner_radius = quicktype::get_optional<double>(_j, "cornerRadius");
+        _x.x = quicktype::get_optional<double>(_j, "x");
+        _x.y = quicktype::get_optional<double>(_j, "y");
+        _x.width = quicktype::get_optional<double>(_j, "width");
+        _x.height = quicktype::get_optional<double>(_j, "height");
         _x.characters = quicktype::get_optional<std::string>(_j, "characters");
         _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
         _x.character_style_overrides = quicktype::get_optional<std::vector<double>>(_j, "characterStyleOverrides");
@@ -2004,8 +2059,8 @@ namespace nlohmann {
         _j["effects"] = _x.effects;
         _j["layoutGrids"] = _x.layout_grids;
         _j["opacity"] = _x.opacity;
+        _j["transitionID"] = _x.transition_id;
         _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
         _j["blendMode"] = _x.blend_mode;
         _j["constraints"] = _x.constraints;
         _j["isMask"] = _x.is_mask;
@@ -2015,7 +2070,10 @@ namespace nlohmann {
         _j["strokeWeight"] = _x.stroke_weight;
         _j["fills"] = _x.fills;
         _j["strokes"] = _x.strokes;
-        _j["cornerRadius"] = _x.corner_radius;
+        _j["x"] = _x.x;
+        _j["y"] = _x.y;
+        _j["width"] = _x.width;
+        _j["height"] = _x.height;
         _j["characters"] = _x.characters;
         _j["style"] = _x.style;
         _j["characterStyleOverrides"] = _x.character_style_overrides;
@@ -2023,7 +2081,7 @@ namespace nlohmann {
         _j["componentId"] = _x.component_id;
     }
 
-    inline void from_json(const json& _j, struct quicktype::DocumentNode& _x) {
+    inline void from_json(const json& _j, struct quicktype::Document& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
@@ -2031,7 +2089,7 @@ namespace nlohmann {
         _x.children = _j.at("children").get<std::vector<struct quicktype::FluffyNode>>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::DocumentNode& _x) {
+    inline void to_json(json& _j, const struct quicktype::Document& _x) {
         _j = json::object();
         _j["id"] = _x.id;
         _j["name"] = _x.name;
@@ -2041,8 +2099,8 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::FileResponse& _x) {
-        _x.document = _j.at("document").get<struct quicktype::DocumentNode>();
-        _x.components = _j.at("components").get<std::map<std::string, struct quicktype::ComponentNode>>();
+        _x.document = _j.at("document").get<struct quicktype::Document>();
+        _x.components = _j.at("components").get<std::map<std::string, struct quicktype::Component>>();
         _x.schema_version = _j.at("schemaVersion").get<double>();
     }
 
