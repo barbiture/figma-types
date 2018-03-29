@@ -149,8 +149,8 @@ func (r *Comment) Marshal() ([]byte, error) {
 type Node struct {
 	ID              string     `json:"id"`             // A string uniquely identifying this node within the document
 	Name            string     `json:"name"`           // The name given to the node by the user in the tool
-	Visible         *bool      `json:"visible"`        // Whether or not the node is visible on the canvas
-	Type            *NodeType  `json:"type"`           // The type of the node
+	Visible         bool       `json:"visible"`        // Whether or not the node is visible on the canvas
+	Type            NodeType   `json:"type"`           // The type of the node
 	Children        []NodeNode `json:"children"`       // An array of canvases attached to the document; ; An array of top level layers on the canvas
 	BackgroundColor *NodeColor `json:"backgroundColor"`// Background color of the canvas
 }
@@ -195,8 +195,8 @@ type NodeColor struct {
 type NodeNode struct {
 	ID              string     `json:"id"`             // A string uniquely identifying this node within the document
 	Name            string     `json:"name"`           // The name given to the node by the user in the tool
-	Visible         *bool      `json:"visible"`        // Whether or not the node is visible on the canvas
-	Type            *NodeType  `json:"type"`           // The type of the node
+	Visible         bool       `json:"visible"`        // Whether or not the node is visible on the canvas
+	Type            NodeType   `json:"type"`           // The type of the node
 	Children        []NodeNode `json:"children"`       // An array of canvases attached to the document; ; An array of top level layers on the canvas
 	BackgroundColor *NodeColor `json:"backgroundColor"`// Background color of the canvas
 }
@@ -211,10 +211,10 @@ type Color struct {
 
 // Properties are shared across all nodes
 type Global struct {
-	ID      string    `json:"id"`     // A string uniquely identifying this node within the document
-	Name    string    `json:"name"`   // The name given to the node by the user in the tool
-	Visible *bool     `json:"visible"`// Whether or not the node is visible on the canvas
-	Type    *NodeType `json:"type"`   // The type of the node
+	ID      string   `json:"id"`     // A string uniquely identifying this node within the document
+	Name    string   `json:"name"`   // The name given to the node by the user in the tool
+	Visible bool     `json:"visible"`// Whether or not the node is visible on the canvas
+	Type    NodeType `json:"type"`   // The type of the node
 }
 
 // A description of a user
@@ -251,8 +251,8 @@ type User struct {
 type Canvas struct {
 	ID              string       `json:"id"`             // A string uniquely identifying this node within the document
 	Name            string       `json:"name"`           // The name given to the node by the user in the tool
-	Visible         *bool        `json:"visible"`        // Whether or not the node is visible on the canvas
-	Type            *NodeType    `json:"type"`           // The type of the node
+	Visible         bool         `json:"visible"`        // Whether or not the node is visible on the canvas
+	Type            NodeType     `json:"type"`           // The type of the node
 	Children        []PurpleNode `json:"children"`       // An array of top level layers on the canvas
 	BackgroundColor *NodeColor   `json:"backgroundColor"`// Background color of the canvas
 }
@@ -287,8 +287,8 @@ type Canvas struct {
 type PurpleNode struct {
 	ID              string     `json:"id"`             // A string uniquely identifying this node within the document
 	Name            string     `json:"name"`           // The name given to the node by the user in the tool
-	Visible         *bool      `json:"visible"`        // Whether or not the node is visible on the canvas
-	Type            *NodeType  `json:"type"`           // The type of the node
+	Visible         bool       `json:"visible"`        // Whether or not the node is visible on the canvas
+	Type            NodeType   `json:"type"`           // The type of the node
 	Children        []NodeNode `json:"children"`       // An array of canvases attached to the document; ; An array of top level layers on the canvas
 	BackgroundColor *NodeColor `json:"backgroundColor"`// Background color of the canvas
 }
@@ -321,8 +321,8 @@ type PurpleNode struct {
 type Document struct {
 	ID       string       `json:"id"`      // A string uniquely identifying this node within the document
 	Name     string       `json:"name"`    // The name given to the node by the user in the tool
-	Visible  *bool        `json:"visible"` // Whether or not the node is visible on the canvas
-	Type     *NodeType    `json:"type"`    // The type of the node
+	Visible  bool         `json:"visible"` // Whether or not the node is visible on the canvas
+	Type     NodeType     `json:"type"`    // The type of the node
 	Children []FluffyNode `json:"children"`// An array of canvases attached to the document
 }
 
@@ -354,8 +354,8 @@ type Document struct {
 type FluffyNode struct {
 	ID              string     `json:"id"`             // A string uniquely identifying this node within the document
 	Name            string     `json:"name"`           // The name given to the node by the user in the tool
-	Visible         *bool      `json:"visible"`        // Whether or not the node is visible on the canvas
-	Type            *NodeType  `json:"type"`           // The type of the node
+	Visible         bool       `json:"visible"`        // Whether or not the node is visible on the canvas
+	Type            NodeType   `json:"type"`           // The type of the node
 	Children        []NodeNode `json:"children"`       // An array of canvases attached to the document; ; An array of top level layers on the canvas
 	BackgroundColor *NodeColor `json:"backgroundColor"`// Background color of the canvas
 }

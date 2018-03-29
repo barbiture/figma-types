@@ -50,11 +50,11 @@ pub struct Node {
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: Option<bool>,
+    visible: bool,
 
     /// The type of the node
     #[serde(rename = "type")]
-    node_type: Option<NodeType>,
+    node_type: NodeType,
 
     /// An array of canvases attached to the document
     ///
@@ -128,11 +128,11 @@ pub struct NodeNode {
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: Option<bool>,
+    visible: bool,
 
     /// The type of the node
     #[serde(rename = "type")]
-    node_type: Option<NodeType>,
+    node_type: NodeType,
 
     /// An array of canvases attached to the document
     ///
@@ -178,11 +178,11 @@ pub struct Global {
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: Option<bool>,
+    visible: bool,
 
     /// The type of the node
     #[serde(rename = "type")]
-    global_type: Option<NodeType>,
+    global_type: NodeType,
 }
 
 /// A description of a user
@@ -232,11 +232,11 @@ pub struct Canvas {
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: Option<bool>,
+    visible: bool,
 
     /// The type of the node
     #[serde(rename = "type")]
-    canvas_type: Option<NodeType>,
+    canvas_type: NodeType,
 
     /// An array of top level layers on the canvas
     #[serde(rename = "children")]
@@ -286,11 +286,11 @@ pub struct PurpleNode {
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: Option<bool>,
+    visible: bool,
 
     /// The type of the node
     #[serde(rename = "type")]
-    node_type: Option<NodeType>,
+    node_type: NodeType,
 
     /// An array of canvases attached to the document
     ///
@@ -340,11 +340,11 @@ pub struct Document {
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: Option<bool>,
+    visible: bool,
 
     /// The type of the node
     #[serde(rename = "type")]
-    document_type: Option<NodeType>,
+    document_type: NodeType,
 
     /// An array of canvases attached to the document
     #[serde(rename = "children")]
@@ -388,11 +388,11 @@ pub struct FluffyNode {
 
     /// Whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
-    visible: Option<bool>,
+    visible: bool,
 
     /// The type of the node
     #[serde(rename = "type")]
-    node_type: Option<NodeType>,
+    node_type: NodeType,
 
     /// An array of canvases attached to the document
     ///

@@ -111,8 +111,8 @@ Background color of the canvas
 type alias Node =
     { id : String
     , name : String
-    , visible : Maybe Bool
-    , nodeType : Maybe NodeType
+    , visible : Bool
+    , nodeType : NodeType
     , children : Maybe (Array NodeNode)
     , backgroundColor : Maybe NodeColor
     }
@@ -191,8 +191,8 @@ Background color of the canvas
 type alias NodeNode =
     { id : String
     , name : String
-    , visible : Maybe Bool
-    , nodeType : Maybe NodeType
+    , visible : Bool
+    , nodeType : NodeType
     , children : Maybe (Array NodeNode)
     , backgroundColor : Maybe NodeColor
     }
@@ -253,8 +253,8 @@ The type of the node
 type alias Global =
     { id : String
     , name : String
-    , visible : Maybe Bool
-    , globalType : Maybe NodeType
+    , visible : Bool
+    , globalType : NodeType
     }
 
 {-| A description of a user -}
@@ -332,8 +332,8 @@ Background color of the canvas
 type alias Canvas =
     { id : String
     , name : String
-    , visible : Maybe Bool
-    , canvasType : Maybe NodeType
+    , visible : Bool
+    , canvasType : NodeType
     , children : Maybe (Array PurpleNode)
     , backgroundColor : Maybe NodeColor
     }
@@ -389,8 +389,8 @@ Background color of the canvas
 type alias PurpleNode =
     { id : String
     , name : String
-    , visible : Maybe Bool
-    , nodeType : Maybe NodeType
+    , visible : Bool
+    , nodeType : NodeType
     , children : Maybe (Array NodeNode)
     , backgroundColor : Maybe NodeColor
     }
@@ -439,8 +439,8 @@ An array of canvases attached to the document
 type alias Document =
     { id : String
     , name : String
-    , visible : Maybe Bool
-    , documentType : Maybe NodeType
+    , visible : Bool
+    , documentType : NodeType
     , children : Maybe (Array FluffyNode)
     }
 
@@ -493,8 +493,8 @@ Background color of the canvas
 type alias FluffyNode =
     { id : String
     , name : String
-    , visible : Maybe Bool
-    , nodeType : Maybe NodeType
+    , visible : Bool
+    , nodeType : NodeType
     , children : Maybe (Array NodeNode)
     , backgroundColor : Maybe NodeColor
     }
@@ -591,8 +591,8 @@ node =
     Jpipe.decode Node
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "type" nodeType
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array nodeNode)) Nothing
         |> Jpipe.optional "backgroundColor" (Jdec.nullable nodeColor) Nothing
 
@@ -601,8 +601,8 @@ encodeNode x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("type", makeNullableEncoder encodeNodeType x.nodeType)
+        , ("visible", Jenc.bool x.visible)
+        , ("type", encodeNodeType x.nodeType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodeNodeNode) x.children)
         , ("backgroundColor", makeNullableEncoder encodeNodeColor x.backgroundColor)
         ]
@@ -629,8 +629,8 @@ nodeNode =
     Jpipe.decode NodeNode
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "type" nodeType
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array nodeNode)) Nothing
         |> Jpipe.optional "backgroundColor" (Jdec.nullable nodeColor) Nothing
 
@@ -639,8 +639,8 @@ encodeNodeNode x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("type", makeNullableEncoder encodeNodeType x.nodeType)
+        , ("visible", Jenc.bool x.visible)
+        , ("type", encodeNodeType x.nodeType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodeNodeNode) x.children)
         , ("backgroundColor", makeNullableEncoder encodeNodeColor x.backgroundColor)
         ]
@@ -708,16 +708,16 @@ global =
     Jpipe.decode Global
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "type" nodeType
 
 encodeGlobal : Global -> Jenc.Value
 encodeGlobal x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("type", makeNullableEncoder encodeNodeType x.globalType)
+        , ("visible", Jenc.bool x.visible)
+        , ("type", encodeNodeType x.globalType)
         ]
 
 user : Jdec.Decoder User
@@ -787,8 +787,8 @@ canvas =
     Jpipe.decode Canvas
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "type" nodeType
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array purpleNode)) Nothing
         |> Jpipe.optional "backgroundColor" (Jdec.nullable nodeColor) Nothing
 
@@ -797,8 +797,8 @@ encodeCanvas x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("type", makeNullableEncoder encodeNodeType x.canvasType)
+        , ("visible", Jenc.bool x.visible)
+        , ("type", encodeNodeType x.canvasType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodePurpleNode) x.children)
         , ("backgroundColor", makeNullableEncoder encodeNodeColor x.backgroundColor)
         ]
@@ -808,8 +808,8 @@ purpleNode =
     Jpipe.decode PurpleNode
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "type" nodeType
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array nodeNode)) Nothing
         |> Jpipe.optional "backgroundColor" (Jdec.nullable nodeColor) Nothing
 
@@ -818,8 +818,8 @@ encodePurpleNode x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("type", makeNullableEncoder encodeNodeType x.nodeType)
+        , ("visible", Jenc.bool x.visible)
+        , ("type", encodeNodeType x.nodeType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodeNodeNode) x.children)
         , ("backgroundColor", makeNullableEncoder encodeNodeColor x.backgroundColor)
         ]
@@ -829,8 +829,8 @@ document =
     Jpipe.decode Document
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "type" nodeType
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array fluffyNode)) Nothing
 
 encodeDocument : Document -> Jenc.Value
@@ -838,8 +838,8 @@ encodeDocument x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("type", makeNullableEncoder encodeNodeType x.documentType)
+        , ("visible", Jenc.bool x.visible)
+        , ("type", encodeNodeType x.documentType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodeFluffyNode) x.children)
         ]
 
@@ -848,8 +848,8 @@ fluffyNode =
     Jpipe.decode FluffyNode
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "type" nodeType
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array nodeNode)) Nothing
         |> Jpipe.optional "backgroundColor" (Jdec.nullable nodeColor) Nothing
 
@@ -858,8 +858,8 @@ encodeFluffyNode x =
     Jenc.object
         [ ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("type", makeNullableEncoder encodeNodeType x.nodeType)
+        , ("visible", Jenc.bool x.visible)
+        , ("type", encodeNodeType x.nodeType)
         , ("children", makeNullableEncoder (makeArrayEncoder encodeNodeNode) x.children)
         , ("backgroundColor", makeNullableEncoder encodeNodeColor x.backgroundColor)
         ]

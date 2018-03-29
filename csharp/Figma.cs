@@ -67,13 +67,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// An array of canvases attached to the document
@@ -169,13 +169,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// An array of canvases attached to the document
@@ -243,13 +243,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
     }
 
     /// <summary>
@@ -309,13 +309,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// An array of top level layers on the canvas
@@ -377,13 +377,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// An array of canvases attached to the document
@@ -445,13 +445,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// An array of canvases attached to the document
@@ -505,13 +505,13 @@ namespace QuickType
         /// Whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// The type of the node
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// An array of canvases attached to the document

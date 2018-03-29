@@ -54,11 +54,11 @@ export interface Node {
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * The type of the node
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * An array of canvases attached to the document
      *
@@ -136,11 +136,11 @@ export interface NodeNode {
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * The type of the node
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * An array of canvases attached to the document
      *
@@ -211,11 +211,11 @@ export interface Global {
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * The type of the node
      */
-    type?: NodeType;
+    type: NodeType;
 }
 
 /**
@@ -290,11 +290,11 @@ export interface Canvas {
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * The type of the node
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * An array of top level layers on the canvas
      */
@@ -346,11 +346,11 @@ export interface Node1 {
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * The type of the node
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * An array of canvases attached to the document
      *
@@ -402,11 +402,11 @@ export interface Document {
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * The type of the node
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * An array of canvases attached to the document
      */
@@ -452,11 +452,11 @@ export interface Node2 {
     /**
      * Whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * The type of the node
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * An array of canvases attached to the document
      *
@@ -688,8 +688,8 @@ export module Convert {
         "Node": {
             id: "",
             name: "",
-            visible: u(null, false),
-            type: u(null, e("NodeType")),
+            visible: false,
+            type: e("NodeType"),
             children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("NodeColor")),
         },
@@ -702,8 +702,8 @@ export module Convert {
         "NodeNode": {
             id: "",
             name: "",
-            visible: u(null, false),
-            type: u(null, e("NodeType")),
+            visible: false,
+            type: e("NodeType"),
             children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("NodeColor")),
         },
@@ -716,8 +716,8 @@ export module Convert {
         "Global": {
             id: "",
             name: "",
-            visible: u(null, false),
-            type: u(null, e("NodeType")),
+            visible: false,
+            type: e("NodeType"),
         },
         "User": {
             handle: "",
@@ -726,31 +726,31 @@ export module Convert {
         "Canvas": {
             id: "",
             name: "",
-            visible: u(null, false),
-            type: u(null, e("NodeType")),
+            visible: false,
+            type: e("NodeType"),
             children: u(null, a(o("Node1"))),
             backgroundColor: u(null, o("NodeColor")),
         },
         "Node1": {
             id: "",
             name: "",
-            visible: u(null, false),
-            type: u(null, e("NodeType")),
+            visible: false,
+            type: e("NodeType"),
             children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("NodeColor")),
         },
         "Document": {
             id: "",
             name: "",
-            visible: u(null, false),
-            type: u(null, e("NodeType")),
+            visible: false,
+            type: e("NodeType"),
             children: u(null, a(o("Node2"))),
         },
         "Node2": {
             id: "",
             name: "",
-            visible: u(null, false),
-            type: u(null, e("NodeType")),
+            visible: false,
+            type: e("NodeType"),
             children: u(null, a(o("NodeNode"))),
             backgroundColor: u(null, o("NodeColor")),
         },

@@ -43,9 +43,9 @@ struct Node: Codable {
     /// The name given to the node by the user in the tool
     let name: String
     /// Whether or not the node is visible on the canvas
-    let visible: Bool?
+    let visible: Bool
     /// The type of the node
-    let type: NodeType?
+    let type: NodeType
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -101,9 +101,9 @@ struct NodeNode: Codable {
     /// The name given to the node by the user in the tool
     let name: String
     /// Whether or not the node is visible on the canvas
-    let visible: Bool?
+    let visible: Bool
     /// The type of the node
-    let type: NodeType?
+    let type: NodeType
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -150,9 +150,9 @@ struct Global: Codable {
     /// The name given to the node by the user in the tool
     let name: String
     /// Whether or not the node is visible on the canvas
-    let visible: Bool?
+    let visible: Bool
     /// The type of the node
-    let type: NodeType?
+    let type: NodeType
 }
 
 /// A description of a user
@@ -219,9 +219,9 @@ struct Canvas: Codable {
     /// The name given to the node by the user in the tool
     let name: String
     /// Whether or not the node is visible on the canvas
-    let visible: Bool?
+    let visible: Bool
     /// The type of the node
-    let type: NodeType?
+    let type: NodeType
     /// An array of top level layers on the canvas
     let children: [PurpleNode]?
     /// Background color of the canvas
@@ -261,9 +261,9 @@ struct PurpleNode: Codable {
     /// The name given to the node by the user in the tool
     let name: String
     /// Whether or not the node is visible on the canvas
-    let visible: Bool?
+    let visible: Bool
     /// The type of the node
-    let type: NodeType?
+    let type: NodeType
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -303,9 +303,9 @@ struct Document: Codable {
     /// The name given to the node by the user in the tool
     let name: String
     /// Whether or not the node is visible on the canvas
-    let visible: Bool?
+    let visible: Bool
     /// The type of the node
-    let type: NodeType?
+    let type: NodeType
     /// An array of canvases attached to the document
     let children: [FluffyNode]?
 }
@@ -341,9 +341,9 @@ struct FluffyNode: Codable {
     /// The name given to the node by the user in the tool
     let name: String
     /// Whether or not the node is visible on the canvas
-    let visible: Bool?
+    let visible: Bool
     /// The type of the node
-    let type: NodeType?
+    let type: NodeType
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas

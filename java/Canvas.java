@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.*;
 public class Canvas {
     private String id;
     private String name;
-    private Boolean visible;
+    private boolean visible;
     private NodeType type;
     private PurpleNode[] children;
     private NodeColor backgroundColor;
@@ -58,9 +58,9 @@ public class Canvas {
      * Whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 
     /**
      * The type of the node

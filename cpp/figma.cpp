@@ -93,11 +93,11 @@ namespace quicktype {
         /**
          * Whether or not the node is visible on the canvas
          */
-        std::unique_ptr<bool> visible;
+        bool visible;
         /**
          * The type of the node
          */
-        std::unique_ptr<NodeType> type;
+        NodeType type;
         /**
          * An array of canvases attached to the document
          *
@@ -149,11 +149,11 @@ namespace quicktype {
         /**
          * Whether or not the node is visible on the canvas
          */
-        std::unique_ptr<bool> visible;
+        bool visible;
         /**
          * The type of the node
          */
-        std::unique_ptr<NodeType> type;
+        NodeType type;
         /**
          * An array of canvases attached to the document
          *
@@ -203,11 +203,11 @@ namespace quicktype {
         /**
          * Whether or not the node is visible on the canvas
          */
-        std::unique_ptr<bool> visible;
+        bool visible;
         /**
          * The type of the node
          */
-        std::unique_ptr<NodeType> type;
+        NodeType type;
     };
 
     /**
@@ -264,11 +264,11 @@ namespace quicktype {
         /**
          * Whether or not the node is visible on the canvas
          */
-        std::unique_ptr<bool> visible;
+        bool visible;
         /**
          * The type of the node
          */
-        std::unique_ptr<NodeType> type;
+        NodeType type;
         /**
          * An array of canvases attached to the document
          *
@@ -320,11 +320,11 @@ namespace quicktype {
         /**
          * Whether or not the node is visible on the canvas
          */
-        std::unique_ptr<bool> visible;
+        bool visible;
         /**
          * The type of the node
          */
-        std::unique_ptr<NodeType> type;
+        NodeType type;
         /**
          * An array of top level layers on the canvas
          */
@@ -374,11 +374,11 @@ namespace quicktype {
         /**
          * Whether or not the node is visible on the canvas
          */
-        std::unique_ptr<bool> visible;
+        bool visible;
         /**
          * The type of the node
          */
-        std::unique_ptr<NodeType> type;
+        NodeType type;
         /**
          * An array of canvases attached to the document
          *
@@ -430,11 +430,11 @@ namespace quicktype {
         /**
          * Whether or not the node is visible on the canvas
          */
-        std::unique_ptr<bool> visible;
+        bool visible;
         /**
          * The type of the node
          */
-        std::unique_ptr<NodeType> type;
+        NodeType type;
         /**
          * An array of canvases attached to the document
          */
@@ -551,8 +551,8 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::NodeNode& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.visible = quicktype::get_optional<bool>(_j, "visible");
-        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::NodeColor>(_j, "backgroundColor");
     }
@@ -570,8 +570,8 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::Node& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.visible = quicktype::get_optional<bool>(_j, "visible");
-        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::NodeColor>(_j, "backgroundColor");
     }
@@ -604,8 +604,8 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::Global& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.visible = quicktype::get_optional<bool>(_j, "visible");
-        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Global& _x) {
@@ -630,8 +630,8 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::PurpleNode& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.visible = quicktype::get_optional<bool>(_j, "visible");
-        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::NodeColor>(_j, "backgroundColor");
     }
@@ -649,8 +649,8 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::Canvas& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.visible = quicktype::get_optional<bool>(_j, "visible");
-        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.children = quicktype::get_optional<std::vector<struct quicktype::PurpleNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::NodeColor>(_j, "backgroundColor");
     }
@@ -668,8 +668,8 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::FluffyNode& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.visible = quicktype::get_optional<bool>(_j, "visible");
-        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.children = quicktype::get_optional<std::vector<struct quicktype::NodeNode>>(_j, "children");
         _x.background_color = quicktype::get_optional<struct quicktype::NodeColor>(_j, "backgroundColor");
     }
@@ -687,8 +687,8 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::Document& _x) {
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.visible = quicktype::get_optional<bool>(_j, "visible");
-        _x.type = quicktype::get_optional<quicktype::NodeType>(_j, "type");
+        _x.visible = _j.at("visible").get<bool>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.children = quicktype::get_optional<std::vector<struct quicktype::FluffyNode>>(_j, "children");
     }
 

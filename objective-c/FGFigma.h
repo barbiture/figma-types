@@ -135,9 +135,9 @@ NSString    *_Nullable QTBlendModeToJSON(QTBlendMode *blendMode, NSStringEncodin
 /// The name given to the node by the user in the tool
 @property (nonatomic, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, nullable, strong) NSNumber *visible;
+@property (nonatomic, assign) BOOL isVisible;
 /// The type of the node
-@property (nonatomic, nullable, assign) QTNodeType *type;
+@property (nonatomic, assign) QTNodeType *type;
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -198,9 +198,9 @@ NSString    *_Nullable QTBlendModeToJSON(QTBlendMode *blendMode, NSStringEncodin
 /// The name given to the node by the user in the tool
 @property (nonatomic, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, nullable, strong) NSNumber *visible;
+@property (nonatomic, assign) BOOL isVisible;
 /// The type of the node
-@property (nonatomic, nullable, assign) QTNodeType *type;
+@property (nonatomic, assign) QTNodeType *type;
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -233,9 +233,9 @@ NSString    *_Nullable QTBlendModeToJSON(QTBlendMode *blendMode, NSStringEncodin
 /// The name given to the node by the user in the tool
 @property (nonatomic, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, nullable, strong) NSNumber *visible;
+@property (nonatomic, assign) BOOL isVisible;
 /// The type of the node
-@property (nonatomic, nullable, assign) QTNodeType *type;
+@property (nonatomic, assign) QTNodeType *type;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
@@ -285,9 +285,9 @@ NSString    *_Nullable QTBlendModeToJSON(QTBlendMode *blendMode, NSStringEncodin
 /// The name given to the node by the user in the tool
 @property (nonatomic, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, nullable, strong) NSNumber *visible;
+@property (nonatomic, assign) BOOL isVisible;
 /// The type of the node
-@property (nonatomic, nullable, assign) QTNodeType *type;
+@property (nonatomic, assign) QTNodeType *type;
 /// An array of top level layers on the canvas
 @property (nonatomic, nullable, copy) NSArray<QTPurpleNode *> *children;
 /// Background color of the canvas
@@ -332,9 +332,9 @@ NSString    *_Nullable QTBlendModeToJSON(QTBlendMode *blendMode, NSStringEncodin
 /// The name given to the node by the user in the tool
 @property (nonatomic, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, nullable, strong) NSNumber *visible;
+@property (nonatomic, assign) BOOL isVisible;
 /// The type of the node
-@property (nonatomic, nullable, assign) QTNodeType *type;
+@property (nonatomic, assign) QTNodeType *type;
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -374,9 +374,9 @@ NSString    *_Nullable QTBlendModeToJSON(QTBlendMode *blendMode, NSStringEncodin
 /// The name given to the node by the user in the tool
 @property (nonatomic, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, nullable, strong) NSNumber *visible;
+@property (nonatomic, assign) BOOL isVisible;
 /// The type of the node
-@property (nonatomic, nullable, assign) QTNodeType *type;
+@property (nonatomic, assign) QTNodeType *type;
 /// An array of canvases attached to the document
 @property (nonatomic, nullable, copy) NSArray<QTFluffyNode *> *children;
 
@@ -417,9 +417,9 @@ NSString    *_Nullable QTBlendModeToJSON(QTBlendMode *blendMode, NSStringEncodin
 /// The name given to the node by the user in the tool
 @property (nonatomic, copy) NSString *name;
 /// Whether or not the node is visible on the canvas
-@property (nonatomic, nullable, strong) NSNumber *visible;
+@property (nonatomic, assign) BOOL isVisible;
 /// The type of the node
-@property (nonatomic, nullable, assign) QTNodeType *type;
+@property (nonatomic, assign) QTNodeType *type;
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas

@@ -543,7 +543,7 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
         @"type": @"type",
         @"children": @"children",
         @"backgroundColor": @"backgroundColor",
@@ -594,7 +594,8 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     }
 
     [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
         @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
     }];
@@ -651,7 +652,7 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
         @"type": @"type",
         @"children": @"children",
         @"backgroundColor": @"backgroundColor",
@@ -692,7 +693,8 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     }
 
     [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
         @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
     }];
@@ -759,7 +761,7 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
         @"type": @"type",
     };
 }
@@ -806,7 +808,8 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     }
 
     [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
     }];
 
     return dict;
@@ -894,7 +897,7 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
         @"type": @"type",
         @"children": @"children",
         @"backgroundColor": @"backgroundColor",
@@ -945,7 +948,8 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     }
 
     [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
         @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
     }];
@@ -971,7 +975,7 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
         @"type": @"type",
         @"children": @"children",
         @"backgroundColor": @"backgroundColor",
@@ -1012,7 +1016,8 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     }
 
     [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
         @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
     }];
@@ -1028,7 +1033,7 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
         @"type": @"type",
         @"children": @"children",
     };
@@ -1077,7 +1082,8 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     }
 
     [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
     }];
 
@@ -1102,7 +1108,7 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     return properties = properties ? properties : @{
         @"id": @"identifier",
         @"name": @"name",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
         @"type": @"type",
         @"children": @"children",
         @"backgroundColor": @"backgroundColor",
@@ -1143,7 +1149,8 @@ NSString *_Nullable QTCommentToJSON(QTComment *comment, NSStringEncoding encodin
     }
 
     [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
+        @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
         @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
         @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
     }];
