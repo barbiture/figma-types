@@ -5,11 +5,17 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Format and size to export an asset at
+ *
+ * An array of export settings representing images to export from the canvas
+ *
+ * An array of export settings representing images to export from node
+ *
+ * A rectangular region of the canvas that can be exported
  */
 public class ExportSetting {
     private String suffix;
     private Format format;
-    private ExportSettingConstraint constraint;
+    private Constraint constraint;
 
     /**
      * File suffix to append to all filenames
@@ -35,7 +41,7 @@ public class ExportSetting {
      * Constraint that determines sizing of exported asset
      */
     @JsonProperty("constraint")
-    public ExportSettingConstraint getConstraint() { return constraint; }
+    public Constraint getConstraint() { return constraint; }
     @JsonProperty("constraint")
-    public void setConstraint(ExportSettingConstraint value) { this.constraint = value; }
+    public void setConstraint(Constraint value) { this.constraint = value; }
 }

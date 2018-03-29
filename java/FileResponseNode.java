@@ -4,8 +4,6 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * An array of canvases attached to the document
- *
  * A string uniquely identifying this node within the document
  *
  * A logical grouping of nodes
@@ -115,14 +113,8 @@ import com.fasterxml.jackson.annotation.*;
  *
  * ID of component that this instance came from, refers to components table (see endpoints
  * section below)
- *
- * An array of top level layers on the canvas
- *
- * An array of nodes that are direct children of this node
- *
- * An array of nodes that are being boolean operated on
  */
-public class NodeElement {
+public class FileResponseNode {
     private String id;
     private String name;
     private boolean visible;

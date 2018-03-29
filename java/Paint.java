@@ -5,14 +5,20 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * A solid color, gradient, or image texture that can be applied as fills or strokes
+ *
+ * An array of fill paints applied to the node
+ *
+ * An array of stroke paints applied to the node
+ *
+ * Paints applied to characters
  */
 public class Paint {
     private PaintType type;
     private boolean visible;
     private double opacity;
-    private EffectColor color;
-    private EffectVector[] gradientHandlePositions;
-    private ColorStopElement[] gradientStops;
+    private Color color;
+    private Vector[] gradientHandlePositions;
+    private ColorStop[] gradientStops;
     private ScaleMode scaleMode;
 
     /**
@@ -44,9 +50,9 @@ public class Paint {
      * (For solid paints) Solid color of the paint
      */
     @JsonProperty("color")
-    public EffectColor getColor() { return color; }
+    public Color getColor() { return color; }
     @JsonProperty("color")
-    public void setColor(EffectColor value) { this.color = value; }
+    public void setColor(Color value) { this.color = value; }
 
     /**
      * (For gradient paints) This field contains three vectors, each of which are a position in
@@ -58,9 +64,9 @@ public class Paint {
      * gradients).
      */
     @JsonProperty("gradientHandlePositions")
-    public EffectVector[] getGradientHandlePositions() { return gradientHandlePositions; }
+    public Vector[] getGradientHandlePositions() { return gradientHandlePositions; }
     @JsonProperty("gradientHandlePositions")
-    public void setGradientHandlePositions(EffectVector[] value) { this.gradientHandlePositions = value; }
+    public void setGradientHandlePositions(Vector[] value) { this.gradientHandlePositions = value; }
 
     /**
      * (For gradient paints) Positions of key points along the gradient axis with the colors
@@ -68,9 +74,9 @@ public class Paint {
      * gradient stops.
      */
     @JsonProperty("gradientStops")
-    public ColorStopElement[] getGradientStops() { return gradientStops; }
+    public ColorStop[] getGradientStops() { return gradientStops; }
     @JsonProperty("gradientStops")
-    public void setGradientStops(ColorStopElement[] value) { this.gradientStops = value; }
+    public void setGradientStops(ColorStop[] value) { this.gradientStops = value; }
 
     /**
      * (For image paints) Image scaling mode

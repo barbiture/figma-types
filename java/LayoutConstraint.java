@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Layout constraint relative to containing Frame
+ *
+ * How this node blends with nodes behind it in the scene (see blend mode section for more
+ * details)
  */
 public class LayoutConstraint {
     private Vertical vertical;

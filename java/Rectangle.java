@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * A rectangle that expresses a bounding box in absolute coordinates
+ *
+ * Bounding box of the node in absolute space coordinates
  */
 public class Rectangle {
     private double x;

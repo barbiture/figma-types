@@ -5,14 +5,16 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * A visual effect such as a shadow or blur
+ *
+ * An array of effects attached to this node (see effects section for more details)
  */
 public class Effect {
     private EffectType type;
     private double radius;
     private boolean visible;
-    private EffectColor color;
+    private Color color;
     private BlendMode blendMode;
-    private EffectVector offset;
+    private Vector offset;
 
     /**
      * Type of effect as a string enum
@@ -42,9 +44,9 @@ public class Effect {
      * See type property for effect of this field
      */
     @JsonProperty("color")
-    public EffectColor getColor() { return color; }
+    public Color getColor() { return color; }
     @JsonProperty("color")
-    public void setColor(EffectColor value) { this.color = value; }
+    public void setColor(Color value) { this.color = value; }
 
     /**
      * See type property for effect of this field
@@ -58,7 +60,7 @@ public class Effect {
      * See type property for effect of this field
      */
     @JsonProperty("offset")
-    public EffectVector getOffset() { return offset; }
+    public Vector getOffset() { return offset; }
     @JsonProperty("offset")
-    public void setOffset(EffectVector value) { this.offset = value; }
+    public void setOffset(Vector value) { this.offset = value; }
 }

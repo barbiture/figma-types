@@ -5,6 +5,18 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * An RGBA color
+ *
+ * Background color of the canvas
+ *
+ * See type property for effect of this field
+ *
+ * Color of the grid
+ *
+ * Background color of the node
+ *
+ * (For solid paints) Solid color of the paint
+ *
+ * Color attached to corresponding position
  */
 public class Color {
     private double r;

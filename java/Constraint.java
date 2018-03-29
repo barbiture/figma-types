@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Sizing constraint for exports
+ *
+ * Constraint that determines sizing of exported asset
  */
 public class Constraint {
     private ConstraintType type;

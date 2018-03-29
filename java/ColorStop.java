@@ -5,18 +5,22 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * A position color pair representing a gradient stop
+ *
+ * (For gradient paints) Positions of key points along the gradient axis with the colors
+ * anchored there. Colors along the gradient are interpolated smoothly between neighboring
+ * gradient stops.
  */
 public class ColorStop {
-    private EffectColor color;
+    private Color color;
     private double position;
 
     /**
      * Color attached to corresponding position
      */
     @JsonProperty("color")
-    public EffectColor getColor() { return color; }
+    public Color getColor() { return color; }
     @JsonProperty("color")
-    public void setColor(EffectColor value) { this.color = value; }
+    public void setColor(Color value) { this.color = value; }
 
     /**
      * Value between 0 and 1 representing position along gradient axis

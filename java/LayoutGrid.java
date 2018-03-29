@@ -5,12 +5,15 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Guides to align and place objects within a frame
+ *
+ * An array of layout grids attached to this node (see layout grids section for more
+ * details). GROUP nodes do not have this attribute
  */
 public class LayoutGrid {
     private Pattern pattern;
     private double sectionSize;
     private boolean visible;
-    private EffectColor color;
+    private Color color;
     private Alignment alignment;
     private double gutterSize;
     private double offset;
@@ -46,9 +49,9 @@ public class LayoutGrid {
      * Color of the grid
      */
     @JsonProperty("color")
-    public EffectColor getColor() { return color; }
+    public Color getColor() { return color; }
     @JsonProperty("color")
-    public void setColor(EffectColor value) { this.color = value; }
+    public void setColor(Color value) { this.color = value; }
 
     /**
      * Positioning of grid as a string enum

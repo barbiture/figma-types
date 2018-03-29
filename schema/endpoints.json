@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "definitions": {
+    "FileResponse": {
+      "type": "object",
+      "description":
+        "Returns the document refered to by :key as a JSON object. The file key can be parsed from any Figma file url: https://www.figma.com/file/:key/:title. The \"document\" attribute contains a Node of type DOCUMENT.",
+      "properties": {
+        "document": {
+          "$ref": "types.json#/definitions/Node",
+          "description":
+            "A string uniquely identifying this node within the document"
+        }
+      },
+      "required": ["document"]
+    }
+  }
+}
