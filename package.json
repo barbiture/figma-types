@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/quicktype/figma-types#readme",
   "dependencies": {
-    "quicktype": "^9.0.33"
+    "quicktype": "9.0.31"
   }
 }
