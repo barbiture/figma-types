@@ -1147,7 +1147,7 @@ namespace QuickType
         /// See type property for effect of this field
         /// </summary>
         [JsonProperty("value")]
-        public double? Value { get; set; }
+        public double Value { get; set; }
     }
 
     /// <summary>

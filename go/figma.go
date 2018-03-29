@@ -544,7 +544,7 @@ type ExportSetting struct {
 // Constraint that determines sizing of exported asset
 type Constraint struct {
 	Type  ConstraintType `json:"type"` // Type of constraint to apply; string enum with potential values below; ; * "SCALE": Scale by value; * "WIDTH": Scale proportionally and set width to value; * "HEIGHT": Scale proportionally and set height to value
-	Value *float64       `json:"value"`// See type property for effect of this field
+	Value float64        `json:"value"`// See type property for effect of this field
 }
 
 // A solid color, gradient, or image texture that can be applied as fills or strokes

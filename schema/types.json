@@ -732,7 +732,7 @@
           "description": "See type property for effect of this field"
         }
       },
-      "required": ["type"]
+      "required": ["type", "value"]
     },
     "Effect": {
       "type": "object",

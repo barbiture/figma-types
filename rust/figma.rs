@@ -921,7 +921,7 @@ pub struct Constraint {
 
     /// See type property for effect of this field
     #[serde(rename = "value")]
-    value: Option<f64>,
+    value: f64,
 }
 
 /// A solid color, gradient, or image texture that can be applied as fills or strokes

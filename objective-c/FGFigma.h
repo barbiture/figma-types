@@ -947,7 +947,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// * "HEIGHT": Scale proportionally and set height to value
 @property (nonatomic, assign) QTConstraintType *type;
 /// See type property for effect of this field
-@property (nonatomic, nullable, strong) NSNumber *value;
+@property (nonatomic, assign) double value;
 @end
 
 /// A solid color, gradient, or image texture that can be applied as fills or strokes

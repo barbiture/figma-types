@@ -218,7 +218,7 @@ const typeMap = {
     },
     "Constraint": {
         type: e("ConstraintType"),
-        value: u(null, 3.14),
+        value: 3.14,
     },
     "Paint": {
         type: e("PaintType"),

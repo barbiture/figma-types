@@ -219,7 +219,7 @@ namespace quicktype {
         /**
          * See type property for effect of this field
          */
-        std::unique_ptr<double> value;
+        double value;
     };
 
     /**
@@ -1711,7 +1711,7 @@ namespace nlohmann {
 
     inline void from_json(const json& _j, struct quicktype::Constraint& _x) {
         _x.type = _j.at("type").get<quicktype::ConstraintType>();
-        _x.value = quicktype::get_optional<double>(_j, "value");
+        _x.value = _j.at("value").get<double>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Constraint& _x) {

@@ -779,7 +779,7 @@ struct Constraint: Codable {
     /// * "HEIGHT": Scale proportionally and set height to value
     let type: ConstraintType
     /// See type property for effect of this field
-    let value: Double?
+    let value: Double
 }
 
 /// Type of constraint to apply; string enum with potential values below

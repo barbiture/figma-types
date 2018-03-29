@@ -1032,7 +1032,7 @@ See type property for effect of this field
 -}
 type alias Constraint =
     { constraintType : ConstraintType
-    , value : Maybe Float
+    , value : Float
     }
 
 {-| Type of constraint to apply; string enum with potential values below
@@ -2098,13 +2098,13 @@ constraint : Jdec.Decoder Constraint
 constraint =
     Jpipe.decode Constraint
         |> Jpipe.required "type" constraintType
-        |> Jpipe.optional "value" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "value" Jdec.float
 
 encodeConstraint : Constraint -> Jenc.Value
 encodeConstraint x =
     Jenc.object
         [ ("type", encodeConstraintType x.constraintType)
-        , ("value", makeNullableEncoder Jenc.float x.value)
+        , ("value", Jenc.float x.value)
         ]
 
 constraintType : Jdec.Decoder ConstraintType
