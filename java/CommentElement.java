@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.*;
 /**
  * A comment or reply left by a user
  */
-public class Comment {
+public class CommentElement {
     private String message;
     private String createdAt;
     private CommentUser user;

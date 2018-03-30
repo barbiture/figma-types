@@ -2,20 +2,24 @@
 //
 //    using QuickType;
 //
+//    var frameOffset = FrameOffset.FromJson(jsonString);
 //    var vector = Vector.FromJson(jsonString);
 //    var color = Color.FromJson(jsonString);
 //    var colorStop = ColorStop.FromJson(jsonString);
 //    var layoutConstraint = LayoutConstraint.FromJson(jsonString);
+//    var user = User.FromJson(jsonString);
 //    var text = Text.FromJson(jsonString);
 //    var frame = Frame.FromJson(jsonString);
 //    var rectangle = Rectangle.FromJson(jsonString);
 //    var layoutGrid = LayoutGrid.FromJson(jsonString);
+//    var string = String.FromJson(jsonString);
 //    var effect = Effect.FromJson(jsonString);
 //    var slice = Slice.FromJson(jsonString);
 //    var star = Star.FromJson(jsonString);
 //    var line = Line.FromJson(jsonString);
 //    var blendMode = BlendMode.FromJson(jsonString);
 //    var instance = Instance.FromJson(jsonString);
+//    var commentsResponse = CommentsResponse.FromJson(jsonString);
 //    var vector2D = Vector2D.FromJson(jsonString);
 //    var typeStyle = TypeStyle.FromJson(jsonString);
 //    var booleanGroup = BooleanGroup.FromJson(jsonString);
@@ -29,6 +33,7 @@
 //    var paint = Paint.FromJson(jsonString);
 //    var regularPolygon = RegularPolygon.FromJson(jsonString);
 //    var ellipse = Ellipse.FromJson(jsonString);
+//    var comment = Comment.FromJson(jsonString);
 //    var group = Group.FromJson(jsonString);
 
 namespace QuickType
@@ -40,6 +45,53 @@ namespace QuickType
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+
+    /// <summary>
+    /// A relative offset within a frame
+    /// </summary>
+    public partial class FrameOffset
+    {
+        /// <summary>
+        /// Unique id specifying the frame.
+        /// </summary>
+        [JsonProperty("node_id")]
+        public string[] NodeId { get; set; }
+
+        /// <summary>
+        /// 2d vector offset within the frame.
+        /// </summary>
+        [JsonProperty("node_offset")]
+        public Offset NodeOffset { get; set; }
+    }
+
+    /// <summary>
+    /// A 2d vector
+    ///
+    /// 2d vector offset within the frame.
+    ///
+    /// This field contains three vectors, each of which are a position in
+    /// normalized object space (normalized object space is if the top left
+    /// corner of the bounding box of the object is (0, 0) and the bottom
+    /// right is (1,1)). The first position corresponds to the start of the
+    /// gradient (value 0 for the purposes of calculating gradient stops),
+    /// the second position is the end of the gradient (value 1), and the
+    /// third handle position determines the width of the gradient (only
+    /// relevant for non-linear gradients).
+    /// </summary>
+    public partial class Offset
+    {
+        /// <summary>
+        /// X coordinate of the vector
+        /// </summary>
+        [JsonProperty("x")]
+        public double X { get; set; }
+
+        /// <summary>
+        /// Y coordinate of the vector
+        /// </summary>
+        [JsonProperty("y")]
+        public double Y { get; set; }
+    }
 
     /// <summary>
     /// A vector network, consisting of vertices and edges
@@ -392,33 +444,6 @@ namespace QuickType
     }
 
     /// <summary>
-    /// A 2d vector
-    ///
-    /// This field contains three vectors, each of which are a position in
-    /// normalized object space (normalized object space is if the top left
-    /// corner of the bounding box of the object is (0, 0) and the bottom
-    /// right is (1,1)). The first position corresponds to the start of the
-    /// gradient (value 0 for the purposes of calculating gradient stops),
-    /// the second position is the end of the gradient (value 1), and the
-    /// third handle position determines the width of the gradient (only
-    /// relevant for non-linear gradients).
-    /// </summary>
-    public partial class Offset
-    {
-        /// <summary>
-        /// X coordinate of the vector
-        /// </summary>
-        [JsonProperty("x")]
-        public double X { get; set; }
-
-        /// <summary>
-        /// Y coordinate of the vector
-        /// </summary>
-        [JsonProperty("y")]
-        public double Y { get; set; }
-    }
-
-    /// <summary>
     /// Format and size to export an asset at
     ///
     /// An array of export settings representing images to export from node
@@ -633,6 +658,18 @@ namespace QuickType
         /// </summary>
         [JsonProperty("vertical")]
         public Vertical Vertical { get; set; }
+    }
+
+    /// <summary>
+    /// A description of a user
+    /// </summary>
+    public partial class User
+    {
+        [JsonProperty("handle")]
+        public string Handle { get; set; }
+
+        [JsonProperty("img_url")]
+        public string ImgUrl { get; set; }
     }
 
     /// <summary>
@@ -1864,6 +1901,138 @@ namespace QuickType
     }
 
     /// <summary>
+    /// GET /v1/files/:key/comments
+    ///
+    /// > Description
+    /// A list of comments left on the file.
+    ///
+    /// > Path parameters
+    /// key String
+    /// File to get comments from
+    /// </summary>
+    public partial class CommentsResponse
+    {
+        [JsonProperty("comments")]
+        public CommentElement[] Comments { get; set; }
+    }
+
+    /// <summary>
+    /// A comment or reply left by a user
+    /// </summary>
+    public partial class CommentElement
+    {
+        /// <summary>
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// </summary>
+        [JsonProperty("message")]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Enables basic storage and retrieval of dates and times.
+        /// </summary>
+        [JsonProperty("created_at")]
+        public System.DateTimeOffset CreatedAt { get; set; }
+
+        /// <summary>
+        /// The user who left the comment
+        /// </summary>
+        [JsonProperty("user")]
+        public CommentUser User { get; set; }
+
+        /// <summary>
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("order_id")]
+        public double OrderId { get; set; }
+
+        /// <summary>
+        /// If present, the id of the comment to which this is the reply
+        /// </summary>
+        [JsonProperty("parent_id")]
+        public string ParentId { get; set; }
+
+        [JsonProperty("client_meta")]
+        public ClientMeta ClientMeta { get; set; }
+
+        /// <summary>
+        /// Enables basic storage and retrieval of dates and times.
+        /// </summary>
+        [JsonProperty("resolved_at")]
+        public System.DateTimeOffset ResolvedAt { get; set; }
+
+        /// <summary>
+        /// Unique identifier for comment
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// The file in which the comment lives
+        /// </summary>
+        [JsonProperty("file_key")]
+        public string FileKey { get; set; }
+    }
+
+    /// <summary>
+    /// A 2d vector
+    ///
+    /// 2d vector offset within the frame.
+    ///
+    /// This field contains three vectors, each of which are a position in
+    /// normalized object space (normalized object space is if the top left
+    /// corner of the bounding box of the object is (0, 0) and the bottom
+    /// right is (1,1)). The first position corresponds to the start of the
+    /// gradient (value 0 for the purposes of calculating gradient stops),
+    /// the second position is the end of the gradient (value 1), and the
+    /// third handle position determines the width of the gradient (only
+    /// relevant for non-linear gradients).
+    ///
+    /// A relative offset within a frame
+    /// </summary>
+    public partial class ClientMeta
+    {
+        /// <summary>
+        /// X coordinate of the vector
+        /// </summary>
+        [JsonProperty("x")]
+        public double? X { get; set; }
+
+        /// <summary>
+        /// Y coordinate of the vector
+        /// </summary>
+        [JsonProperty("y")]
+        public double? Y { get; set; }
+
+        /// <summary>
+        /// Unique id specifying the frame.
+        /// </summary>
+        [JsonProperty("node_id")]
+        public string[] NodeId { get; set; }
+
+        /// <summary>
+        /// 2d vector offset within the frame.
+        /// </summary>
+        [JsonProperty("node_offset")]
+        public Offset NodeOffset { get; set; }
+    }
+
+    /// <summary>
+    /// A description of a user
+    ///
+    /// The user who left the comment
+    /// </summary>
+    public partial class CommentUser
+    {
+        [JsonProperty("handle")]
+        public string Handle { get; set; }
+
+        [JsonProperty("img_url")]
+        public string ImgUrl { get; set; }
+    }
+
+    /// <summary>
     /// A 2d vector
     /// </summary>
     public partial class Vector2D
@@ -2807,6 +2976,65 @@ namespace QuickType
     }
 
     /// <summary>
+    /// A comment or reply left by a user
+    /// </summary>
+    public partial class Comment
+    {
+        /// <summary>
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// </summary>
+        [JsonProperty("message")]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Enables basic storage and retrieval of dates and times.
+        /// </summary>
+        [JsonProperty("created_at")]
+        public System.DateTimeOffset CreatedAt { get; set; }
+
+        /// <summary>
+        /// The user who left the comment
+        /// </summary>
+        [JsonProperty("user")]
+        public CommentUser User { get; set; }
+
+        /// <summary>
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("order_id")]
+        public double OrderId { get; set; }
+
+        /// <summary>
+        /// If present, the id of the comment to which this is the reply
+        /// </summary>
+        [JsonProperty("parent_id")]
+        public string ParentId { get; set; }
+
+        [JsonProperty("client_meta")]
+        public ClientMeta ClientMeta { get; set; }
+
+        /// <summary>
+        /// Enables basic storage and retrieval of dates and times.
+        /// </summary>
+        [JsonProperty("resolved_at")]
+        public System.DateTimeOffset ResolvedAt { get; set; }
+
+        /// <summary>
+        /// Unique identifier for comment
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// The file in which the comment lives
+        /// </summary>
+        [JsonProperty("file_key")]
+        public string FileKey { get; set; }
+    }
+
+    /// <summary>
     /// A logical grouping of nodes
     /// </summary>
     public partial class Group
@@ -3007,6 +3235,11 @@ namespace QuickType
     /// </summary>
     public enum Pattern { Columns, Grid, Rows };
 
+    public partial class FrameOffset
+    {
+        public static FrameOffset FromJson(string json) => JsonConvert.DeserializeObject<FrameOffset>(json, QuickType.Converter.Settings);
+    }
+
     public partial class Vector
     {
         public static Vector FromJson(string json) => JsonConvert.DeserializeObject<Vector>(json, QuickType.Converter.Settings);
@@ -3027,6 +3260,11 @@ namespace QuickType
         public static LayoutConstraint FromJson(string json) => JsonConvert.DeserializeObject<LayoutConstraint>(json, QuickType.Converter.Settings);
     }
 
+    public partial class User
+    {
+        public static User FromJson(string json) => JsonConvert.DeserializeObject<User>(json, QuickType.Converter.Settings);
+    }
+
     public partial class Text
     {
         public static Text FromJson(string json) => JsonConvert.DeserializeObject<Text>(json, QuickType.Converter.Settings);
@@ -3045,6 +3283,11 @@ namespace QuickType
     public partial class LayoutGrid
     {
         public static LayoutGrid FromJson(string json) => JsonConvert.DeserializeObject<LayoutGrid>(json, QuickType.Converter.Settings);
+    }
+
+    public class String
+    {
+        public static string[] FromJson(string json) => JsonConvert.DeserializeObject<string[]>(json, QuickType.Converter.Settings);
     }
 
     public partial class Effect
@@ -3075,6 +3318,11 @@ namespace QuickType
     public partial class Instance
     {
         public static Instance FromJson(string json) => JsonConvert.DeserializeObject<Instance>(json, QuickType.Converter.Settings);
+    }
+
+    public partial class CommentsResponse
+    {
+        public static CommentsResponse FromJson(string json) => JsonConvert.DeserializeObject<CommentsResponse>(json, QuickType.Converter.Settings);
     }
 
     public partial class Vector2D
@@ -3140,6 +3388,11 @@ namespace QuickType
     public partial class Ellipse
     {
         public static Ellipse FromJson(string json) => JsonConvert.DeserializeObject<Ellipse>(json, QuickType.Converter.Settings);
+    }
+
+    public partial class Comment
+    {
+        public static Comment FromJson(string json) => JsonConvert.DeserializeObject<Comment>(json, QuickType.Converter.Settings);
     }
 
     public partial class Group
@@ -3641,20 +3894,24 @@ namespace QuickType
 
     public static class Serialize
     {
+        public static string ToJson(this FrameOffset self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Vector self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Color self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this ColorStop self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this LayoutConstraint self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this User self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Text self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Frame self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Rectangle self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this LayoutGrid self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this string[] self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Effect self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Slice self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Star self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Line self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this BlendMode self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Instance self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this CommentsResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Vector2D self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this TypeStyle self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this BooleanGroup self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
@@ -3668,6 +3925,7 @@ namespace QuickType
         public static string ToJson(this Paint self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this RegularPolygon self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Ellipse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this Comment self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Group self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
     }
 

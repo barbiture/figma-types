@@ -16,24 +16,44 @@ import com.fasterxml.jackson.annotation.*;
  * the second position is the end of the gradient (value 1), and the
  * third handle position determines the width of the gradient (only
  * relevant for non-linear gradients).
+ *
+ * A relative offset within a frame
  */
-public class Offset {
-    private double x;
-    private double y;
+public class ClientMeta {
+    private Double x;
+    private Double y;
+    private String[] nodeID;
+    private Offset nodeOffset;
 
     /**
      * X coordinate of the vector
      */
     @JsonProperty("x")
-    public double getX() { return x; }
+    public Double getX() { return x; }
     @JsonProperty("x")
-    public void setX(double value) { this.x = value; }
+    public void setX(Double value) { this.x = value; }
 
     /**
      * Y coordinate of the vector
      */
     @JsonProperty("y")
-    public double getY() { return y; }
+    public Double getY() { return y; }
     @JsonProperty("y")
-    public void setY(double value) { this.y = value; }
+    public void setY(Double value) { this.y = value; }
+
+    /**
+     * Unique id specifying the frame.
+     */
+    @JsonProperty("node_id")
+    public String[] getNodeID() { return nodeID; }
+    @JsonProperty("node_id")
+    public void setNodeID(String[] value) { this.nodeID = value; }
+
+    /**
+     * 2d vector offset within the frame.
+     */
+    @JsonProperty("node_offset")
+    public Offset getNodeOffset() { return nodeOffset; }
+    @JsonProperty("node_offset")
+    public void setNodeOffset(Offset value) { this.nodeOffset = value; }
 }

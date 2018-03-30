@@ -2,20 +2,24 @@
 //
 //   const Convert = require("./file");
 //
+//   const frameOffset = Convert.toFrameOffset(json);
 //   const vector = Convert.toVector(json);
 //   const color = Convert.toColor(json);
 //   const colorStop = Convert.toColorStop(json);
 //   const layoutConstraint = Convert.toLayoutConstraint(json);
+//   const user = Convert.toUser(json);
 //   const text = Convert.toText(json);
 //   const frame = Convert.toFrame(json);
 //   const rectangle = Convert.toRectangle(json);
 //   const layoutGrid = Convert.toLayoutGrid(json);
+//   const string = Convert.toString(json);
 //   const effect = Convert.toEffect(json);
 //   const slice = Convert.toSlice(json);
 //   const star = Convert.toStar(json);
 //   const line = Convert.toLine(json);
 //   const blendMode = Convert.toBlendMode(json);
 //   const instance = Convert.toInstance(json);
+//   const commentsResponse = Convert.toCommentsResponse(json);
 //   const vector2D = Convert.toVector2D(json);
 //   const typeStyle = Convert.toTypeStyle(json);
 //   const booleanGroup = Convert.toBooleanGroup(json);
@@ -29,6 +33,7 @@
 //   const paint = Convert.toPaint(json);
 //   const regularPolygon = Convert.toRegularPolygon(json);
 //   const ellipse = Convert.toEllipse(json);
+//   const comment = Convert.toComment(json);
 //   const group = Convert.toGroup(json);
 //
 // These functions will throw an error if the JSON doesn't
@@ -36,6 +41,14 @@
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
+function toFrameOffset(json) {
+    return cast(JSON.parse(json), o("FrameOffset"));
+}
+
+function frameOffsetToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
 function toVector(json) {
     return cast(JSON.parse(json), o("Vector"));
 }
@@ -68,6 +81,14 @@ function layoutConstraintToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
+function toUser(json) {
+    return cast(JSON.parse(json), o("User"));
+}
+
+function userToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
 function toText(json) {
     return cast(JSON.parse(json), o("Text"));
 }
@@ -97,6 +118,14 @@ function toLayoutGrid(json) {
 }
 
 function layoutGridToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function toString(json) {
+    return cast(JSON.parse(json), a(""));
+}
+
+function stringToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
@@ -145,6 +174,14 @@ function toInstance(json) {
 }
 
 function instanceToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function toCommentsResponse(json) {
+    return cast(JSON.parse(json), o("CommentsResponse"));
+}
+
+function commentsResponseToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
@@ -252,6 +289,14 @@ function ellipseToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
+function toComment(json) {
+    return cast(JSON.parse(json), o("Comment"));
+}
+
+function commentToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
 function toGroup(json) {
     return cast(JSON.parse(json), o("Group"));
 }
@@ -338,6 +383,14 @@ function o(className) {
 }
 
 const typeMap = {
+    "FrameOffset": {
+        node_id: a(""),
+        node_offset: o("Offset"),
+    },
+    "Offset": {
+        x: 3.14,
+        y: 3.14,
+    },
     "Vector": {
         effects: a(o("EffectElement")),
         opacity: 3.14,
@@ -395,10 +448,6 @@ const typeMap = {
         g: 3.14,
         r: 3.14,
     },
-    "Offset": {
-        x: 3.14,
-        y: 3.14,
-    },
     "ExportSettingElement": {
         constraint: o("ExportSettingConstraint"),
         format: e("Format"),
@@ -434,6 +483,10 @@ const typeMap = {
     "LayoutConstraint": {
         horizontal: e("Horizontal"),
         vertical: e("Vertical"),
+    },
+    "User": {
+        handle: "",
+        img_url: "",
     },
     "Text": {
         effects: a(o("EffectElement")),
@@ -633,6 +686,30 @@ const typeMap = {
         preserveRatio: false,
         children: a(o("DocumentElement")),
     },
+    "CommentsResponse": {
+        comments: a(o("CommentElement")),
+    },
+    "CommentElement": {
+        message: "",
+        created_at: "",
+        user: o("CommentUser"),
+        order_id: 3.14,
+        parent_id: "",
+        client_meta: o("ClientMeta"),
+        resolved_at: "",
+        id: "",
+        file_key: "",
+    },
+    "ClientMeta": {
+        x: u(null, 3.14),
+        y: u(null, 3.14),
+        node_id: u(null, a("")),
+        node_offset: u(null, o("Offset")),
+    },
+    "CommentUser": {
+        handle: "",
+        img_url: "",
+    },
     "Vector2D": {
         x: 3.14,
         y: 3.14,
@@ -792,6 +869,17 @@ const typeMap = {
         strokes: a(o("PaintElement")),
         preserveRatio: false,
     },
+    "Comment": {
+        message: "",
+        created_at: "",
+        user: o("CommentUser"),
+        order_id: 3.14,
+        parent_id: "",
+        client_meta: o("ClientMeta"),
+        resolved_at: "",
+        id: "",
+        file_key: "",
+    },
     "Group": {
         effects: a(o("EffectElement")),
         layoutGrids: a(o("LayoutGridElement")),
@@ -917,6 +1005,8 @@ const typeMap = {
 };
 
 module.exports = {
+    "frameOffsetToJson": frameOffsetToJson,
+    "toFrameOffset": toFrameOffset,
     "vectorToJson": vectorToJson,
     "toVector": toVector,
     "colorToJson": colorToJson,
@@ -925,6 +1015,8 @@ module.exports = {
     "toColorStop": toColorStop,
     "layoutConstraintToJson": layoutConstraintToJson,
     "toLayoutConstraint": toLayoutConstraint,
+    "userToJson": userToJson,
+    "toUser": toUser,
     "textToJson": textToJson,
     "toText": toText,
     "frameToJson": frameToJson,
@@ -933,6 +1025,8 @@ module.exports = {
     "toRectangle": toRectangle,
     "layoutGridToJson": layoutGridToJson,
     "toLayoutGrid": toLayoutGrid,
+    "stringToJson": stringToJson,
+    "toString": toString,
     "effectToJson": effectToJson,
     "toEffect": toEffect,
     "sliceToJson": sliceToJson,
@@ -945,6 +1039,8 @@ module.exports = {
     "toBlendMode": toBlendMode,
     "instanceToJson": instanceToJson,
     "toInstance": toInstance,
+    "commentsResponseToJson": commentsResponseToJson,
+    "toCommentsResponse": toCommentsResponse,
     "vector2DToJson": vector2DToJson,
     "toVector2D": toVector2D,
     "typeStyleToJson": typeStyleToJson,
@@ -971,6 +1067,8 @@ module.exports = {
     "toRegularPolygon": toRegularPolygon,
     "ellipseToJson": ellipseToJson,
     "toEllipse": toEllipse,
+    "commentToJson": commentToJson,
+    "toComment": toComment,
     "groupToJson": groupToJson,
     "toGroup": toGroup,
 };

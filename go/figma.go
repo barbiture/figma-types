@@ -1,5 +1,8 @@
 // To parse and unparse this JSON data, add this code to your project and do:
 //
+//    frameOffset, err := UnmarshalFrameOffset(bytes)
+//    bytes, err = frameOffset.Marshal()
+//
 //    vector, err := UnmarshalVector(bytes)
 //    bytes, err = vector.Marshal()
 //
@@ -12,6 +15,9 @@
 //    layoutConstraint, err := UnmarshalLayoutConstraint(bytes)
 //    bytes, err = layoutConstraint.Marshal()
 //
+//    user, err := UnmarshalUser(bytes)
+//    bytes, err = user.Marshal()
+//
 //    text, err := UnmarshalText(bytes)
 //    bytes, err = text.Marshal()
 //
@@ -23,6 +29,9 @@
 //
 //    layoutGrid, err := UnmarshalLayoutGrid(bytes)
 //    bytes, err = layoutGrid.Marshal()
+//
+//    string, err := UnmarshalString(bytes)
+//    bytes, err = string.Marshal()
 //
 //    effect, err := UnmarshalEffect(bytes)
 //    bytes, err = effect.Marshal()
@@ -41,6 +50,9 @@
 //
 //    instance, err := UnmarshalInstance(bytes)
 //    bytes, err = instance.Marshal()
+//
+//    commentsResponse, err := UnmarshalCommentsResponse(bytes)
+//    bytes, err = commentsResponse.Marshal()
 //
 //    vector2D, err := UnmarshalVector2D(bytes)
 //    bytes, err = vector2D.Marshal()
@@ -81,12 +93,25 @@
 //    ellipse, err := UnmarshalEllipse(bytes)
 //    bytes, err = ellipse.Marshal()
 //
+//    comment, err := UnmarshalComment(bytes)
+//    bytes, err = comment.Marshal()
+//
 //    group, err := UnmarshalGroup(bytes)
 //    bytes, err = group.Marshal()
 
 package main
 
 import "encoding/json"
+
+func UnmarshalFrameOffset(data []byte) (FrameOffset, error) {
+	var r FrameOffset
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *FrameOffset) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
 
 func UnmarshalVector(data []byte) (Vector, error) {
 	var r Vector
@@ -128,6 +153,16 @@ func (r *LayoutConstraint) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
+func UnmarshalUser(data []byte) (User, error) {
+	var r User
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *User) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
 func UnmarshalText(data []byte) (Text, error) {
 	var r Text
 	err := json.Unmarshal(data, &r)
@@ -165,6 +200,18 @@ func UnmarshalLayoutGrid(data []byte) (LayoutGrid, error) {
 }
 
 func (r *LayoutGrid) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+type String []string
+
+func UnmarshalString(data []byte) (String, error) {
+	var r String
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *String) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -225,6 +272,16 @@ func UnmarshalInstance(data []byte) (Instance, error) {
 }
 
 func (r *Instance) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+func UnmarshalCommentsResponse(data []byte) (CommentsResponse, error) {
+	var r CommentsResponse
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *CommentsResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -358,6 +415,16 @@ func (r *Ellipse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
+func UnmarshalComment(data []byte) (Comment, error) {
+	var r Comment
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *Comment) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
 func UnmarshalGroup(data []byte) (Group, error) {
 	var r Group
 	err := json.Unmarshal(data, &r)
@@ -366,6 +433,29 @@ func UnmarshalGroup(data []byte) (Group, error) {
 
 func (r *Group) Marshal() ([]byte, error) {
 	return json.Marshal(r)
+}
+
+// A relative offset within a frame
+type FrameOffset struct {
+	NodeID     []string `json:"node_id"`    // Unique id specifying the frame.
+	NodeOffset Offset   `json:"node_offset"`// 2d vector offset within the frame.
+}
+
+// A 2d vector
+//
+// 2d vector offset within the frame.
+//
+// This field contains three vectors, each of which are a position in
+// normalized object space (normalized object space is if the top left
+// corner of the bounding box of the object is (0, 0) and the bottom
+// right is (1,1)). The first position corresponds to the start of the
+// gradient (value 0 for the purposes of calculating gradient stops),
+// the second position is the end of the gradient (value 1), and the
+// third handle position determines the width of the gradient (only
+// relevant for non-linear gradients).
+type Offset struct {
+	X float64 `json:"x"`// X coordinate of the vector
+	Y float64 `json:"y"`// Y coordinate of the vector
 }
 
 // A vector network, consisting of vertices and edges
@@ -460,21 +550,6 @@ type Olor struct {
 	R float64 `json:"r"`// Red channel value, between 0 and 1
 }
 
-// A 2d vector
-//
-// This field contains three vectors, each of which are a position in
-// normalized object space (normalized object space is if the top left
-// corner of the bounding box of the object is (0, 0) and the bottom
-// right is (1,1)). The first position corresponds to the start of the
-// gradient (value 0 for the purposes of calculating gradient stops),
-// the second position is the end of the gradient (value 1), and the
-// third handle position determines the width of the gradient (only
-// relevant for non-linear gradients).
-type Offset struct {
-	X float64 `json:"x"`// X coordinate of the vector
-	Y float64 `json:"y"`// Y coordinate of the vector
-}
-
 // Format and size to export an asset at
 //
 // An array of export settings representing images to export from node
@@ -541,6 +616,12 @@ type ColorStop struct {
 type LayoutConstraint struct {
 	Horizontal Horizontal `json:"horizontal"`// Horizontal constraint as an enum; "LEFT": Node is laid out relative to left of the containing frame; "RIGHT": Node is laid out relative to right of the containing frame; "CENTER": Node is horizontally centered relative to containing frame; "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales horizontally with containing frame
 	Vertical   Vertical   `json:"vertical"`  // Vertical constraint as an enum; "TOP": Node is laid out relative to top of the containing frame; "BOTTOM": Node is laid out relative to bottom of the containing frame; "CENTER": Node is vertically centered relative to containing frame; "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales vertically with containing frame
+}
+
+// A description of a user
+type User struct {
+	Handle string `json:"handle"` 
+	ImgURL string `json:"img_url"`
 }
 
 // A text box
@@ -820,6 +901,60 @@ type Instance struct {
 	Children            []DocumentElement      `json:"children"`           // An array of nodes that are direct children of this node
 }
 
+// GET /v1/files/:key/comments
+//
+// > Description
+// A list of comments left on the file.
+//
+// > Path parameters
+// key String
+// File to get comments from
+type CommentsResponse struct {
+	Comments []CommentElement `json:"comments"`
+}
+
+// A comment or reply left by a user
+type CommentElement struct {
+	Message    string      `json:"message"`    // (MISSING IN DOCS); The content of the comment
+	CreatedAt  string      `json:"created_at"` // Enables basic storage and retrieval of dates and times.
+	User       CommentUser `json:"user"`       // The user who left the comment
+	OrderID    float64     `json:"order_id"`   // Only set for top level comments. The number displayed with the; comment in the UI
+	ParentID   string      `json:"parent_id"`  // If present, the id of the comment to which this is the reply
+	ClientMeta ClientMeta  `json:"client_meta"`
+	ResolvedAt string      `json:"resolved_at"`// Enables basic storage and retrieval of dates and times.
+	ID         string      `json:"id"`         // Unique identifier for comment
+	FileKey    string      `json:"file_key"`   // The file in which the comment lives
+}
+
+// A 2d vector
+//
+// 2d vector offset within the frame.
+//
+// This field contains three vectors, each of which are a position in
+// normalized object space (normalized object space is if the top left
+// corner of the bounding box of the object is (0, 0) and the bottom
+// right is (1,1)). The first position corresponds to the start of the
+// gradient (value 0 for the purposes of calculating gradient stops),
+// the second position is the end of the gradient (value 1), and the
+// third handle position determines the width of the gradient (only
+// relevant for non-linear gradients).
+//
+// A relative offset within a frame
+type ClientMeta struct {
+	X          *float64 `json:"x"`          // X coordinate of the vector
+	Y          *float64 `json:"y"`          // Y coordinate of the vector
+	NodeID     []string `json:"node_id"`    // Unique id specifying the frame.
+	NodeOffset *Offset  `json:"node_offset"`// 2d vector offset within the frame.
+}
+
+// A description of a user
+//
+// The user who left the comment
+type CommentUser struct {
+	Handle string `json:"handle"` 
+	ImgURL string `json:"img_url"`
+}
+
 // A 2d vector
 type Vector2D struct {
 	X float64 `json:"x"`// X coordinate of the vector
@@ -1045,6 +1180,19 @@ type Ellipse struct {
 	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
 	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+}
+
+// A comment or reply left by a user
+type Comment struct {
+	Message    string      `json:"message"`    // (MISSING IN DOCS); The content of the comment
+	CreatedAt  string      `json:"created_at"` // Enables basic storage and retrieval of dates and times.
+	User       CommentUser `json:"user"`       // The user who left the comment
+	OrderID    float64     `json:"order_id"`   // Only set for top level comments. The number displayed with the; comment in the UI
+	ParentID   string      `json:"parent_id"`  // If present, the id of the comment to which this is the reply
+	ClientMeta ClientMeta  `json:"client_meta"`
+	ResolvedAt string      `json:"resolved_at"`// Enables basic storage and retrieval of dates and times.
+	ID         string      `json:"id"`         // Unique identifier for comment
+	FileKey    string      `json:"file_key"`   // The file in which the comment lives
 }
 
 // A logical grouping of nodes

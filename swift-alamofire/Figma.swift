@@ -1,19 +1,23 @@
 // To parse the JSON, add this file to your project and do:
 //
+//   let frameOffset = try FrameOffset(json)
 //   let vector = try Vector(json)
 //   let color = try Color(json)
 //   let colorStop = try ColorStop(json)
 //   let layoutConstraint = try LayoutConstraint(json)
+//   let user = try User(json)
 //   let text = try Text(json)
 //   let frame = try Frame(json)
 //   let rectangle = try Rectangle(json)
 //   let layoutGrid = try LayoutGrid(json)
+//   let string = try String(json)
 //   let effect = try Effect(json)
 //   let slice = try Slice(json)
 //   let star = try Star(json)
 //   let line = try Line(json)
 //   let blendMode = try BlendMode(json)
 //   let instance = try Instance(json)
+//   let commentsResponse = try CommentsResponse(json)
 //   let vector2D = try Vector2D(json)
 //   let typeStyle = try TypeStyle(json)
 //   let booleanGroup = try BooleanGroup(json)
@@ -27,9 +31,16 @@
 //   let paint = try Paint(json)
 //   let regularPolygon = try RegularPolygon(json)
 //   let ellipse = try Ellipse(json)
+//   let comment = try Comment(json)
 //   let group = try Group(json)
 //
 // To parse values from Alamofire responses:
+//
+//   Alamofire.request(url).responseFrameOffset { response in
+//     if let frameOffset = response.result.value {
+//       ...
+//     }
+//   }
 //
 //   Alamofire.request(url).responseVector { response in
 //     if let vector = response.result.value {
@@ -55,6 +66,12 @@
 //     }
 //   }
 //
+//   Alamofire.request(url).responseUser { response in
+//     if let user = response.result.value {
+//       ...
+//     }
+//   }
+//
 //   Alamofire.request(url).responseText { response in
 //     if let text = response.result.value {
 //       ...
@@ -75,6 +92,12 @@
 //
 //   Alamofire.request(url).responseLayoutGrid { response in
 //     if let layoutGrid = response.result.value {
+//       ...
+//     }
+//   }
+//
+//   Alamofire.request(url).responseString { response in
+//     if let string = response.result.value {
 //       ...
 //     }
 //   }
@@ -111,6 +134,12 @@
 //
 //   Alamofire.request(url).responseInstance { response in
 //     if let instance = response.result.value {
+//       ...
+//     }
+//   }
+//
+//   Alamofire.request(url).responseCommentsResponse { response in
+//     if let commentsResponse = response.result.value {
 //       ...
 //     }
 //   }
@@ -193,6 +222,12 @@
 //     }
 //   }
 //
+//   Alamofire.request(url).responseComment { response in
+//     if let comment = response.result.value {
+//       ...
+//     }
+//   }
+//
 //   Alamofire.request(url).responseGroup { response in
 //     if let group = response.result.value {
 //       ...
@@ -201,6 +236,40 @@
 
 import Foundation
 import Alamofire
+
+typealias String = [String]
+
+/// A relative offset within a frame
+struct FrameOffset: Codable {
+    /// Unique id specifying the frame.
+    let nodeID: [String]
+    /// 2d vector offset within the frame.
+    let nodeOffset: Offset
+
+    enum CodingKeys: String, CodingKey {
+        case nodeID = "node_id"
+        case nodeOffset = "node_offset"
+    }
+}
+
+/// A 2d vector
+///
+/// 2d vector offset within the frame.
+///
+/// This field contains three vectors, each of which are a position in
+/// normalized object space (normalized object space is if the top left
+/// corner of the bounding box of the object is (0, 0) and the bottom
+/// right is (1,1)). The first position corresponds to the start of the
+/// gradient (value 0 for the purposes of calculating gradient stops),
+/// the second position is the end of the gradient (value 1), and the
+/// third handle position determines the width of the gradient (only
+/// relevant for non-linear gradients).
+struct Offset: Codable {
+    /// X coordinate of the vector
+    let x: Double
+    /// Y coordinate of the vector
+    let y: Double
+}
 
 /// A vector network, consisting of vertices and edges
 struct Vector: Codable {
@@ -435,23 +504,6 @@ struct Olor: Codable {
     let r: Double
 }
 
-/// A 2d vector
-///
-/// This field contains three vectors, each of which are a position in
-/// normalized object space (normalized object space is if the top left
-/// corner of the bounding box of the object is (0, 0) and the bottom
-/// right is (1,1)). The first position corresponds to the start of the
-/// gradient (value 0 for the purposes of calculating gradient stops),
-/// the second position is the end of the gradient (value 1), and the
-/// third handle position determines the width of the gradient (only
-/// relevant for non-linear gradients).
-struct Offset: Codable {
-    /// X coordinate of the vector
-    let x: Double
-    /// Y coordinate of the vector
-    let y: Double
-}
-
 /// Type of effect as a string enum
 enum EffectType: String, Codable {
     case backgroundBlur = "BACKGROUND_BLUR"
@@ -630,6 +682,16 @@ struct LayoutConstraint: Codable {
     /// (node stretches with frame)
     /// "SCALE": Node scales vertically with containing frame
     let vertical: Vertical
+}
+
+/// A description of a user
+struct User: Codable {
+    let handle, imgURL: String
+
+    enum CodingKeys: String, CodingKey {
+        case handle
+        case imgURL = "img_url"
+    }
 }
 
 /// A text box
@@ -1192,6 +1254,96 @@ struct Instance: Codable {
     }
 }
 
+/// GET /v1/files/:key/comments
+///
+/// > Description
+/// A list of comments left on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
+struct CommentsResponse: Codable {
+    let comments: [CommentElement]
+}
+
+/// A comment or reply left by a user
+struct CommentElement: Codable {
+    /// (MISSING IN DOCS)
+    /// The content of the comment
+    let message: String
+    /// Enables basic storage and retrieval of dates and times.
+    let createdAt: String
+    /// The user who left the comment
+    let user: CommentUser
+    /// Only set for top level comments. The number displayed with the
+    /// comment in the UI
+    let orderID: Double
+    /// If present, the id of the comment to which this is the reply
+    let parentID: String
+    let clientMeta: ClientMeta
+    /// Enables basic storage and retrieval of dates and times.
+    let resolvedAt: String
+    /// Unique identifier for comment
+    let id: String
+    /// The file in which the comment lives
+    let fileKey: String
+
+    enum CodingKeys: String, CodingKey {
+        case message
+        case createdAt = "created_at"
+        case user
+        case orderID = "order_id"
+        case parentID = "parent_id"
+        case clientMeta = "client_meta"
+        case resolvedAt = "resolved_at"
+        case id
+        case fileKey = "file_key"
+    }
+}
+
+/// A 2d vector
+///
+/// 2d vector offset within the frame.
+///
+/// This field contains three vectors, each of which are a position in
+/// normalized object space (normalized object space is if the top left
+/// corner of the bounding box of the object is (0, 0) and the bottom
+/// right is (1,1)). The first position corresponds to the start of the
+/// gradient (value 0 for the purposes of calculating gradient stops),
+/// the second position is the end of the gradient (value 1), and the
+/// third handle position determines the width of the gradient (only
+/// relevant for non-linear gradients).
+///
+/// A relative offset within a frame
+struct ClientMeta: Codable {
+    /// X coordinate of the vector
+    let x: Double?
+    /// Y coordinate of the vector
+    let y: Double?
+    /// Unique id specifying the frame.
+    let nodeID: [String]?
+    /// 2d vector offset within the frame.
+    let nodeOffset: Offset?
+
+    enum CodingKeys: String, CodingKey {
+        case x, y
+        case nodeID = "node_id"
+        case nodeOffset = "node_offset"
+    }
+}
+
+/// A description of a user
+///
+/// The user who left the comment
+struct CommentUser: Codable {
+    let handle, imgURL: String
+
+    enum CodingKeys: String, CodingKey {
+        case handle
+        case imgURL = "img_url"
+    }
+}
+
 /// A 2d vector
 struct Vector2D: Codable {
     /// X coordinate of the vector
@@ -1585,6 +1737,41 @@ struct Ellipse: Codable {
     let preserveRatio: Bool
 }
 
+/// A comment or reply left by a user
+struct Comment: Codable {
+    /// (MISSING IN DOCS)
+    /// The content of the comment
+    let message: String
+    /// Enables basic storage and retrieval of dates and times.
+    let createdAt: String
+    /// The user who left the comment
+    let user: CommentUser
+    /// Only set for top level comments. The number displayed with the
+    /// comment in the UI
+    let orderID: Double
+    /// If present, the id of the comment to which this is the reply
+    let parentID: String
+    let clientMeta: ClientMeta
+    /// Enables basic storage and retrieval of dates and times.
+    let resolvedAt: String
+    /// Unique identifier for comment
+    let id: String
+    /// The file in which the comment lives
+    let fileKey: String
+
+    enum CodingKeys: String, CodingKey {
+        case message
+        case createdAt = "created_at"
+        case user
+        case orderID = "order_id"
+        case parentID = "parent_id"
+        case clientMeta = "client_meta"
+        case resolvedAt = "resolved_at"
+        case id
+        case fileKey = "file_key"
+    }
+}
+
 /// A logical grouping of nodes
 struct Group: Codable {
     /// An array of effects attached to this node
@@ -1647,6 +1834,11 @@ extension DataRequest {
     }
 
     @discardableResult
+    func responseFrameOffset(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<FrameOffset>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
     func responseVector(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<Vector>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
@@ -1667,6 +1859,11 @@ extension DataRequest {
     }
 
     @discardableResult
+    func responseUser(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<User>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
     func responseText(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<Text>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
@@ -1683,6 +1880,11 @@ extension DataRequest {
 
     @discardableResult
     func responseLayoutGrid(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<LayoutGrid>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    func responseString(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<String>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 
@@ -1713,6 +1915,11 @@ extension DataRequest {
 
     @discardableResult
     func responseInstance(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<Instance>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    func responseCommentsResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<CommentsResponse>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 
@@ -1782,12 +1989,67 @@ extension DataRequest {
     }
 
     @discardableResult
+    func responseComment(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<Comment>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
     func responseGroup(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<Group>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }
 
 // MARK: Convenience initializers
+
+extension FrameOffset {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(FrameOffset.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension Offset {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(Offset.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
 
 extension Vector {
     init(data: Data) throws {
@@ -1893,31 +2155,6 @@ extension EffectElement {
 extension Olor {
     init(data: Data) throws {
         self = try JSONDecoder().decode(Olor.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Offset {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Offset.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2093,6 +2330,31 @@ extension ColorStop {
 extension LayoutConstraint {
     init(data: Data) throws {
         self = try JSONDecoder().decode(LayoutConstraint.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension User {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(User.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2393,6 +2655,106 @@ extension Line {
 extension Instance {
     init(data: Data) throws {
         self = try JSONDecoder().decode(Instance.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension CommentsResponse {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(CommentsResponse.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension CommentElement {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(CommentElement.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension ClientMeta {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(ClientMeta.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension CommentUser {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(CommentUser.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2765,9 +3127,59 @@ extension Ellipse {
     }
 }
 
+extension Comment {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(Comment.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
 extension Group {
     init(data: Data) throws {
         self = try JSONDecoder().decode(Group.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension Array where Element == String.Element {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(String.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {

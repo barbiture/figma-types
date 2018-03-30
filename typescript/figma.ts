@@ -1,21 +1,25 @@
 // To parse this data:
 //
-//   import { Convert, Vector, Color, ColorStop, LayoutConstraint, Text, Frame, Rectangle, LayoutGrid, Effect, Slice, Star, Line, BlendMode, Instance, Vector2D, TypeStyle, BooleanGroup, Canvas, Document, NodeType, ExportSetting, Component, FileResponse, Constraint, Paint, RegularPolygon, Ellipse, Group } from "./file";
+//   import { Convert, FrameOffset, Vector, Color, ColorStop, LayoutConstraint, User, Text, Frame, Rectangle, LayoutGrid, Effect, Slice, Star, Line, BlendMode, Instance, CommentsResponse, Vector2D, TypeStyle, BooleanGroup, Canvas, Document, NodeType, ExportSetting, Component, FileResponse, Constraint, Paint, RegularPolygon, Ellipse, Comment, Group } from "./file";
 //
+//   const frameOffset = Convert.toFrameOffset(json);
 //   const vector = Convert.toVector(json);
 //   const color = Convert.toColor(json);
 //   const colorStop = Convert.toColorStop(json);
 //   const layoutConstraint = Convert.toLayoutConstraint(json);
+//   const user = Convert.toUser(json);
 //   const text = Convert.toText(json);
 //   const frame = Convert.toFrame(json);
 //   const rectangle = Convert.toRectangle(json);
 //   const layoutGrid = Convert.toLayoutGrid(json);
+//   const string = Convert.toString(json);
 //   const effect = Convert.toEffect(json);
 //   const slice = Convert.toSlice(json);
 //   const star = Convert.toStar(json);
 //   const line = Convert.toLine(json);
 //   const blendMode = Convert.toBlendMode(json);
 //   const instance = Convert.toInstance(json);
+//   const commentsResponse = Convert.toCommentsResponse(json);
 //   const vector2D = Convert.toVector2D(json);
 //   const typeStyle = Convert.toTypeStyle(json);
 //   const booleanGroup = Convert.toBooleanGroup(json);
@@ -29,10 +33,50 @@
 //   const paint = Convert.toPaint(json);
 //   const regularPolygon = Convert.toRegularPolygon(json);
 //   const ellipse = Convert.toEllipse(json);
+//   const comment = Convert.toComment(json);
 //   const group = Convert.toGroup(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
+
+/**
+ * A relative offset within a frame
+ */
+export interface FrameOffset {
+    /**
+     * Unique id specifying the frame.
+     */
+    node_id: string[];
+    /**
+     * 2d vector offset within the frame.
+     */
+    node_offset: Offset;
+}
+
+/**
+ * A 2d vector
+ *
+ * 2d vector offset within the frame.
+ *
+ * This field contains three vectors, each of which are a position in
+ * normalized object space (normalized object space is if the top left
+ * corner of the bounding box of the object is (0, 0) and the bottom
+ * right is (1,1)). The first position corresponds to the start of the
+ * gradient (value 0 for the purposes of calculating gradient stops),
+ * the second position is the end of the gradient (value 1), and the
+ * third handle position determines the width of the gradient (only
+ * relevant for non-linear gradients).
+ */
+export interface Offset {
+    /**
+     * X coordinate of the vector
+     */
+    x: number;
+    /**
+     * Y coordinate of the vector
+     */
+    y: number;
+}
 
 /**
  * A vector network, consisting of vertices and edges
@@ -351,29 +395,6 @@ export interface Olor {
 }
 
 /**
- * A 2d vector
- *
- * This field contains three vectors, each of which are a position in
- * normalized object space (normalized object space is if the top left
- * corner of the bounding box of the object is (0, 0) and the bottom
- * right is (1,1)). The first position corresponds to the start of the
- * gradient (value 0 for the purposes of calculating gradient stops),
- * the second position is the end of the gradient (value 1), and the
- * third handle position determines the width of the gradient (only
- * relevant for non-linear gradients).
- */
-export interface Offset {
-    /**
-     * X coordinate of the vector
-     */
-    x: number;
-    /**
-     * Y coordinate of the vector
-     */
-    y: number;
-}
-
-/**
  * Type of effect as a string enum
  */
 export enum EffectType {
@@ -621,6 +642,14 @@ export interface LayoutConstraint {
      * "SCALE": Node scales vertically with containing frame
      */
     vertical: Vertical;
+}
+
+/**
+ * A description of a user
+ */
+export interface User {
+    handle:  string;
+    img_url: string;
 }
 
 /**
@@ -1547,6 +1576,106 @@ export interface Instance {
 }
 
 /**
+ * GET /v1/files/:key/comments
+ *
+ * > Description
+ * A list of comments left on the file.
+ *
+ * > Path parameters
+ * key String
+ * File to get comments from
+ */
+export interface CommentsResponse {
+    comments: CommentElement[];
+}
+
+/**
+ * A comment or reply left by a user
+ */
+export interface CommentElement {
+    /**
+     * (MISSING IN DOCS)
+     * The content of the comment
+     */
+    message: string;
+    /**
+     * Enables basic storage and retrieval of dates and times.
+     */
+    created_at: string;
+    /**
+     * The user who left the comment
+     */
+    user: CommentUser;
+    /**
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    order_id: number;
+    /**
+     * If present, the id of the comment to which this is the reply
+     */
+    parent_id:   string;
+    client_meta: ClientMeta;
+    /**
+     * Enables basic storage and retrieval of dates and times.
+     */
+    resolved_at: string;
+    /**
+     * Unique identifier for comment
+     */
+    id: string;
+    /**
+     * The file in which the comment lives
+     */
+    file_key: string;
+}
+
+/**
+ * A 2d vector
+ *
+ * 2d vector offset within the frame.
+ *
+ * This field contains three vectors, each of which are a position in
+ * normalized object space (normalized object space is if the top left
+ * corner of the bounding box of the object is (0, 0) and the bottom
+ * right is (1,1)). The first position corresponds to the start of the
+ * gradient (value 0 for the purposes of calculating gradient stops),
+ * the second position is the end of the gradient (value 1), and the
+ * third handle position determines the width of the gradient (only
+ * relevant for non-linear gradients).
+ *
+ * A relative offset within a frame
+ */
+export interface ClientMeta {
+    /**
+     * X coordinate of the vector
+     */
+    x?: number;
+    /**
+     * Y coordinate of the vector
+     */
+    y?: number;
+    /**
+     * Unique id specifying the frame.
+     */
+    node_id?: string[];
+    /**
+     * 2d vector offset within the frame.
+     */
+    node_offset?: Offset;
+}
+
+/**
+ * A description of a user
+ *
+ * The user who left the comment
+ */
+export interface CommentUser {
+    handle:  string;
+    img_url: string;
+}
+
+/**
  * A 2d vector
  */
 export interface Vector2D {
@@ -2228,6 +2357,47 @@ export interface Ellipse {
 }
 
 /**
+ * A comment or reply left by a user
+ */
+export interface Comment {
+    /**
+     * (MISSING IN DOCS)
+     * The content of the comment
+     */
+    message: string;
+    /**
+     * Enables basic storage and retrieval of dates and times.
+     */
+    created_at: string;
+    /**
+     * The user who left the comment
+     */
+    user: CommentUser;
+    /**
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    order_id: number;
+    /**
+     * If present, the id of the comment to which this is the reply
+     */
+    parent_id:   string;
+    client_meta: ClientMeta;
+    /**
+     * Enables basic storage and retrieval of dates and times.
+     */
+    resolved_at: string;
+    /**
+     * Unique identifier for comment
+     */
+    id: string;
+    /**
+     * The file in which the comment lives
+     */
+    file_key: string;
+}
+
+/**
  * A logical grouping of nodes
  */
 export interface Group {
@@ -2307,6 +2477,14 @@ export interface Group {
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
+    export function toFrameOffset(json: string): FrameOffset {
+        return cast(JSON.parse(json), o("FrameOffset"));
+    }
+
+    export function frameOffsetToJson(value: FrameOffset): string {
+        return JSON.stringify(value, null, 2);
+    }
+
     export function toVector(json: string): Vector {
         return cast(JSON.parse(json), o("Vector"));
     }
@@ -2339,6 +2517,14 @@ export module Convert {
         return JSON.stringify(value, null, 2);
     }
 
+    export function toUser(json: string): User {
+        return cast(JSON.parse(json), o("User"));
+    }
+
+    export function userToJson(value: User): string {
+        return JSON.stringify(value, null, 2);
+    }
+
     export function toText(json: string): Text {
         return cast(JSON.parse(json), o("Text"));
     }
@@ -2368,6 +2554,14 @@ export module Convert {
     }
 
     export function layoutGridToJson(value: LayoutGrid): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toString(json: string): string[] {
+        return cast(JSON.parse(json), a(""));
+    }
+
+    export function stringToJson(value: string[]): string {
         return JSON.stringify(value, null, 2);
     }
 
@@ -2416,6 +2610,14 @@ export module Convert {
     }
 
     export function instanceToJson(value: Instance): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toCommentsResponse(json: string): CommentsResponse {
+        return cast(JSON.parse(json), o("CommentsResponse"));
+    }
+
+    export function commentsResponseToJson(value: CommentsResponse): string {
         return JSON.stringify(value, null, 2);
     }
 
@@ -2523,6 +2725,14 @@ export module Convert {
         return JSON.stringify(value, null, 2);
     }
 
+    export function toComment(json: string): Comment {
+        return cast(JSON.parse(json), o("Comment"));
+    }
+
+    export function commentToJson(value: Comment): string {
+        return JSON.stringify(value, null, 2);
+    }
+
     export function toGroup(json: string): Group {
         return cast(JSON.parse(json), o("Group"));
     }
@@ -2609,6 +2819,14 @@ export module Convert {
     }
 
     const typeMap: any = {
+        "FrameOffset": {
+            node_id: a(""),
+            node_offset: o("Offset"),
+        },
+        "Offset": {
+            x: 3.14,
+            y: 3.14,
+        },
         "Vector": {
             effects: a(o("EffectElement")),
             opacity: 3.14,
@@ -2666,10 +2884,6 @@ export module Convert {
             g: 3.14,
             r: 3.14,
         },
-        "Offset": {
-            x: 3.14,
-            y: 3.14,
-        },
         "ExportSettingElement": {
             constraint: o("ExportSettingConstraint"),
             format: e("Format"),
@@ -2705,6 +2919,10 @@ export module Convert {
         "LayoutConstraint": {
             horizontal: e("Horizontal"),
             vertical: e("Vertical"),
+        },
+        "User": {
+            handle: "",
+            img_url: "",
         },
         "Text": {
             effects: a(o("EffectElement")),
@@ -2904,6 +3122,30 @@ export module Convert {
             preserveRatio: false,
             children: a(o("DocumentElement")),
         },
+        "CommentsResponse": {
+            comments: a(o("CommentElement")),
+        },
+        "CommentElement": {
+            message: "",
+            created_at: "",
+            user: o("CommentUser"),
+            order_id: 3.14,
+            parent_id: "",
+            client_meta: o("ClientMeta"),
+            resolved_at: "",
+            id: "",
+            file_key: "",
+        },
+        "ClientMeta": {
+            x: u(null, 3.14),
+            y: u(null, 3.14),
+            node_id: u(null, a("")),
+            node_offset: u(null, o("Offset")),
+        },
+        "CommentUser": {
+            handle: "",
+            img_url: "",
+        },
         "Vector2D": {
             x: 3.14,
             y: 3.14,
@@ -3062,6 +3304,17 @@ export module Convert {
             id: "",
             strokes: a(o("PaintElement")),
             preserveRatio: false,
+        },
+        "Comment": {
+            message: "",
+            created_at: "",
+            user: o("CommentUser"),
+            order_id: 3.14,
+            parent_id: "",
+            client_meta: o("ClientMeta"),
+            resolved_at: "",
+            id: "",
+            file_key: "",
         },
         "Group": {
             effects: a(o("EffectElement")),

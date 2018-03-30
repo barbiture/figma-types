@@ -8,20 +8,24 @@
 //
 // Then you can deserialize a JSON string with
 //
+//     FrameOffset data = Converter.FrameOffsetFromJsonString(jsonString);
 //     Vector data = Converter.VectorFromJsonString(jsonString);
 //     Color data = Converter.ColorFromJsonString(jsonString);
 //     ColorStop data = Converter.ColorStopFromJsonString(jsonString);
 //     LayoutConstraint data = Converter.LayoutConstraintFromJsonString(jsonString);
+//     User data = Converter.UserFromJsonString(jsonString);
 //     Text data = Converter.TextFromJsonString(jsonString);
 //     Frame data = Converter.FrameFromJsonString(jsonString);
 //     Rectangle data = Converter.RectangleFromJsonString(jsonString);
 //     LayoutGrid data = Converter.LayoutGridFromJsonString(jsonString);
+//     String[] data = Converter.StringFromJsonString(jsonString);
 //     Effect data = Converter.EffectFromJsonString(jsonString);
 //     Slice data = Converter.SliceFromJsonString(jsonString);
 //     Star data = Converter.StarFromJsonString(jsonString);
 //     Line data = Converter.LineFromJsonString(jsonString);
 //     BlendMode data = Converter.BlendModeFromJsonString(jsonString);
 //     Instance data = Converter.InstanceFromJsonString(jsonString);
+//     CommentsResponse data = Converter.CommentsResponseFromJsonString(jsonString);
 //     Vector2D data = Converter.Vector2DFromJsonString(jsonString);
 //     TypeStyle data = Converter.TypeStyleFromJsonString(jsonString);
 //     BooleanGroup data = Converter.BooleanGroupFromJsonString(jsonString);
@@ -35,6 +39,7 @@
 //     Paint data = Converter.PaintFromJsonString(jsonString);
 //     RegularPolygon data = Converter.RegularPolygonFromJsonString(jsonString);
 //     Ellipse data = Converter.EllipseFromJsonString(jsonString);
+//     Comment data = Converter.CommentFromJsonString(jsonString);
 //     Group data = Converter.GroupFromJsonString(jsonString);
 
 package io.quicktype;
@@ -46,6 +51,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 public class Converter {
     // Serialize/deserialize helpers
+
+    public static FrameOffset FrameOffsetFromJsonString(String json) throws IOException {
+        return getFrameOffsetObjectReader().readValue(json);
+    }
+
+    public static String FrameOffsetToJsonString(FrameOffset obj) throws JsonProcessingException {
+        return getFrameOffsetObjectWriter().writeValueAsString(obj);
+    }
 
     public static Vector VectorFromJsonString(String json) throws IOException {
         return getVectorObjectReader().readValue(json);
@@ -79,6 +92,14 @@ public class Converter {
         return getLayoutConstraintObjectWriter().writeValueAsString(obj);
     }
 
+    public static User UserFromJsonString(String json) throws IOException {
+        return getUserObjectReader().readValue(json);
+    }
+
+    public static String UserToJsonString(User obj) throws JsonProcessingException {
+        return getUserObjectWriter().writeValueAsString(obj);
+    }
+
     public static Text TextFromJsonString(String json) throws IOException {
         return getTextObjectReader().readValue(json);
     }
@@ -109,6 +130,14 @@ public class Converter {
 
     public static String LayoutGridToJsonString(LayoutGrid obj) throws JsonProcessingException {
         return getLayoutGridObjectWriter().writeValueAsString(obj);
+    }
+
+    public static String[] StringFromJsonString(String json) throws IOException {
+        return getStringObjectReader().readValue(json);
+    }
+
+    public static String StringToJsonString(String[] obj) throws JsonProcessingException {
+        return getStringObjectWriter().writeValueAsString(obj);
     }
 
     public static Effect EffectFromJsonString(String json) throws IOException {
@@ -157,6 +186,14 @@ public class Converter {
 
     public static String InstanceToJsonString(Instance obj) throws JsonProcessingException {
         return getInstanceObjectWriter().writeValueAsString(obj);
+    }
+
+    public static CommentsResponse CommentsResponseFromJsonString(String json) throws IOException {
+        return getCommentsResponseObjectReader().readValue(json);
+    }
+
+    public static String CommentsResponseToJsonString(CommentsResponse obj) throws JsonProcessingException {
+        return getCommentsResponseObjectWriter().writeValueAsString(obj);
     }
 
     public static Vector2D Vector2DFromJsonString(String json) throws IOException {
@@ -263,12 +300,39 @@ public class Converter {
         return getEllipseObjectWriter().writeValueAsString(obj);
     }
 
+    public static Comment CommentFromJsonString(String json) throws IOException {
+        return getCommentObjectReader().readValue(json);
+    }
+
+    public static String CommentToJsonString(Comment obj) throws JsonProcessingException {
+        return getCommentObjectWriter().writeValueAsString(obj);
+    }
+
     public static Group GroupFromJsonString(String json) throws IOException {
         return getGroupObjectReader().readValue(json);
     }
 
     public static String GroupToJsonString(Group obj) throws JsonProcessingException {
         return getGroupObjectWriter().writeValueAsString(obj);
+    }
+
+    private static ObjectReader FrameOffsetReader;
+    private static ObjectWriter FrameOffsetWriter;
+
+    private static void instantiateFrameOffsetMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        FrameOffsetReader = mapper.reader(FrameOffset.class);
+        FrameOffsetWriter = mapper.writerFor(FrameOffset.class);
+    }
+
+    private static ObjectReader getFrameOffsetObjectReader() {
+        if (FrameOffsetReader == null) instantiateMapper();
+        return FrameOffsetReader;
+    }
+
+    private static ObjectWriter getFrameOffsetObjectWriter() {
+        if (FrameOffsetWriter == null) instantiateMapper();
+        return FrameOffsetWriter;
     }
 
     private static ObjectReader VectorReader;
@@ -347,6 +411,25 @@ public class Converter {
         return LayoutConstraintWriter;
     }
 
+    private static ObjectReader UserReader;
+    private static ObjectWriter UserWriter;
+
+    private static void instantiateUserMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        UserReader = mapper.reader(User.class);
+        UserWriter = mapper.writerFor(User.class);
+    }
+
+    private static ObjectReader getUserObjectReader() {
+        if (UserReader == null) instantiateMapper();
+        return UserReader;
+    }
+
+    private static ObjectWriter getUserObjectWriter() {
+        if (UserWriter == null) instantiateMapper();
+        return UserWriter;
+    }
+
     private static ObjectReader TextReader;
     private static ObjectWriter TextWriter;
 
@@ -421,6 +504,25 @@ public class Converter {
     private static ObjectWriter getLayoutGridObjectWriter() {
         if (LayoutGridWriter == null) instantiateMapper();
         return LayoutGridWriter;
+    }
+
+    private static ObjectReader StringReader;
+    private static ObjectWriter StringWriter;
+
+    private static void instantiateStringMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        StringReader = mapper.reader(String[].class);
+        StringWriter = mapper.writerFor(String[].class);
+    }
+
+    private static ObjectReader getStringObjectReader() {
+        if (StringReader == null) instantiateMapper();
+        return StringReader;
+    }
+
+    private static ObjectWriter getStringObjectWriter() {
+        if (StringWriter == null) instantiateMapper();
+        return StringWriter;
     }
 
     private static ObjectReader EffectReader;
@@ -535,6 +637,25 @@ public class Converter {
     private static ObjectWriter getInstanceObjectWriter() {
         if (InstanceWriter == null) instantiateMapper();
         return InstanceWriter;
+    }
+
+    private static ObjectReader CommentsResponseReader;
+    private static ObjectWriter CommentsResponseWriter;
+
+    private static void instantiateCommentsResponseMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        CommentsResponseReader = mapper.reader(CommentsResponse.class);
+        CommentsResponseWriter = mapper.writerFor(CommentsResponse.class);
+    }
+
+    private static ObjectReader getCommentsResponseObjectReader() {
+        if (CommentsResponseReader == null) instantiateMapper();
+        return CommentsResponseReader;
+    }
+
+    private static ObjectWriter getCommentsResponseObjectWriter() {
+        if (CommentsResponseWriter == null) instantiateMapper();
+        return CommentsResponseWriter;
     }
 
     private static ObjectReader Vector2DReader;
@@ -782,6 +903,25 @@ public class Converter {
     private static ObjectWriter getEllipseObjectWriter() {
         if (EllipseWriter == null) instantiateMapper();
         return EllipseWriter;
+    }
+
+    private static ObjectReader CommentReader;
+    private static ObjectWriter CommentWriter;
+
+    private static void instantiateCommentMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        CommentReader = mapper.reader(Comment.class);
+        CommentWriter = mapper.writerFor(Comment.class);
+    }
+
+    private static ObjectReader getCommentObjectReader() {
+        if (CommentReader == null) instantiateMapper();
+        return CommentReader;
+    }
+
+    private static ObjectWriter getCommentObjectWriter() {
+        if (CommentWriter == null) instantiateMapper();
+        return CommentWriter;
     }
 
     private static ObjectReader GroupReader;

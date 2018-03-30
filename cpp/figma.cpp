@@ -5,20 +5,24 @@
 //
 //  Then include this file, and then do
 //
+//     FrameOffset data = nlohmann::json::parse(jsonString);
 //     Vector data = nlohmann::json::parse(jsonString);
 //     Color data = nlohmann::json::parse(jsonString);
 //     ColorStop data = nlohmann::json::parse(jsonString);
 //     LayoutConstraint data = nlohmann::json::parse(jsonString);
+//     User data = nlohmann::json::parse(jsonString);
 //     Text data = nlohmann::json::parse(jsonString);
 //     Frame data = nlohmann::json::parse(jsonString);
 //     Rectangle data = nlohmann::json::parse(jsonString);
 //     LayoutGrid data = nlohmann::json::parse(jsonString);
+//     String data = nlohmann::json::parse(jsonString);
 //     Effect data = nlohmann::json::parse(jsonString);
 //     Slice data = nlohmann::json::parse(jsonString);
 //     Star data = nlohmann::json::parse(jsonString);
 //     Line data = nlohmann::json::parse(jsonString);
 //     BlendMode data = nlohmann::json::parse(jsonString);
 //     Instance data = nlohmann::json::parse(jsonString);
+//     CommentsResponse data = nlohmann::json::parse(jsonString);
 //     Vector2D data = nlohmann::json::parse(jsonString);
 //     TypeStyle data = nlohmann::json::parse(jsonString);
 //     BooleanGroup data = nlohmann::json::parse(jsonString);
@@ -32,15 +36,55 @@
 //     Paint data = nlohmann::json::parse(jsonString);
 //     RegularPolygon data = nlohmann::json::parse(jsonString);
 //     Ellipse data = nlohmann::json::parse(jsonString);
+//     Comment data = nlohmann::json::parse(jsonString);
 //     Group data = nlohmann::json::parse(jsonString);
 
-#ifndef __QUICKTYPE_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_TEXT_FRAME_RECTANGLE_LAYOUTGRID_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_VECTOR2D_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_GROUP_HPP__
-#define __QUICKTYPE_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_TEXT_FRAME_RECTANGLE_LAYOUTGRID_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_VECTOR2D_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_GROUP_HPP__
+#ifndef __QUICKTYPE_FRAMEOFFSET_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_USER_TEXT_FRAME_RECTANGLE_LAYOUTGRID_STRING_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_COMMENTSRESPONSE_VECTOR2D_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_COMMENT_GROUP_HPP__
+#define __QUICKTYPE_FRAMEOFFSET_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_USER_TEXT_FRAME_RECTANGLE_LAYOUTGRID_STRING_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_COMMENTSRESPONSE_VECTOR2D_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_COMMENT_GROUP_HPP__
 
 #include "json.hpp"
 
 namespace quicktype {
     using nlohmann::json;
+
+    /**
+     * A 2d vector
+     *
+     * 2d vector offset within the frame.
+     *
+     * This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left
+     * corner of the bounding box of the object is (0, 0) and the bottom
+     * right is (1,1)). The first position corresponds to the start of the
+     * gradient (value 0 for the purposes of calculating gradient stops),
+     * the second position is the end of the gradient (value 1), and the
+     * third handle position determines the width of the gradient (only
+     * relevant for non-linear gradients).
+     */
+    struct Offset {
+        /**
+         * X coordinate of the vector
+         */
+        double x;
+        /**
+         * Y coordinate of the vector
+         */
+        double y;
+    };
+
+    /**
+     * A relative offset within a frame
+     */
+    struct FrameOffset {
+        /**
+         * Unique id specifying the frame.
+         */
+        std::vector<std::string> node_id;
+        /**
+         * 2d vector offset within the frame.
+         */
+        struct Offset node_offset;
+    };
 
     /**
      * How this node blends with nodes behind it in the scene
@@ -128,29 +172,6 @@ namespace quicktype {
          * Red channel value, between 0 and 1
          */
         double r;
-    };
-
-    /**
-     * A 2d vector
-     *
-     * This field contains three vectors, each of which are a position in
-     * normalized object space (normalized object space is if the top left
-     * corner of the bounding box of the object is (0, 0) and the bottom
-     * right is (1,1)). The first position corresponds to the start of the
-     * gradient (value 0 for the purposes of calculating gradient stops),
-     * the second position is the end of the gradient (value 1), and the
-     * third handle position determines the width of the gradient (only
-     * relevant for non-linear gradients).
-     */
-    struct Offset {
-        /**
-         * X coordinate of the vector
-         */
-        double x;
-        /**
-         * Y coordinate of the vector
-         */
-        double y;
     };
 
     /**
@@ -556,6 +577,14 @@ namespace quicktype {
          * "SCALE": Node scales vertically with containing frame
          */
         Vertical vertical;
+    };
+
+    /**
+     * A description of a user
+     */
+    struct User {
+        std::string handle;
+        std::string img_url;
     };
 
     /**
@@ -1466,6 +1495,106 @@ namespace quicktype {
 
     /**
      * A 2d vector
+     *
+     * 2d vector offset within the frame.
+     *
+     * This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left
+     * corner of the bounding box of the object is (0, 0) and the bottom
+     * right is (1,1)). The first position corresponds to the start of the
+     * gradient (value 0 for the purposes of calculating gradient stops),
+     * the second position is the end of the gradient (value 1), and the
+     * third handle position determines the width of the gradient (only
+     * relevant for non-linear gradients).
+     *
+     * A relative offset within a frame
+     */
+    struct ClientMeta {
+        /**
+         * X coordinate of the vector
+         */
+        std::unique_ptr<double> x;
+        /**
+         * Y coordinate of the vector
+         */
+        std::unique_ptr<double> y;
+        /**
+         * Unique id specifying the frame.
+         */
+        std::unique_ptr<std::vector<std::string>> node_id;
+        /**
+         * 2d vector offset within the frame.
+         */
+        std::unique_ptr<struct Offset> node_offset;
+    };
+
+    /**
+     * A description of a user
+     *
+     * The user who left the comment
+     */
+    struct CommentUser {
+        std::string handle;
+        std::string img_url;
+    };
+
+    /**
+     * A comment or reply left by a user
+     */
+    struct CommentElement {
+        /**
+         * (MISSING IN DOCS)
+         * The content of the comment
+         */
+        std::string message;
+        /**
+         * Enables basic storage and retrieval of dates and times.
+         */
+        std::string created_at;
+        /**
+         * The user who left the comment
+         */
+        struct CommentUser user;
+        /**
+         * Only set for top level comments. The number displayed with the
+         * comment in the UI
+         */
+        double order_id;
+        /**
+         * If present, the id of the comment to which this is the reply
+         */
+        std::string parent_id;
+        struct ClientMeta client_meta;
+        /**
+         * Enables basic storage and retrieval of dates and times.
+         */
+        std::string resolved_at;
+        /**
+         * Unique identifier for comment
+         */
+        std::string id;
+        /**
+         * The file in which the comment lives
+         */
+        std::string file_key;
+    };
+
+    /**
+     * GET /v1/files/:key/comments
+     *
+     * > Description
+     * A list of comments left on the file.
+     *
+     * > Path parameters
+     * key String
+     * File to get comments from
+     */
+    struct CommentsResponse {
+        std::vector<struct CommentElement> comments;
+    };
+
+    /**
+     * A 2d vector
      */
     struct Vector2D {
         /**
@@ -2146,6 +2275,47 @@ namespace quicktype {
     };
 
     /**
+     * A comment or reply left by a user
+     */
+    struct Comment {
+        /**
+         * (MISSING IN DOCS)
+         * The content of the comment
+         */
+        std::string message;
+        /**
+         * Enables basic storage and retrieval of dates and times.
+         */
+        std::string created_at;
+        /**
+         * The user who left the comment
+         */
+        struct CommentUser user;
+        /**
+         * Only set for top level comments. The number displayed with the
+         * comment in the UI
+         */
+        double order_id;
+        /**
+         * If present, the id of the comment to which this is the reply
+         */
+        std::string parent_id;
+        struct ClientMeta client_meta;
+        /**
+         * Enables basic storage and retrieval of dates and times.
+         */
+        std::string resolved_at;
+        /**
+         * Unique identifier for comment
+         */
+        std::string id;
+        /**
+         * The file in which the comment lives
+         */
+        std::string file_key;
+    };
+
+    /**
      * A logical grouping of nodes
      */
     struct Group {
@@ -2221,6 +2391,8 @@ namespace quicktype {
          */
         std::vector<struct DocumentElement> children;
     };
+
+    typedef std::vector<std::string> String;
     
     inline json get_untyped(const json &j, const char *property) {
         if (j.find(property) != j.end()) {
@@ -2255,6 +2427,28 @@ namespace nlohmann {
         }
     };
 
+    inline void from_json(const json& _j, struct quicktype::Offset& _x) {
+        _x.x = _j.at("x").get<double>();
+        _x.y = _j.at("y").get<double>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::Offset& _x) {
+        _j = json::object();
+        _j["x"] = _x.x;
+        _j["y"] = _x.y;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::FrameOffset& _x) {
+        _x.node_id = _j.at("node_id").get<std::vector<std::string>>();
+        _x.node_offset = _j.at("node_offset").get<struct quicktype::Offset>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::FrameOffset& _x) {
+        _j = json::object();
+        _j["node_id"] = _x.node_id;
+        _j["node_offset"] = _x.node_offset;
+    }
+
     inline void from_json(const json& _j, struct quicktype::Constraints& _x) {
         _x.horizontal = _j.at("horizontal").get<quicktype::Horizontal>();
         _x.vertical = _j.at("vertical").get<quicktype::Vertical>();
@@ -2279,17 +2473,6 @@ namespace nlohmann {
         _j["b"] = _x.b;
         _j["g"] = _x.g;
         _j["r"] = _x.r;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Offset& _x) {
-        _x.x = _j.at("x").get<double>();
-        _x.y = _j.at("y").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Offset& _x) {
-        _j = json::object();
-        _j["x"] = _x.x;
-        _j["y"] = _x.y;
     }
 
     inline void from_json(const json& _j, struct quicktype::EffectElement& _x) {
@@ -2486,6 +2669,17 @@ namespace nlohmann {
         _j = json::object();
         _j["horizontal"] = _x.horizontal;
         _j["vertical"] = _x.vertical;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::User& _x) {
+        _x.handle = _j.at("handle").get<std::string>();
+        _x.img_url = _j.at("img_url").get<std::string>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::User& _x) {
+        _j = json::object();
+        _j["handle"] = _x.handle;
+        _j["img_url"] = _x.img_url;
     }
 
     inline void from_json(const json& _j, struct quicktype::Tyle& _x) {
@@ -2920,6 +3114,66 @@ namespace nlohmann {
         _j["children"] = _x.children;
     }
 
+    inline void from_json(const json& _j, struct quicktype::ClientMeta& _x) {
+        _x.x = quicktype::get_optional<double>(_j, "x");
+        _x.y = quicktype::get_optional<double>(_j, "y");
+        _x.node_id = quicktype::get_optional<std::vector<std::string>>(_j, "node_id");
+        _x.node_offset = quicktype::get_optional<struct quicktype::Offset>(_j, "node_offset");
+    }
+
+    inline void to_json(json& _j, const struct quicktype::ClientMeta& _x) {
+        _j = json::object();
+        _j["x"] = _x.x;
+        _j["y"] = _x.y;
+        _j["node_id"] = _x.node_id;
+        _j["node_offset"] = _x.node_offset;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::CommentUser& _x) {
+        _x.handle = _j.at("handle").get<std::string>();
+        _x.img_url = _j.at("img_url").get<std::string>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::CommentUser& _x) {
+        _j = json::object();
+        _j["handle"] = _x.handle;
+        _j["img_url"] = _x.img_url;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::CommentElement& _x) {
+        _x.message = _j.at("message").get<std::string>();
+        _x.created_at = _j.at("created_at").get<std::string>();
+        _x.user = _j.at("user").get<struct quicktype::CommentUser>();
+        _x.order_id = _j.at("order_id").get<double>();
+        _x.parent_id = _j.at("parent_id").get<std::string>();
+        _x.client_meta = _j.at("client_meta").get<struct quicktype::ClientMeta>();
+        _x.resolved_at = _j.at("resolved_at").get<std::string>();
+        _x.id = _j.at("id").get<std::string>();
+        _x.file_key = _j.at("file_key").get<std::string>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::CommentElement& _x) {
+        _j = json::object();
+        _j["message"] = _x.message;
+        _j["created_at"] = _x.created_at;
+        _j["user"] = _x.user;
+        _j["order_id"] = _x.order_id;
+        _j["parent_id"] = _x.parent_id;
+        _j["client_meta"] = _x.client_meta;
+        _j["resolved_at"] = _x.resolved_at;
+        _j["id"] = _x.id;
+        _j["file_key"] = _x.file_key;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::CommentsResponse& _x) {
+        _x.comments = _j.at("comments").get<std::vector<struct quicktype::CommentElement>>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::CommentsResponse& _x) {
+        _j = json::object();
+        _j["comments"] = _x.comments;
+    }
+
     inline void from_json(const json& _j, struct quicktype::Vector2D& _x) {
         _x.x = _j.at("x").get<double>();
         _x.y = _j.at("y").get<double>();
@@ -3278,6 +3532,31 @@ namespace nlohmann {
         _j["id"] = _x.id;
         _j["strokes"] = _x.strokes;
         _j["preserveRatio"] = _x.preserve_ratio;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::Comment& _x) {
+        _x.message = _j.at("message").get<std::string>();
+        _x.created_at = _j.at("created_at").get<std::string>();
+        _x.user = _j.at("user").get<struct quicktype::CommentUser>();
+        _x.order_id = _j.at("order_id").get<double>();
+        _x.parent_id = _j.at("parent_id").get<std::string>();
+        _x.client_meta = _j.at("client_meta").get<struct quicktype::ClientMeta>();
+        _x.resolved_at = _j.at("resolved_at").get<std::string>();
+        _x.id = _j.at("id").get<std::string>();
+        _x.file_key = _j.at("file_key").get<std::string>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::Comment& _x) {
+        _j = json::object();
+        _j["message"] = _x.message;
+        _j["created_at"] = _x.created_at;
+        _j["user"] = _x.user;
+        _j["order_id"] = _x.order_id;
+        _j["parent_id"] = _x.parent_id;
+        _j["client_meta"] = _x.client_meta;
+        _j["resolved_at"] = _x.resolved_at;
+        _j["id"] = _x.id;
+        _j["file_key"] = _x.file_key;
     }
 
     inline void from_json(const json& _j, struct quicktype::Group& _x) {

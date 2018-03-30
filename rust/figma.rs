@@ -4,15 +4,52 @@
 // extern crate serde_derive;
 // extern crate serde_json;
 //
-// use generated_module::Vector;
+// use generated_module::FrameOffset;
 //
 // fn main() {
 //     let json = r#"{"answer": 42}"#;
-//     let model: Vector = serde_json::from_str(&json).unwrap();
+//     let model: FrameOffset = serde_json::from_str(&json).unwrap();
 // }
 
 extern crate serde_json;
 use std::collections::HashMap;
+
+pub type String = Vec<String>;
+
+/// A relative offset within a frame
+#[derive(Serialize, Deserialize)]
+pub struct FrameOffset {
+    /// Unique id specifying the frame.
+    #[serde(rename = "node_id")]
+    node_id: Vec<String>,
+
+    /// 2d vector offset within the frame.
+    #[serde(rename = "node_offset")]
+    node_offset: Offset,
+}
+
+/// A 2d vector
+///
+/// 2d vector offset within the frame.
+///
+/// This field contains three vectors, each of which are a position in
+/// normalized object space (normalized object space is if the top left
+/// corner of the bounding box of the object is (0, 0) and the bottom
+/// right is (1,1)). The first position corresponds to the start of the
+/// gradient (value 0 for the purposes of calculating gradient stops),
+/// the second position is the end of the gradient (value 1), and the
+/// third handle position determines the width of the gradient (only
+/// relevant for non-linear gradients).
+#[derive(Serialize, Deserialize)]
+pub struct Offset {
+    /// X coordinate of the vector
+    #[serde(rename = "x")]
+    x: f64,
+
+    /// Y coordinate of the vector
+    #[serde(rename = "y")]
+    y: f64,
+}
 
 /// A vector network, consisting of vertices and edges
 #[derive(Serialize, Deserialize)]
@@ -266,27 +303,6 @@ pub struct Olor {
     r: f64,
 }
 
-/// A 2d vector
-///
-/// This field contains three vectors, each of which are a position in
-/// normalized object space (normalized object space is if the top left
-/// corner of the bounding box of the object is (0, 0) and the bottom
-/// right is (1,1)). The first position corresponds to the start of the
-/// gradient (value 0 for the purposes of calculating gradient stops),
-/// the second position is the end of the gradient (value 1), and the
-/// third handle position determines the width of the gradient (only
-/// relevant for non-linear gradients).
-#[derive(Serialize, Deserialize)]
-pub struct Offset {
-    /// X coordinate of the vector
-    #[serde(rename = "x")]
-    x: f64,
-
-    /// Y coordinate of the vector
-    #[serde(rename = "y")]
-    y: f64,
-}
-
 /// Format and size to export an asset at
 ///
 /// An array of export settings representing images to export from node
@@ -444,6 +460,16 @@ pub struct LayoutConstraint {
     /// "SCALE": Node scales vertically with containing frame
     #[serde(rename = "vertical")]
     vertical: Vertical,
+}
+
+/// A description of a user
+#[derive(Serialize, Deserialize)]
+pub struct User {
+    #[serde(rename = "handle")]
+    handle: String,
+
+    #[serde(rename = "img_url")]
+    img_url: String,
 }
 
 /// A text box
@@ -1308,6 +1334,106 @@ pub struct Instance {
     children: Vec<DocumentElement>,
 }
 
+/// GET /v1/files/:key/comments
+///
+/// > Description
+/// A list of comments left on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
+#[derive(Serialize, Deserialize)]
+pub struct CommentsResponse {
+    #[serde(rename = "comments")]
+    comments: Vec<CommentElement>,
+}
+
+/// A comment or reply left by a user
+#[derive(Serialize, Deserialize)]
+pub struct CommentElement {
+    /// (MISSING IN DOCS)
+    /// The content of the comment
+    #[serde(rename = "message")]
+    message: String,
+
+    /// Enables basic storage and retrieval of dates and times.
+    #[serde(rename = "created_at")]
+    created_at: String,
+
+    /// The user who left the comment
+    #[serde(rename = "user")]
+    user: CommentUser,
+
+    /// Only set for top level comments. The number displayed with the
+    /// comment in the UI
+    #[serde(rename = "order_id")]
+    order_id: f64,
+
+    /// If present, the id of the comment to which this is the reply
+    #[serde(rename = "parent_id")]
+    parent_id: String,
+
+    #[serde(rename = "client_meta")]
+    client_meta: ClientMeta,
+
+    /// Enables basic storage and retrieval of dates and times.
+    #[serde(rename = "resolved_at")]
+    resolved_at: String,
+
+    /// Unique identifier for comment
+    #[serde(rename = "id")]
+    id: String,
+
+    /// The file in which the comment lives
+    #[serde(rename = "file_key")]
+    file_key: String,
+}
+
+/// A 2d vector
+///
+/// 2d vector offset within the frame.
+///
+/// This field contains three vectors, each of which are a position in
+/// normalized object space (normalized object space is if the top left
+/// corner of the bounding box of the object is (0, 0) and the bottom
+/// right is (1,1)). The first position corresponds to the start of the
+/// gradient (value 0 for the purposes of calculating gradient stops),
+/// the second position is the end of the gradient (value 1), and the
+/// third handle position determines the width of the gradient (only
+/// relevant for non-linear gradients).
+///
+/// A relative offset within a frame
+#[derive(Serialize, Deserialize)]
+pub struct ClientMeta {
+    /// X coordinate of the vector
+    #[serde(rename = "x")]
+    x: Option<f64>,
+
+    /// Y coordinate of the vector
+    #[serde(rename = "y")]
+    y: Option<f64>,
+
+    /// Unique id specifying the frame.
+    #[serde(rename = "node_id")]
+    node_id: Option<Vec<String>>,
+
+    /// 2d vector offset within the frame.
+    #[serde(rename = "node_offset")]
+    node_offset: Option<Offset>,
+}
+
+/// A description of a user
+///
+/// The user who left the comment
+#[derive(Serialize, Deserialize)]
+pub struct CommentUser {
+    #[serde(rename = "handle")]
+    handle: String,
+
+    #[serde(rename = "img_url")]
+    img_url: String,
+}
+
 /// A 2d vector
 #[derive(Serialize, Deserialize)]
 pub struct Vector2D {
@@ -1961,6 +2087,47 @@ pub struct Ellipse {
     /// Keep height and width constrained to same ratio
     #[serde(rename = "preserveRatio")]
     preserve_ratio: bool,
+}
+
+/// A comment or reply left by a user
+#[derive(Serialize, Deserialize)]
+pub struct Comment {
+    /// (MISSING IN DOCS)
+    /// The content of the comment
+    #[serde(rename = "message")]
+    message: String,
+
+    /// Enables basic storage and retrieval of dates and times.
+    #[serde(rename = "created_at")]
+    created_at: String,
+
+    /// The user who left the comment
+    #[serde(rename = "user")]
+    user: CommentUser,
+
+    /// Only set for top level comments. The number displayed with the
+    /// comment in the UI
+    #[serde(rename = "order_id")]
+    order_id: f64,
+
+    /// If present, the id of the comment to which this is the reply
+    #[serde(rename = "parent_id")]
+    parent_id: String,
+
+    #[serde(rename = "client_meta")]
+    client_meta: ClientMeta,
+
+    /// Enables basic storage and retrieval of dates and times.
+    #[serde(rename = "resolved_at")]
+    resolved_at: String,
+
+    /// Unique identifier for comment
+    #[serde(rename = "id")]
+    id: String,
+
+    /// The file in which the comment lives
+    #[serde(rename = "file_key")]
+    file_key: String,
 }
 
 /// A logical grouping of nodes

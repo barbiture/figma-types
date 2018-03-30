@@ -5,24 +5,28 @@
 -- add these imports
 --
 --     import Json.Decode exposing (decodeString)`);
---     import QuickType exposing (vector, color, colorStop, layoutConstraint, text, frame, rectangle, layoutGrid, effect, slice, star, line, blendMode, instance, vector2D, typeStyle, booleanGroup, canvas, document, nodeType, exportSetting, component, fileResponse, constraint, paint, regularPolygon, ellipse, group)
+--     import QuickType exposing (frameOffset, vector, color, colorStop, layoutConstraint, user, text, frame, rectangle, layoutGrid, purpleString, effect, slice, star, line, blendMode, instance, commentsResponse, vector2D, typeStyle, booleanGroup, canvas, document, nodeType, exportSetting, component, fileResponse, constraint, paint, regularPolygon, ellipse, comment, group)
 --
 -- and you're off to the races with
 --
+--     decodeString frameOffset myJsonString
 --     decodeString vector myJsonString
 --     decodeString color myJsonString
 --     decodeString colorStop myJsonString
 --     decodeString layoutConstraint myJsonString
+--     decodeString user myJsonString
 --     decodeString text myJsonString
 --     decodeString frame myJsonString
 --     decodeString rectangle myJsonString
 --     decodeString layoutGrid myJsonString
+--     decodeString purpleString myJsonString
 --     decodeString effect myJsonString
 --     decodeString slice myJsonString
 --     decodeString star myJsonString
 --     decodeString line myJsonString
 --     decodeString blendMode myJsonString
 --     decodeString instance myJsonString
+--     decodeString commentsResponse myJsonString
 --     decodeString vector2D myJsonString
 --     decodeString typeStyle myJsonString
 --     decodeString booleanGroup myJsonString
@@ -36,10 +40,14 @@
 --     decodeString paint myJsonString
 --     decodeString regularPolygon myJsonString
 --     decodeString ellipse myJsonString
+--     decodeString comment myJsonString
 --     decodeString group myJsonString
 
 module QuickType exposing
-    ( Vector
+    ( FrameOffset
+    , frameOffsetToString
+    , frameOffset
+    , Vector
     , vectorToString
     , vector
     , Color
@@ -51,6 +59,9 @@ module QuickType exposing
     , LayoutConstraint
     , layoutConstraintToString
     , layoutConstraint
+    , User
+    , userToString
+    , user
     , Text
     , textToString
     , text
@@ -63,6 +74,9 @@ module QuickType exposing
     , LayoutGrid
     , layoutGridToString
     , layoutGrid
+    , String
+    , stringToString
+    , purpleString
     , Effect
     , effectToString
     , effect
@@ -81,6 +95,9 @@ module QuickType exposing
     , Instance
     , instanceToString
     , instance
+    , CommentsResponse
+    , commentsResponseToString
+    , commentsResponse
     , Vector2D
     , vector2DToString
     , vector2D
@@ -120,14 +137,17 @@ module QuickType exposing
     , Ellipse
     , ellipseToString
     , ellipse
+    , Comment
+    , commentToString
+    , comment
     , Group
     , groupToString
     , group
+    , Offset
     , AbsoluteBoundingBox
     , Constraints
     , EffectElement
     , Olor
-    , Offset
     , ExportSettingElement
     , ExportSettingConstraint
     , PaintElement
@@ -135,6 +155,9 @@ module QuickType exposing
     , Tyle
     , DocumentElement
     , LayoutGridElement
+    , CommentElement
+    , ClientMeta
+    , CommentUser
     , ComponentValue
     , Ocument
     , Horizontal(..)
@@ -155,6 +178,45 @@ import Json.Decode.Pipeline as Jpipe
 import Json.Encode as Jenc
 import Dict exposing (Dict, map, toList)
 import Array exposing (Array, map)
+
+type alias String = Array String
+
+{-| A relative offset within a frame
+
+nodeID:
+Unique id specifying the frame.
+
+nodeOffset:
+2d vector offset within the frame.
+-}
+type alias FrameOffset =
+    { nodeID : Array String
+    , nodeOffset : Offset
+    }
+
+{-| A 2d vector
+
+2d vector offset within the frame.
+
+This field contains three vectors, each of which are a position in
+normalized object space (normalized object space is if the top left
+corner of the bounding box of the object is (0, 0) and the bottom
+right is (1,1)). The first position corresponds to the start of the
+gradient (value 0 for the purposes of calculating gradient stops),
+the second position is the end of the gradient (value 1), and the
+third handle position determines the width of the gradient (only
+relevant for non-linear gradients).
+
+x:
+X coordinate of the vector
+
+y:
+Y coordinate of the vector
+-}
+type alias Offset =
+    { x : Float
+    , y : Float
+    }
 
 {-| A vector network, consisting of vertices and edges
 
@@ -486,28 +548,6 @@ type EffectType
     | InnerShadow
     | LayerBlur
 
-{-| A 2d vector
-
-This field contains three vectors, each of which are a position in
-normalized object space (normalized object space is if the top left
-corner of the bounding box of the object is (0, 0) and the bottom
-right is (1,1)). The first position corresponds to the start of the
-gradient (value 0 for the purposes of calculating gradient stops),
-the second position is the end of the gradient (value 1), and the
-third handle position determines the width of the gradient (only
-relevant for non-linear gradients).
-
-x:
-X coordinate of the vector
-
-y:
-Y coordinate of the vector
--}
-type alias Offset =
-    { x : Float
-    , y : Float
-    }
-
 {-| Format and size to export an asset at
 
 An array of export settings representing images to export from node
@@ -708,6 +748,12 @@ Vertical constraint as an enum
 type alias LayoutConstraint =
     { horizontal : Horizontal
     , vertical : Vertical
+    }
+
+{-| A description of a user -}
+type alias User =
+    { handle : String
+    , imgURL : String
     }
 
 {-| A text box
@@ -1611,6 +1657,102 @@ type alias Instance =
     , children : Array DocumentElement
     }
 
+{-| GET /v1/files/:key/comments
+
+> Description
+A list of comments left on the file.
+
+> Path parameters
+key String
+File to get comments from
+-}
+type alias CommentsResponse =
+    { comments : Array CommentElement
+    }
+
+{-| A comment or reply left by a user
+
+message:
+(MISSING IN DOCS)
+The content of the comment
+
+createdAt:
+Enables basic storage and retrieval of dates and times.
+
+user:
+The user who left the comment
+
+orderID:
+Only set for top level comments. The number displayed with the
+comment in the UI
+
+parentID:
+If present, the id of the comment to which this is the reply
+
+resolvedAt:
+Enables basic storage and retrieval of dates and times.
+
+id:
+Unique identifier for comment
+
+fileKey:
+The file in which the comment lives
+-}
+type alias CommentElement =
+    { message : String
+    , createdAt : String
+    , user : CommentUser
+    , orderID : Float
+    , parentID : String
+    , clientMeta : ClientMeta
+    , resolvedAt : String
+    , id : String
+    , fileKey : String
+    }
+
+{-| A 2d vector
+
+2d vector offset within the frame.
+
+This field contains three vectors, each of which are a position in
+normalized object space (normalized object space is if the top left
+corner of the bounding box of the object is (0, 0) and the bottom
+right is (1,1)). The first position corresponds to the start of the
+gradient (value 0 for the purposes of calculating gradient stops),
+the second position is the end of the gradient (value 1), and the
+third handle position determines the width of the gradient (only
+relevant for non-linear gradients).
+
+A relative offset within a frame
+
+x:
+X coordinate of the vector
+
+y:
+Y coordinate of the vector
+
+nodeID:
+Unique id specifying the frame.
+
+nodeOffset:
+2d vector offset within the frame.
+-}
+type alias ClientMeta =
+    { x : Maybe Float
+    , y : Maybe Float
+    , nodeID : Maybe (Array String)
+    , nodeOffset : Maybe Offset
+    }
+
+{-| A description of a user
+
+The user who left the comment
+-}
+type alias CommentUser =
+    { handle : String
+    , imgURL : String
+    }
+
 {-| A 2d vector
 
 x:
@@ -2278,6 +2420,46 @@ type alias Ellipse =
     , preserveRatio : Bool
     }
 
+{-| A comment or reply left by a user
+
+message:
+(MISSING IN DOCS)
+The content of the comment
+
+createdAt:
+Enables basic storage and retrieval of dates and times.
+
+user:
+The user who left the comment
+
+orderID:
+Only set for top level comments. The number displayed with the
+comment in the UI
+
+parentID:
+If present, the id of the comment to which this is the reply
+
+resolvedAt:
+Enables basic storage and retrieval of dates and times.
+
+id:
+Unique identifier for comment
+
+fileKey:
+The file in which the comment lives
+-}
+type alias Comment =
+    { message : String
+    , createdAt : String
+    , user : CommentUser
+    , orderID : Float
+    , parentID : String
+    , clientMeta : ClientMeta
+    , resolvedAt : String
+    , id : String
+    , fileKey : String
+    }
+
 {-| A logical grouping of nodes
 
 effects:
@@ -2356,6 +2538,9 @@ type alias Group =
 
 -- decoders and encoders
 
+frameOffsetToString : FrameOffset -> String
+frameOffsetToString r = Jenc.encode 0 (encodeFrameOffset r)
+
 vectorToString : Vector -> String
 vectorToString r = Jenc.encode 0 (encodeVector r)
 
@@ -2368,6 +2553,9 @@ colorStopToString r = Jenc.encode 0 (encodeColorStop r)
 layoutConstraintToString : LayoutConstraint -> String
 layoutConstraintToString r = Jenc.encode 0 (encodeLayoutConstraint r)
 
+userToString : User -> String
+userToString r = Jenc.encode 0 (encodeUser r)
+
 textToString : Text -> String
 textToString r = Jenc.encode 0 (encodeText r)
 
@@ -2379,6 +2567,12 @@ rectangleToString r = Jenc.encode 0 (encodeRectangle r)
 
 layoutGridToString : LayoutGrid -> String
 layoutGridToString r = Jenc.encode 0 (encodeLayoutGrid r)
+
+purpleString : Jdec.Decoder String
+purpleString = Jdec.array Jdec.string
+
+stringToString : String -> String
+stringToString r = Jenc.encode 0 (makeArrayEncoder Jenc.string r)
 
 effectToString : Effect -> String
 effectToString r = Jenc.encode 0 (encodeEffect r)
@@ -2397,6 +2591,9 @@ blendModeToString r = Jenc.encode 0 (encodeBlendMode r)
 
 instanceToString : Instance -> String
 instanceToString r = Jenc.encode 0 (encodeInstance r)
+
+commentsResponseToString : CommentsResponse -> String
+commentsResponseToString r = Jenc.encode 0 (encodeCommentsResponse r)
 
 vector2DToString : Vector2D -> String
 vector2DToString r = Jenc.encode 0 (encodeVector2D r)
@@ -2437,8 +2634,37 @@ regularPolygonToString r = Jenc.encode 0 (encodeRegularPolygon r)
 ellipseToString : Ellipse -> String
 ellipseToString r = Jenc.encode 0 (encodeEllipse r)
 
+commentToString : Comment -> String
+commentToString r = Jenc.encode 0 (encodeComment r)
+
 groupToString : Group -> String
 groupToString r = Jenc.encode 0 (encodeGroup r)
+
+frameOffset : Jdec.Decoder FrameOffset
+frameOffset =
+    Jpipe.decode FrameOffset
+        |> Jpipe.required "node_id" (Jdec.array Jdec.string)
+        |> Jpipe.required "node_offset" offset
+
+encodeFrameOffset : FrameOffset -> Jenc.Value
+encodeFrameOffset x =
+    Jenc.object
+        [ ("node_id", makeArrayEncoder Jenc.string x.nodeID)
+        , ("node_offset", encodeOffset x.nodeOffset)
+        ]
+
+offset : Jdec.Decoder Offset
+offset =
+    Jpipe.decode Offset
+        |> Jpipe.required "x" Jdec.float
+        |> Jpipe.required "y" Jdec.float
+
+encodeOffset : Offset -> Jenc.Value
+encodeOffset x =
+    Jenc.object
+        [ ("x", Jenc.float x.x)
+        , ("y", Jenc.float x.y)
+        ]
 
 vector : Jdec.Decoder Vector
 vector =
@@ -2730,19 +2956,6 @@ encodeEffectType x = case x of
     InnerShadow -> Jenc.string "INNER_SHADOW"
     LayerBlur -> Jenc.string "LAYER_BLUR"
 
-offset : Jdec.Decoder Offset
-offset =
-    Jpipe.decode Offset
-        |> Jpipe.required "x" Jdec.float
-        |> Jpipe.required "y" Jdec.float
-
-encodeOffset : Offset -> Jenc.Value
-encodeOffset x =
-    Jenc.object
-        [ ("x", Jenc.float x.x)
-        , ("y", Jenc.float x.y)
-        ]
-
 exportSettingElement : Jdec.Decoder ExportSettingElement
 exportSettingElement =
     Jpipe.decode ExportSettingElement
@@ -2924,6 +3137,19 @@ encodeLayoutConstraint x =
     Jenc.object
         [ ("horizontal", encodeHorizontal x.horizontal)
         , ("vertical", encodeVertical x.vertical)
+        ]
+
+user : Jdec.Decoder User
+user =
+    Jpipe.decode User
+        |> Jpipe.required "handle" Jdec.string
+        |> Jpipe.required "img_url" Jdec.string
+
+encodeUser : User -> Jenc.Value
+encodeUser x =
+    Jenc.object
+        [ ("handle", Jenc.string x.handle)
+        , ("img_url", Jenc.string x.imgURL)
         ]
 
 text : Jdec.Decoder Text
@@ -3452,6 +3678,74 @@ encodeInstance x =
         , ("children", makeArrayEncoder encodeDocumentElement x.children)
         ]
 
+commentsResponse : Jdec.Decoder CommentsResponse
+commentsResponse =
+    Jpipe.decode CommentsResponse
+        |> Jpipe.required "comments" (Jdec.array commentElement)
+
+encodeCommentsResponse : CommentsResponse -> Jenc.Value
+encodeCommentsResponse x =
+    Jenc.object
+        [ ("comments", makeArrayEncoder encodeCommentElement x.comments)
+        ]
+
+commentElement : Jdec.Decoder CommentElement
+commentElement =
+    Jpipe.decode CommentElement
+        |> Jpipe.required "message" Jdec.string
+        |> Jpipe.required "created_at" Jdec.string
+        |> Jpipe.required "user" commentUser
+        |> Jpipe.required "order_id" Jdec.float
+        |> Jpipe.required "parent_id" Jdec.string
+        |> Jpipe.required "client_meta" clientMeta
+        |> Jpipe.required "resolved_at" Jdec.string
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "file_key" Jdec.string
+
+encodeCommentElement : CommentElement -> Jenc.Value
+encodeCommentElement x =
+    Jenc.object
+        [ ("message", Jenc.string x.message)
+        , ("created_at", Jenc.string x.createdAt)
+        , ("user", encodeCommentUser x.user)
+        , ("order_id", Jenc.float x.orderID)
+        , ("parent_id", Jenc.string x.parentID)
+        , ("client_meta", encodeClientMeta x.clientMeta)
+        , ("resolved_at", Jenc.string x.resolvedAt)
+        , ("id", Jenc.string x.id)
+        , ("file_key", Jenc.string x.fileKey)
+        ]
+
+clientMeta : Jdec.Decoder ClientMeta
+clientMeta =
+    Jpipe.decode ClientMeta
+        |> Jpipe.optional "x" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "y" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.optional "node_id" (Jdec.nullable (Jdec.array Jdec.string)) Nothing
+        |> Jpipe.optional "node_offset" (Jdec.nullable offset) Nothing
+
+encodeClientMeta : ClientMeta -> Jenc.Value
+encodeClientMeta x =
+    Jenc.object
+        [ ("x", makeNullableEncoder Jenc.float x.x)
+        , ("y", makeNullableEncoder Jenc.float x.y)
+        , ("node_id", makeNullableEncoder (makeArrayEncoder Jenc.string) x.nodeID)
+        , ("node_offset", makeNullableEncoder encodeOffset x.nodeOffset)
+        ]
+
+commentUser : Jdec.Decoder CommentUser
+commentUser =
+    Jpipe.decode CommentUser
+        |> Jpipe.required "handle" Jdec.string
+        |> Jpipe.required "img_url" Jdec.string
+
+encodeCommentUser : CommentUser -> Jenc.Value
+encodeCommentUser x =
+    Jenc.object
+        [ ("handle", Jenc.string x.handle)
+        , ("img_url", Jenc.string x.imgURL)
+        ]
+
 vector2D : Jdec.Decoder Vector2D
 vector2D =
     Jpipe.decode Vector2D
@@ -3838,6 +4132,33 @@ encodeEllipse x =
         , ("id", Jenc.string x.id)
         , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
         , ("preserveRatio", Jenc.bool x.preserveRatio)
+        ]
+
+comment : Jdec.Decoder Comment
+comment =
+    Jpipe.decode Comment
+        |> Jpipe.required "message" Jdec.string
+        |> Jpipe.required "created_at" Jdec.string
+        |> Jpipe.required "user" commentUser
+        |> Jpipe.required "order_id" Jdec.float
+        |> Jpipe.required "parent_id" Jdec.string
+        |> Jpipe.required "client_meta" clientMeta
+        |> Jpipe.required "resolved_at" Jdec.string
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "file_key" Jdec.string
+
+encodeComment : Comment -> Jenc.Value
+encodeComment x =
+    Jenc.object
+        [ ("message", Jenc.string x.message)
+        , ("created_at", Jenc.string x.createdAt)
+        , ("user", encodeCommentUser x.user)
+        , ("order_id", Jenc.float x.orderID)
+        , ("parent_id", Jenc.string x.parentID)
+        , ("client_meta", encodeClientMeta x.clientMeta)
+        , ("resolved_at", Jenc.string x.resolvedAt)
+        , ("id", Jenc.string x.id)
+        , ("file_key", Jenc.string x.fileKey)
         ]
 
 group : Jdec.Decoder Group
