@@ -1,9 +1,6 @@
 # Figma Platform Types
 
-```shell
-$ npm install
-$ npm run quicktype
-```
+Figma Platform types and JSON marshaling code in C#, Go, Rust, C++, Objective-C, Java, TypeScript, JavaScript, Flow, Swift, Elm, and Ruby.
 
 ## Type Definitions
 
@@ -91,4 +88,11 @@ pub struct Color {
     #[serde(rename = "r")]
     r: f64,
 }
+```
+
+## Development
+
+```shell
+$ npm install
+$ npm run quicktype
 ```
