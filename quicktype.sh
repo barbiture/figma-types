@@ -11,7 +11,7 @@ $QUICKTYPE -o csharp/Figma.cs
 $QUICKTYPE -o go/figma.go
 $QUICKTYPE -o rust/figma.rs
 $QUICKTYPE -o cpp/figma.cpp
-$QUICKTYPE -o objective-c/FGFigma.m
+#$QUICKTYPE -o objective-c/FGFigma.m
 $QUICKTYPE -o java/Figma.java
 $QUICKTYPE -o typescript/figma.ts
 $QUICKTYPE -o javascript/figma.js
