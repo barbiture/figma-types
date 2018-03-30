@@ -7,25 +7,25 @@ import com.fasterxml.jackson.annotation.*;
  * Metadata for character formatting
  */
 public class TypeStyle {
-    private Double lineHeightPx;
+    private double lineHeightPx;
     private String fontPostScriptName;
-    private Double fontWeight;
-    private Double lineHeightPercent;
+    private double fontWeight;
+    private double lineHeightPercent;
     private TextAlignVertical textAlignVertical;
-    private Double fontSize;
-    private Boolean italic;
+    private double fontSize;
+    private boolean italic;
     private PaintElement[] fills;
     private String fontFamily;
     private TextAlignHorizontal textAlignHorizontal;
-    private Double letterSpacing;
+    private double letterSpacing;
 
     /**
      * Line height in px
      */
     @JsonProperty("lineHeightPx")
-    public Double getLineHeightPx() { return lineHeightPx; }
+    public double getLineHeightPx() { return lineHeightPx; }
     @JsonProperty("lineHeightPx")
-    public void setLineHeightPx(Double value) { this.lineHeightPx = value; }
+    public void setLineHeightPx(double value) { this.lineHeightPx = value; }
 
     /**
      * PostScript font name
@@ -39,17 +39,17 @@ public class TypeStyle {
      * Numeric font weight
      */
     @JsonProperty("fontWeight")
-    public Double getFontWeight() { return fontWeight; }
+    public double getFontWeight() { return fontWeight; }
     @JsonProperty("fontWeight")
-    public void setFontWeight(Double value) { this.fontWeight = value; }
+    public void setFontWeight(double value) { this.fontWeight = value; }
 
     /**
      * Line height as a percentage of normal line height
      */
     @JsonProperty("lineHeightPercent")
-    public Double getLineHeightPercent() { return lineHeightPercent; }
+    public double getLineHeightPercent() { return lineHeightPercent; }
     @JsonProperty("lineHeightPercent")
-    public void setLineHeightPercent(Double value) { this.lineHeightPercent = value; }
+    public void setLineHeightPercent(double value) { this.lineHeightPercent = value; }
 
     /**
      * Vertical text alignment as string enum
@@ -63,17 +63,17 @@ public class TypeStyle {
      * Font size in px
      */
     @JsonProperty("fontSize")
-    public Double getFontSize() { return fontSize; }
+    public double getFontSize() { return fontSize; }
     @JsonProperty("fontSize")
-    public void setFontSize(Double value) { this.fontSize = value; }
+    public void setFontSize(double value) { this.fontSize = value; }
 
     /**
      * Is text italicized?
      */
     @JsonProperty("italic")
-    public Boolean getItalic() { return italic; }
+    public boolean getItalic() { return italic; }
     @JsonProperty("italic")
-    public void setItalic(Boolean value) { this.italic = value; }
+    public void setItalic(boolean value) { this.italic = value; }
 
     /**
      * Paints applied to characters
@@ -103,7 +103,7 @@ public class TypeStyle {
      * Space between characters in px
      */
     @JsonProperty("letterSpacing")
-    public Double getLetterSpacing() { return letterSpacing; }
+    public double getLetterSpacing() { return letterSpacing; }
     @JsonProperty("letterSpacing")
-    public void setLetterSpacing(Double value) { this.letterSpacing = value; }
+    public void setLetterSpacing(double value) { this.letterSpacing = value; }
 }

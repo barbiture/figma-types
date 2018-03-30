@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.*;
 public class FileResponse {
     private Map<String, ComponentValue> components;
     private Ocument document;
-    private Double schemaVersion;
+    private double schemaVersion;
 
     /**
      * A mapping from node IDs to component metadata. This is to help you determine which
@@ -46,7 +46,7 @@ public class FileResponse {
     public void setDocument(Ocument value) { this.document = value; }
 
     @JsonProperty("schemaVersion")
-    public Double getSchemaVersion() { return schemaVersion; }
+    public double getSchemaVersion() { return schemaVersion; }
     @JsonProperty("schemaVersion")
-    public void setSchemaVersion(Double value) { this.schemaVersion = value; }
+    public void setSchemaVersion(double value) { this.schemaVersion = value; }
 }

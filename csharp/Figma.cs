@@ -57,7 +57,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -72,13 +72,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -102,14 +102,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -121,7 +121,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -133,7 +133,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -151,7 +151,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
     }
 
     /// <summary>
@@ -180,13 +180,13 @@ namespace QuickType
         /// Radius of each corner of the rectangle
         /// </summary>
         [JsonProperty("cornerRadius")]
-        public double? CornerRadius { get; set; }
+        public double CornerRadius { get; set; }
 
         /// <summary>
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -201,13 +201,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -231,14 +231,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -250,7 +250,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -262,7 +262,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -280,7 +280,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
     }
 
     /// <summary>
@@ -300,7 +300,7 @@ namespace QuickType
         /// "SCALE": Node scales horizontally with containing frame
         /// </summary>
         [JsonProperty("horizontal")]
-        public Horizontal? Horizontal { get; set; }
+        public Horizontal Horizontal { get; set; }
 
         /// <summary>
         /// Vertical constraint as an enum
@@ -312,7 +312,7 @@ namespace QuickType
         /// "SCALE": Node scales vertically with containing frame
         /// </summary>
         [JsonProperty("vertical")]
-        public Vertical? Vertical { get; set; }
+        public Vertical Vertical { get; set; }
     }
 
     /// <summary>
@@ -336,19 +336,19 @@ namespace QuickType
         /// Radius of the blur effect (applies to shadows as well)
         /// </summary>
         [JsonProperty("radius")]
-        public double? Radius { get; set; }
+        public double Radius { get; set; }
 
         /// <summary>
         /// Type of effect as a string enum
         /// </summary>
         [JsonProperty("type")]
-        public EffectType? Type { get; set; }
+        public EffectType Type { get; set; }
 
         /// <summary>
         /// Is the effect active?
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -370,25 +370,25 @@ namespace QuickType
         /// Alpha channel value, between 0 and 1
         /// </summary>
         [JsonProperty("a")]
-        public double? A { get; set; }
+        public double A { get; set; }
 
         /// <summary>
         /// Blue channel value, between 0 and 1
         /// </summary>
         [JsonProperty("b")]
-        public double? B { get; set; }
+        public double B { get; set; }
 
         /// <summary>
         /// Green channel value, between 0 and 1
         /// </summary>
         [JsonProperty("g")]
-        public double? G { get; set; }
+        public double G { get; set; }
 
         /// <summary>
         /// Red channel value, between 0 and 1
         /// </summary>
         [JsonProperty("r")]
-        public double? R { get; set; }
+        public double R { get; set; }
     }
 
     /// <summary>
@@ -409,13 +409,13 @@ namespace QuickType
         /// X coordinate of the vector
         /// </summary>
         [JsonProperty("x")]
-        public double? X { get; set; }
+        public double X { get; set; }
 
         /// <summary>
         /// Y coordinate of the vector
         /// </summary>
         [JsonProperty("y")]
-        public double? Y { get; set; }
+        public double Y { get; set; }
     }
 
     /// <summary>
@@ -439,13 +439,13 @@ namespace QuickType
         /// Image type, string enum
         /// </summary>
         [JsonProperty("format")]
-        public Format? Format { get; set; }
+        public Format Format { get; set; }
 
         /// <summary>
         /// File suffix to append to all filenames
         /// </summary>
         [JsonProperty("suffix")]
-        public Suffix? Suffix { get; set; }
+        public string Suffix { get; set; }
     }
 
     /// <summary>
@@ -462,13 +462,13 @@ namespace QuickType
         /// "HEIGHT": Scale proportionally and set height to value
         /// </summary>
         [JsonProperty("type")]
-        public ConstraintType? Type { get; set; }
+        public ConstraintType Type { get; set; }
 
         /// <summary>
         /// See type property for effect of this field
         /// </summary>
         [JsonProperty("value")]
-        public double? Value { get; set; }
+        public double Value { get; set; }
     }
 
     /// <summary>
@@ -514,7 +514,7 @@ namespace QuickType
         /// values which would blend with this)
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// Image scaling mode
@@ -526,13 +526,13 @@ namespace QuickType
         /// Type of paint as a string enum
         /// </summary>
         [JsonProperty("type")]
-        public PaintType? Type { get; set; }
+        public PaintType Type { get; set; }
 
         /// <summary>
         /// Is the paint enabled?
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -554,7 +554,7 @@ namespace QuickType
         /// Value between 0 and 1 representing position along gradient axis
         /// </summary>
         [JsonProperty("position")]
-        public double? Position { get; set; }
+        public double Position { get; set; }
     }
 
     /// <summary>
@@ -566,25 +566,25 @@ namespace QuickType
         /// Alpha channel value, between 0 and 1
         /// </summary>
         [JsonProperty("a")]
-        public double? A { get; set; }
+        public double A { get; set; }
 
         /// <summary>
         /// Blue channel value, between 0 and 1
         /// </summary>
         [JsonProperty("b")]
-        public double? B { get; set; }
+        public double B { get; set; }
 
         /// <summary>
         /// Green channel value, between 0 and 1
         /// </summary>
         [JsonProperty("g")]
-        public double? G { get; set; }
+        public double G { get; set; }
 
         /// <summary>
         /// Red channel value, between 0 and 1
         /// </summary>
         [JsonProperty("r")]
-        public double? R { get; set; }
+        public double R { get; set; }
     }
 
     /// <summary>
@@ -602,7 +602,7 @@ namespace QuickType
         /// Value between 0 and 1 representing position along gradient axis
         /// </summary>
         [JsonProperty("position")]
-        public double? Position { get; set; }
+        public double Position { get; set; }
     }
 
     /// <summary>
@@ -620,7 +620,7 @@ namespace QuickType
         /// "SCALE": Node scales horizontally with containing frame
         /// </summary>
         [JsonProperty("horizontal")]
-        public Horizontal? Horizontal { get; set; }
+        public Horizontal Horizontal { get; set; }
 
         /// <summary>
         /// Vertical constraint as an enum
@@ -632,7 +632,7 @@ namespace QuickType
         /// "SCALE": Node scales vertically with containing frame
         /// </summary>
         [JsonProperty("vertical")]
-        public Vertical? Vertical { get; set; }
+        public Vertical Vertical { get; set; }
     }
 
     /// <summary>
@@ -657,7 +657,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -672,13 +672,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -715,14 +715,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -734,7 +734,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -746,7 +746,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -764,7 +764,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
 
         /// <summary>
         /// Array with same number of elements as characeters in text box,
@@ -790,7 +790,7 @@ namespace QuickType
         /// Line height in px
         /// </summary>
         [JsonProperty("lineHeightPx")]
-        public double? LineHeightPx { get; set; }
+        public double LineHeightPx { get; set; }
 
         /// <summary>
         /// PostScript font name
@@ -802,31 +802,31 @@ namespace QuickType
         /// Numeric font weight
         /// </summary>
         [JsonProperty("fontWeight")]
-        public double? FontWeight { get; set; }
+        public double FontWeight { get; set; }
 
         /// <summary>
         /// Line height as a percentage of normal line height
         /// </summary>
         [JsonProperty("lineHeightPercent")]
-        public double? LineHeightPercent { get; set; }
+        public double LineHeightPercent { get; set; }
 
         /// <summary>
         /// Vertical text alignment as string enum
         /// </summary>
         [JsonProperty("textAlignVertical")]
-        public TextAlignVertical? TextAlignVertical { get; set; }
+        public TextAlignVertical TextAlignVertical { get; set; }
 
         /// <summary>
         /// Font size in px
         /// </summary>
         [JsonProperty("fontSize")]
-        public double? FontSize { get; set; }
+        public double FontSize { get; set; }
 
         /// <summary>
         /// Is text italicized?
         /// </summary>
         [JsonProperty("italic")]
-        public bool? Italic { get; set; }
+        public bool Italic { get; set; }
 
         /// <summary>
         /// Paints applied to characters
@@ -844,13 +844,13 @@ namespace QuickType
         /// Horizontal text alignment as string enum
         /// </summary>
         [JsonProperty("textAlignHorizontal")]
-        public TextAlignHorizontal? TextAlignHorizontal { get; set; }
+        public TextAlignHorizontal TextAlignHorizontal { get; set; }
 
         /// <summary>
         /// Space between characters in px
         /// </summary>
         [JsonProperty("letterSpacing")]
-        public double? LetterSpacing { get; set; }
+        public double LetterSpacing { get; set; }
     }
 
     /// <summary>
@@ -876,7 +876,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -900,14 +900,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Background color of the node
@@ -925,13 +925,13 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// Does this node clip content outside of its bounds?
         /// </summary>
         [JsonProperty("clipsContent")]
-        public bool? ClipsContent { get; set; }
+        public bool ClipsContent { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -943,7 +943,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -955,7 +955,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
 
         /// <summary>
         /// An array of nodes that are direct children of this node
@@ -1043,13 +1043,13 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// Background color of the canvas
@@ -1216,7 +1216,7 @@ namespace QuickType
         /// "CENTER": Grid is center aligned
         /// </summary>
         [JsonProperty("alignment")]
-        public Alignment? Alignment { get; set; }
+        public Alignment Alignment { get; set; }
 
         /// <summary>
         /// Color of the grid
@@ -1228,19 +1228,19 @@ namespace QuickType
         /// Number of columns or rows
         /// </summary>
         [JsonProperty("count")]
-        public double? Count { get; set; }
+        public double Count { get; set; }
 
         /// <summary>
         /// Spacing in between columns and rows
         /// </summary>
         [JsonProperty("gutterSize")]
-        public double? GutterSize { get; set; }
+        public double GutterSize { get; set; }
 
         /// <summary>
         /// Spacing before the first column or row
         /// </summary>
         [JsonProperty("offset")]
-        public double? Offset { get; set; }
+        public double Offset { get; set; }
 
         /// <summary>
         /// Orientation of the grid as a string enum
@@ -1249,19 +1249,19 @@ namespace QuickType
         /// "GRID": Square grid
         /// </summary>
         [JsonProperty("pattern")]
-        public Pattern? Pattern { get; set; }
+        public Pattern Pattern { get; set; }
 
         /// <summary>
         /// Width of column grid or height of row grid or square grid spacing
         /// </summary>
         [JsonProperty("sectionSize")]
-        public double? SectionSize { get; set; }
+        public double SectionSize { get; set; }
 
         /// <summary>
         /// Is the grid currently visible?
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -1280,13 +1280,13 @@ namespace QuickType
         /// Radius of each corner of the rectangle
         /// </summary>
         [JsonProperty("cornerRadius")]
-        public double? CornerRadius { get; set; }
+        public double CornerRadius { get; set; }
 
         /// <summary>
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -1301,13 +1301,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -1331,14 +1331,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -1350,7 +1350,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -1362,7 +1362,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -1380,7 +1380,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
     }
 
     /// <summary>
@@ -1395,7 +1395,7 @@ namespace QuickType
         /// "CENTER": Grid is center aligned
         /// </summary>
         [JsonProperty("alignment")]
-        public Alignment? Alignment { get; set; }
+        public Alignment Alignment { get; set; }
 
         /// <summary>
         /// Color of the grid
@@ -1407,19 +1407,19 @@ namespace QuickType
         /// Number of columns or rows
         /// </summary>
         [JsonProperty("count")]
-        public double? Count { get; set; }
+        public double Count { get; set; }
 
         /// <summary>
         /// Spacing in between columns and rows
         /// </summary>
         [JsonProperty("gutterSize")]
-        public double? GutterSize { get; set; }
+        public double GutterSize { get; set; }
 
         /// <summary>
         /// Spacing before the first column or row
         /// </summary>
         [JsonProperty("offset")]
-        public double? Offset { get; set; }
+        public double Offset { get; set; }
 
         /// <summary>
         /// Orientation of the grid as a string enum
@@ -1428,19 +1428,19 @@ namespace QuickType
         /// "GRID": Square grid
         /// </summary>
         [JsonProperty("pattern")]
-        public Pattern? Pattern { get; set; }
+        public Pattern Pattern { get; set; }
 
         /// <summary>
         /// Width of column grid or height of row grid or square grid spacing
         /// </summary>
         [JsonProperty("sectionSize")]
-        public double? SectionSize { get; set; }
+        public double SectionSize { get; set; }
 
         /// <summary>
         /// Is the grid currently visible?
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -1461,19 +1461,19 @@ namespace QuickType
         /// Radius of the blur effect (applies to shadows as well)
         /// </summary>
         [JsonProperty("radius")]
-        public double? Radius { get; set; }
+        public double Radius { get; set; }
 
         /// <summary>
         /// Type of effect as a string enum
         /// </summary>
         [JsonProperty("type")]
-        public EffectType? Type { get; set; }
+        public EffectType Type { get; set; }
 
         /// <summary>
         /// Is the effect active?
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -1509,13 +1509,13 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -1534,7 +1534,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -1549,13 +1549,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -1579,14 +1579,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -1598,7 +1598,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -1610,7 +1610,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -1628,7 +1628,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
     }
 
     /// <summary>
@@ -1647,7 +1647,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -1662,13 +1662,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -1692,14 +1692,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -1711,7 +1711,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -1723,7 +1723,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -1741,7 +1741,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
     }
 
     /// <summary>
@@ -1768,7 +1768,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -1792,14 +1792,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Background color of the node
@@ -1817,13 +1817,13 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// Does this node clip content outside of its bounds?
         /// </summary>
         [JsonProperty("clipsContent")]
-        public bool? ClipsContent { get; set; }
+        public bool ClipsContent { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -1842,7 +1842,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -1854,7 +1854,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
 
         /// <summary>
         /// An array of nodes that are direct children of this node
@@ -1872,13 +1872,13 @@ namespace QuickType
         /// X coordinate of the vector
         /// </summary>
         [JsonProperty("x")]
-        public double? X { get; set; }
+        public double X { get; set; }
 
         /// <summary>
         /// Y coordinate of the vector
         /// </summary>
         [JsonProperty("y")]
-        public double? Y { get; set; }
+        public double Y { get; set; }
     }
 
     /// <summary>
@@ -1890,7 +1890,7 @@ namespace QuickType
         /// Line height in px
         /// </summary>
         [JsonProperty("lineHeightPx")]
-        public double? LineHeightPx { get; set; }
+        public double LineHeightPx { get; set; }
 
         /// <summary>
         /// PostScript font name
@@ -1902,31 +1902,31 @@ namespace QuickType
         /// Numeric font weight
         /// </summary>
         [JsonProperty("fontWeight")]
-        public double? FontWeight { get; set; }
+        public double FontWeight { get; set; }
 
         /// <summary>
         /// Line height as a percentage of normal line height
         /// </summary>
         [JsonProperty("lineHeightPercent")]
-        public double? LineHeightPercent { get; set; }
+        public double LineHeightPercent { get; set; }
 
         /// <summary>
         /// Vertical text alignment as string enum
         /// </summary>
         [JsonProperty("textAlignVertical")]
-        public TextAlignVertical? TextAlignVertical { get; set; }
+        public TextAlignVertical TextAlignVertical { get; set; }
 
         /// <summary>
         /// Font size in px
         /// </summary>
         [JsonProperty("fontSize")]
-        public double? FontSize { get; set; }
+        public double FontSize { get; set; }
 
         /// <summary>
         /// Is text italicized?
         /// </summary>
         [JsonProperty("italic")]
-        public bool? Italic { get; set; }
+        public bool Italic { get; set; }
 
         /// <summary>
         /// Paints applied to characters
@@ -1944,13 +1944,13 @@ namespace QuickType
         /// Horizontal text alignment as string enum
         /// </summary>
         [JsonProperty("textAlignHorizontal")]
-        public TextAlignHorizontal? TextAlignHorizontal { get; set; }
+        public TextAlignHorizontal TextAlignHorizontal { get; set; }
 
         /// <summary>
         /// Space between characters in px
         /// </summary>
         [JsonProperty("letterSpacing")]
-        public double? LetterSpacing { get; set; }
+        public double LetterSpacing { get; set; }
     }
 
     /// <summary>
@@ -1969,7 +1969,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -1984,13 +1984,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -2014,14 +2014,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -2033,7 +2033,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -2045,7 +2045,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -2063,7 +2063,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
 
         /// <summary>
         /// An array of nodes that are being boolean operated on
@@ -2111,13 +2111,13 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -2148,13 +2148,13 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -2172,13 +2172,13 @@ namespace QuickType
         /// Image type, string enum
         /// </summary>
         [JsonProperty("format")]
-        public Format? Format { get; set; }
+        public Format Format { get; set; }
 
         /// <summary>
         /// File suffix to append to all filenames
         /// </summary>
         [JsonProperty("suffix")]
-        public Suffix? Suffix { get; set; }
+        public string Suffix { get; set; }
     }
 
     /// <summary>
@@ -2204,7 +2204,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -2228,14 +2228,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Background color of the node
@@ -2253,13 +2253,13 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// Does this node clip content outside of its bounds?
         /// </summary>
         [JsonProperty("clipsContent")]
-        public bool? ClipsContent { get; set; }
+        public bool ClipsContent { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -2271,7 +2271,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -2283,7 +2283,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
 
         /// <summary>
         /// An array of nodes that are direct children of this node
@@ -2328,7 +2328,7 @@ namespace QuickType
         public Ocument Document { get; set; }
 
         [JsonProperty("schemaVersion")]
-        public double? SchemaVersion { get; set; }
+        public double SchemaVersion { get; set; }
     }
 
     /// <summary>
@@ -2366,7 +2366,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -2390,14 +2390,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Background color of the node
@@ -2415,13 +2415,13 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// Does this node clip content outside of its bounds?
         /// </summary>
         [JsonProperty("clipsContent")]
-        public bool? ClipsContent { get; set; }
+        public bool ClipsContent { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -2433,7 +2433,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -2445,7 +2445,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
 
         /// <summary>
         /// An array of nodes that are direct children of this node
@@ -2492,13 +2492,13 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -2513,13 +2513,13 @@ namespace QuickType
         /// "HEIGHT": Scale proportionally and set height to value
         /// </summary>
         [JsonProperty("type")]
-        public ConstraintType? Type { get; set; }
+        public ConstraintType Type { get; set; }
 
         /// <summary>
         /// See type property for effect of this field
         /// </summary>
         [JsonProperty("value")]
-        public double? Value { get; set; }
+        public double Value { get; set; }
     }
 
     /// <summary>
@@ -2559,7 +2559,7 @@ namespace QuickType
         /// values which would blend with this)
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// Image scaling mode
@@ -2571,13 +2571,13 @@ namespace QuickType
         /// Type of paint as a string enum
         /// </summary>
         [JsonProperty("type")]
-        public PaintType? Type { get; set; }
+        public PaintType Type { get; set; }
 
         /// <summary>
         /// Is the paint enabled?
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
     }
 
     /// <summary>
@@ -2596,7 +2596,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -2611,13 +2611,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -2641,14 +2641,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -2660,7 +2660,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -2672,7 +2672,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -2690,7 +2690,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
     }
 
     /// <summary>
@@ -2709,7 +2709,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -2724,13 +2724,13 @@ namespace QuickType
         /// "CENTER": draw stroke centered along the shape boundary
         /// </summary>
         [JsonProperty("strokeAlign")]
-        public StrokeAlign? StrokeAlign { get; set; }
+        public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
         /// The weight of strokes on the node
         /// </summary>
         [JsonProperty("strokeWeight")]
-        public double? StrokeWeight { get; set; }
+        public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
@@ -2754,14 +2754,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
@@ -2773,7 +2773,7 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -2785,7 +2785,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -2803,7 +2803,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
     }
 
     /// <summary>
@@ -2829,7 +2829,7 @@ namespace QuickType
         /// Opacity of the node
         /// </summary>
         [JsonProperty("opacity")]
-        public double? Opacity { get; set; }
+        public double Opacity { get; set; }
 
         /// <summary>
         /// the name given to the node by the user in the tool.
@@ -2853,14 +2853,14 @@ namespace QuickType
         /// whether or not the node is visible on the canvas
         /// </summary>
         [JsonProperty("visible")]
-        public bool? Visible { get; set; }
+        public bool Visible { get; set; }
 
         /// <summary>
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// Background color of the node
@@ -2878,13 +2878,13 @@ namespace QuickType
         /// Does this node mask sibling nodes in front of it?
         /// </summary>
         [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
+        public bool IsMask { get; set; }
 
         /// <summary>
         /// Does this node clip content outside of its bounds?
         /// </summary>
         [JsonProperty("clipsContent")]
-        public bool? ClipsContent { get; set; }
+        public bool ClipsContent { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
@@ -2896,7 +2896,7 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public NodeType? Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -2908,7 +2908,7 @@ namespace QuickType
         /// Keep height and width constrained to same ratio
         /// </summary>
         [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        public bool PreserveRatio { get; set; }
 
         /// <summary>
         /// An array of nodes that are direct children of this node
@@ -2962,11 +2962,6 @@ namespace QuickType
     /// Image type, string enum
     /// </summary>
     public enum Format { Jpg, Png, Svg };
-
-    /// <summary>
-    /// File suffix to append to all filenames
-    /// </summary>
-    public enum Suffix { String };
 
     /// <summary>
     /// Type of paint as a string enum
@@ -3386,34 +3381,6 @@ namespace QuickType
         }
     }
 
-    static class SuffixExtensions
-    {
-        public static Suffix? ValueForString(string str)
-        {
-            switch (str)
-            {
-                case "string": return Suffix.String;
-                default: return null;
-            }
-        }
-
-        public static Suffix ReadJson(JsonReader reader, JsonSerializer serializer)
-        {
-            var str = serializer.Deserialize<string>(reader);
-            var maybeValue = ValueForString(str);
-            if (maybeValue.HasValue) return maybeValue.Value;
-            throw new Exception("Unknown enum case " + str);
-        }
-
-        public static void WriteJson(this Suffix value, JsonWriter writer, JsonSerializer serializer)
-        {
-            switch (value)
-            {
-                case Suffix.String: serializer.Serialize(writer, "string"); break;
-            }
-        }
-    }
-
     static class PaintTypeExtensions
     {
         public static PaintType? ValueForString(string str)
@@ -3706,7 +3673,7 @@ namespace QuickType
 
     internal class Converter: JsonConverter
     {
-        public override bool CanConvert(Type t) => t == typeof(BlendMode) || t == typeof(Horizontal) || t == typeof(Vertical) || t == typeof(EffectType) || t == typeof(ConstraintType) || t == typeof(Format) || t == typeof(Suffix) || t == typeof(PaintType) || t == typeof(StrokeAlign) || t == typeof(NodeType) || t == typeof(TextAlignHorizontal) || t == typeof(TextAlignVertical) || t == typeof(Alignment) || t == typeof(Pattern) || t == typeof(BlendMode?) || t == typeof(Horizontal?) || t == typeof(Vertical?) || t == typeof(EffectType?) || t == typeof(ConstraintType?) || t == typeof(Format?) || t == typeof(Suffix?) || t == typeof(PaintType?) || t == typeof(StrokeAlign?) || t == typeof(NodeType?) || t == typeof(TextAlignHorizontal?) || t == typeof(TextAlignVertical?) || t == typeof(Alignment?) || t == typeof(Pattern?);
+        public override bool CanConvert(Type t) => t == typeof(BlendMode) || t == typeof(Horizontal) || t == typeof(Vertical) || t == typeof(EffectType) || t == typeof(ConstraintType) || t == typeof(Format) || t == typeof(PaintType) || t == typeof(StrokeAlign) || t == typeof(NodeType) || t == typeof(TextAlignHorizontal) || t == typeof(TextAlignVertical) || t == typeof(Alignment) || t == typeof(Pattern) || t == typeof(BlendMode?) || t == typeof(Horizontal?) || t == typeof(Vertical?) || t == typeof(EffectType?) || t == typeof(ConstraintType?) || t == typeof(Format?) || t == typeof(PaintType?) || t == typeof(StrokeAlign?) || t == typeof(NodeType?) || t == typeof(TextAlignHorizontal?) || t == typeof(TextAlignVertical?) || t == typeof(Alignment?) || t == typeof(Pattern?);
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
         {
@@ -3722,8 +3689,6 @@ namespace QuickType
                 return ConstraintTypeExtensions.ReadJson(reader, serializer);
             if (t == typeof(Format))
                 return FormatExtensions.ReadJson(reader, serializer);
-            if (t == typeof(Suffix))
-                return SuffixExtensions.ReadJson(reader, serializer);
             if (t == typeof(PaintType))
                 return PaintTypeExtensions.ReadJson(reader, serializer);
             if (t == typeof(StrokeAlign))
@@ -3767,11 +3732,6 @@ namespace QuickType
             {
                 if (reader.TokenType == JsonToken.Null) return null;
                 return FormatExtensions.ReadJson(reader, serializer);
-            }
-            if (t == typeof(Suffix?))
-            {
-                if (reader.TokenType == JsonToken.Null) return null;
-                return SuffixExtensions.ReadJson(reader, serializer);
             }
             if (t == typeof(PaintType?))
             {
@@ -3842,11 +3802,6 @@ namespace QuickType
             if (t == typeof(Format))
             {
                 ((Format)value).WriteJson(writer, serializer);
-                return;
-            }
-            if (t == typeof(Suffix))
-            {
-                ((Suffix)value).WriteJson(writer, serializer);
                 return;
             }
             if (t == typeof(PaintType))

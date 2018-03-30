@@ -16,22 +16,22 @@ import com.fasterxml.jackson.annotation.*;
  * relevant for non-linear gradients).
  */
 public class Offset {
-    private Double x;
-    private Double y;
+    private double x;
+    private double y;
 
     /**
      * X coordinate of the vector
      */
     @JsonProperty("x")
-    public Double getX() { return x; }
+    public double getX() { return x; }
     @JsonProperty("x")
-    public void setX(Double value) { this.x = value; }
+    public void setX(double value) { this.x = value; }
 
     /**
      * Y coordinate of the vector
      */
     @JsonProperty("y")
-    public Double getY() { return y; }
+    public double getY() { return y; }
     @JsonProperty("y")
-    public void setY(Double value) { this.y = value; }
+    public void setY(double value) { this.y = value; }
 }

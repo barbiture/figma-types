@@ -57,7 +57,7 @@ public class DocumentElement {
     private String id;
     private String name;
     private NodeType type;
-    private Boolean visible;
+    private boolean visible;
     private Olor backgroundColor;
     private ExportSettingElement[] exportSettings;
     private EffectElement[] effects;
@@ -123,9 +123,9 @@ public class DocumentElement {
      * whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 
     /**
      * Background color of the canvas

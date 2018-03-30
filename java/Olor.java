@@ -17,40 +17,40 @@ import com.fasterxml.jackson.annotation.*;
  * Background color of the canvas
  */
 public class Olor {
-    private Double a;
-    private Double b;
-    private Double g;
-    private Double r;
+    private double a;
+    private double b;
+    private double g;
+    private double r;
 
     /**
      * Alpha channel value, between 0 and 1
      */
     @JsonProperty("a")
-    public Double getA() { return a; }
+    public double getA() { return a; }
     @JsonProperty("a")
-    public void setA(Double value) { this.a = value; }
+    public void setA(double value) { this.a = value; }
 
     /**
      * Blue channel value, between 0 and 1
      */
     @JsonProperty("b")
-    public Double getB() { return b; }
+    public double getB() { return b; }
     @JsonProperty("b")
-    public void setB(Double value) { this.b = value; }
+    public void setB(double value) { this.b = value; }
 
     /**
      * Green channel value, between 0 and 1
      */
     @JsonProperty("g")
-    public Double getG() { return g; }
+    public double getG() { return g; }
     @JsonProperty("g")
-    public void setG(Double value) { this.g = value; }
+    public void setG(double value) { this.g = value; }
 
     /**
      * Red channel value, between 0 and 1
      */
     @JsonProperty("r")
-    public Double getR() { return r; }
+    public double getR() { return r; }
     @JsonProperty("r")
-    public void setR(Double value) { this.r = value; }
+    public void setR(double value) { this.r = value; }
 }

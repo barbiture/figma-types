@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class ColorStop {
     private Olor color;
-    private Double position;
+    private double position;
 
     /**
      * Color attached to corresponding position
@@ -22,7 +22,7 @@ public class ColorStop {
      * Value between 0 and 1 representing position along gradient axis
      */
     @JsonProperty("position")
-    public Double getPosition() { return position; }
+    public double getPosition() { return position; }
     @JsonProperty("position")
-    public void setPosition(Double value) { this.position = value; }
+    public void setPosition(double value) { this.position = value; }
 }

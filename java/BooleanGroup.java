@@ -8,22 +8,22 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class BooleanGroup {
     private EffectElement[] effects;
-    private Double opacity;
+    private double opacity;
     private String name;
     private StrokeAlign strokeAlign;
-    private Double strokeWeight;
+    private double strokeWeight;
     private PaintElement[] fills;
     private AbsoluteBoundingBox absoluteBoundingBox;
     private String transitionNodeID;
-    private Boolean visible;
+    private boolean visible;
     private BlendMode blendMode;
     private Constraints constraints;
-    private Boolean isMask;
+    private boolean isMask;
     private ExportSettingElement[] exportSettings;
     private NodeType type;
     private String id;
     private PaintElement[] strokes;
-    private Boolean preserveRatio;
+    private boolean preserveRatio;
     private DocumentElement[] children;
 
     /**
@@ -39,9 +39,9 @@ public class BooleanGroup {
      * Opacity of the node
      */
     @JsonProperty("opacity")
-    public Double getOpacity() { return opacity; }
+    public double getOpacity() { return opacity; }
     @JsonProperty("opacity")
-    public void setOpacity(Double value) { this.opacity = value; }
+    public void setOpacity(double value) { this.opacity = value; }
 
     /**
      * the name given to the node by the user in the tool.
@@ -66,9 +66,9 @@ public class BooleanGroup {
      * The weight of strokes on the node
      */
     @JsonProperty("strokeWeight")
-    public Double getStrokeWeight() { return strokeWeight; }
+    public double getStrokeWeight() { return strokeWeight; }
     @JsonProperty("strokeWeight")
-    public void setStrokeWeight(Double value) { this.strokeWeight = value; }
+    public void setStrokeWeight(double value) { this.strokeWeight = value; }
 
     /**
      * An array of fill paints applied to the node
@@ -98,9 +98,9 @@ public class BooleanGroup {
      * whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 
     /**
      * How this node blends with nodes behind it in the scene
@@ -123,9 +123,9 @@ public class BooleanGroup {
      * Does this node mask sibling nodes in front of it?
      */
     @JsonProperty("isMask")
-    public Boolean getIsMask() { return isMask; }
+    public boolean getIsMask() { return isMask; }
     @JsonProperty("isMask")
-    public void setIsMask(Boolean value) { this.isMask = value; }
+    public void setIsMask(boolean value) { this.isMask = value; }
 
     /**
      * An array of export settings representing images to export from node
@@ -163,9 +163,9 @@ public class BooleanGroup {
      * Keep height and width constrained to same ratio
      */
     @JsonProperty("preserveRatio")
-    public Boolean getPreserveRatio() { return preserveRatio; }
+    public boolean getPreserveRatio() { return preserveRatio; }
     @JsonProperty("preserveRatio")
-    public void setPreserveRatio(Boolean value) { this.preserveRatio = value; }
+    public void setPreserveRatio(boolean value) { this.preserveRatio = value; }
 
     /**
      * An array of nodes that are being boolean operated on

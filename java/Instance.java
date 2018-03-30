@@ -10,21 +10,21 @@ import com.fasterxml.jackson.annotation.*;
 public class Instance {
     private EffectElement[] effects;
     private LayoutGridElement[] layoutGrids;
-    private Double opacity;
+    private double opacity;
     private String name;
     private AbsoluteBoundingBox absoluteBoundingBox;
     private String transitionNodeID;
-    private Boolean visible;
+    private boolean visible;
     private BlendMode blendMode;
     private Olor backgroundColor;
     private Constraints constraints;
-    private Boolean isMask;
-    private Boolean clipsContent;
+    private boolean isMask;
+    private boolean clipsContent;
     private ExportSettingElement[] exportSettings;
     private String componentID;
     private NodeType type;
     private String id;
-    private Boolean preserveRatio;
+    private boolean preserveRatio;
     private DocumentElement[] children;
 
     /**
@@ -49,9 +49,9 @@ public class Instance {
      * Opacity of the node
      */
     @JsonProperty("opacity")
-    public Double getOpacity() { return opacity; }
+    public double getOpacity() { return opacity; }
     @JsonProperty("opacity")
-    public void setOpacity(Double value) { this.opacity = value; }
+    public void setOpacity(double value) { this.opacity = value; }
 
     /**
      * the name given to the node by the user in the tool.
@@ -81,9 +81,9 @@ public class Instance {
      * whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 
     /**
      * How this node blends with nodes behind it in the scene
@@ -114,17 +114,17 @@ public class Instance {
      * Does this node mask sibling nodes in front of it?
      */
     @JsonProperty("isMask")
-    public Boolean getIsMask() { return isMask; }
+    public boolean getIsMask() { return isMask; }
     @JsonProperty("isMask")
-    public void setIsMask(Boolean value) { this.isMask = value; }
+    public void setIsMask(boolean value) { this.isMask = value; }
 
     /**
      * Does this node clip content outside of its bounds?
      */
     @JsonProperty("clipsContent")
-    public Boolean getClipsContent() { return clipsContent; }
+    public boolean getClipsContent() { return clipsContent; }
     @JsonProperty("clipsContent")
-    public void setClipsContent(Boolean value) { this.clipsContent = value; }
+    public void setClipsContent(boolean value) { this.clipsContent = value; }
 
     /**
      * An array of export settings representing images to export from node
@@ -163,9 +163,9 @@ public class Instance {
      * Keep height and width constrained to same ratio
      */
     @JsonProperty("preserveRatio")
-    public Boolean getPreserveRatio() { return preserveRatio; }
+    public boolean getPreserveRatio() { return preserveRatio; }
     @JsonProperty("preserveRatio")
-    public void setPreserveRatio(Boolean value) { this.preserveRatio = value; }
+    public void setPreserveRatio(boolean value) { this.preserveRatio = value; }
 
     /**
      * An array of nodes that are direct children of this node

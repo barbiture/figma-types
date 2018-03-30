@@ -371,22 +371,22 @@ func (r *Group) Marshal() ([]byte, error) {
 // A vector network, consisting of vertices and edges
 type Vector struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	StrokeAlign         *StrokeAlign           `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight        *float64               `json:"strokeWeight"`       // The weight of strokes on the node
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	StrokeAlign         StrokeAlign            `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight        float64                `json:"strokeWeight"`       // The weight of strokes on the node
 	Fills               []PaintElement         `json:"fills"`              // An array of fill paints applied to the node
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 }
 
 // A rectangle
@@ -402,31 +402,31 @@ type Vector struct {
 // An array of canvases attached to the document
 type AbsoluteBoundingBox struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
-	CornerRadius        *float64               `json:"cornerRadius"`       // Radius of each corner of the rectangle
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	StrokeAlign         *StrokeAlign           `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight        *float64               `json:"strokeWeight"`       // The weight of strokes on the node
+	CornerRadius        float64                `json:"cornerRadius"`       // Radius of each corner of the rectangle
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	StrokeAlign         StrokeAlign            `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight        float64                `json:"strokeWeight"`       // The weight of strokes on the node
 	Fills               []PaintElement         `json:"fills"`              // An array of fill paints applied to the node
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 }
 
 // Layout constraint relative to containing Frame
 //
 // Horizontal and vertical layout constraints for node
 type Constraints struct {
-	Horizontal *Horizontal `json:"horizontal"`// Horizontal constraint as an enum; "LEFT": Node is laid out relative to left of the containing frame; "RIGHT": Node is laid out relative to right of the containing frame; "CENTER": Node is horizontally centered relative to containing frame; "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales horizontally with containing frame
-	Vertical   *Vertical   `json:"vertical"`  // Vertical constraint as an enum; "TOP": Node is laid out relative to top of the containing frame; "BOTTOM": Node is laid out relative to bottom of the containing frame; "CENTER": Node is vertically centered relative to containing frame; "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales vertically with containing frame
+	Horizontal Horizontal `json:"horizontal"`// Horizontal constraint as an enum; "LEFT": Node is laid out relative to left of the containing frame; "RIGHT": Node is laid out relative to right of the containing frame; "CENTER": Node is horizontally centered relative to containing frame; "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales horizontally with containing frame
+	Vertical   Vertical   `json:"vertical"`  // Vertical constraint as an enum; "TOP": Node is laid out relative to top of the containing frame; "BOTTOM": Node is laid out relative to bottom of the containing frame; "CENTER": Node is vertically centered relative to containing frame; "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales vertically with containing frame
 }
 
 // A visual effect such as a shadow or blur
@@ -434,12 +434,12 @@ type Constraints struct {
 // An array of effects attached to this node
 // (see effects sectionfor more details)
 type EffectElement struct {
-	BlendMode *BlendMode  `json:"blendMode"`
-	Color     *Olor       `json:"color"`    
-	Offset    *Offset     `json:"offset"`   
-	Radius    *float64    `json:"radius"`   // Radius of the blur effect (applies to shadows as well)
-	Type      *EffectType `json:"type"`     // Type of effect as a string enum
-	Visible   *bool       `json:"visible"`  // Is the effect active?
+	BlendMode *BlendMode `json:"blendMode"`
+	Color     *Olor      `json:"color"`    
+	Offset    *Offset    `json:"offset"`   
+	Radius    float64    `json:"radius"`   // Radius of the blur effect (applies to shadows as well)
+	Type      EffectType `json:"type"`     // Type of effect as a string enum
+	Visible   bool       `json:"visible"`  // Is the effect active?
 }
 
 // An RGBA color
@@ -454,10 +454,10 @@ type EffectElement struct {
 //
 // Background color of the canvas
 type Olor struct {
-	A *float64 `json:"a"`// Alpha channel value, between 0 and 1
-	B *float64 `json:"b"`// Blue channel value, between 0 and 1
-	G *float64 `json:"g"`// Green channel value, between 0 and 1
-	R *float64 `json:"r"`// Red channel value, between 0 and 1
+	A float64 `json:"a"`// Alpha channel value, between 0 and 1
+	B float64 `json:"b"`// Blue channel value, between 0 and 1
+	G float64 `json:"g"`// Green channel value, between 0 and 1
+	R float64 `json:"r"`// Red channel value, between 0 and 1
 }
 
 // A 2d vector
@@ -471,8 +471,8 @@ type Olor struct {
 // third handle position determines the width of the gradient (only
 // relevant for non-linear gradients).
 type Offset struct {
-	X *float64 `json:"x"`// X coordinate of the vector
-	Y *float64 `json:"y"`// Y coordinate of the vector
+	X float64 `json:"x"`// X coordinate of the vector
+	Y float64 `json:"y"`// Y coordinate of the vector
 }
 
 // Format and size to export an asset at
@@ -483,17 +483,17 @@ type Offset struct {
 //
 // An array of export settings representing images to export from the canvas
 type ExportSettingElement struct {
-	Constraint *ExportSettingConstraint `json:"constraint"`// Constraint that determines sizing of exported asset
-	Format     *Format                  `json:"format"`    // Image type, string enum
-	Suffix     *Suffix                  `json:"suffix"`    // File suffix to append to all filenames
+	Constraint ExportSettingConstraint `json:"constraint"`// Constraint that determines sizing of exported asset
+	Format     Format                  `json:"format"`    // Image type, string enum
+	Suffix     string                  `json:"suffix"`    // File suffix to append to all filenames
 }
 
 // Sizing constraint for exports
 //
 // Constraint that determines sizing of exported asset
 type ExportSettingConstraint struct {
-	Type  *ConstraintType `json:"type"` // Type of constraint to apply; string enum with potential values below; "SCALE": Scale by value; "WIDTH": Scale proportionally and set width to value; "HEIGHT": Scale proportionally and set height to value
-	Value *float64        `json:"value"`// See type property for effect of this field
+	Type  ConstraintType `json:"type"` // Type of constraint to apply; string enum with potential values below; "SCALE": Scale by value; "WIDTH": Scale proportionally and set width to value; "HEIGHT": Scale proportionally and set height to value
+	Value float64        `json:"value"`// See type property for effect of this field
 }
 
 // A solid color, gradient, or image texture that can be applied as fills or strokes
@@ -507,10 +507,10 @@ type PaintElement struct {
 	Color                   *Olor              `json:"color"`                  // Solid color of the paint
 	GradientHandlePositions []Offset           `json:"gradientHandlePositions"`// This field contains three vectors, each of which are a position in; normalized object space (normalized object space is if the top left; corner of the bounding box of the object is (0, 0) and the bottom; right is (1,1)). The first position corresponds to the start of the; gradient (value 0 for the purposes of calculating gradient stops),; the second position is the end of the gradient (value 1), and the; third handle position determines the width of the gradient (only; relevant for non-linear gradients).
 	GradientStops           []ColorStopElement `json:"gradientStops"`          // Positions of key points along the gradient axis with the colors; anchored there. Colors along the gradient are interpolated smoothly; between neighboring gradient stops.
-	Opacity                 *float64           `json:"opacity"`                // Overall opacity of paint (colors within the paint can also have opacity; values which would blend with this)
+	Opacity                 float64            `json:"opacity"`                // Overall opacity of paint (colors within the paint can also have opacity; values which would blend with this)
 	ScaleMode               *string            `json:"scaleMode"`              // Image scaling mode
-	Type                    *PaintType         `json:"type"`                   // Type of paint as a string enum
-	Visible                 *bool              `json:"visible"`                // Is the paint enabled?
+	Type                    PaintType          `json:"type"`                   // Type of paint as a string enum
+	Visible                 bool               `json:"visible"`                // Is the paint enabled?
 }
 
 // A position color pair representing a gradient stop
@@ -519,52 +519,52 @@ type PaintElement struct {
 // anchored there. Colors along the gradient are interpolated smoothly
 // between neighboring gradient stops.
 type ColorStopElement struct {
-	Color    *Olor    `json:"color"`   // Color attached to corresponding position
-	Position *float64 `json:"position"`// Value between 0 and 1 representing position along gradient axis
+	Color    Olor    `json:"color"`   // Color attached to corresponding position
+	Position float64 `json:"position"`// Value between 0 and 1 representing position along gradient axis
 }
 
 // An RGBA color
 type Color struct {
-	A *float64 `json:"a"`// Alpha channel value, between 0 and 1
-	B *float64 `json:"b"`// Blue channel value, between 0 and 1
-	G *float64 `json:"g"`// Green channel value, between 0 and 1
-	R *float64 `json:"r"`// Red channel value, between 0 and 1
+	A float64 `json:"a"`// Alpha channel value, between 0 and 1
+	B float64 `json:"b"`// Blue channel value, between 0 and 1
+	G float64 `json:"g"`// Green channel value, between 0 and 1
+	R float64 `json:"r"`// Red channel value, between 0 and 1
 }
 
 // A position color pair representing a gradient stop
 type ColorStop struct {
-	Color    *Olor    `json:"color"`   // Color attached to corresponding position
-	Position *float64 `json:"position"`// Value between 0 and 1 representing position along gradient axis
+	Color    Olor    `json:"color"`   // Color attached to corresponding position
+	Position float64 `json:"position"`// Value between 0 and 1 representing position along gradient axis
 }
 
 // Layout constraint relative to containing Frame
 type LayoutConstraint struct {
-	Horizontal *Horizontal `json:"horizontal"`// Horizontal constraint as an enum; "LEFT": Node is laid out relative to left of the containing frame; "RIGHT": Node is laid out relative to right of the containing frame; "CENTER": Node is horizontally centered relative to containing frame; "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales horizontally with containing frame
-	Vertical   *Vertical   `json:"vertical"`  // Vertical constraint as an enum; "TOP": Node is laid out relative to top of the containing frame; "BOTTOM": Node is laid out relative to bottom of the containing frame; "CENTER": Node is vertically centered relative to containing frame; "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales vertically with containing frame
+	Horizontal Horizontal `json:"horizontal"`// Horizontal constraint as an enum; "LEFT": Node is laid out relative to left of the containing frame; "RIGHT": Node is laid out relative to right of the containing frame; "CENTER": Node is horizontally centered relative to containing frame; "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales horizontally with containing frame
+	Vertical   Vertical   `json:"vertical"`  // Vertical constraint as an enum; "TOP": Node is laid out relative to top of the containing frame; "BOTTOM": Node is laid out relative to bottom of the containing frame; "CENTER": Node is vertically centered relative to containing frame; "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame; (node stretches with frame); "SCALE": Node scales vertically with containing frame
 }
 
 // A text box
 type Text struct {
 	Effects                 []EffectElement        `json:"effects"`                // An array of effects attached to this node; (see effects sectionfor more details)
-	Characters              *string                `json:"characters"`             // Text contained within text box
-	Opacity                 *float64               `json:"opacity"`                // Opacity of the node
-	Name                    *string                `json:"name"`                   // the name given to the node by the user in the tool.
-	StrokeAlign             *StrokeAlign           `json:"strokeAlign"`            // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight            *float64               `json:"strokeWeight"`           // The weight of strokes on the node
+	Characters              string                 `json:"characters"`             // Text contained within text box
+	Opacity                 float64                `json:"opacity"`                // Opacity of the node
+	Name                    string                 `json:"name"`                   // the name given to the node by the user in the tool.
+	StrokeAlign             StrokeAlign            `json:"strokeAlign"`            // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight            float64                `json:"strokeWeight"`           // The weight of strokes on the node
 	Fills                   []PaintElement         `json:"fills"`                  // An array of fill paints applied to the node
-	AbsoluteBoundingBox     *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`    // Bounding box of the node in absolute space coordinates
+	AbsoluteBoundingBox     AbsoluteBoundingBox    `json:"absoluteBoundingBox"`    // Bounding box of the node in absolute space coordinates
 	StyleOverrideTable      []Tyle                 `json:"styleOverrideTable"`     // Map from ID to TypeStyle for looking up style overrides
-	Style                   *Tyle                  `json:"style"`                  // Style of text including font family and weight (see type style; section for more information)
-	TransitionNodeID        *string                `json:"transitionNodeID"`       // Node ID of node to transition to in prototyping
-	Visible                 *bool                  `json:"visible"`                // whether or not the node is visible on the canvas
-	BlendMode               *BlendMode             `json:"blendMode"`              // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints             *Constraints           `json:"constraints"`            // Horizontal and vertical layout constraints for node
-	IsMask                  *bool                  `json:"isMask"`                 // Does this node mask sibling nodes in front of it?
+	Style                   Tyle                   `json:"style"`                  // Style of text including font family and weight (see type style; section for more information)
+	TransitionNodeID        string                 `json:"transitionNodeID"`       // Node ID of node to transition to in prototyping
+	Visible                 bool                   `json:"visible"`                // whether or not the node is visible on the canvas
+	BlendMode               BlendMode              `json:"blendMode"`              // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints             Constraints            `json:"constraints"`            // Horizontal and vertical layout constraints for node
+	IsMask                  bool                   `json:"isMask"`                 // Does this node mask sibling nodes in front of it?
 	ExportSettings          []ExportSettingElement `json:"exportSettings"`         // An array of export settings representing images to export from node
-	Type                    *NodeType              `json:"type"`                   // the type of the node, refer to table below for details
-	ID                      *string                `json:"id"`                     // a string uniquely identifying this node within the document
+	Type                    NodeType               `json:"type"`                   // the type of the node, refer to table below for details
+	ID                      string                 `json:"id"`                     // a string uniquely identifying this node within the document
 	Strokes                 []PaintElement         `json:"strokes"`                // An array of stroke paints applied to the node
-	PreserveRatio           *bool                  `json:"preserveRatio"`          // Keep height and width constrained to same ratio
+	PreserveRatio           bool                   `json:"preserveRatio"`          // Keep height and width constrained to same ratio
 	CharacterStyleOverrides []float64              `json:"characterStyleOverrides"`// Array with same number of elements as characeters in text box,; each element is a reference to the styleOverrideTable defined; below and maps to the corresponding character in the characters; field. Elements with value 0 have the default type style
 }
 
@@ -575,37 +575,37 @@ type Text struct {
 // Style of text including font family and weight (see type style
 // section for more information)
 type Tyle struct {
-	LineHeightPx        *float64             `json:"lineHeightPx"`       // Line height in px
-	FontPostScriptName  *string              `json:"fontPostScriptName"` // PostScript font name
-	FontWeight          *float64             `json:"fontWeight"`         // Numeric font weight
-	LineHeightPercent   *float64             `json:"lineHeightPercent"`  // Line height as a percentage of normal line height
-	TextAlignVertical   *TextAlignVertical   `json:"textAlignVertical"`  // Vertical text alignment as string enum
-	FontSize            *float64             `json:"fontSize"`           // Font size in px
-	Italic              *bool                `json:"italic"`             // Is text italicized?
-	Fills               []PaintElement       `json:"fills"`              // Paints applied to characters
-	FontFamily          *string              `json:"fontFamily"`         // Font family of text (standard name)
-	TextAlignHorizontal *TextAlignHorizontal `json:"textAlignHorizontal"`// Horizontal text alignment as string enum
-	LetterSpacing       *float64             `json:"letterSpacing"`      // Space between characters in px
+	LineHeightPx        float64             `json:"lineHeightPx"`       // Line height in px
+	FontPostScriptName  string              `json:"fontPostScriptName"` // PostScript font name
+	FontWeight          float64             `json:"fontWeight"`         // Numeric font weight
+	LineHeightPercent   float64             `json:"lineHeightPercent"`  // Line height as a percentage of normal line height
+	TextAlignVertical   TextAlignVertical   `json:"textAlignVertical"`  // Vertical text alignment as string enum
+	FontSize            float64             `json:"fontSize"`           // Font size in px
+	Italic              bool                `json:"italic"`             // Is text italicized?
+	Fills               []PaintElement      `json:"fills"`              // Paints applied to characters
+	FontFamily          string              `json:"fontFamily"`         // Font family of text (standard name)
+	TextAlignHorizontal TextAlignHorizontal `json:"textAlignHorizontal"`// Horizontal text alignment as string enum
+	LetterSpacing       float64             `json:"letterSpacing"`      // Space between characters in px
 }
 
 // A node of fixed size containing other nodes
 type Frame struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
 	LayoutGrids         []LayoutGridElement    `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	BackgroundColor     *Olor                  `json:"backgroundColor"`    // Background color of the node
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
-	ClipsContent        *bool                  `json:"clipsContent"`       // Does this node clip content outside of its bounds?
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	BackgroundColor     Olor                   `json:"backgroundColor"`    // Background color of the node
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	ClipsContent        bool                   `json:"clipsContent"`       // Does this node clip content outside of its bounds?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 	Children            []DocumentElement      `json:"children"`           // An array of nodes that are direct children of this node
 }
 
@@ -658,10 +658,10 @@ type Frame struct {
 // changes applied to the instance
 type DocumentElement struct {
 	Children                []DocumentElement      `json:"children"`               // An array of canvases attached to the document; ; An array of top level layers on the canvas; ; An array of nodes that are direct children of this node; ; An array of nodes that are being boolean operated on
-	ID                      *string                `json:"id"`                     // a string uniquely identifying this node within the document
-	Name                    *string                `json:"name"`                   // the name given to the node by the user in the tool.
-	Type                    *NodeType              `json:"type"`                   // the type of the node, refer to table below for details
-	Visible                 *bool                  `json:"visible"`                // whether or not the node is visible on the canvas
+	ID                      string                 `json:"id"`                     // a string uniquely identifying this node within the document
+	Name                    string                 `json:"name"`                   // the name given to the node by the user in the tool.
+	Type                    NodeType               `json:"type"`                   // the type of the node, refer to table below for details
+	Visible                 bool                   `json:"visible"`                // whether or not the node is visible on the canvas
 	BackgroundColor         *Olor                  `json:"backgroundColor"`        // Background color of the canvas; ; Background color of the node
 	ExportSettings          []ExportSettingElement `json:"exportSettings"`         // An array of export settings representing images to export from the canvas; ; An array of export settings representing images to export from node; ; An array of export settings representing images to export from this node
 	Effects                 []EffectElement        `json:"effects"`                // An array of effects attached to this node; (see effects sectionfor more details)
@@ -691,110 +691,110 @@ type DocumentElement struct {
 // An array of layout grids attached to this node (see layout grids section
 // for more details). GROUP nodes do not have this attribute
 type LayoutGridElement struct {
-	Alignment   *Alignment `json:"alignment"`  // Positioning of grid as a string enum; "MIN": Grid starts at the left or top of the frame; "MAX": Grid starts at the right or bottom of the frame; "CENTER": Grid is center aligned
-	Color       *Olor      `json:"color"`      // Color of the grid
-	Count       *float64   `json:"count"`      // Number of columns or rows
-	GutterSize  *float64   `json:"gutterSize"` // Spacing in between columns and rows
-	Offset      *float64   `json:"offset"`     // Spacing before the first column or row
-	Pattern     *Pattern   `json:"pattern"`    // Orientation of the grid as a string enum; "COLUMNS": Vertical grid; "ROWS": Horizontal grid; "GRID": Square grid
-	SectionSize *float64   `json:"sectionSize"`// Width of column grid or height of row grid or square grid spacing
-	Visible     *bool      `json:"visible"`    // Is the grid currently visible?
+	Alignment   Alignment `json:"alignment"`  // Positioning of grid as a string enum; "MIN": Grid starts at the left or top of the frame; "MAX": Grid starts at the right or bottom of the frame; "CENTER": Grid is center aligned
+	Color       Olor      `json:"color"`      // Color of the grid
+	Count       float64   `json:"count"`      // Number of columns or rows
+	GutterSize  float64   `json:"gutterSize"` // Spacing in between columns and rows
+	Offset      float64   `json:"offset"`     // Spacing before the first column or row
+	Pattern     Pattern   `json:"pattern"`    // Orientation of the grid as a string enum; "COLUMNS": Vertical grid; "ROWS": Horizontal grid; "GRID": Square grid
+	SectionSize float64   `json:"sectionSize"`// Width of column grid or height of row grid or square grid spacing
+	Visible     bool      `json:"visible"`    // Is the grid currently visible?
 }
 
 // A rectangle
 type Rectangle struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
-	CornerRadius        *float64               `json:"cornerRadius"`       // Radius of each corner of the rectangle
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	StrokeAlign         *StrokeAlign           `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight        *float64               `json:"strokeWeight"`       // The weight of strokes on the node
+	CornerRadius        float64                `json:"cornerRadius"`       // Radius of each corner of the rectangle
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	StrokeAlign         StrokeAlign            `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight        float64                `json:"strokeWeight"`       // The weight of strokes on the node
 	Fills               []PaintElement         `json:"fills"`              // An array of fill paints applied to the node
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 }
 
 // Guides to align and place objects within a frame
 type LayoutGrid struct {
-	Alignment   *Alignment `json:"alignment"`  // Positioning of grid as a string enum; "MIN": Grid starts at the left or top of the frame; "MAX": Grid starts at the right or bottom of the frame; "CENTER": Grid is center aligned
-	Color       *Olor      `json:"color"`      // Color of the grid
-	Count       *float64   `json:"count"`      // Number of columns or rows
-	GutterSize  *float64   `json:"gutterSize"` // Spacing in between columns and rows
-	Offset      *float64   `json:"offset"`     // Spacing before the first column or row
-	Pattern     *Pattern   `json:"pattern"`    // Orientation of the grid as a string enum; "COLUMNS": Vertical grid; "ROWS": Horizontal grid; "GRID": Square grid
-	SectionSize *float64   `json:"sectionSize"`// Width of column grid or height of row grid or square grid spacing
-	Visible     *bool      `json:"visible"`    // Is the grid currently visible?
+	Alignment   Alignment `json:"alignment"`  // Positioning of grid as a string enum; "MIN": Grid starts at the left or top of the frame; "MAX": Grid starts at the right or bottom of the frame; "CENTER": Grid is center aligned
+	Color       Olor      `json:"color"`      // Color of the grid
+	Count       float64   `json:"count"`      // Number of columns or rows
+	GutterSize  float64   `json:"gutterSize"` // Spacing in between columns and rows
+	Offset      float64   `json:"offset"`     // Spacing before the first column or row
+	Pattern     Pattern   `json:"pattern"`    // Orientation of the grid as a string enum; "COLUMNS": Vertical grid; "ROWS": Horizontal grid; "GRID": Square grid
+	SectionSize float64   `json:"sectionSize"`// Width of column grid or height of row grid or square grid spacing
+	Visible     bool      `json:"visible"`    // Is the grid currently visible?
 }
 
 // A visual effect such as a shadow or blur
 type Effect struct {
-	BlendMode *BlendMode  `json:"blendMode"`
-	Color     *Olor       `json:"color"`    
-	Offset    *Offset     `json:"offset"`   
-	Radius    *float64    `json:"radius"`   // Radius of the blur effect (applies to shadows as well)
-	Type      *EffectType `json:"type"`     // Type of effect as a string enum
-	Visible   *bool       `json:"visible"`  // Is the effect active?
+	BlendMode *BlendMode `json:"blendMode"`
+	Color     *Olor      `json:"color"`    
+	Offset    *Offset    `json:"offset"`   
+	Radius    float64    `json:"radius"`   // Radius of the blur effect (applies to shadows as well)
+	Type      EffectType `json:"type"`     // Type of effect as a string enum
+	Visible   bool       `json:"visible"`  // Is the effect active?
 }
 
 // A rectangular region of the canvas that can be exported
 type Slice struct {
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from this node
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
 }
 
 // A regular star shape
 type Star struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	StrokeAlign         *StrokeAlign           `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight        *float64               `json:"strokeWeight"`       // The weight of strokes on the node
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	StrokeAlign         StrokeAlign            `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight        float64                `json:"strokeWeight"`       // The weight of strokes on the node
 	Fills               []PaintElement         `json:"fills"`              // An array of fill paints applied to the node
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 }
 
 // A straight line
 type Line struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	StrokeAlign         *StrokeAlign           `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight        *float64               `json:"strokeWeight"`       // The weight of strokes on the node
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	StrokeAlign         StrokeAlign            `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight        float64                `json:"strokeWeight"`       // The weight of strokes on the node
 	Fills               []PaintElement         `json:"fills"`              // An array of fill paints applied to the node
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 }
 
 // An instance of a component, changes to the component result in the same
@@ -802,113 +802,113 @@ type Line struct {
 type Instance struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
 	LayoutGrids         []LayoutGridElement    `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	BackgroundColor     *Olor                  `json:"backgroundColor"`    // Background color of the node
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
-	ClipsContent        *bool                  `json:"clipsContent"`       // Does this node clip content outside of its bounds?
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	BackgroundColor     Olor                   `json:"backgroundColor"`    // Background color of the node
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	ClipsContent        bool                   `json:"clipsContent"`       // Does this node clip content outside of its bounds?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	ComponentID         *string                `json:"componentId"`        // ID of component that this instance came from, refers to components; table (see endpoints section below)
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	ComponentID         string                 `json:"componentId"`        // ID of component that this instance came from, refers to components; table (see endpoints section below)
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 	Children            []DocumentElement      `json:"children"`           // An array of nodes that are direct children of this node
 }
 
 // A 2d vector
 type Vector2D struct {
-	X *float64 `json:"x"`// X coordinate of the vector
-	Y *float64 `json:"y"`// Y coordinate of the vector
+	X float64 `json:"x"`// X coordinate of the vector
+	Y float64 `json:"y"`// Y coordinate of the vector
 }
 
 // Metadata for character formatting
 type TypeStyle struct {
-	LineHeightPx        *float64             `json:"lineHeightPx"`       // Line height in px
-	FontPostScriptName  *string              `json:"fontPostScriptName"` // PostScript font name
-	FontWeight          *float64             `json:"fontWeight"`         // Numeric font weight
-	LineHeightPercent   *float64             `json:"lineHeightPercent"`  // Line height as a percentage of normal line height
-	TextAlignVertical   *TextAlignVertical   `json:"textAlignVertical"`  // Vertical text alignment as string enum
-	FontSize            *float64             `json:"fontSize"`           // Font size in px
-	Italic              *bool                `json:"italic"`             // Is text italicized?
-	Fills               []PaintElement       `json:"fills"`              // Paints applied to characters
-	FontFamily          *string              `json:"fontFamily"`         // Font family of text (standard name)
-	TextAlignHorizontal *TextAlignHorizontal `json:"textAlignHorizontal"`// Horizontal text alignment as string enum
-	LetterSpacing       *float64             `json:"letterSpacing"`      // Space between characters in px
+	LineHeightPx        float64             `json:"lineHeightPx"`       // Line height in px
+	FontPostScriptName  string              `json:"fontPostScriptName"` // PostScript font name
+	FontWeight          float64             `json:"fontWeight"`         // Numeric font weight
+	LineHeightPercent   float64             `json:"lineHeightPercent"`  // Line height as a percentage of normal line height
+	TextAlignVertical   TextAlignVertical   `json:"textAlignVertical"`  // Vertical text alignment as string enum
+	FontSize            float64             `json:"fontSize"`           // Font size in px
+	Italic              bool                `json:"italic"`             // Is text italicized?
+	Fills               []PaintElement      `json:"fills"`              // Paints applied to characters
+	FontFamily          string              `json:"fontFamily"`         // Font family of text (standard name)
+	TextAlignHorizontal TextAlignHorizontal `json:"textAlignHorizontal"`// Horizontal text alignment as string enum
+	LetterSpacing       float64             `json:"letterSpacing"`      // Space between characters in px
 }
 
 // A group that has a boolean operation applied to it
 type BooleanGroup struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	StrokeAlign         *StrokeAlign           `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight        *float64               `json:"strokeWeight"`       // The weight of strokes on the node
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	StrokeAlign         StrokeAlign            `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight        float64                `json:"strokeWeight"`       // The weight of strokes on the node
 	Fills               []PaintElement         `json:"fills"`              // An array of fill paints applied to the node
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 	Children            []DocumentElement      `json:"children"`           // An array of nodes that are being boolean operated on
 }
 
 // Represents a single page
 type Canvas struct {
-	BackgroundColor *Olor                  `json:"backgroundColor"`// Background color of the canvas
+	BackgroundColor Olor                   `json:"backgroundColor"`// Background color of the canvas
 	Children        []DocumentElement      `json:"children"`       // An array of top level layers on the canvas
 	ExportSettings  []ExportSettingElement `json:"exportSettings"` // An array of export settings representing images to export from the canvas
-	ID              *string                `json:"id"`             // a string uniquely identifying this node within the document
-	Name            *string                `json:"name"`           // the name given to the node by the user in the tool.
-	Type            *NodeType              `json:"type"`           // the type of the node, refer to table below for details
-	Visible         *bool                  `json:"visible"`        // whether or not the node is visible on the canvas
+	ID              string                 `json:"id"`             // a string uniquely identifying this node within the document
+	Name            string                 `json:"name"`           // the name given to the node by the user in the tool.
+	Type            NodeType               `json:"type"`           // the type of the node, refer to table below for details
+	Visible         bool                   `json:"visible"`        // whether or not the node is visible on the canvas
 }
 
 // Node Properties
 // The root node
 type Document struct {
 	Children []DocumentElement `json:"children"`// An array of canvases attached to the document
-	ID       *string           `json:"id"`      // a string uniquely identifying this node within the document
-	Name     *string           `json:"name"`    // the name given to the node by the user in the tool.
-	Type     *NodeType         `json:"type"`    // the type of the node, refer to table below for details
-	Visible  *bool             `json:"visible"` // whether or not the node is visible on the canvas
+	ID       string            `json:"id"`      // a string uniquely identifying this node within the document
+	Name     string            `json:"name"`    // the name given to the node by the user in the tool.
+	Type     NodeType          `json:"type"`    // the type of the node, refer to table below for details
+	Visible  bool              `json:"visible"` // whether or not the node is visible on the canvas
 }
 
 // Format and size to export an asset at
 type ExportSetting struct {
-	Constraint *ExportSettingConstraint `json:"constraint"`// Constraint that determines sizing of exported asset
-	Format     *Format                  `json:"format"`    // Image type, string enum
-	Suffix     *Suffix                  `json:"suffix"`    // File suffix to append to all filenames
+	Constraint ExportSettingConstraint `json:"constraint"`// Constraint that determines sizing of exported asset
+	Format     Format                  `json:"format"`    // Image type, string enum
+	Suffix     string                  `json:"suffix"`    // File suffix to append to all filenames
 }
 
 // A node that can have instances created of it that share the same properties
 type Component struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
 	LayoutGrids         []LayoutGridElement    `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	BackgroundColor     *Olor                  `json:"backgroundColor"`    // Background color of the node
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
-	ClipsContent        *bool                  `json:"clipsContent"`       // Does this node clip content outside of its bounds?
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	BackgroundColor     Olor                   `json:"backgroundColor"`    // Background color of the node
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	ClipsContent        bool                   `json:"clipsContent"`       // Does this node clip content outside of its bounds?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 	Children            []DocumentElement      `json:"children"`           // An array of nodes that are direct children of this node
 }
 
@@ -931,8 +931,8 @@ type Component struct {
 // File to export JSON from
 type FileResponse struct {
 	Components    map[string]ComponentValue `json:"components"`   // A mapping from node IDs to component metadata. This is to help you determine which; components each instance comes from. Currently the only piece of metadata available on; components is the name of the component, but more properties will be forthcoming.
-	Document      *Ocument                  `json:"document"`     // The root node within the document
-	SchemaVersion *float64                  `json:"schemaVersion"`
+	Document      Ocument                   `json:"document"`     // The root node within the document
+	SchemaVersion float64                   `json:"schemaVersion"`
 }
 
 // A node that can have instances created of it that share the same properties
@@ -951,20 +951,20 @@ type FileResponse struct {
 type ComponentValue struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
 	LayoutGrids         []LayoutGridElement    `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	BackgroundColor     *Olor                  `json:"backgroundColor"`    // Background color of the node
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
-	ClipsContent        *bool                  `json:"clipsContent"`       // Does this node clip content outside of its bounds?
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	BackgroundColor     Olor                   `json:"backgroundColor"`    // Background color of the node
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	ClipsContent        bool                   `json:"clipsContent"`       // Does this node clip content outside of its bounds?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 	Children            []DocumentElement      `json:"children"`           // An array of nodes that are direct children of this node
 }
 
@@ -982,16 +982,16 @@ type ComponentValue struct {
 // The root node within the document
 type Ocument struct {
 	Children []DocumentElement `json:"children"`// An array of canvases attached to the document
-	ID       *string           `json:"id"`      // a string uniquely identifying this node within the document
-	Name     *string           `json:"name"`    // the name given to the node by the user in the tool.
-	Type     *NodeType         `json:"type"`    // the type of the node, refer to table below for details
-	Visible  *bool             `json:"visible"` // whether or not the node is visible on the canvas
+	ID       string            `json:"id"`      // a string uniquely identifying this node within the document
+	Name     string            `json:"name"`    // the name given to the node by the user in the tool.
+	Type     NodeType          `json:"type"`    // the type of the node, refer to table below for details
+	Visible  bool              `json:"visible"` // whether or not the node is visible on the canvas
 }
 
 // Sizing constraint for exports
 type Constraint struct {
-	Type  *ConstraintType `json:"type"` // Type of constraint to apply; string enum with potential values below; "SCALE": Scale by value; "WIDTH": Scale proportionally and set width to value; "HEIGHT": Scale proportionally and set height to value
-	Value *float64        `json:"value"`// See type property for effect of this field
+	Type  ConstraintType `json:"type"` // Type of constraint to apply; string enum with potential values below; "SCALE": Scale by value; "WIDTH": Scale proportionally and set width to value; "HEIGHT": Scale proportionally and set height to value
+	Value float64        `json:"value"`// See type property for effect of this field
 }
 
 // A solid color, gradient, or image texture that can be applied as fills or strokes
@@ -999,72 +999,72 @@ type Paint struct {
 	Color                   *Olor              `json:"color"`                  // Solid color of the paint
 	GradientHandlePositions []Offset           `json:"gradientHandlePositions"`// This field contains three vectors, each of which are a position in; normalized object space (normalized object space is if the top left; corner of the bounding box of the object is (0, 0) and the bottom; right is (1,1)). The first position corresponds to the start of the; gradient (value 0 for the purposes of calculating gradient stops),; the second position is the end of the gradient (value 1), and the; third handle position determines the width of the gradient (only; relevant for non-linear gradients).
 	GradientStops           []ColorStopElement `json:"gradientStops"`          // Positions of key points along the gradient axis with the colors; anchored there. Colors along the gradient are interpolated smoothly; between neighboring gradient stops.
-	Opacity                 *float64           `json:"opacity"`                // Overall opacity of paint (colors within the paint can also have opacity; values which would blend with this)
+	Opacity                 float64            `json:"opacity"`                // Overall opacity of paint (colors within the paint can also have opacity; values which would blend with this)
 	ScaleMode               *string            `json:"scaleMode"`              // Image scaling mode
-	Type                    *PaintType         `json:"type"`                   // Type of paint as a string enum
-	Visible                 *bool              `json:"visible"`                // Is the paint enabled?
+	Type                    PaintType          `json:"type"`                   // Type of paint as a string enum
+	Visible                 bool               `json:"visible"`                // Is the paint enabled?
 }
 
 // A regular n-sided polygon
 type RegularPolygon struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	StrokeAlign         *StrokeAlign           `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight        *float64               `json:"strokeWeight"`       // The weight of strokes on the node
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	StrokeAlign         StrokeAlign            `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight        float64                `json:"strokeWeight"`       // The weight of strokes on the node
 	Fills               []PaintElement         `json:"fills"`              // An array of fill paints applied to the node
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 }
 
 // An ellipse
 type Ellipse struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	StrokeAlign         *StrokeAlign           `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
-	StrokeWeight        *float64               `json:"strokeWeight"`       // The weight of strokes on the node
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	StrokeAlign         StrokeAlign            `json:"strokeAlign"`        // Where stroke is drawn relative to the vector outline as a string enum; "INSIDE": draw stroke inside the shape boundary; "OUTSIDE": draw stroke outside the shape boundary; "CENTER": draw stroke centered along the shape boundary
+	StrokeWeight        float64                `json:"strokeWeight"`       // The weight of strokes on the node
 	Fills               []PaintElement         `json:"fills"`              // An array of fill paints applied to the node
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
 	Strokes             []PaintElement         `json:"strokes"`            // An array of stroke paints applied to the node
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 }
 
 // A logical grouping of nodes
 type Group struct {
 	Effects             []EffectElement        `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
 	LayoutGrids         []LayoutGridElement    `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
-	Opacity             *float64               `json:"opacity"`            // Opacity of the node
-	Name                *string                `json:"name"`               // the name given to the node by the user in the tool.
-	AbsoluteBoundingBox *AbsoluteBoundingBox   `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	TransitionNodeID    *string                `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Visible             *bool                  `json:"visible"`            // whether or not the node is visible on the canvas
-	BlendMode           *BlendMode             `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	BackgroundColor     *Olor                  `json:"backgroundColor"`    // Background color of the node
-	Constraints         *Constraints           `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	IsMask              *bool                  `json:"isMask"`             // Does this node mask sibling nodes in front of it?
-	ClipsContent        *bool                  `json:"clipsContent"`       // Does this node clip content outside of its bounds?
+	Opacity             float64                `json:"opacity"`            // Opacity of the node
+	Name                string                 `json:"name"`               // the name given to the node by the user in the tool.
+	AbsoluteBoundingBox AbsoluteBoundingBox    `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	TransitionNodeID    string                 `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Visible             bool                   `json:"visible"`            // whether or not the node is visible on the canvas
+	BlendMode           BlendMode              `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	BackgroundColor     Olor                   `json:"backgroundColor"`    // Background color of the node
+	Constraints         Constraints            `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	IsMask              bool                   `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	ClipsContent        bool                   `json:"clipsContent"`       // Does this node clip content outside of its bounds?
 	ExportSettings      []ExportSettingElement `json:"exportSettings"`     // An array of export settings representing images to export from node
-	Type                *NodeType              `json:"type"`               // the type of the node, refer to table below for details
-	ID                  *string                `json:"id"`                 // a string uniquely identifying this node within the document
-	PreserveRatio       *bool                  `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	Type                NodeType               `json:"type"`               // the type of the node, refer to table below for details
+	ID                  string                 `json:"id"`                 // a string uniquely identifying this node within the document
+	PreserveRatio       bool                   `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 	Children            []DocumentElement      `json:"children"`           // An array of nodes that are direct children of this node
 }
 
@@ -1151,12 +1151,6 @@ const (
 	Jpg Format = "JPG"
 	PNG Format = "PNG"
 	SVG Format = "SVG"
-)
-
-// File suffix to append to all filenames
-type Suffix string
-const (
-	String Suffix = "string"
 )
 
 // Type of paint as a string enum

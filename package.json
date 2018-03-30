@@ -6,8 +6,7 @@
   "scripts": {
     "prepare": "npm upgrade quicktype && npm run generate:types",
     "generate:types": "npm run generate:schema && ./quicktype.sh",
-    "generate:schema":
-      "typescript-json-schema 'types/*.ts' Export -o schema.json --required --titles --topRef",
+    "generate:schema": "typescript-json-schema 'types/*.ts' Export -o schema.json --required --titles --topRef",
     "start": "watch \"npm run generate:types\" types"
   },
   "repository": {

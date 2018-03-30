@@ -142,7 +142,6 @@ module QuickType exposing
     , EffectType(..)
     , ConstraintType(..)
     , Format(..)
-    , Suffix(..)
     , PaintType(..)
     , StrokeAlign(..)
     , TextAlignHorizontal(..)
@@ -216,23 +215,23 @@ preserveRatio:
 Keep height and width constrained to same ratio
 -}
 type alias Vector =
-    { effects : Maybe (Array EffectElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , vectorType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
+    { effects : Array EffectElement
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , vectorType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
     }
 
 {-| A rectangle
@@ -307,24 +306,24 @@ preserveRatio:
 Keep height and width constrained to same ratio
 -}
 type alias AbsoluteBoundingBox =
-    { effects : Maybe (Array EffectElement)
-    , cornerRadius : Maybe Float
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , absoluteBoundingBoxType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
+    { effects : Array EffectElement
+    , cornerRadius : Float
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , absoluteBoundingBoxType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
     }
 
 {-| the type of the node, refer to table below for details -}
@@ -392,8 +391,8 @@ Vertical constraint as an enum
 "SCALE": Node scales vertically with containing frame
 -}
 type alias Constraints =
-    { horizontal : Maybe Horizontal
-    , vertical : Maybe Vertical
+    { horizontal : Horizontal
+    , vertical : Vertical
     }
 
 {-| Horizontal constraint as an enum
@@ -444,9 +443,9 @@ type alias EffectElement =
     { blendMode : Maybe BlendMode
     , color : Maybe Olor
     , offset : Maybe Offset
-    , radius : Maybe Float
-    , effectType : Maybe EffectType
-    , visible : Maybe Bool
+    , radius : Float
+    , effectType : EffectType
+    , visible : Bool
     }
 
 {-| An RGBA color
@@ -474,10 +473,10 @@ r:
 Red channel value, between 0 and 1
 -}
 type alias Olor =
-    { a : Maybe Float
-    , b : Maybe Float
-    , g : Maybe Float
-    , r : Maybe Float
+    { a : Float
+    , b : Float
+    , g : Float
+    , r : Float
     }
 
 {-| Type of effect as a string enum -}
@@ -505,8 +504,8 @@ y:
 Y coordinate of the vector
 -}
 type alias Offset =
-    { x : Maybe Float
-    , y : Maybe Float
+    { x : Float
+    , y : Float
     }
 
 {-| Format and size to export an asset at
@@ -527,9 +526,9 @@ suffix:
 File suffix to append to all filenames
 -}
 type alias ExportSettingElement =
-    { constraint : Maybe ExportSettingConstraint
-    , format : Maybe Format
-    , suffix : Maybe Suffix
+    { constraint : ExportSettingConstraint
+    , format : Format
+    , suffix : String
     }
 
 {-| Sizing constraint for exports
@@ -546,8 +545,8 @@ value:
 See type property for effect of this field
 -}
 type alias ExportSettingConstraint =
-    { constraintType : Maybe ConstraintType
-    , value : Maybe Float
+    { constraintType : ConstraintType
+    , value : Float
     }
 
 {-| Type of constraint to apply; string enum with potential values below
@@ -565,10 +564,6 @@ type Format
     = Jpg
     | PNG
     | SVG
-
-{-| File suffix to append to all filenames -}
-type Suffix
-    = SuffixString
 
 {-| A solid color, gradient, or image texture that can be applied as fills or strokes
 
@@ -613,10 +608,10 @@ type alias PaintElement =
     { color : Maybe Olor
     , gradientHandlePositions : Maybe (Array Offset)
     , gradientStops : Maybe (Array ColorStopElement)
-    , opacity : Maybe Float
+    , opacity : Float
     , scaleMode : Maybe String
-    , paintType : Maybe PaintType
-    , visible : Maybe Bool
+    , paintType : PaintType
+    , visible : Bool
     }
 
 {-| A position color pair representing a gradient stop
@@ -632,8 +627,8 @@ position:
 Value between 0 and 1 representing position along gradient axis
 -}
 type alias ColorStopElement =
-    { color : Maybe Olor
-    , position : Maybe Float
+    { color : Olor
+    , position : Float
     }
 
 {-| Type of paint as a string enum -}
@@ -671,10 +666,10 @@ r:
 Red channel value, between 0 and 1
 -}
 type alias Color =
-    { a : Maybe Float
-    , b : Maybe Float
-    , g : Maybe Float
-    , r : Maybe Float
+    { a : Float
+    , b : Float
+    , g : Float
+    , r : Float
     }
 
 {-| A position color pair representing a gradient stop
@@ -686,8 +681,8 @@ position:
 Value between 0 and 1 representing position along gradient axis
 -}
 type alias ColorStop =
-    { color : Maybe Olor
-    , position : Maybe Float
+    { color : Olor
+    , position : Float
     }
 
 {-| Layout constraint relative to containing Frame
@@ -711,8 +706,8 @@ Vertical constraint as an enum
 "SCALE": Node scales vertically with containing frame
 -}
 type alias LayoutConstraint =
-    { horizontal : Maybe Horizontal
-    , vertical : Maybe Vertical
+    { horizontal : Horizontal
+    , vertical : Vertical
     }
 
 {-| A text box
@@ -790,27 +785,27 @@ below and maps to the corresponding character in the characters
 field. Elements with value 0 have the default type style
 -}
 type alias Text =
-    { effects : Maybe (Array EffectElement)
-    , characters : Maybe String
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , styleOverrideTable : Maybe (Array Tyle)
-    , style : Maybe Tyle
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , textType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
-    , characterStyleOverrides : Maybe (Array Float)
+    { effects : Array EffectElement
+    , characters : String
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , styleOverrideTable : Array Tyle
+    , style : Tyle
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , textType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
+    , characterStyleOverrides : Array Float
     }
 
 {-| Metadata for character formatting
@@ -854,17 +849,17 @@ letterSpacing:
 Space between characters in px
 -}
 type alias Tyle =
-    { lineHeightPx : Maybe Float
-    , fontPostScriptName : Maybe String
-    , fontWeight : Maybe Float
-    , lineHeightPercent : Maybe Float
-    , textAlignVertical : Maybe TextAlignVertical
-    , fontSize : Maybe Float
-    , italic : Maybe Bool
-    , fills : Maybe (Array PaintElement)
-    , fontFamily : Maybe String
-    , textAlignHorizontal : Maybe TextAlignHorizontal
-    , letterSpacing : Maybe Float
+    { lineHeightPx : Float
+    , fontPostScriptName : String
+    , fontWeight : Float
+    , lineHeightPercent : Float
+    , textAlignVertical : TextAlignVertical
+    , fontSize : Float
+    , italic : Bool
+    , fills : Array PaintElement
+    , fontFamily : String
+    , textAlignHorizontal : TextAlignHorizontal
+    , letterSpacing : Float
     }
 
 {-| Horizontal text alignment as string enum -}
@@ -937,23 +932,23 @@ children:
 An array of nodes that are direct children of this node
 -}
 type alias Frame =
-    { effects : Maybe (Array EffectElement)
-    , layoutGrids : Maybe (Array LayoutGridElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , backgroundColor : Maybe Olor
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , clipsContent : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , frameType : Maybe NodeType
-    , id : Maybe String
-    , preserveRatio : Maybe Bool
-    , children : Maybe (Array DocumentElement)
+    { effects : Array EffectElement
+    , layoutGrids : Array LayoutGridElement
+    , opacity : Float
+    , name : String
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , backgroundColor : Olor
+    , constraints : Constraints
+    , isMask : Bool
+    , clipsContent : Bool
+    , exportSettings : Array ExportSettingElement
+    , frameType : NodeType
+    , id : String
+    , preserveRatio : Bool
+    , children : Array DocumentElement
     }
 
 {-| An array of nodes that are direct children of this node
@@ -1110,10 +1105,10 @@ table (see endpoints section below)
 -}
 type alias DocumentElement =
     { children : Maybe (Array DocumentElement)
-    , id : Maybe String
-    , name : Maybe String
-    , documentType : Maybe NodeType
-    , visible : Maybe Bool
+    , id : String
+    , name : String
+    , documentType : NodeType
+    , visible : Bool
     , backgroundColor : Maybe Olor
     , exportSettings : Maybe (Array ExportSettingElement)
     , effects : Maybe (Array EffectElement)
@@ -1174,14 +1169,14 @@ visible:
 Is the grid currently visible?
 -}
 type alias LayoutGridElement =
-    { alignment : Maybe Alignment
-    , color : Maybe Olor
-    , count : Maybe Float
-    , gutterSize : Maybe Float
-    , offset : Maybe Float
-    , pattern : Maybe Pattern
-    , sectionSize : Maybe Float
-    , visible : Maybe Bool
+    { alignment : Alignment
+    , color : Olor
+    , count : Float
+    , gutterSize : Float
+    , offset : Float
+    , pattern : Pattern
+    , sectionSize : Float
+    , visible : Bool
     }
 
 {-| Positioning of grid as a string enum
@@ -1266,24 +1261,24 @@ preserveRatio:
 Keep height and width constrained to same ratio
 -}
 type alias Rectangle =
-    { effects : Maybe (Array EffectElement)
-    , cornerRadius : Maybe Float
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , rectangleType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
+    { effects : Array EffectElement
+    , cornerRadius : Float
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , rectangleType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
     }
 
 {-| Guides to align and place objects within a frame
@@ -1319,14 +1314,14 @@ visible:
 Is the grid currently visible?
 -}
 type alias LayoutGrid =
-    { alignment : Maybe Alignment
-    , color : Maybe Olor
-    , count : Maybe Float
-    , gutterSize : Maybe Float
-    , offset : Maybe Float
-    , pattern : Maybe Pattern
-    , sectionSize : Maybe Float
-    , visible : Maybe Bool
+    { alignment : Alignment
+    , color : Olor
+    , count : Float
+    , gutterSize : Float
+    , offset : Float
+    , pattern : Pattern
+    , sectionSize : Float
+    , visible : Bool
     }
 
 {-| A visual effect such as a shadow or blur
@@ -1344,9 +1339,9 @@ type alias Effect =
     { blendMode : Maybe BlendMode
     , color : Maybe Olor
     , offset : Maybe Offset
-    , radius : Maybe Float
-    , effectType : Maybe EffectType
-    , visible : Maybe Bool
+    , radius : Float
+    , effectType : EffectType
+    , visible : Bool
     }
 
 {-| A rectangular region of the canvas that can be exported
@@ -1370,12 +1365,12 @@ visible:
 whether or not the node is visible on the canvas
 -}
 type alias Slice =
-    { absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , id : Maybe String
-    , name : Maybe String
-    , sliceType : Maybe NodeType
-    , visible : Maybe Bool
+    { absoluteBoundingBox : AbsoluteBoundingBox
+    , exportSettings : Array ExportSettingElement
+    , id : String
+    , name : String
+    , sliceType : NodeType
+    , visible : Bool
     }
 
 {-| A regular star shape
@@ -1437,23 +1432,23 @@ preserveRatio:
 Keep height and width constrained to same ratio
 -}
 type alias Star =
-    { effects : Maybe (Array EffectElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , starType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
+    { effects : Array EffectElement
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , starType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
     }
 
 {-| A straight line
@@ -1515,23 +1510,23 @@ preserveRatio:
 Keep height and width constrained to same ratio
 -}
 type alias Line =
-    { effects : Maybe (Array EffectElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , lineType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
+    { effects : Array EffectElement
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , lineType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
     }
 
 {-| An instance of a component, changes to the component result in the same
@@ -1596,24 +1591,24 @@ children:
 An array of nodes that are direct children of this node
 -}
 type alias Instance =
-    { effects : Maybe (Array EffectElement)
-    , layoutGrids : Maybe (Array LayoutGridElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , backgroundColor : Maybe Olor
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , clipsContent : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , componentID : Maybe String
-    , instanceType : Maybe NodeType
-    , id : Maybe String
-    , preserveRatio : Maybe Bool
-    , children : Maybe (Array DocumentElement)
+    { effects : Array EffectElement
+    , layoutGrids : Array LayoutGridElement
+    , opacity : Float
+    , name : String
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , backgroundColor : Olor
+    , constraints : Constraints
+    , isMask : Bool
+    , clipsContent : Bool
+    , exportSettings : Array ExportSettingElement
+    , componentID : String
+    , instanceType : NodeType
+    , id : String
+    , preserveRatio : Bool
+    , children : Array DocumentElement
     }
 
 {-| A 2d vector
@@ -1625,8 +1620,8 @@ y:
 Y coordinate of the vector
 -}
 type alias Vector2D =
-    { x : Maybe Float
-    , y : Maybe Float
+    { x : Float
+    , y : Float
     }
 
 {-| Metadata for character formatting
@@ -1665,17 +1660,17 @@ letterSpacing:
 Space between characters in px
 -}
 type alias TypeStyle =
-    { lineHeightPx : Maybe Float
-    , fontPostScriptName : Maybe String
-    , fontWeight : Maybe Float
-    , lineHeightPercent : Maybe Float
-    , textAlignVertical : Maybe TextAlignVertical
-    , fontSize : Maybe Float
-    , italic : Maybe Bool
-    , fills : Maybe (Array PaintElement)
-    , fontFamily : Maybe String
-    , textAlignHorizontal : Maybe TextAlignHorizontal
-    , letterSpacing : Maybe Float
+    { lineHeightPx : Float
+    , fontPostScriptName : String
+    , fontWeight : Float
+    , lineHeightPercent : Float
+    , textAlignVertical : TextAlignVertical
+    , fontSize : Float
+    , italic : Bool
+    , fills : Array PaintElement
+    , fontFamily : String
+    , textAlignHorizontal : TextAlignHorizontal
+    , letterSpacing : Float
     }
 
 {-| A group that has a boolean operation applied to it
@@ -1740,24 +1735,24 @@ children:
 An array of nodes that are being boolean operated on
 -}
 type alias BooleanGroup =
-    { effects : Maybe (Array EffectElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , booleanGroupType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
-    , children : Maybe (Array DocumentElement)
+    { effects : Array EffectElement
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , booleanGroupType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
+    , children : Array DocumentElement
     }
 
 {-| Represents a single page
@@ -1784,13 +1779,13 @@ visible:
 whether or not the node is visible on the canvas
 -}
 type alias Canvas =
-    { backgroundColor : Maybe Olor
-    , children : Maybe (Array DocumentElement)
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , id : Maybe String
-    , name : Maybe String
-    , canvasType : Maybe NodeType
-    , visible : Maybe Bool
+    { backgroundColor : Olor
+    , children : Array DocumentElement
+    , exportSettings : Array ExportSettingElement
+    , id : String
+    , name : String
+    , canvasType : NodeType
+    , visible : Bool
     }
 
 {-| Node Properties
@@ -1812,11 +1807,11 @@ visible:
 whether or not the node is visible on the canvas
 -}
 type alias Document =
-    { children : Maybe (Array DocumentElement)
-    , id : Maybe String
-    , name : Maybe String
-    , documentType : Maybe NodeType
-    , visible : Maybe Bool
+    { children : Array DocumentElement
+    , id : String
+    , name : String
+    , documentType : NodeType
+    , visible : Bool
     }
 
 {-| Format and size to export an asset at
@@ -1831,9 +1826,9 @@ suffix:
 File suffix to append to all filenames
 -}
 type alias ExportSetting =
-    { constraint : Maybe ExportSettingConstraint
-    , format : Maybe Format
-    , suffix : Maybe Suffix
+    { constraint : ExportSettingConstraint
+    , format : Format
+    , suffix : String
     }
 
 {-| A node that can have instances created of it that share the same properties
@@ -1893,23 +1888,23 @@ children:
 An array of nodes that are direct children of this node
 -}
 type alias Component =
-    { effects : Maybe (Array EffectElement)
-    , layoutGrids : Maybe (Array LayoutGridElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , backgroundColor : Maybe Olor
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , clipsContent : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , componentType : Maybe NodeType
-    , id : Maybe String
-    , preserveRatio : Maybe Bool
-    , children : Maybe (Array DocumentElement)
+    { effects : Array EffectElement
+    , layoutGrids : Array LayoutGridElement
+    , opacity : Float
+    , name : String
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , backgroundColor : Olor
+    , constraints : Constraints
+    , isMask : Bool
+    , clipsContent : Bool
+    , exportSettings : Array ExportSettingElement
+    , componentType : NodeType
+    , id : String
+    , preserveRatio : Bool
+    , children : Array DocumentElement
     }
 
 {-| GET /v1/files/:key
@@ -1939,9 +1934,9 @@ document:
 The root node within the document
 -}
 type alias FileResponse =
-    { components : Maybe (Dict String ComponentValue)
-    , document : Maybe Ocument
-    , schemaVersion : Maybe Float
+    { components : Dict String ComponentValue
+    , document : Ocument
+    , schemaVersion : Float
     }
 
 {-| A node that can have instances created of it that share the same properties
@@ -2013,23 +2008,23 @@ children:
 An array of nodes that are direct children of this node
 -}
 type alias ComponentValue =
-    { effects : Maybe (Array EffectElement)
-    , layoutGrids : Maybe (Array LayoutGridElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , backgroundColor : Maybe Olor
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , clipsContent : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , componentType : Maybe NodeType
-    , id : Maybe String
-    , preserveRatio : Maybe Bool
-    , children : Maybe (Array DocumentElement)
+    { effects : Array EffectElement
+    , layoutGrids : Array LayoutGridElement
+    , opacity : Float
+    , name : String
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , backgroundColor : Olor
+    , constraints : Constraints
+    , isMask : Bool
+    , clipsContent : Bool
+    , exportSettings : Array ExportSettingElement
+    , componentType : NodeType
+    , id : String
+    , preserveRatio : Bool
+    , children : Array DocumentElement
     }
 
 {-| Node Properties
@@ -2061,11 +2056,11 @@ visible:
 whether or not the node is visible on the canvas
 -}
 type alias Ocument =
-    { children : Maybe (Array DocumentElement)
-    , id : Maybe String
-    , name : Maybe String
-    , ocumentType : Maybe NodeType
-    , visible : Maybe Bool
+    { children : Array DocumentElement
+    , id : String
+    , name : String
+    , ocumentType : NodeType
+    , visible : Bool
     }
 
 {-| Sizing constraint for exports
@@ -2080,8 +2075,8 @@ value:
 See type property for effect of this field
 -}
 type alias Constraint =
-    { constraintType : Maybe ConstraintType
-    , value : Maybe Float
+    { constraintType : ConstraintType
+    , value : Float
     }
 
 {-| A solid color, gradient, or image texture that can be applied as fills or strokes
@@ -2121,10 +2116,10 @@ type alias Paint =
     { color : Maybe Olor
     , gradientHandlePositions : Maybe (Array Offset)
     , gradientStops : Maybe (Array ColorStopElement)
-    , opacity : Maybe Float
+    , opacity : Float
     , scaleMode : Maybe String
-    , paintType : Maybe PaintType
-    , visible : Maybe Bool
+    , paintType : PaintType
+    , visible : Bool
     }
 
 {-| A regular n-sided polygon
@@ -2186,23 +2181,23 @@ preserveRatio:
 Keep height and width constrained to same ratio
 -}
 type alias RegularPolygon =
-    { effects : Maybe (Array EffectElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , regularPolygonType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
+    { effects : Array EffectElement
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , regularPolygonType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
     }
 
 {-| An ellipse
@@ -2264,23 +2259,23 @@ preserveRatio:
 Keep height and width constrained to same ratio
 -}
 type alias Ellipse =
-    { effects : Maybe (Array EffectElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , strokeAlign : Maybe StrokeAlign
-    , strokeWeight : Maybe Float
-    , fills : Maybe (Array PaintElement)
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , ellipseType : Maybe NodeType
-    , id : Maybe String
-    , strokes : Maybe (Array PaintElement)
-    , preserveRatio : Maybe Bool
+    { effects : Array EffectElement
+    , opacity : Float
+    , name : String
+    , strokeAlign : StrokeAlign
+    , strokeWeight : Float
+    , fills : Array PaintElement
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , constraints : Constraints
+    , isMask : Bool
+    , exportSettings : Array ExportSettingElement
+    , ellipseType : NodeType
+    , id : String
+    , strokes : Array PaintElement
+    , preserveRatio : Bool
     }
 
 {-| A logical grouping of nodes
@@ -2340,23 +2335,23 @@ children:
 An array of nodes that are direct children of this node
 -}
 type alias Group =
-    { effects : Maybe (Array EffectElement)
-    , layoutGrids : Maybe (Array LayoutGridElement)
-    , opacity : Maybe Float
-    , name : Maybe String
-    , absoluteBoundingBox : Maybe AbsoluteBoundingBox
-    , transitionNodeID : Maybe String
-    , visible : Maybe Bool
-    , blendMode : Maybe BlendMode
-    , backgroundColor : Maybe Olor
-    , constraints : Maybe Constraints
-    , isMask : Maybe Bool
-    , clipsContent : Maybe Bool
-    , exportSettings : Maybe (Array ExportSettingElement)
-    , groupType : Maybe NodeType
-    , id : Maybe String
-    , preserveRatio : Maybe Bool
-    , children : Maybe (Array DocumentElement)
+    { effects : Array EffectElement
+    , layoutGrids : Array LayoutGridElement
+    , opacity : Float
+    , name : String
+    , absoluteBoundingBox : AbsoluteBoundingBox
+    , transitionNodeID : String
+    , visible : Bool
+    , blendMode : BlendMode
+    , backgroundColor : Olor
+    , constraints : Constraints
+    , isMask : Bool
+    , clipsContent : Bool
+    , exportSettings : Array ExportSettingElement
+    , groupType : NodeType
+    , id : String
+    , preserveRatio : Bool
+    , children : Array DocumentElement
     }
 
 -- decoders and encoders
@@ -2448,89 +2443,89 @@ groupToString r = Jenc.encode 0 (encodeGroup r)
 vector : Jdec.Decoder Vector
 vector =
     Jpipe.decode Vector
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
 
 encodeVector : Vector -> Jenc.Value
 encodeVector x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.vectorType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.vectorType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
         ]
 
 absoluteBoundingBox : Jdec.Decoder AbsoluteBoundingBox
 absoluteBoundingBox =
     Jpipe.decode AbsoluteBoundingBox
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "cornerRadius" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "cornerRadius" Jdec.float
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
 
 encodeAbsoluteBoundingBox : AbsoluteBoundingBox -> Jenc.Value
 encodeAbsoluteBoundingBox x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("cornerRadius", makeNullableEncoder Jenc.float x.cornerRadius)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.absoluteBoundingBoxType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("cornerRadius", Jenc.float x.cornerRadius)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.absoluteBoundingBoxType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
         ]
 
 nodeType : Jdec.Decoder NodeType
@@ -2626,14 +2621,14 @@ encodeBlendMode x = case x of
 constraints : Jdec.Decoder Constraints
 constraints =
     Jpipe.decode Constraints
-        |> Jpipe.optional "horizontal" (Jdec.nullable horizontal) Nothing
-        |> Jpipe.optional "vertical" (Jdec.nullable vertical) Nothing
+        |> Jpipe.required "horizontal" horizontal
+        |> Jpipe.required "vertical" vertical
 
 encodeConstraints : Constraints -> Jenc.Value
 encodeConstraints x =
     Jenc.object
-        [ ("horizontal", makeNullableEncoder encodeHorizontal x.horizontal)
-        , ("vertical", makeNullableEncoder encodeVertical x.vertical)
+        [ ("horizontal", encodeHorizontal x.horizontal)
+        , ("vertical", encodeVertical x.vertical)
         ]
 
 horizontal : Jdec.Decoder Horizontal
@@ -2684,9 +2679,9 @@ effectElement =
         |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
         |> Jpipe.optional "color" (Jdec.nullable olor) Nothing
         |> Jpipe.optional "offset" (Jdec.nullable offset) Nothing
-        |> Jpipe.optional "radius" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable effectType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "radius" Jdec.float
+        |> Jpipe.required "type" effectType
+        |> Jpipe.required "visible" Jdec.bool
 
 encodeEffectElement : EffectElement -> Jenc.Value
 encodeEffectElement x =
@@ -2694,26 +2689,26 @@ encodeEffectElement x =
         [ ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
         , ("color", makeNullableEncoder encodeOlor x.color)
         , ("offset", makeNullableEncoder encodeOffset x.offset)
-        , ("radius", makeNullableEncoder Jenc.float x.radius)
-        , ("type", makeNullableEncoder encodeEffectType x.effectType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        , ("radius", Jenc.float x.radius)
+        , ("type", encodeEffectType x.effectType)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 olor : Jdec.Decoder Olor
 olor =
     Jpipe.decode Olor
-        |> Jpipe.optional "a" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "b" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "g" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "r" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "a" Jdec.float
+        |> Jpipe.required "b" Jdec.float
+        |> Jpipe.required "g" Jdec.float
+        |> Jpipe.required "r" Jdec.float
 
 encodeOlor : Olor -> Jenc.Value
 encodeOlor x =
     Jenc.object
-        [ ("a", makeNullableEncoder Jenc.float x.a)
-        , ("b", makeNullableEncoder Jenc.float x.b)
-        , ("g", makeNullableEncoder Jenc.float x.g)
-        , ("r", makeNullableEncoder Jenc.float x.r)
+        [ ("a", Jenc.float x.a)
+        , ("b", Jenc.float x.b)
+        , ("g", Jenc.float x.g)
+        , ("r", Jenc.float x.r)
         ]
 
 effectType : Jdec.Decoder EffectType
@@ -2738,42 +2733,42 @@ encodeEffectType x = case x of
 offset : Jdec.Decoder Offset
 offset =
     Jpipe.decode Offset
-        |> Jpipe.optional "x" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "y" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "x" Jdec.float
+        |> Jpipe.required "y" Jdec.float
 
 encodeOffset : Offset -> Jenc.Value
 encodeOffset x =
     Jenc.object
-        [ ("x", makeNullableEncoder Jenc.float x.x)
-        , ("y", makeNullableEncoder Jenc.float x.y)
+        [ ("x", Jenc.float x.x)
+        , ("y", Jenc.float x.y)
         ]
 
 exportSettingElement : Jdec.Decoder ExportSettingElement
 exportSettingElement =
     Jpipe.decode ExportSettingElement
-        |> Jpipe.optional "constraint" (Jdec.nullable exportSettingConstraint) Nothing
-        |> Jpipe.optional "format" (Jdec.nullable format) Nothing
-        |> Jpipe.optional "suffix" (Jdec.nullable suffix) Nothing
+        |> Jpipe.required "constraint" exportSettingConstraint
+        |> Jpipe.required "format" format
+        |> Jpipe.required "suffix" Jdec.string
 
 encodeExportSettingElement : ExportSettingElement -> Jenc.Value
 encodeExportSettingElement x =
     Jenc.object
-        [ ("constraint", makeNullableEncoder encodeExportSettingConstraint x.constraint)
-        , ("format", makeNullableEncoder encodeFormat x.format)
-        , ("suffix", makeNullableEncoder encodeSuffix x.suffix)
+        [ ("constraint", encodeExportSettingConstraint x.constraint)
+        , ("format", encodeFormat x.format)
+        , ("suffix", Jenc.string x.suffix)
         ]
 
 exportSettingConstraint : Jdec.Decoder ExportSettingConstraint
 exportSettingConstraint =
     Jpipe.decode ExportSettingConstraint
-        |> Jpipe.optional "type" (Jdec.nullable constraintType) Nothing
-        |> Jpipe.optional "value" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "type" constraintType
+        |> Jpipe.required "value" Jdec.float
 
 encodeExportSettingConstraint : ExportSettingConstraint -> Jenc.Value
 encodeExportSettingConstraint x =
     Jenc.object
-        [ ("type", makeNullableEncoder encodeConstraintType x.constraintType)
-        , ("value", makeNullableEncoder Jenc.float x.value)
+        [ ("type", encodeConstraintType x.constraintType)
+        , ("value", Jenc.float x.value)
         ]
 
 constraintType : Jdec.Decoder ConstraintType
@@ -2810,29 +2805,16 @@ encodeFormat x = case x of
     PNG -> Jenc.string "PNG"
     SVG -> Jenc.string "SVG"
 
-suffix : Jdec.Decoder Suffix
-suffix =
-    Jdec.string
-        |> Jdec.andThen (\str ->
-            case str of
-                "string" -> Jdec.succeed SuffixString
-                somethingElse -> Jdec.fail <| "Invalid Suffix: " ++ somethingElse
-        )
-
-encodeSuffix : Suffix -> Jenc.Value
-encodeSuffix x = case x of
-    SuffixString -> Jenc.string "string"
-
 paintElement : Jdec.Decoder PaintElement
 paintElement =
     Jpipe.decode PaintElement
         |> Jpipe.optional "color" (Jdec.nullable olor) Nothing
         |> Jpipe.optional "gradientHandlePositions" (Jdec.nullable (Jdec.array offset)) Nothing
         |> Jpipe.optional "gradientStops" (Jdec.nullable (Jdec.array colorStopElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "opacity" Jdec.float
         |> Jpipe.optional "scaleMode" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable paintType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "type" paintType
+        |> Jpipe.required "visible" Jdec.bool
 
 encodePaintElement : PaintElement -> Jenc.Value
 encodePaintElement x =
@@ -2840,23 +2822,23 @@ encodePaintElement x =
         [ ("color", makeNullableEncoder encodeOlor x.color)
         , ("gradientHandlePositions", makeNullableEncoder (makeArrayEncoder encodeOffset) x.gradientHandlePositions)
         , ("gradientStops", makeNullableEncoder (makeArrayEncoder encodeColorStopElement) x.gradientStops)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
+        , ("opacity", Jenc.float x.opacity)
         , ("scaleMode", makeNullableEncoder Jenc.string x.scaleMode)
-        , ("type", makeNullableEncoder encodePaintType x.paintType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        , ("type", encodePaintType x.paintType)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 colorStopElement : Jdec.Decoder ColorStopElement
 colorStopElement =
     Jpipe.decode ColorStopElement
-        |> Jpipe.optional "color" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "position" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "color" olor
+        |> Jpipe.required "position" Jdec.float
 
 encodeColorStopElement : ColorStopElement -> Jenc.Value
 encodeColorStopElement x =
     Jenc.object
-        [ ("color", makeNullableEncoder encodeOlor x.color)
-        , ("position", makeNullableEncoder Jenc.float x.position)
+        [ ("color", encodeOlor x.color)
+        , ("position", Jenc.float x.position)
         ]
 
 paintType : Jdec.Decoder PaintType
@@ -2904,126 +2886,126 @@ encodeStrokeAlign x = case x of
 color : Jdec.Decoder Color
 color =
     Jpipe.decode Color
-        |> Jpipe.optional "a" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "b" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "g" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "r" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "a" Jdec.float
+        |> Jpipe.required "b" Jdec.float
+        |> Jpipe.required "g" Jdec.float
+        |> Jpipe.required "r" Jdec.float
 
 encodeColor : Color -> Jenc.Value
 encodeColor x =
     Jenc.object
-        [ ("a", makeNullableEncoder Jenc.float x.a)
-        , ("b", makeNullableEncoder Jenc.float x.b)
-        , ("g", makeNullableEncoder Jenc.float x.g)
-        , ("r", makeNullableEncoder Jenc.float x.r)
+        [ ("a", Jenc.float x.a)
+        , ("b", Jenc.float x.b)
+        , ("g", Jenc.float x.g)
+        , ("r", Jenc.float x.r)
         ]
 
 colorStop : Jdec.Decoder ColorStop
 colorStop =
     Jpipe.decode ColorStop
-        |> Jpipe.optional "color" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "position" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "color" olor
+        |> Jpipe.required "position" Jdec.float
 
 encodeColorStop : ColorStop -> Jenc.Value
 encodeColorStop x =
     Jenc.object
-        [ ("color", makeNullableEncoder encodeOlor x.color)
-        , ("position", makeNullableEncoder Jenc.float x.position)
+        [ ("color", encodeOlor x.color)
+        , ("position", Jenc.float x.position)
         ]
 
 layoutConstraint : Jdec.Decoder LayoutConstraint
 layoutConstraint =
     Jpipe.decode LayoutConstraint
-        |> Jpipe.optional "horizontal" (Jdec.nullable horizontal) Nothing
-        |> Jpipe.optional "vertical" (Jdec.nullable vertical) Nothing
+        |> Jpipe.required "horizontal" horizontal
+        |> Jpipe.required "vertical" vertical
 
 encodeLayoutConstraint : LayoutConstraint -> Jenc.Value
 encodeLayoutConstraint x =
     Jenc.object
-        [ ("horizontal", makeNullableEncoder encodeHorizontal x.horizontal)
-        , ("vertical", makeNullableEncoder encodeVertical x.vertical)
+        [ ("horizontal", encodeHorizontal x.horizontal)
+        , ("vertical", encodeVertical x.vertical)
         ]
 
 text : Jdec.Decoder Text
 text =
     Jpipe.decode Text
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "characters" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "styleOverrideTable" (Jdec.nullable (Jdec.array tyle)) Nothing
-        |> Jpipe.optional "style" (Jdec.nullable tyle) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "characterStyleOverrides" (Jdec.nullable (Jdec.array Jdec.float)) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "characters" Jdec.string
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "styleOverrideTable" (Jdec.array tyle)
+        |> Jpipe.required "style" tyle
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
+        |> Jpipe.required "characterStyleOverrides" (Jdec.array Jdec.float)
 
 encodeText : Text -> Jenc.Value
 encodeText x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("characters", makeNullableEncoder Jenc.string x.characters)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("styleOverrideTable", makeNullableEncoder (makeArrayEncoder encodeTyle) x.styleOverrideTable)
-        , ("style", makeNullableEncoder encodeTyle x.style)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.textType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
-        , ("characterStyleOverrides", makeNullableEncoder (makeArrayEncoder Jenc.float) x.characterStyleOverrides)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("characters", Jenc.string x.characters)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("styleOverrideTable", makeArrayEncoder encodeTyle x.styleOverrideTable)
+        , ("style", encodeTyle x.style)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.textType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
+        , ("characterStyleOverrides", makeArrayEncoder Jenc.float x.characterStyleOverrides)
         ]
 
 tyle : Jdec.Decoder Tyle
 tyle =
     Jpipe.decode Tyle
-        |> Jpipe.optional "lineHeightPx" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fontPostScriptName" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "fontWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "lineHeightPercent" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "textAlignVertical" (Jdec.nullable textAlignVertical) Nothing
-        |> Jpipe.optional "fontSize" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "italic" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "fontFamily" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "textAlignHorizontal" (Jdec.nullable textAlignHorizontal) Nothing
-        |> Jpipe.optional "letterSpacing" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "lineHeightPx" Jdec.float
+        |> Jpipe.required "fontPostScriptName" Jdec.string
+        |> Jpipe.required "fontWeight" Jdec.float
+        |> Jpipe.required "lineHeightPercent" Jdec.float
+        |> Jpipe.required "textAlignVertical" textAlignVertical
+        |> Jpipe.required "fontSize" Jdec.float
+        |> Jpipe.required "italic" Jdec.bool
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "fontFamily" Jdec.string
+        |> Jpipe.required "textAlignHorizontal" textAlignHorizontal
+        |> Jpipe.required "letterSpacing" Jdec.float
 
 encodeTyle : Tyle -> Jenc.Value
 encodeTyle x =
     Jenc.object
-        [ ("lineHeightPx", makeNullableEncoder Jenc.float x.lineHeightPx)
-        , ("fontPostScriptName", makeNullableEncoder Jenc.string x.fontPostScriptName)
-        , ("fontWeight", makeNullableEncoder Jenc.float x.fontWeight)
-        , ("lineHeightPercent", makeNullableEncoder Jenc.float x.lineHeightPercent)
-        , ("textAlignVertical", makeNullableEncoder encodeTextAlignVertical x.textAlignVertical)
-        , ("fontSize", makeNullableEncoder Jenc.float x.fontSize)
-        , ("italic", makeNullableEncoder Jenc.bool x.italic)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("fontFamily", makeNullableEncoder Jenc.string x.fontFamily)
-        , ("textAlignHorizontal", makeNullableEncoder encodeTextAlignHorizontal x.textAlignHorizontal)
-        , ("letterSpacing", makeNullableEncoder Jenc.float x.letterSpacing)
+        [ ("lineHeightPx", Jenc.float x.lineHeightPx)
+        , ("fontPostScriptName", Jenc.string x.fontPostScriptName)
+        , ("fontWeight", Jenc.float x.fontWeight)
+        , ("lineHeightPercent", Jenc.float x.lineHeightPercent)
+        , ("textAlignVertical", encodeTextAlignVertical x.textAlignVertical)
+        , ("fontSize", Jenc.float x.fontSize)
+        , ("italic", Jenc.bool x.italic)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("fontFamily", Jenc.string x.fontFamily)
+        , ("textAlignHorizontal", encodeTextAlignHorizontal x.textAlignHorizontal)
+        , ("letterSpacing", Jenc.float x.letterSpacing)
         ]
 
 textAlignHorizontal : Jdec.Decoder TextAlignHorizontal
@@ -3065,54 +3047,54 @@ encodeTextAlignVertical x = case x of
 frame : Jdec.Decoder Frame
 frame =
     Jpipe.decode Frame
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "layoutGrids" (Jdec.nullable (Jdec.array layoutGridElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "backgroundColor" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "clipsContent" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "layoutGrids" (Jdec.array layoutGridElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "backgroundColor" olor
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "clipsContent" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "preserveRatio" Jdec.bool
+        |> Jpipe.required "children" (Jdec.array documentElement)
 
 encodeFrame : Frame -> Jenc.Value
 encodeFrame x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("layoutGrids", makeNullableEncoder (makeArrayEncoder encodeLayoutGridElement) x.layoutGrids)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("backgroundColor", makeNullableEncoder encodeOlor x.backgroundColor)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("clipsContent", makeNullableEncoder Jenc.bool x.clipsContent)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.frameType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
-        , ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("layoutGrids", makeArrayEncoder encodeLayoutGridElement x.layoutGrids)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("backgroundColor", encodeOlor x.backgroundColor)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("clipsContent", Jenc.bool x.clipsContent)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.frameType)
+        , ("id", Jenc.string x.id)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
+        , ("children", makeArrayEncoder encodeDocumentElement x.children)
         ]
 
 documentElement : Jdec.Decoder DocumentElement
 documentElement =
     Jpipe.decode DocumentElement
         |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "visible" Jdec.bool
         |> Jpipe.optional "backgroundColor" (Jdec.nullable olor) Nothing
         |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
         |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
@@ -3140,10 +3122,10 @@ encodeDocumentElement : DocumentElement -> Jenc.Value
 encodeDocumentElement x =
     Jenc.object
         [ ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("type", makeNullableEncoder encodeNodeType x.documentType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        , ("id", Jenc.string x.id)
+        , ("name", Jenc.string x.name)
+        , ("type", encodeNodeType x.documentType)
+        , ("visible", Jenc.bool x.visible)
         , ("backgroundColor", makeNullableEncoder encodeOlor x.backgroundColor)
         , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
         , ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
@@ -3171,26 +3153,26 @@ encodeDocumentElement x =
 layoutGridElement : Jdec.Decoder LayoutGridElement
 layoutGridElement =
     Jpipe.decode LayoutGridElement
-        |> Jpipe.optional "alignment" (Jdec.nullable alignment) Nothing
-        |> Jpipe.optional "color" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "count" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "gutterSize" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "offset" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "pattern" (Jdec.nullable pattern) Nothing
-        |> Jpipe.optional "sectionSize" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "alignment" alignment
+        |> Jpipe.required "color" olor
+        |> Jpipe.required "count" Jdec.float
+        |> Jpipe.required "gutterSize" Jdec.float
+        |> Jpipe.required "offset" Jdec.float
+        |> Jpipe.required "pattern" pattern
+        |> Jpipe.required "sectionSize" Jdec.float
+        |> Jpipe.required "visible" Jdec.bool
 
 encodeLayoutGridElement : LayoutGridElement -> Jenc.Value
 encodeLayoutGridElement x =
     Jenc.object
-        [ ("alignment", makeNullableEncoder encodeAlignment x.alignment)
-        , ("color", makeNullableEncoder encodeOlor x.color)
-        , ("count", makeNullableEncoder Jenc.float x.count)
-        , ("gutterSize", makeNullableEncoder Jenc.float x.gutterSize)
-        , ("offset", makeNullableEncoder Jenc.float x.offset)
-        , ("pattern", makeNullableEncoder encodePattern x.pattern)
-        , ("sectionSize", makeNullableEncoder Jenc.float x.sectionSize)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        [ ("alignment", encodeAlignment x.alignment)
+        , ("color", encodeOlor x.color)
+        , ("count", Jenc.float x.count)
+        , ("gutterSize", Jenc.float x.gutterSize)
+        , ("offset", Jenc.float x.offset)
+        , ("pattern", encodePattern x.pattern)
+        , ("sectionSize", Jenc.float x.sectionSize)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 alignment : Jdec.Decoder Alignment
@@ -3230,71 +3212,71 @@ encodePattern x = case x of
 rectangle : Jdec.Decoder Rectangle
 rectangle =
     Jpipe.decode Rectangle
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "cornerRadius" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "cornerRadius" Jdec.float
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
 
 encodeRectangle : Rectangle -> Jenc.Value
 encodeRectangle x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("cornerRadius", makeNullableEncoder Jenc.float x.cornerRadius)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.rectangleType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("cornerRadius", Jenc.float x.cornerRadius)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.rectangleType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
         ]
 
 layoutGrid : Jdec.Decoder LayoutGrid
 layoutGrid =
     Jpipe.decode LayoutGrid
-        |> Jpipe.optional "alignment" (Jdec.nullable alignment) Nothing
-        |> Jpipe.optional "color" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "count" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "gutterSize" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "offset" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "pattern" (Jdec.nullable pattern) Nothing
-        |> Jpipe.optional "sectionSize" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "alignment" alignment
+        |> Jpipe.required "color" olor
+        |> Jpipe.required "count" Jdec.float
+        |> Jpipe.required "gutterSize" Jdec.float
+        |> Jpipe.required "offset" Jdec.float
+        |> Jpipe.required "pattern" pattern
+        |> Jpipe.required "sectionSize" Jdec.float
+        |> Jpipe.required "visible" Jdec.bool
 
 encodeLayoutGrid : LayoutGrid -> Jenc.Value
 encodeLayoutGrid x =
     Jenc.object
-        [ ("alignment", makeNullableEncoder encodeAlignment x.alignment)
-        , ("color", makeNullableEncoder encodeOlor x.color)
-        , ("count", makeNullableEncoder Jenc.float x.count)
-        , ("gutterSize", makeNullableEncoder Jenc.float x.gutterSize)
-        , ("offset", makeNullableEncoder Jenc.float x.offset)
-        , ("pattern", makeNullableEncoder encodePattern x.pattern)
-        , ("sectionSize", makeNullableEncoder Jenc.float x.sectionSize)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        [ ("alignment", encodeAlignment x.alignment)
+        , ("color", encodeOlor x.color)
+        , ("count", Jenc.float x.count)
+        , ("gutterSize", Jenc.float x.gutterSize)
+        , ("offset", Jenc.float x.offset)
+        , ("pattern", encodePattern x.pattern)
+        , ("sectionSize", Jenc.float x.sectionSize)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 effect : Jdec.Decoder Effect
@@ -3303,9 +3285,9 @@ effect =
         |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
         |> Jpipe.optional "color" (Jdec.nullable olor) Nothing
         |> Jpipe.optional "offset" (Jdec.nullable offset) Nothing
-        |> Jpipe.optional "radius" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable effectType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "radius" Jdec.float
+        |> Jpipe.required "type" effectType
+        |> Jpipe.required "visible" Jdec.bool
 
 encodeEffect : Effect -> Jenc.Value
 encodeEffect x =
@@ -3313,440 +3295,440 @@ encodeEffect x =
         [ ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
         , ("color", makeNullableEncoder encodeOlor x.color)
         , ("offset", makeNullableEncoder encodeOffset x.offset)
-        , ("radius", makeNullableEncoder Jenc.float x.radius)
-        , ("type", makeNullableEncoder encodeEffectType x.effectType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        , ("radius", Jenc.float x.radius)
+        , ("type", encodeEffectType x.effectType)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 slice : Jdec.Decoder Slice
 slice =
     Jpipe.decode Slice
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "visible" Jdec.bool
 
 encodeSlice : Slice -> Jenc.Value
 encodeSlice x =
     Jenc.object
-        [ ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("type", makeNullableEncoder encodeNodeType x.sliceType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        [ ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("id", Jenc.string x.id)
+        , ("name", Jenc.string x.name)
+        , ("type", encodeNodeType x.sliceType)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 star : Jdec.Decoder Star
 star =
     Jpipe.decode Star
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
 
 encodeStar : Star -> Jenc.Value
 encodeStar x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.starType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.starType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
         ]
 
 line : Jdec.Decoder Line
 line =
     Jpipe.decode Line
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
 
 encodeLine : Line -> Jenc.Value
 encodeLine x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.lineType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.lineType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
         ]
 
 instance : Jdec.Decoder Instance
 instance =
     Jpipe.decode Instance
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "layoutGrids" (Jdec.nullable (Jdec.array layoutGridElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "backgroundColor" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "clipsContent" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "componentId" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "layoutGrids" (Jdec.array layoutGridElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "backgroundColor" olor
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "clipsContent" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "componentId" Jdec.string
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "preserveRatio" Jdec.bool
+        |> Jpipe.required "children" (Jdec.array documentElement)
 
 encodeInstance : Instance -> Jenc.Value
 encodeInstance x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("layoutGrids", makeNullableEncoder (makeArrayEncoder encodeLayoutGridElement) x.layoutGrids)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("backgroundColor", makeNullableEncoder encodeOlor x.backgroundColor)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("clipsContent", makeNullableEncoder Jenc.bool x.clipsContent)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("componentId", makeNullableEncoder Jenc.string x.componentID)
-        , ("type", makeNullableEncoder encodeNodeType x.instanceType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
-        , ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("layoutGrids", makeArrayEncoder encodeLayoutGridElement x.layoutGrids)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("backgroundColor", encodeOlor x.backgroundColor)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("clipsContent", Jenc.bool x.clipsContent)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("componentId", Jenc.string x.componentID)
+        , ("type", encodeNodeType x.instanceType)
+        , ("id", Jenc.string x.id)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
+        , ("children", makeArrayEncoder encodeDocumentElement x.children)
         ]
 
 vector2D : Jdec.Decoder Vector2D
 vector2D =
     Jpipe.decode Vector2D
-        |> Jpipe.optional "x" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "y" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "x" Jdec.float
+        |> Jpipe.required "y" Jdec.float
 
 encodeVector2D : Vector2D -> Jenc.Value
 encodeVector2D x =
     Jenc.object
-        [ ("x", makeNullableEncoder Jenc.float x.x)
-        , ("y", makeNullableEncoder Jenc.float x.y)
+        [ ("x", Jenc.float x.x)
+        , ("y", Jenc.float x.y)
         ]
 
 typeStyle : Jdec.Decoder TypeStyle
 typeStyle =
     Jpipe.decode TypeStyle
-        |> Jpipe.optional "lineHeightPx" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fontPostScriptName" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "fontWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "lineHeightPercent" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "textAlignVertical" (Jdec.nullable textAlignVertical) Nothing
-        |> Jpipe.optional "fontSize" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "italic" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "fontFamily" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "textAlignHorizontal" (Jdec.nullable textAlignHorizontal) Nothing
-        |> Jpipe.optional "letterSpacing" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "lineHeightPx" Jdec.float
+        |> Jpipe.required "fontPostScriptName" Jdec.string
+        |> Jpipe.required "fontWeight" Jdec.float
+        |> Jpipe.required "lineHeightPercent" Jdec.float
+        |> Jpipe.required "textAlignVertical" textAlignVertical
+        |> Jpipe.required "fontSize" Jdec.float
+        |> Jpipe.required "italic" Jdec.bool
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "fontFamily" Jdec.string
+        |> Jpipe.required "textAlignHorizontal" textAlignHorizontal
+        |> Jpipe.required "letterSpacing" Jdec.float
 
 encodeTypeStyle : TypeStyle -> Jenc.Value
 encodeTypeStyle x =
     Jenc.object
-        [ ("lineHeightPx", makeNullableEncoder Jenc.float x.lineHeightPx)
-        , ("fontPostScriptName", makeNullableEncoder Jenc.string x.fontPostScriptName)
-        , ("fontWeight", makeNullableEncoder Jenc.float x.fontWeight)
-        , ("lineHeightPercent", makeNullableEncoder Jenc.float x.lineHeightPercent)
-        , ("textAlignVertical", makeNullableEncoder encodeTextAlignVertical x.textAlignVertical)
-        , ("fontSize", makeNullableEncoder Jenc.float x.fontSize)
-        , ("italic", makeNullableEncoder Jenc.bool x.italic)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("fontFamily", makeNullableEncoder Jenc.string x.fontFamily)
-        , ("textAlignHorizontal", makeNullableEncoder encodeTextAlignHorizontal x.textAlignHorizontal)
-        , ("letterSpacing", makeNullableEncoder Jenc.float x.letterSpacing)
+        [ ("lineHeightPx", Jenc.float x.lineHeightPx)
+        , ("fontPostScriptName", Jenc.string x.fontPostScriptName)
+        , ("fontWeight", Jenc.float x.fontWeight)
+        , ("lineHeightPercent", Jenc.float x.lineHeightPercent)
+        , ("textAlignVertical", encodeTextAlignVertical x.textAlignVertical)
+        , ("fontSize", Jenc.float x.fontSize)
+        , ("italic", Jenc.bool x.italic)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("fontFamily", Jenc.string x.fontFamily)
+        , ("textAlignHorizontal", encodeTextAlignHorizontal x.textAlignHorizontal)
+        , ("letterSpacing", Jenc.float x.letterSpacing)
         ]
 
 booleanGroup : Jdec.Decoder BooleanGroup
 booleanGroup =
     Jpipe.decode BooleanGroup
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
+        |> Jpipe.required "children" (Jdec.array documentElement)
 
 encodeBooleanGroup : BooleanGroup -> Jenc.Value
 encodeBooleanGroup x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.booleanGroupType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
-        , ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.booleanGroupType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
+        , ("children", makeArrayEncoder encodeDocumentElement x.children)
         ]
 
 canvas : Jdec.Decoder Canvas
 canvas =
     Jpipe.decode Canvas
-        |> Jpipe.optional "backgroundColor" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "backgroundColor" olor
+        |> Jpipe.required "children" (Jdec.array documentElement)
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "visible" Jdec.bool
 
 encodeCanvas : Canvas -> Jenc.Value
 encodeCanvas x =
     Jenc.object
-        [ ("backgroundColor", makeNullableEncoder encodeOlor x.backgroundColor)
-        , ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("type", makeNullableEncoder encodeNodeType x.canvasType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        [ ("backgroundColor", encodeOlor x.backgroundColor)
+        , ("children", makeArrayEncoder encodeDocumentElement x.children)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("id", Jenc.string x.id)
+        , ("name", Jenc.string x.name)
+        , ("type", encodeNodeType x.canvasType)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 document : Jdec.Decoder Document
 document =
     Jpipe.decode Document
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "children" (Jdec.array documentElement)
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "visible" Jdec.bool
 
 encodeDocument : Document -> Jenc.Value
 encodeDocument x =
     Jenc.object
-        [ ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("type", makeNullableEncoder encodeNodeType x.documentType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        [ ("children", makeArrayEncoder encodeDocumentElement x.children)
+        , ("id", Jenc.string x.id)
+        , ("name", Jenc.string x.name)
+        , ("type", encodeNodeType x.documentType)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 exportSetting : Jdec.Decoder ExportSetting
 exportSetting =
     Jpipe.decode ExportSetting
-        |> Jpipe.optional "constraint" (Jdec.nullable exportSettingConstraint) Nothing
-        |> Jpipe.optional "format" (Jdec.nullable format) Nothing
-        |> Jpipe.optional "suffix" (Jdec.nullable suffix) Nothing
+        |> Jpipe.required "constraint" exportSettingConstraint
+        |> Jpipe.required "format" format
+        |> Jpipe.required "suffix" Jdec.string
 
 encodeExportSetting : ExportSetting -> Jenc.Value
 encodeExportSetting x =
     Jenc.object
-        [ ("constraint", makeNullableEncoder encodeExportSettingConstraint x.constraint)
-        , ("format", makeNullableEncoder encodeFormat x.format)
-        , ("suffix", makeNullableEncoder encodeSuffix x.suffix)
+        [ ("constraint", encodeExportSettingConstraint x.constraint)
+        , ("format", encodeFormat x.format)
+        , ("suffix", Jenc.string x.suffix)
         ]
 
 component : Jdec.Decoder Component
 component =
     Jpipe.decode Component
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "layoutGrids" (Jdec.nullable (Jdec.array layoutGridElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "backgroundColor" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "clipsContent" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "layoutGrids" (Jdec.array layoutGridElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "backgroundColor" olor
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "clipsContent" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "preserveRatio" Jdec.bool
+        |> Jpipe.required "children" (Jdec.array documentElement)
 
 encodeComponent : Component -> Jenc.Value
 encodeComponent x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("layoutGrids", makeNullableEncoder (makeArrayEncoder encodeLayoutGridElement) x.layoutGrids)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("backgroundColor", makeNullableEncoder encodeOlor x.backgroundColor)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("clipsContent", makeNullableEncoder Jenc.bool x.clipsContent)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.componentType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
-        , ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("layoutGrids", makeArrayEncoder encodeLayoutGridElement x.layoutGrids)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("backgroundColor", encodeOlor x.backgroundColor)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("clipsContent", Jenc.bool x.clipsContent)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.componentType)
+        , ("id", Jenc.string x.id)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
+        , ("children", makeArrayEncoder encodeDocumentElement x.children)
         ]
 
 fileResponse : Jdec.Decoder FileResponse
 fileResponse =
     Jpipe.decode FileResponse
-        |> Jpipe.optional "components" (Jdec.nullable (Jdec.dict componentValue)) Nothing
-        |> Jpipe.optional "document" (Jdec.nullable ocument) Nothing
-        |> Jpipe.optional "schemaVersion" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "components" (Jdec.dict componentValue)
+        |> Jpipe.required "document" ocument
+        |> Jpipe.required "schemaVersion" Jdec.float
 
 encodeFileResponse : FileResponse -> Jenc.Value
 encodeFileResponse x =
     Jenc.object
-        [ ("components", makeNullableEncoder (makeDictEncoder encodeComponentValue) x.components)
-        , ("document", makeNullableEncoder encodeOcument x.document)
-        , ("schemaVersion", makeNullableEncoder Jenc.float x.schemaVersion)
+        [ ("components", makeDictEncoder encodeComponentValue x.components)
+        , ("document", encodeOcument x.document)
+        , ("schemaVersion", Jenc.float x.schemaVersion)
         ]
 
 componentValue : Jdec.Decoder ComponentValue
 componentValue =
     Jpipe.decode ComponentValue
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "layoutGrids" (Jdec.nullable (Jdec.array layoutGridElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "backgroundColor" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "clipsContent" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "layoutGrids" (Jdec.array layoutGridElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "backgroundColor" olor
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "clipsContent" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "preserveRatio" Jdec.bool
+        |> Jpipe.required "children" (Jdec.array documentElement)
 
 encodeComponentValue : ComponentValue -> Jenc.Value
 encodeComponentValue x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("layoutGrids", makeNullableEncoder (makeArrayEncoder encodeLayoutGridElement) x.layoutGrids)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("backgroundColor", makeNullableEncoder encodeOlor x.backgroundColor)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("clipsContent", makeNullableEncoder Jenc.bool x.clipsContent)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.componentType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
-        , ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("layoutGrids", makeArrayEncoder encodeLayoutGridElement x.layoutGrids)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("backgroundColor", encodeOlor x.backgroundColor)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("clipsContent", Jenc.bool x.clipsContent)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.componentType)
+        , ("id", Jenc.string x.id)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
+        , ("children", makeArrayEncoder encodeDocumentElement x.children)
         ]
 
 ocument : Jdec.Decoder Ocument
 ocument =
     Jpipe.decode Ocument
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "children" (Jdec.array documentElement)
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "visible" Jdec.bool
 
 encodeOcument : Ocument -> Jenc.Value
 encodeOcument x =
     Jenc.object
-        [ ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("type", makeNullableEncoder encodeNodeType x.ocumentType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        [ ("children", makeArrayEncoder encodeDocumentElement x.children)
+        , ("id", Jenc.string x.id)
+        , ("name", Jenc.string x.name)
+        , ("type", encodeNodeType x.ocumentType)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 constraint : Jdec.Decoder Constraint
 constraint =
     Jpipe.decode Constraint
-        |> Jpipe.optional "type" (Jdec.nullable constraintType) Nothing
-        |> Jpipe.optional "value" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "type" constraintType
+        |> Jpipe.required "value" Jdec.float
 
 encodeConstraint : Constraint -> Jenc.Value
 encodeConstraint x =
     Jenc.object
-        [ ("type", makeNullableEncoder encodeConstraintType x.constraintType)
-        , ("value", makeNullableEncoder Jenc.float x.value)
+        [ ("type", encodeConstraintType x.constraintType)
+        , ("value", Jenc.float x.value)
         ]
 
 paint : Jdec.Decoder Paint
@@ -3755,10 +3737,10 @@ paint =
         |> Jpipe.optional "color" (Jdec.nullable olor) Nothing
         |> Jpipe.optional "gradientHandlePositions" (Jdec.nullable (Jdec.array offset)) Nothing
         |> Jpipe.optional "gradientStops" (Jdec.nullable (Jdec.array colorStopElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
+        |> Jpipe.required "opacity" Jdec.float
         |> Jpipe.optional "scaleMode" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable paintType) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "type" paintType
+        |> Jpipe.required "visible" Jdec.bool
 
 encodePaint : Paint -> Jenc.Value
 encodePaint x =
@@ -3766,139 +3748,139 @@ encodePaint x =
         [ ("color", makeNullableEncoder encodeOlor x.color)
         , ("gradientHandlePositions", makeNullableEncoder (makeArrayEncoder encodeOffset) x.gradientHandlePositions)
         , ("gradientStops", makeNullableEncoder (makeArrayEncoder encodeColorStopElement) x.gradientStops)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
+        , ("opacity", Jenc.float x.opacity)
         , ("scaleMode", makeNullableEncoder Jenc.string x.scaleMode)
-        , ("type", makeNullableEncoder encodePaintType x.paintType)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
+        , ("type", encodePaintType x.paintType)
+        , ("visible", Jenc.bool x.visible)
         ]
 
 regularPolygon : Jdec.Decoder RegularPolygon
 regularPolygon =
     Jpipe.decode RegularPolygon
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
 
 encodeRegularPolygon : RegularPolygon -> Jenc.Value
 encodeRegularPolygon x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.regularPolygonType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.regularPolygonType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
         ]
 
 ellipse : Jdec.Decoder Ellipse
 ellipse =
     Jpipe.decode Ellipse
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokeAlign" (Jdec.nullable strokeAlign) Nothing
-        |> Jpipe.optional "strokeWeight" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "fills" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "strokes" (Jdec.nullable (Jdec.array paintElement)) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "strokeAlign" strokeAlign
+        |> Jpipe.required "strokeWeight" Jdec.float
+        |> Jpipe.required "fills" (Jdec.array paintElement)
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "strokes" (Jdec.array paintElement)
+        |> Jpipe.required "preserveRatio" Jdec.bool
 
 encodeEllipse : Ellipse -> Jenc.Value
 encodeEllipse x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("strokeAlign", makeNullableEncoder encodeStrokeAlign x.strokeAlign)
-        , ("strokeWeight", makeNullableEncoder Jenc.float x.strokeWeight)
-        , ("fills", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.fills)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.ellipseType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("strokes", makeNullableEncoder (makeArrayEncoder encodePaintElement) x.strokes)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("strokeAlign", encodeStrokeAlign x.strokeAlign)
+        , ("strokeWeight", Jenc.float x.strokeWeight)
+        , ("fills", makeArrayEncoder encodePaintElement x.fills)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.ellipseType)
+        , ("id", Jenc.string x.id)
+        , ("strokes", makeArrayEncoder encodePaintElement x.strokes)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
         ]
 
 group : Jdec.Decoder Group
 group =
     Jpipe.decode Group
-        |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effectElement)) Nothing
-        |> Jpipe.optional "layoutGrids" (Jdec.nullable (Jdec.array layoutGridElement)) Nothing
-        |> Jpipe.optional "opacity" (Jdec.nullable Jdec.float) Nothing
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable absoluteBoundingBox) Nothing
-        |> Jpipe.optional "transitionNodeID" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "visible" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
-        |> Jpipe.optional "backgroundColor" (Jdec.nullable olor) Nothing
-        |> Jpipe.optional "constraints" (Jdec.nullable constraints) Nothing
-        |> Jpipe.optional "isMask" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "clipsContent" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSettingElement)) Nothing
-        |> Jpipe.optional "type" (Jdec.nullable nodeType) Nothing
-        |> Jpipe.optional "id" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "preserveRatio" (Jdec.nullable Jdec.bool) Nothing
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
+        |> Jpipe.required "effects" (Jdec.array effectElement)
+        |> Jpipe.required "layoutGrids" (Jdec.array layoutGridElement)
+        |> Jpipe.required "opacity" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "absoluteBoundingBox" absoluteBoundingBox
+        |> Jpipe.required "transitionNodeID" Jdec.string
+        |> Jpipe.required "visible" Jdec.bool
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "backgroundColor" olor
+        |> Jpipe.required "constraints" constraints
+        |> Jpipe.required "isMask" Jdec.bool
+        |> Jpipe.required "clipsContent" Jdec.bool
+        |> Jpipe.required "exportSettings" (Jdec.array exportSettingElement)
+        |> Jpipe.required "type" nodeType
+        |> Jpipe.required "id" Jdec.string
+        |> Jpipe.required "preserveRatio" Jdec.bool
+        |> Jpipe.required "children" (Jdec.array documentElement)
 
 encodeGroup : Group -> Jenc.Value
 encodeGroup x =
     Jenc.object
-        [ ("effects", makeNullableEncoder (makeArrayEncoder encodeEffectElement) x.effects)
-        , ("layoutGrids", makeNullableEncoder (makeArrayEncoder encodeLayoutGridElement) x.layoutGrids)
-        , ("opacity", makeNullableEncoder Jenc.float x.opacity)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("absoluteBoundingBox", makeNullableEncoder encodeAbsoluteBoundingBox x.absoluteBoundingBox)
-        , ("transitionNodeID", makeNullableEncoder Jenc.string x.transitionNodeID)
-        , ("visible", makeNullableEncoder Jenc.bool x.visible)
-        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
-        , ("backgroundColor", makeNullableEncoder encodeOlor x.backgroundColor)
-        , ("constraints", makeNullableEncoder encodeConstraints x.constraints)
-        , ("isMask", makeNullableEncoder Jenc.bool x.isMask)
-        , ("clipsContent", makeNullableEncoder Jenc.bool x.clipsContent)
-        , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSettingElement) x.exportSettings)
-        , ("type", makeNullableEncoder encodeNodeType x.groupType)
-        , ("id", makeNullableEncoder Jenc.string x.id)
-        , ("preserveRatio", makeNullableEncoder Jenc.bool x.preserveRatio)
-        , ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
+        [ ("effects", makeArrayEncoder encodeEffectElement x.effects)
+        , ("layoutGrids", makeArrayEncoder encodeLayoutGridElement x.layoutGrids)
+        , ("opacity", Jenc.float x.opacity)
+        , ("name", Jenc.string x.name)
+        , ("absoluteBoundingBox", encodeAbsoluteBoundingBox x.absoluteBoundingBox)
+        , ("transitionNodeID", Jenc.string x.transitionNodeID)
+        , ("visible", Jenc.bool x.visible)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("backgroundColor", encodeOlor x.backgroundColor)
+        , ("constraints", encodeConstraints x.constraints)
+        , ("isMask", Jenc.bool x.isMask)
+        , ("clipsContent", Jenc.bool x.clipsContent)
+        , ("exportSettings", makeArrayEncoder encodeExportSettingElement x.exportSettings)
+        , ("type", encodeNodeType x.groupType)
+        , ("id", Jenc.string x.id)
+        , ("preserveRatio", Jenc.bool x.preserveRatio)
+        , ("children", makeArrayEncoder encodeDocumentElement x.children)
         ]
 
 --- encoder helpers

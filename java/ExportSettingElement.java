@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.*;
 public class ExportSettingElement {
     private ExportSettingConstraint constraint;
     private Format format;
-    private Suffix suffix;
+    private String suffix;
 
     /**
      * Constraint that determines sizing of exported asset
@@ -37,7 +37,7 @@ public class ExportSettingElement {
      * File suffix to append to all filenames
      */
     @JsonProperty("suffix")
-    public Suffix getSuffix() { return suffix; }
+    public String getSuffix() { return suffix; }
     @JsonProperty("suffix")
-    public void setSuffix(Suffix value) { this.suffix = value; }
+    public void setSuffix(String value) { this.suffix = value; }
 }

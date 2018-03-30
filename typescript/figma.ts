@@ -42,75 +42,75 @@ export interface Vector {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
 }
 
 /**
@@ -131,79 +131,79 @@ export interface AbsoluteBoundingBox {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Radius of each corner of the rectangle
      */
-    cornerRadius?: number;
+    cornerRadius: number;
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
 }
 
 /**
@@ -247,7 +247,7 @@ export interface Constraints {
      * (node stretches with frame)
      * "SCALE": Node scales horizontally with containing frame
      */
-    horizontal?: Horizontal;
+    horizontal: Horizontal;
     /**
      * Vertical constraint as an enum
      * "TOP": Node is laid out relative to top of the containing frame
@@ -257,7 +257,7 @@ export interface Constraints {
      * (node stretches with frame)
      * "SCALE": Node scales vertically with containing frame
      */
-    vertical?: Vertical;
+    vertical: Vertical;
 }
 
 /**
@@ -307,15 +307,15 @@ export interface EffectElement {
     /**
      * Radius of the blur effect (applies to shadows as well)
      */
-    radius?: number;
+    radius: number;
     /**
      * Type of effect as a string enum
      */
-    type?: EffectType;
+    type: EffectType;
     /**
      * Is the effect active?
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -335,19 +335,19 @@ export interface Olor {
     /**
      * Alpha channel value, between 0 and 1
      */
-    a?: number;
+    a: number;
     /**
      * Blue channel value, between 0 and 1
      */
-    b?: number;
+    b: number;
     /**
      * Green channel value, between 0 and 1
      */
-    g?: number;
+    g: number;
     /**
      * Red channel value, between 0 and 1
      */
-    r?: number;
+    r: number;
 }
 
 /**
@@ -366,11 +366,11 @@ export interface Offset {
     /**
      * X coordinate of the vector
      */
-    x?: number;
+    x: number;
     /**
      * Y coordinate of the vector
      */
-    y?: number;
+    y: number;
 }
 
 /**
@@ -396,15 +396,15 @@ export interface ExportSettingElement {
     /**
      * Constraint that determines sizing of exported asset
      */
-    constraint?: ExportSettingConstraint;
+    constraint: ExportSettingConstraint;
     /**
      * Image type, string enum
      */
-    format?: Format;
+    format: Format;
     /**
      * File suffix to append to all filenames
      */
-    suffix?: Suffix;
+    suffix: string;
 }
 
 /**
@@ -419,11 +419,11 @@ export interface ExportSettingConstraint {
      * "WIDTH": Scale proportionally and set width to value
      * "HEIGHT": Scale proportionally and set height to value
      */
-    type?: ConstraintType;
+    type: ConstraintType;
     /**
      * See type property for effect of this field
      */
-    value?: number;
+    value: number;
 }
 
 /**
@@ -445,13 +445,6 @@ export enum Format {
     Jpg = "JPG",
     PNG = "PNG",
     SVG = "SVG",
-}
-
-/**
- * File suffix to append to all filenames
- */
-export enum Suffix {
-    String = "string",
 }
 
 /**
@@ -489,7 +482,7 @@ export interface PaintElement {
      * Overall opacity of paint (colors within the paint can also have opacity
      * values which would blend with this)
      */
-    opacity?: number;
+    opacity: number;
     /**
      * Image scaling mode
      */
@@ -497,11 +490,11 @@ export interface PaintElement {
     /**
      * Type of paint as a string enum
      */
-    type?: PaintType;
+    type: PaintType;
     /**
      * Is the paint enabled?
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -515,11 +508,11 @@ export interface ColorStopElement {
     /**
      * Color attached to corresponding position
      */
-    color?: Olor;
+    color: Olor;
     /**
      * Value between 0 and 1 representing position along gradient axis
      */
-    position?: number;
+    position: number;
 }
 
 /**
@@ -575,19 +568,19 @@ export interface Color {
     /**
      * Alpha channel value, between 0 and 1
      */
-    a?: number;
+    a: number;
     /**
      * Blue channel value, between 0 and 1
      */
-    b?: number;
+    b: number;
     /**
      * Green channel value, between 0 and 1
      */
-    g?: number;
+    g: number;
     /**
      * Red channel value, between 0 and 1
      */
-    r?: number;
+    r: number;
 }
 
 /**
@@ -597,11 +590,11 @@ export interface ColorStop {
     /**
      * Color attached to corresponding position
      */
-    color?: Olor;
+    color: Olor;
     /**
      * Value between 0 and 1 representing position along gradient axis
      */
-    position?: number;
+    position: number;
 }
 
 /**
@@ -617,7 +610,7 @@ export interface LayoutConstraint {
      * (node stretches with frame)
      * "SCALE": Node scales horizontally with containing frame
      */
-    horizontal?: Horizontal;
+    horizontal: Horizontal;
     /**
      * Vertical constraint as an enum
      * "TOP": Node is laid out relative to top of the containing frame
@@ -627,7 +620,7 @@ export interface LayoutConstraint {
      * (node stretches with frame)
      * "SCALE": Node scales vertically with containing frame
      */
-    vertical?: Vertical;
+    vertical: Vertical;
 }
 
 /**
@@ -638,95 +631,95 @@ export interface Text {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Text contained within text box
      */
-    characters?: string;
+    characters: string;
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Map from ID to TypeStyle for looking up style overrides
      */
-    styleOverrideTable?: Tyle[];
+    styleOverrideTable: Tyle[];
     /**
      * Style of text including font family and weight (see type style
      * section for more information)
      */
-    style?: Tyle;
+    style: Tyle;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
     /**
      * Array with same number of elements as characeters in text box,
      * each element is a reference to the styleOverrideTable defined
      * below and maps to the corresponding character in the characters
      * field. Elements with value 0 have the default type style
      */
-    characterStyleOverrides?: number[];
+    characterStyleOverrides: number[];
 }
 
 /**
@@ -741,47 +734,47 @@ export interface Tyle {
     /**
      * Line height in px
      */
-    lineHeightPx?: number;
+    lineHeightPx: number;
     /**
      * PostScript font name
      */
-    fontPostScriptName?: string;
+    fontPostScriptName: string;
     /**
      * Numeric font weight
      */
-    fontWeight?: number;
+    fontWeight: number;
     /**
      * Line height as a percentage of normal line height
      */
-    lineHeightPercent?: number;
+    lineHeightPercent: number;
     /**
      * Vertical text alignment as string enum
      */
-    textAlignVertical?: TextAlignVertical;
+    textAlignVertical: TextAlignVertical;
     /**
      * Font size in px
      */
-    fontSize?: number;
+    fontSize: number;
     /**
      * Is text italicized?
      */
-    italic?: boolean;
+    italic: boolean;
     /**
      * Paints applied to characters
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Font family of text (standard name)
      */
-    fontFamily?: string;
+    fontFamily: string;
     /**
      * Horizontal text alignment as string enum
      */
-    textAlignHorizontal?: TextAlignHorizontal;
+    textAlignHorizontal: TextAlignHorizontal;
     /**
      * Space between characters in px
      */
-    letterSpacing?: number;
+    letterSpacing: number;
 }
 
 /**
@@ -811,73 +804,73 @@ export interface Frame {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids?: LayoutGridElement[];
+    layoutGrids: LayoutGridElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Background color of the node
      */
-    backgroundColor?: Olor;
+    backgroundColor: Olor;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * Does this node clip content outside of its bounds?
      */
-    clipsContent?: boolean;
+    clipsContent: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
     /**
      * An array of nodes that are direct children of this node
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
 }
 
 /**
@@ -943,19 +936,19 @@ export interface DocumentElement {
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * Background color of the canvas
      *
@@ -1076,38 +1069,38 @@ export interface LayoutGridElement {
      * "MAX": Grid starts at the right or bottom of the frame
      * "CENTER": Grid is center aligned
      */
-    alignment?: Alignment;
+    alignment: Alignment;
     /**
      * Color of the grid
      */
-    color?: Olor;
+    color: Olor;
     /**
      * Number of columns or rows
      */
-    count?: number;
+    count: number;
     /**
      * Spacing in between columns and rows
      */
-    gutterSize?: number;
+    gutterSize: number;
     /**
      * Spacing before the first column or row
      */
-    offset?: number;
+    offset: number;
     /**
      * Orientation of the grid as a string enum
      * "COLUMNS": Vertical grid
      * "ROWS": Horizontal grid
      * "GRID": Square grid
      */
-    pattern?: Pattern;
+    pattern: Pattern;
     /**
      * Width of column grid or height of row grid or square grid spacing
      */
-    sectionSize?: number;
+    sectionSize: number;
     /**
      * Is the grid currently visible?
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -1142,79 +1135,79 @@ export interface Rectangle {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Radius of each corner of the rectangle
      */
-    cornerRadius?: number;
+    cornerRadius: number;
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
 }
 
 /**
@@ -1227,38 +1220,38 @@ export interface LayoutGrid {
      * "MAX": Grid starts at the right or bottom of the frame
      * "CENTER": Grid is center aligned
      */
-    alignment?: Alignment;
+    alignment: Alignment;
     /**
      * Color of the grid
      */
-    color?: Olor;
+    color: Olor;
     /**
      * Number of columns or rows
      */
-    count?: number;
+    count: number;
     /**
      * Spacing in between columns and rows
      */
-    gutterSize?: number;
+    gutterSize: number;
     /**
      * Spacing before the first column or row
      */
-    offset?: number;
+    offset: number;
     /**
      * Orientation of the grid as a string enum
      * "COLUMNS": Vertical grid
      * "ROWS": Horizontal grid
      * "GRID": Square grid
      */
-    pattern?: Pattern;
+    pattern: Pattern;
     /**
      * Width of column grid or height of row grid or square grid spacing
      */
-    sectionSize?: number;
+    sectionSize: number;
     /**
      * Is the grid currently visible?
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -1271,15 +1264,15 @@ export interface Effect {
     /**
      * Radius of the blur effect (applies to shadows as well)
      */
-    radius?: number;
+    radius: number;
     /**
      * Type of effect as a string enum
      */
-    type?: EffectType;
+    type: EffectType;
     /**
      * Is the effect active?
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -1289,27 +1282,27 @@ export interface Slice {
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * An array of export settings representing images to export from this node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -1320,75 +1313,75 @@ export interface Star {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
 }
 
 /**
@@ -1399,75 +1392,75 @@ export interface Line {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
 }
 
 /**
@@ -1479,78 +1472,78 @@ export interface Instance {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids?: LayoutGridElement[];
+    layoutGrids: LayoutGridElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Background color of the node
      */
-    backgroundColor?: Olor;
+    backgroundColor: Olor;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * Does this node clip content outside of its bounds?
      */
-    clipsContent?: boolean;
+    clipsContent: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * ID of component that this instance came from, refers to components
      * table (see endpoints section below)
      */
-    componentId?: string;
+    componentId: string;
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
     /**
      * An array of nodes that are direct children of this node
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
 }
 
 /**
@@ -1560,11 +1553,11 @@ export interface Vector2D {
     /**
      * X coordinate of the vector
      */
-    x?: number;
+    x: number;
     /**
      * Y coordinate of the vector
      */
-    y?: number;
+    y: number;
 }
 
 /**
@@ -1574,47 +1567,47 @@ export interface TypeStyle {
     /**
      * Line height in px
      */
-    lineHeightPx?: number;
+    lineHeightPx: number;
     /**
      * PostScript font name
      */
-    fontPostScriptName?: string;
+    fontPostScriptName: string;
     /**
      * Numeric font weight
      */
-    fontWeight?: number;
+    fontWeight: number;
     /**
      * Line height as a percentage of normal line height
      */
-    lineHeightPercent?: number;
+    lineHeightPercent: number;
     /**
      * Vertical text alignment as string enum
      */
-    textAlignVertical?: TextAlignVertical;
+    textAlignVertical: TextAlignVertical;
     /**
      * Font size in px
      */
-    fontSize?: number;
+    fontSize: number;
     /**
      * Is text italicized?
      */
-    italic?: boolean;
+    italic: boolean;
     /**
      * Paints applied to characters
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Font family of text (standard name)
      */
-    fontFamily?: string;
+    fontFamily: string;
     /**
      * Horizontal text alignment as string enum
      */
-    textAlignHorizontal?: TextAlignHorizontal;
+    textAlignHorizontal: TextAlignHorizontal;
     /**
      * Space between characters in px
      */
-    letterSpacing?: number;
+    letterSpacing: number;
 }
 
 /**
@@ -1625,79 +1618,79 @@ export interface BooleanGroup {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
     /**
      * An array of nodes that are being boolean operated on
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
 }
 
 /**
@@ -1707,31 +1700,31 @@ export interface Canvas {
     /**
      * Background color of the canvas
      */
-    backgroundColor?: Olor;
+    backgroundColor: Olor;
     /**
      * An array of top level layers on the canvas
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
     /**
      * An array of export settings representing images to export from the canvas
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -1742,23 +1735,23 @@ export interface Document {
     /**
      * An array of canvases attached to the document
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -1768,15 +1761,15 @@ export interface ExportSetting {
     /**
      * Constraint that determines sizing of exported asset
      */
-    constraint?: ExportSettingConstraint;
+    constraint: ExportSettingConstraint;
     /**
      * Image type, string enum
      */
-    format?: Format;
+    format: Format;
     /**
      * File suffix to append to all filenames
      */
-    suffix?: Suffix;
+    suffix: string;
 }
 
 /**
@@ -1787,73 +1780,73 @@ export interface Component {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids?: LayoutGridElement[];
+    layoutGrids: LayoutGridElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Background color of the node
      */
-    backgroundColor?: Olor;
+    backgroundColor: Olor;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * Does this node clip content outside of its bounds?
      */
-    clipsContent?: boolean;
+    clipsContent: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
     /**
      * An array of nodes that are direct children of this node
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
 }
 
 /**
@@ -1881,12 +1874,12 @@ export interface FileResponse {
      * components each instance comes from. Currently the only piece of metadata available on
      * components is the name of the component, but more properties will be forthcoming.
      */
-    components?: { [key: string]: ComponentValue };
+    components: { [key: string]: ComponentValue };
     /**
      * The root node within the document
      */
-    document?:      Ocument;
-    schemaVersion?: number;
+    document:      Ocument;
+    schemaVersion: number;
 }
 
 /**
@@ -1909,73 +1902,73 @@ export interface ComponentValue {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids?: LayoutGridElement[];
+    layoutGrids: LayoutGridElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Background color of the node
      */
-    backgroundColor?: Olor;
+    backgroundColor: Olor;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * Does this node clip content outside of its bounds?
      */
-    clipsContent?: boolean;
+    clipsContent: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
     /**
      * An array of nodes that are direct children of this node
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
 }
 
 /**
@@ -1996,23 +1989,23 @@ export interface Ocument {
     /**
      * An array of canvases attached to the document
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -2025,11 +2018,11 @@ export interface Constraint {
      * "WIDTH": Scale proportionally and set width to value
      * "HEIGHT": Scale proportionally and set height to value
      */
-    type?: ConstraintType;
+    type: ConstraintType;
     /**
      * See type property for effect of this field
      */
-    value?: number;
+    value: number;
 }
 
 /**
@@ -2061,7 +2054,7 @@ export interface Paint {
      * Overall opacity of paint (colors within the paint can also have opacity
      * values which would blend with this)
      */
-    opacity?: number;
+    opacity: number;
     /**
      * Image scaling mode
      */
@@ -2069,11 +2062,11 @@ export interface Paint {
     /**
      * Type of paint as a string enum
      */
-    type?: PaintType;
+    type: PaintType;
     /**
      * Is the paint enabled?
      */
-    visible?: boolean;
+    visible: boolean;
 }
 
 /**
@@ -2084,75 +2077,75 @@ export interface RegularPolygon {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
 }
 
 /**
@@ -2163,75 +2156,75 @@ export interface Ellipse {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign?: StrokeAlign;
+    strokeAlign: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight?: number;
+    strokeWeight: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills: PaintElement[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes: PaintElement[];
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
 }
 
 /**
@@ -2242,73 +2235,73 @@ export interface Group {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects: EffectElement[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids?: LayoutGridElement[];
+    layoutGrids: LayoutGridElement[];
     /**
      * Opacity of the node
      */
-    opacity?: number;
+    opacity: number;
     /**
      * the name given to the node by the user in the tool.
      */
-    name?: string;
+    name: string;
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID?: string;
+    transitionNodeID: string;
     /**
      * whether or not the node is visible on the canvas
      */
-    visible?: boolean;
+    visible: boolean;
     /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: BlendMode;
+    blendMode: BlendMode;
     /**
      * Background color of the node
      */
-    backgroundColor?: Olor;
+    backgroundColor: Olor;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
-    isMask?: boolean;
+    isMask: boolean;
     /**
      * Does this node clip content outside of its bounds?
      */
-    clipsContent?: boolean;
+    clipsContent: boolean;
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings: ExportSettingElement[];
     /**
      * the type of the node, refer to table below for details
      */
-    type?: NodeType;
+    type: NodeType;
     /**
      * a string uniquely identifying this node within the document
      */
-    id?: string;
+    id: string;
     /**
      * Keep height and width constrained to same ratio
      */
-    preserveRatio?: boolean;
+    preserveRatio: boolean;
     /**
      * An array of nodes that are direct children of this node
      */
-    children?: DocumentElement[];
+    children: DocumentElement[];
 }
 
 // Converts JSON strings to/from your types
@@ -2617,163 +2610,163 @@ export module Convert {
 
     const typeMap: any = {
         "Vector": {
-            effects: u(null, a(o("EffectElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
+            effects: a(o("EffectElement")),
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
         },
         "AbsoluteBoundingBox": {
-            effects: u(null, a(o("EffectElement"))),
-            cornerRadius: u(null, 3.14),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
+            effects: a(o("EffectElement")),
+            cornerRadius: 3.14,
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
         },
         "Constraints": {
-            horizontal: u(null, e("Horizontal")),
-            vertical: u(null, e("Vertical")),
+            horizontal: e("Horizontal"),
+            vertical: e("Vertical"),
         },
         "EffectElement": {
             blendMode: u(null, e("BlendMode")),
             color: u(null, o("Olor")),
             offset: u(null, o("Offset")),
-            radius: u(null, 3.14),
-            type: u(null, e("EffectType")),
-            visible: u(null, false),
+            radius: 3.14,
+            type: e("EffectType"),
+            visible: false,
         },
         "Olor": {
-            a: u(null, 3.14),
-            b: u(null, 3.14),
-            g: u(null, 3.14),
-            r: u(null, 3.14),
+            a: 3.14,
+            b: 3.14,
+            g: 3.14,
+            r: 3.14,
         },
         "Offset": {
-            x: u(null, 3.14),
-            y: u(null, 3.14),
+            x: 3.14,
+            y: 3.14,
         },
         "ExportSettingElement": {
-            constraint: u(null, o("ExportSettingConstraint")),
-            format: u(null, e("Format")),
-            suffix: u(null, e("Suffix")),
+            constraint: o("ExportSettingConstraint"),
+            format: e("Format"),
+            suffix: "",
         },
         "ExportSettingConstraint": {
-            type: u(null, e("ConstraintType")),
-            value: u(null, 3.14),
+            type: e("ConstraintType"),
+            value: 3.14,
         },
         "PaintElement": {
             color: u(null, o("Olor")),
             gradientHandlePositions: u(null, a(o("Offset"))),
             gradientStops: u(null, a(o("ColorStopElement"))),
-            opacity: u(null, 3.14),
+            opacity: 3.14,
             scaleMode: u(null, ""),
-            type: u(null, e("PaintType")),
-            visible: u(null, false),
+            type: e("PaintType"),
+            visible: false,
         },
         "ColorStopElement": {
-            color: u(null, o("Olor")),
-            position: u(null, 3.14),
+            color: o("Olor"),
+            position: 3.14,
         },
         "Color": {
-            a: u(null, 3.14),
-            b: u(null, 3.14),
-            g: u(null, 3.14),
-            r: u(null, 3.14),
+            a: 3.14,
+            b: 3.14,
+            g: 3.14,
+            r: 3.14,
         },
         "ColorStop": {
-            color: u(null, o("Olor")),
-            position: u(null, 3.14),
+            color: o("Olor"),
+            position: 3.14,
         },
         "LayoutConstraint": {
-            horizontal: u(null, e("Horizontal")),
-            vertical: u(null, e("Vertical")),
+            horizontal: e("Horizontal"),
+            vertical: e("Vertical"),
         },
         "Text": {
-            effects: u(null, a(o("EffectElement"))),
-            characters: u(null, ""),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            styleOverrideTable: u(null, a(o("Tyle"))),
-            style: u(null, o("Tyle")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
-            characterStyleOverrides: u(null, a(3.14)),
+            effects: a(o("EffectElement")),
+            characters: "",
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            styleOverrideTable: a(o("Tyle")),
+            style: o("Tyle"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
+            characterStyleOverrides: a(3.14),
         },
         "Tyle": {
-            lineHeightPx: u(null, 3.14),
-            fontPostScriptName: u(null, ""),
-            fontWeight: u(null, 3.14),
-            lineHeightPercent: u(null, 3.14),
-            textAlignVertical: u(null, e("TextAlignVertical")),
-            fontSize: u(null, 3.14),
-            italic: u(null, false),
-            fills: u(null, a(o("PaintElement"))),
-            fontFamily: u(null, ""),
-            textAlignHorizontal: u(null, e("TextAlignHorizontal")),
-            letterSpacing: u(null, 3.14),
+            lineHeightPx: 3.14,
+            fontPostScriptName: "",
+            fontWeight: 3.14,
+            lineHeightPercent: 3.14,
+            textAlignVertical: e("TextAlignVertical"),
+            fontSize: 3.14,
+            italic: false,
+            fills: a(o("PaintElement")),
+            fontFamily: "",
+            textAlignHorizontal: e("TextAlignHorizontal"),
+            letterSpacing: 3.14,
         },
         "Frame": {
-            effects: u(null, a(o("EffectElement"))),
-            layoutGrids: u(null, a(o("LayoutGridElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            backgroundColor: u(null, o("Olor")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            clipsContent: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            preserveRatio: u(null, false),
-            children: u(null, a(o("DocumentElement"))),
+            effects: a(o("EffectElement")),
+            layoutGrids: a(o("LayoutGridElement")),
+            opacity: 3.14,
+            name: "",
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            backgroundColor: o("Olor"),
+            constraints: o("Constraints"),
+            isMask: false,
+            clipsContent: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            preserveRatio: false,
+            children: a(o("DocumentElement")),
         },
         "DocumentElement": {
             children: u(null, a(o("DocumentElement"))),
-            id: u(null, ""),
-            name: u(null, ""),
-            type: u(null, e("NodeType")),
-            visible: u(null, false),
+            id: "",
+            name: "",
+            type: e("NodeType"),
+            visible: false,
             backgroundColor: u(null, o("Olor")),
             exportSettings: u(null, a(o("ExportSettingElement"))),
             effects: u(null, a(o("EffectElement"))),
@@ -2798,296 +2791,296 @@ export module Convert {
             componentId: u(null, ""),
         },
         "LayoutGridElement": {
-            alignment: u(null, e("Alignment")),
-            color: u(null, o("Olor")),
-            count: u(null, 3.14),
-            gutterSize: u(null, 3.14),
-            offset: u(null, 3.14),
-            pattern: u(null, e("Pattern")),
-            sectionSize: u(null, 3.14),
-            visible: u(null, false),
+            alignment: e("Alignment"),
+            color: o("Olor"),
+            count: 3.14,
+            gutterSize: 3.14,
+            offset: 3.14,
+            pattern: e("Pattern"),
+            sectionSize: 3.14,
+            visible: false,
         },
         "Rectangle": {
-            effects: u(null, a(o("EffectElement"))),
-            cornerRadius: u(null, 3.14),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
+            effects: a(o("EffectElement")),
+            cornerRadius: 3.14,
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
         },
         "LayoutGrid": {
-            alignment: u(null, e("Alignment")),
-            color: u(null, o("Olor")),
-            count: u(null, 3.14),
-            gutterSize: u(null, 3.14),
-            offset: u(null, 3.14),
-            pattern: u(null, e("Pattern")),
-            sectionSize: u(null, 3.14),
-            visible: u(null, false),
+            alignment: e("Alignment"),
+            color: o("Olor"),
+            count: 3.14,
+            gutterSize: 3.14,
+            offset: 3.14,
+            pattern: e("Pattern"),
+            sectionSize: 3.14,
+            visible: false,
         },
         "Effect": {
             blendMode: u(null, e("BlendMode")),
             color: u(null, o("Olor")),
             offset: u(null, o("Offset")),
-            radius: u(null, 3.14),
-            type: u(null, e("EffectType")),
-            visible: u(null, false),
+            radius: 3.14,
+            type: e("EffectType"),
+            visible: false,
         },
         "Slice": {
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            id: u(null, ""),
-            name: u(null, ""),
-            type: u(null, e("NodeType")),
-            visible: u(null, false),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            exportSettings: a(o("ExportSettingElement")),
+            id: "",
+            name: "",
+            type: e("NodeType"),
+            visible: false,
         },
         "Star": {
-            effects: u(null, a(o("EffectElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
+            effects: a(o("EffectElement")),
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
         },
         "Line": {
-            effects: u(null, a(o("EffectElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
+            effects: a(o("EffectElement")),
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
         },
         "Instance": {
-            effects: u(null, a(o("EffectElement"))),
-            layoutGrids: u(null, a(o("LayoutGridElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            backgroundColor: u(null, o("Olor")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            clipsContent: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            componentId: u(null, ""),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            preserveRatio: u(null, false),
-            children: u(null, a(o("DocumentElement"))),
+            effects: a(o("EffectElement")),
+            layoutGrids: a(o("LayoutGridElement")),
+            opacity: 3.14,
+            name: "",
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            backgroundColor: o("Olor"),
+            constraints: o("Constraints"),
+            isMask: false,
+            clipsContent: false,
+            exportSettings: a(o("ExportSettingElement")),
+            componentId: "",
+            type: e("NodeType"),
+            id: "",
+            preserveRatio: false,
+            children: a(o("DocumentElement")),
         },
         "Vector2D": {
-            x: u(null, 3.14),
-            y: u(null, 3.14),
+            x: 3.14,
+            y: 3.14,
         },
         "TypeStyle": {
-            lineHeightPx: u(null, 3.14),
-            fontPostScriptName: u(null, ""),
-            fontWeight: u(null, 3.14),
-            lineHeightPercent: u(null, 3.14),
-            textAlignVertical: u(null, e("TextAlignVertical")),
-            fontSize: u(null, 3.14),
-            italic: u(null, false),
-            fills: u(null, a(o("PaintElement"))),
-            fontFamily: u(null, ""),
-            textAlignHorizontal: u(null, e("TextAlignHorizontal")),
-            letterSpacing: u(null, 3.14),
+            lineHeightPx: 3.14,
+            fontPostScriptName: "",
+            fontWeight: 3.14,
+            lineHeightPercent: 3.14,
+            textAlignVertical: e("TextAlignVertical"),
+            fontSize: 3.14,
+            italic: false,
+            fills: a(o("PaintElement")),
+            fontFamily: "",
+            textAlignHorizontal: e("TextAlignHorizontal"),
+            letterSpacing: 3.14,
         },
         "BooleanGroup": {
-            effects: u(null, a(o("EffectElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
-            children: u(null, a(o("DocumentElement"))),
+            effects: a(o("EffectElement")),
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
+            children: a(o("DocumentElement")),
         },
         "Canvas": {
-            backgroundColor: u(null, o("Olor")),
-            children: u(null, a(o("DocumentElement"))),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            id: u(null, ""),
-            name: u(null, ""),
-            type: u(null, e("NodeType")),
-            visible: u(null, false),
+            backgroundColor: o("Olor"),
+            children: a(o("DocumentElement")),
+            exportSettings: a(o("ExportSettingElement")),
+            id: "",
+            name: "",
+            type: e("NodeType"),
+            visible: false,
         },
         "Document": {
-            children: u(null, a(o("DocumentElement"))),
-            id: u(null, ""),
-            name: u(null, ""),
-            type: u(null, e("NodeType")),
-            visible: u(null, false),
+            children: a(o("DocumentElement")),
+            id: "",
+            name: "",
+            type: e("NodeType"),
+            visible: false,
         },
         "ExportSetting": {
-            constraint: u(null, o("ExportSettingConstraint")),
-            format: u(null, e("Format")),
-            suffix: u(null, e("Suffix")),
+            constraint: o("ExportSettingConstraint"),
+            format: e("Format"),
+            suffix: "",
         },
         "Component": {
-            effects: u(null, a(o("EffectElement"))),
-            layoutGrids: u(null, a(o("LayoutGridElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            backgroundColor: u(null, o("Olor")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            clipsContent: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            preserveRatio: u(null, false),
-            children: u(null, a(o("DocumentElement"))),
+            effects: a(o("EffectElement")),
+            layoutGrids: a(o("LayoutGridElement")),
+            opacity: 3.14,
+            name: "",
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            backgroundColor: o("Olor"),
+            constraints: o("Constraints"),
+            isMask: false,
+            clipsContent: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            preserveRatio: false,
+            children: a(o("DocumentElement")),
         },
         "FileResponse": {
-            components: u(null, m(o("ComponentValue"))),
-            document: u(null, o("Ocument")),
-            schemaVersion: u(null, 3.14),
+            components: m(o("ComponentValue")),
+            document: o("Ocument"),
+            schemaVersion: 3.14,
         },
         "ComponentValue": {
-            effects: u(null, a(o("EffectElement"))),
-            layoutGrids: u(null, a(o("LayoutGridElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            backgroundColor: u(null, o("Olor")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            clipsContent: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            preserveRatio: u(null, false),
-            children: u(null, a(o("DocumentElement"))),
+            effects: a(o("EffectElement")),
+            layoutGrids: a(o("LayoutGridElement")),
+            opacity: 3.14,
+            name: "",
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            backgroundColor: o("Olor"),
+            constraints: o("Constraints"),
+            isMask: false,
+            clipsContent: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            preserveRatio: false,
+            children: a(o("DocumentElement")),
         },
         "Ocument": {
-            children: u(null, a(o("DocumentElement"))),
-            id: u(null, ""),
-            name: u(null, ""),
-            type: u(null, e("NodeType")),
-            visible: u(null, false),
+            children: a(o("DocumentElement")),
+            id: "",
+            name: "",
+            type: e("NodeType"),
+            visible: false,
         },
         "Constraint": {
-            type: u(null, e("ConstraintType")),
-            value: u(null, 3.14),
+            type: e("ConstraintType"),
+            value: 3.14,
         },
         "Paint": {
             color: u(null, o("Olor")),
             gradientHandlePositions: u(null, a(o("Offset"))),
             gradientStops: u(null, a(o("ColorStopElement"))),
-            opacity: u(null, 3.14),
+            opacity: 3.14,
             scaleMode: u(null, ""),
-            type: u(null, e("PaintType")),
-            visible: u(null, false),
+            type: e("PaintType"),
+            visible: false,
         },
         "RegularPolygon": {
-            effects: u(null, a(o("EffectElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
+            effects: a(o("EffectElement")),
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
         },
         "Ellipse": {
-            effects: u(null, a(o("EffectElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("PaintElement"))),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            strokes: u(null, a(o("PaintElement"))),
-            preserveRatio: u(null, false),
+            effects: a(o("EffectElement")),
+            opacity: 3.14,
+            name: "",
+            strokeAlign: e("StrokeAlign"),
+            strokeWeight: 3.14,
+            fills: a(o("PaintElement")),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            constraints: o("Constraints"),
+            isMask: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            strokes: a(o("PaintElement")),
+            preserveRatio: false,
         },
         "Group": {
-            effects: u(null, a(o("EffectElement"))),
-            layoutGrids: u(null, a(o("LayoutGridElement"))),
-            opacity: u(null, 3.14),
-            name: u(null, ""),
-            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-            transitionNodeID: u(null, ""),
-            visible: u(null, false),
-            blendMode: u(null, e("BlendMode")),
-            backgroundColor: u(null, o("Olor")),
-            constraints: u(null, o("Constraints")),
-            isMask: u(null, false),
-            clipsContent: u(null, false),
-            exportSettings: u(null, a(o("ExportSettingElement"))),
-            type: u(null, e("NodeType")),
-            id: u(null, ""),
-            preserveRatio: u(null, false),
-            children: u(null, a(o("DocumentElement"))),
+            effects: a(o("EffectElement")),
+            layoutGrids: a(o("LayoutGridElement")),
+            opacity: 3.14,
+            name: "",
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
+            transitionNodeID: "",
+            visible: false,
+            blendMode: e("BlendMode"),
+            backgroundColor: o("Olor"),
+            constraints: o("Constraints"),
+            isMask: false,
+            clipsContent: false,
+            exportSettings: a(o("ExportSettingElement")),
+            type: e("NodeType"),
+            id: "",
+            preserveRatio: false,
+            children: a(o("DocumentElement")),
         },
         "BlendMode": [
             "COLOR",
@@ -3139,9 +3132,6 @@ export module Convert {
             "JPG",
             "PNG",
             "SVG",
-        ],
-        "Suffix": [
-            "string",
         ],
         "PaintType": [
             "EMOJI",

@@ -13,9 +13,9 @@ public class EffectElement {
     private BlendMode blendMode;
     private Olor color;
     private Offset offset;
-    private Double radius;
+    private double radius;
     private EffectType type;
-    private Boolean visible;
+    private boolean visible;
 
     @JsonProperty("blendMode")
     public BlendMode getBlendMode() { return blendMode; }
@@ -36,9 +36,9 @@ public class EffectElement {
      * Radius of the blur effect (applies to shadows as well)
      */
     @JsonProperty("radius")
-    public Double getRadius() { return radius; }
+    public double getRadius() { return radius; }
     @JsonProperty("radius")
-    public void setRadius(Double value) { this.radius = value; }
+    public void setRadius(double value) { this.radius = value; }
 
     /**
      * Type of effect as a string enum
@@ -52,7 +52,7 @@ public class EffectElement {
      * Is the effect active?
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 }

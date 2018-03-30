@@ -12,12 +12,12 @@ import com.fasterxml.jackson.annotation.*;
 public class LayoutGridElement {
     private Alignment alignment;
     private Olor color;
-    private Double count;
-    private Double gutterSize;
-    private Double offset;
+    private double count;
+    private double gutterSize;
+    private double offset;
     private Pattern pattern;
-    private Double sectionSize;
-    private Boolean visible;
+    private double sectionSize;
+    private boolean visible;
 
     /**
      * Positioning of grid as a string enum
@@ -42,25 +42,25 @@ public class LayoutGridElement {
      * Number of columns or rows
      */
     @JsonProperty("count")
-    public Double getCount() { return count; }
+    public double getCount() { return count; }
     @JsonProperty("count")
-    public void setCount(Double value) { this.count = value; }
+    public void setCount(double value) { this.count = value; }
 
     /**
      * Spacing in between columns and rows
      */
     @JsonProperty("gutterSize")
-    public Double getGutterSize() { return gutterSize; }
+    public double getGutterSize() { return gutterSize; }
     @JsonProperty("gutterSize")
-    public void setGutterSize(Double value) { this.gutterSize = value; }
+    public void setGutterSize(double value) { this.gutterSize = value; }
 
     /**
      * Spacing before the first column or row
      */
     @JsonProperty("offset")
-    public Double getOffset() { return offset; }
+    public double getOffset() { return offset; }
     @JsonProperty("offset")
-    public void setOffset(Double value) { this.offset = value; }
+    public void setOffset(double value) { this.offset = value; }
 
     /**
      * Orientation of the grid as a string enum
@@ -77,15 +77,15 @@ public class LayoutGridElement {
      * Width of column grid or height of row grid or square grid spacing
      */
     @JsonProperty("sectionSize")
-    public Double getSectionSize() { return sectionSize; }
+    public double getSectionSize() { return sectionSize; }
     @JsonProperty("sectionSize")
-    public void setSectionSize(Double value) { this.sectionSize = value; }
+    public void setSectionSize(double value) { this.sectionSize = value; }
 
     /**
      * Is the grid currently visible?
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 }

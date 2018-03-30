@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class ExportSettingConstraint {
     private ConstraintType type;
-    private Double value;
+    private double value;
 
     /**
      * Type of constraint to apply; string enum with potential values below
@@ -27,7 +27,7 @@ public class ExportSettingConstraint {
      * See type property for effect of this field
      */
     @JsonProperty("value")
-    public Double getValue() { return value; }
+    public double getValue() { return value; }
     @JsonProperty("value")
-    public void setValue(Double value) { this.value = value; }
+    public void setValue(double value) { this.value = value; }
 }

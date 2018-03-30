@@ -18,23 +18,23 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class AbsoluteBoundingBox {
     private EffectElement[] effects;
-    private Double cornerRadius;
-    private Double opacity;
+    private double cornerRadius;
+    private double opacity;
     private String name;
     private StrokeAlign strokeAlign;
-    private Double strokeWeight;
+    private double strokeWeight;
     private PaintElement[] fills;
     private AbsoluteBoundingBox absoluteBoundingBox;
     private String transitionNodeID;
-    private Boolean visible;
+    private boolean visible;
     private BlendMode blendMode;
     private Constraints constraints;
-    private Boolean isMask;
+    private boolean isMask;
     private ExportSettingElement[] exportSettings;
     private NodeType type;
     private String id;
     private PaintElement[] strokes;
-    private Boolean preserveRatio;
+    private boolean preserveRatio;
 
     /**
      * An array of effects attached to this node
@@ -49,17 +49,17 @@ public class AbsoluteBoundingBox {
      * Radius of each corner of the rectangle
      */
     @JsonProperty("cornerRadius")
-    public Double getCornerRadius() { return cornerRadius; }
+    public double getCornerRadius() { return cornerRadius; }
     @JsonProperty("cornerRadius")
-    public void setCornerRadius(Double value) { this.cornerRadius = value; }
+    public void setCornerRadius(double value) { this.cornerRadius = value; }
 
     /**
      * Opacity of the node
      */
     @JsonProperty("opacity")
-    public Double getOpacity() { return opacity; }
+    public double getOpacity() { return opacity; }
     @JsonProperty("opacity")
-    public void setOpacity(Double value) { this.opacity = value; }
+    public void setOpacity(double value) { this.opacity = value; }
 
     /**
      * the name given to the node by the user in the tool.
@@ -84,9 +84,9 @@ public class AbsoluteBoundingBox {
      * The weight of strokes on the node
      */
     @JsonProperty("strokeWeight")
-    public Double getStrokeWeight() { return strokeWeight; }
+    public double getStrokeWeight() { return strokeWeight; }
     @JsonProperty("strokeWeight")
-    public void setStrokeWeight(Double value) { this.strokeWeight = value; }
+    public void setStrokeWeight(double value) { this.strokeWeight = value; }
 
     /**
      * An array of fill paints applied to the node
@@ -116,9 +116,9 @@ public class AbsoluteBoundingBox {
      * whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 
     /**
      * How this node blends with nodes behind it in the scene
@@ -141,9 +141,9 @@ public class AbsoluteBoundingBox {
      * Does this node mask sibling nodes in front of it?
      */
     @JsonProperty("isMask")
-    public Boolean getIsMask() { return isMask; }
+    public boolean getIsMask() { return isMask; }
     @JsonProperty("isMask")
-    public void setIsMask(Boolean value) { this.isMask = value; }
+    public void setIsMask(boolean value) { this.isMask = value; }
 
     /**
      * An array of export settings representing images to export from node
@@ -181,7 +181,7 @@ public class AbsoluteBoundingBox {
      * Keep height and width constrained to same ratio
      */
     @JsonProperty("preserveRatio")
-    public Boolean getPreserveRatio() { return preserveRatio; }
+    public boolean getPreserveRatio() { return preserveRatio; }
     @JsonProperty("preserveRatio")
-    public void setPreserveRatio(Boolean value) { this.preserveRatio = value; }
+    public void setPreserveRatio(boolean value) { this.preserveRatio = value; }
 }

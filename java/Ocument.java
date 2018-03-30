@@ -22,7 +22,7 @@ public class Ocument {
     private String id;
     private String name;
     private NodeType type;
-    private Boolean visible;
+    private boolean visible;
 
     /**
      * An array of canvases attached to the document
@@ -60,7 +60,7 @@ public class Ocument {
      * whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 }

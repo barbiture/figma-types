@@ -13,7 +13,7 @@ public class Canvas {
     private String id;
     private String name;
     private NodeType type;
-    private Boolean visible;
+    private boolean visible;
 
     /**
      * Background color of the canvas
@@ -67,7 +67,7 @@ public class Canvas {
      * whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 }

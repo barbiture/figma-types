@@ -10,10 +10,10 @@ public class Paint {
     private Olor color;
     private Offset[] gradientHandlePositions;
     private ColorStopElement[] gradientStops;
-    private Double opacity;
+    private double opacity;
     private String scaleMode;
     private PaintType type;
-    private Boolean visible;
+    private boolean visible;
 
     /**
      * Solid color of the paint
@@ -53,9 +53,9 @@ public class Paint {
      * values which would blend with this)
      */
     @JsonProperty("opacity")
-    public Double getOpacity() { return opacity; }
+    public double getOpacity() { return opacity; }
     @JsonProperty("opacity")
-    public void setOpacity(Double value) { this.opacity = value; }
+    public void setOpacity(double value) { this.opacity = value; }
 
     /**
      * Image scaling mode
@@ -77,7 +77,7 @@ public class Paint {
      * Is the paint enabled?
      */
     @JsonProperty("visible")
-    public Boolean getVisible() { return visible; }
+    public boolean getVisible() { return visible; }
     @JsonProperty("visible")
-    public void setVisible(Boolean value) { this.visible = value; }
+    public void setVisible(boolean value) { this.visible = value; }
 }
