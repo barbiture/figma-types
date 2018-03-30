@@ -5,12 +5,13 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * * TOP: Node is laid out relative to top of the containing frame
- * * BOTTOM: Node is laid out relative to bottom of the containing frame
- * * CENTER: Node is vertically centered relative to containing frame
- * * TOP_BOTTOM: Both top and bottom of node are constrained relative to containing frame
+ * Vertical constraint as an enum
+ * "TOP": Node is laid out relative to top of the containing frame
+ * "BOTTOM": Node is laid out relative to bottom of the containing frame
+ * "CENTER": Node is vertically centered relative to containing frame
+ * "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
  * (node stretches with frame)
- * * SCALE: Node scales vertically with containing frame
+ * "SCALE": Node scales vertically with containing frame
  */
 public enum Vertical {
     BOTTOM, CENTER, SCALE, TOP, TOP_BOTTOM;

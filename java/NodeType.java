@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * The type of the node
+ * the type of the node, refer to table below for details
  */
 public enum NodeType {
     BOOLEAN, CANVAS, COMPONENT, DOCUMENT, ELLIPSE, FRAME, GROUP, INSTANCE, LINE, RECTANGLE, REGULAR_POLYGON, SLICE, STAR, TEXT, VECTOR;

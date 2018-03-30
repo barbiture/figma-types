@@ -5,12 +5,13 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * * LEFT: Node is laid out relative to left of the containing frame
- * * RIGHT: Node is laid out relative to right of the containing frame
- * * CENTER: Node is horizontally centered relative to containing frame
- * * LEFT_RIGHT: Both left and right of node are constrained relative to containing frame
+ * Horizontal constraint as an enum
+ * "LEFT": Node is laid out relative to left of the containing frame
+ * "RIGHT": Node is laid out relative to right of the containing frame
+ * "CENTER": Node is horizontally centered relative to containing frame
+ * "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
  * (node stretches with frame)
- * * SCALE: Node scales horizontally with containing frame
+ * "SCALE": Node scales horizontally with containing frame
  */
 public enum Horizontal {
     CENTER, LEFT, LEFT_RIGHT, RIGHT, SCALE;

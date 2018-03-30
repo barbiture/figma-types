@@ -5,8 +5,13 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Metadata for character formatting
+ *
+ * Map from ID to TypeStyle for looking up style overrides
+ *
+ * Style of text including font family and weight (see type style
+ * section for more information)
  */
-public class TypeStyle {
+public class Tyle {
     private Double lineHeightPx;
     private String fontPostScriptName;
     private Double fontWeight;

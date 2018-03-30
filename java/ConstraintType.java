@@ -6,10 +6,9 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Type of constraint to apply; string enum with potential values below
- *
- * * "SCALE": Scale by value
- * * "WIDTH": Scale proportionally and set width to value
- * * "HEIGHT": Scale proportionally and set height to value
+ * "SCALE": Scale by value
+ * "WIDTH": Scale proportionally and set width to value
+ * "HEIGHT": Scale proportionally and set height to value
  */
 public enum ConstraintType {
     HEIGHT, SCALE, WIDTH;

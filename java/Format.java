@@ -5,11 +5,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * Type of constraint to apply; string enum with potential values below
- *
- * * "SCALE": Scale by value
- * * "WIDTH": Scale proportionally and set width to value
- * * "HEIGHT": Scale proportionally and set height to value
+ * Image type, string enum
  */
 public enum Format {
     JPG, PNG, SVG;

@@ -4,26 +4,30 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * A node that can have instances created of it that share the same properties
+ * A text box
  */
-public class Component {
+public class Text {
     private EffectElement[] effects;
-    private LayoutGridElement[] layoutGrids;
+    private String characters;
     private Double opacity;
     private String name;
+    private StrokeAlign strokeAlign;
+    private Double strokeWeight;
+    private PaintElement[] fills;
     private AbsoluteBoundingBox absoluteBoundingBox;
+    private Tyle[] styleOverrideTable;
+    private Tyle style;
     private String transitionNodeID;
     private Boolean visible;
     private BlendMode blendMode;
-    private Olor backgroundColor;
     private Constraints constraints;
     private Boolean isMask;
-    private Boolean clipsContent;
     private ExportSettingElement[] exportSettings;
     private NodeType type;
     private String id;
+    private PaintElement[] strokes;
     private Boolean preserveRatio;
-    private DocumentElement[] children;
+    private double[] characterStyleOverrides;
 
     /**
      * An array of effects attached to this node
@@ -35,13 +39,12 @@ public class Component {
     public void setEffects(EffectElement[] value) { this.effects = value; }
 
     /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
+     * Text contained within text box
      */
-    @JsonProperty("layoutGrids")
-    public LayoutGridElement[] getLayoutGrids() { return layoutGrids; }
-    @JsonProperty("layoutGrids")
-    public void setLayoutGrids(LayoutGridElement[] value) { this.layoutGrids = value; }
+    @JsonProperty("characters")
+    public String getCharacters() { return characters; }
+    @JsonProperty("characters")
+    public void setCharacters(String value) { this.characters = value; }
 
     /**
      * Opacity of the node
@@ -60,12 +63,56 @@ public class Component {
     public void setName(String value) { this.name = value; }
 
     /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     * "INSIDE": draw stroke inside the shape boundary
+     * "OUTSIDE": draw stroke outside the shape boundary
+     * "CENTER": draw stroke centered along the shape boundary
+     */
+    @JsonProperty("strokeAlign")
+    public StrokeAlign getStrokeAlign() { return strokeAlign; }
+    @JsonProperty("strokeAlign")
+    public void setStrokeAlign(StrokeAlign value) { this.strokeAlign = value; }
+
+    /**
+     * The weight of strokes on the node
+     */
+    @JsonProperty("strokeWeight")
+    public Double getStrokeWeight() { return strokeWeight; }
+    @JsonProperty("strokeWeight")
+    public void setStrokeWeight(Double value) { this.strokeWeight = value; }
+
+    /**
+     * An array of fill paints applied to the node
+     */
+    @JsonProperty("fills")
+    public PaintElement[] getFills() { return fills; }
+    @JsonProperty("fills")
+    public void setFills(PaintElement[] value) { this.fills = value; }
+
+    /**
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
     public AbsoluteBoundingBox getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
     public void setAbsoluteBoundingBox(AbsoluteBoundingBox value) { this.absoluteBoundingBox = value; }
+
+    /**
+     * Map from ID to TypeStyle for looking up style overrides
+     */
+    @JsonProperty("styleOverrideTable")
+    public Tyle[] getStyleOverrideTable() { return styleOverrideTable; }
+    @JsonProperty("styleOverrideTable")
+    public void setStyleOverrideTable(Tyle[] value) { this.styleOverrideTable = value; }
+
+    /**
+     * Style of text including font family and weight (see type style
+     * section for more information)
+     */
+    @JsonProperty("style")
+    public Tyle getStyle() { return style; }
+    @JsonProperty("style")
+    public void setStyle(Tyle value) { this.style = value; }
 
     /**
      * Node ID of node to transition to in prototyping
@@ -93,14 +140,6 @@ public class Component {
     public void setBlendMode(BlendMode value) { this.blendMode = value; }
 
     /**
-     * Background color of the node
-     */
-    @JsonProperty("backgroundColor")
-    public Olor getBackgroundColor() { return backgroundColor; }
-    @JsonProperty("backgroundColor")
-    public void setBackgroundColor(Olor value) { this.backgroundColor = value; }
-
-    /**
      * Horizontal and vertical layout constraints for node
      */
     @JsonProperty("constraints")
@@ -115,14 +154,6 @@ public class Component {
     public Boolean getIsMask() { return isMask; }
     @JsonProperty("isMask")
     public void setIsMask(Boolean value) { this.isMask = value; }
-
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    @JsonProperty("clipsContent")
-    public Boolean getClipsContent() { return clipsContent; }
-    @JsonProperty("clipsContent")
-    public void setClipsContent(Boolean value) { this.clipsContent = value; }
 
     /**
      * An array of export settings representing images to export from node
@@ -149,6 +180,14 @@ public class Component {
     public void setID(String value) { this.id = value; }
 
     /**
+     * An array of stroke paints applied to the node
+     */
+    @JsonProperty("strokes")
+    public PaintElement[] getStrokes() { return strokes; }
+    @JsonProperty("strokes")
+    public void setStrokes(PaintElement[] value) { this.strokes = value; }
+
+    /**
      * Keep height and width constrained to same ratio
      */
     @JsonProperty("preserveRatio")
@@ -157,10 +196,13 @@ public class Component {
     public void setPreserveRatio(Boolean value) { this.preserveRatio = value; }
 
     /**
-     * An array of nodes that are direct children of this node
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
      */
-    @JsonProperty("children")
-    public DocumentElement[] getChildren() { return children; }
-    @JsonProperty("children")
-    public void setChildren(DocumentElement[] value) { this.children = value; }
+    @JsonProperty("characterStyleOverrides")
+    public double[] getCharacterStyleOverrides() { return characterStyleOverrides; }
+    @JsonProperty("characterStyleOverrides")
+    public void setCharacterStyleOverrides(double[] value) { this.characterStyleOverrides = value; }
 }

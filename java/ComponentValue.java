@@ -5,8 +5,20 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * A node that can have instances created of it that share the same properties
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * An array of nodes that are being boolean operated on
+ *
+ * An array of top level layers on the canvas
+ *
+ * An array of canvases attached to the document
+ *
+ * A mapping from node IDs to component metadata. This is to help you determine which
+ * components each instance comes from. Currently the only piece of metadata available on
+ * components is the name of the component, but more properties will be forthcoming.
  */
-public class Component {
+public class ComponentValue {
     private EffectElement[] effects;
     private LayoutGridElement[] layoutGrids;
     private Double opacity;

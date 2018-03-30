@@ -5,9 +5,10 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * * COLUMNS: Vertical grid
- * * ROWS: Horizontal grid
- * * GRID: Square grid
+ * Orientation of the grid as a string enum
+ * "COLUMNS": Vertical grid
+ * "ROWS": Horizontal grid
+ * "GRID": Square grid
  */
 public enum Pattern {
     COLUMNS, GRID, ROWS;

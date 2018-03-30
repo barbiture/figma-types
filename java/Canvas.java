@@ -4,42 +4,43 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * An array of canvases attached to the document
- *
- * Properties are shared across all nodes
- *
- * Red channel value, between 0 and 1
- *
- * Green channel value, between 0 and 1
- *
- * Blue channel value, between 0 and 1
- *
- * Alpha channel value, between 0 and 1
- *
- * See type property for effect of this field
- *
- * Whether or not the node is visible on the canvas
- *
- * A string uniquely identifying this node within the document
- *
- * The name given to the node by the user in the tool
- *
- * Unique identifier for comment
- *
- * The file in which the comment lives
- *
- * If present, the id of the comment to which this is the reply
+ * Represents a single page
  */
 public class Canvas {
+    private Olor backgroundColor;
+    private DocumentElement[] children;
+    private ExportSettingElement[] exportSettings;
     private String id;
     private String name;
-    private boolean visible;
     private NodeType type;
-    private PurpleNode[] children;
-    private NodeColor backgroundColor;
+    private Boolean visible;
 
     /**
-     * A string uniquely identifying this node within the document
+     * Background color of the canvas
+     */
+    @JsonProperty("backgroundColor")
+    public Olor getBackgroundColor() { return backgroundColor; }
+    @JsonProperty("backgroundColor")
+    public void setBackgroundColor(Olor value) { this.backgroundColor = value; }
+
+    /**
+     * An array of top level layers on the canvas
+     */
+    @JsonProperty("children")
+    public DocumentElement[] getChildren() { return children; }
+    @JsonProperty("children")
+    public void setChildren(DocumentElement[] value) { this.children = value; }
+
+    /**
+     * An array of export settings representing images to export from the canvas
+     */
+    @JsonProperty("exportSettings")
+    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    @JsonProperty("exportSettings")
+    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
+
+    /**
+     * a string uniquely identifying this node within the document
      */
     @JsonProperty("id")
     public String getID() { return id; }
@@ -47,7 +48,7 @@ public class Canvas {
     public void setID(String value) { this.id = value; }
 
     /**
-     * The name given to the node by the user in the tool
+     * the name given to the node by the user in the tool.
      */
     @JsonProperty("name")
     public String getName() { return name; }
@@ -55,15 +56,7 @@ public class Canvas {
     public void setName(String value) { this.name = value; }
 
     /**
-     * Whether or not the node is visible on the canvas
-     */
-    @JsonProperty("visible")
-    public boolean getVisible() { return visible; }
-    @JsonProperty("visible")
-    public void setVisible(boolean value) { this.visible = value; }
-
-    /**
-     * The type of the node
+     * the type of the node, refer to table below for details
      */
     @JsonProperty("type")
     public NodeType getType() { return type; }
@@ -71,18 +64,10 @@ public class Canvas {
     public void setType(NodeType value) { this.type = value; }
 
     /**
-     * An array of top level layers on the canvas
+     * whether or not the node is visible on the canvas
      */
-    @JsonProperty("children")
-    public PurpleNode[] getChildren() { return children; }
-    @JsonProperty("children")
-    public void setChildren(PurpleNode[] value) { this.children = value; }
-
-    /**
-     * Background color of the canvas
-     */
-    @JsonProperty("backgroundColor")
-    public NodeColor getBackgroundColor() { return backgroundColor; }
-    @JsonProperty("backgroundColor")
-    public void setBackgroundColor(NodeColor value) { this.backgroundColor = value; }
+    @JsonProperty("visible")
+    public Boolean getVisible() { return visible; }
+    @JsonProperty("visible")
+    public void setVisible(Boolean value) { this.visible = value; }
 }

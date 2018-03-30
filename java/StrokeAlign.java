@@ -6,10 +6,9 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Where stroke is drawn relative to the vector outline as a string enum
- *
- * * INSIDE: draw stroke inside the shape boundary
- * * OUTSIDE: draw stroke outside the shape boundary
- * * CENTER: draw stroke centered along the shape boundary
+ * "INSIDE": draw stroke inside the shape boundary
+ * "OUTSIDE": draw stroke outside the shape boundary
+ * "CENTER": draw stroke centered along the shape boundary
  */
 public enum StrokeAlign {
     CENTER, INSIDE, OUTSIDE;

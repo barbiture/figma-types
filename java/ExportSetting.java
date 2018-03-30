@@ -5,32 +5,22 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Format and size to export an asset at
- *
- * An array of export settings representing images to export from the canvas
- *
- * An array of export settings representing images to export from node
- *
- * A rectangular region of the canvas that can be exported
  */
 public class ExportSetting {
-    private String suffix;
+    private ExportSettingConstraint constraint;
     private Format format;
-    private Constraint constraint;
+    private Suffix suffix;
 
     /**
-     * File suffix to append to all filenames
+     * Constraint that determines sizing of exported asset
      */
-    @JsonProperty("suffix")
-    public String getSuffix() { return suffix; }
-    @JsonProperty("suffix")
-    public void setSuffix(String value) { this.suffix = value; }
+    @JsonProperty("constraint")
+    public ExportSettingConstraint getConstraint() { return constraint; }
+    @JsonProperty("constraint")
+    public void setConstraint(ExportSettingConstraint value) { this.constraint = value; }
 
     /**
-     * Type of constraint to apply; string enum with potential values below
-     *
-     * * "SCALE": Scale by value
-     * * "WIDTH": Scale proportionally and set width to value
-     * * "HEIGHT": Scale proportionally and set height to value
+     * Image type, string enum
      */
     @JsonProperty("format")
     public Format getFormat() { return format; }
@@ -38,10 +28,10 @@ public class ExportSetting {
     public void setFormat(Format value) { this.format = value; }
 
     /**
-     * Constraint that determines sizing of exported asset
+     * File suffix to append to all filenames
      */
-    @JsonProperty("constraint")
-    public Constraint getConstraint() { return constraint; }
-    @JsonProperty("constraint")
-    public void setConstraint(Constraint value) { this.constraint = value; }
+    @JsonProperty("suffix")
+    public Suffix getSuffix() { return suffix; }
+    @JsonProperty("suffix")
+    public void setSuffix(Suffix value) { this.suffix = value; }
 }

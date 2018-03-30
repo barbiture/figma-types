@@ -4,9 +4,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * A node that can have instances created of it that share the same properties
+ * A logical grouping of nodes
  */
-public class Component {
+public class Group {
     private EffectElement[] effects;
     private LayoutGridElement[] layoutGrids;
     private Double opacity;

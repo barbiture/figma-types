@@ -4,23 +4,31 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * Node Properties
- * The root node
+ * A rectangular region of the canvas that can be exported
  */
-public class Document {
-    private DocumentElement[] children;
+public class Slice {
+    private AbsoluteBoundingBox absoluteBoundingBox;
+    private ExportSettingElement[] exportSettings;
     private String id;
     private String name;
     private NodeType type;
     private Boolean visible;
 
     /**
-     * An array of canvases attached to the document
+     * Bounding box of the node in absolute space coordinates
      */
-    @JsonProperty("children")
-    public DocumentElement[] getChildren() { return children; }
-    @JsonProperty("children")
-    public void setChildren(DocumentElement[] value) { this.children = value; }
+    @JsonProperty("absoluteBoundingBox")
+    public AbsoluteBoundingBox getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    @JsonProperty("absoluteBoundingBox")
+    public void setAbsoluteBoundingBox(AbsoluteBoundingBox value) { this.absoluteBoundingBox = value; }
+
+    /**
+     * An array of export settings representing images to export from this node
+     */
+    @JsonProperty("exportSettings")
+    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    @JsonProperty("exportSettings")
+    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
 
     /**
      * a string uniquely identifying this node within the document

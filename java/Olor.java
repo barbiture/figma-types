@@ -5,8 +5,18 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * An RGBA color
+ *
+ * Solid color of the paint
+ *
+ * Color attached to corresponding position
+ *
+ * Color of the grid
+ *
+ * Background color of the node
+ *
+ * Background color of the canvas
  */
-public class Color {
+public class Olor {
     private Double a;
     private Double b;
     private Double g;

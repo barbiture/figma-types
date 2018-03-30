@@ -23,17 +23,9 @@ import com.fasterxml.jackson.annotation.*;
  * File to export JSON from
  */
 public class FileResponse {
-    private Document document;
-    private Map<String, Component> components;
-    private double schemaVersion;
-
-    /**
-     * The root node within the document
-     */
-    @JsonProperty("document")
-    public Document getDocument() { return document; }
-    @JsonProperty("document")
-    public void setDocument(Document value) { this.document = value; }
+    private Map<String, ComponentValue> components;
+    private Ocument document;
+    private Double schemaVersion;
 
     /**
      * A mapping from node IDs to component metadata. This is to help you determine which
@@ -41,12 +33,20 @@ public class FileResponse {
      * components is the name of the component, but more properties will be forthcoming.
      */
     @JsonProperty("components")
-    public Map<String, Component> getComponents() { return components; }
+    public Map<String, ComponentValue> getComponents() { return components; }
     @JsonProperty("components")
-    public void setComponents(Map<String, Component> value) { this.components = value; }
+    public void setComponents(Map<String, ComponentValue> value) { this.components = value; }
+
+    /**
+     * The root node within the document
+     */
+    @JsonProperty("document")
+    public Ocument getDocument() { return document; }
+    @JsonProperty("document")
+    public void setDocument(Ocument value) { this.document = value; }
 
     @JsonProperty("schemaVersion")
-    public double getSchemaVersion() { return schemaVersion; }
+    public Double getSchemaVersion() { return schemaVersion; }
     @JsonProperty("schemaVersion")
-    public void setSchemaVersion(double value) { this.schemaVersion = value; }
+    public void setSchemaVersion(Double value) { this.schemaVersion = value; }
 }

@@ -5,19 +5,16 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Sizing constraint for exports
- *
- * Constraint that determines sizing of exported asset
  */
 public class Constraint {
     private ConstraintType type;
-    private double value;
+    private Double value;
 
     /**
      * Type of constraint to apply; string enum with potential values below
-     *
-     * * "SCALE": Scale by value
-     * * "WIDTH": Scale proportionally and set width to value
-     * * "HEIGHT": Scale proportionally and set height to value
+     * "SCALE": Scale by value
+     * "WIDTH": Scale proportionally and set width to value
+     * "HEIGHT": Scale proportionally and set height to value
      */
     @JsonProperty("type")
     public ConstraintType getType() { return type; }
@@ -28,7 +25,7 @@ public class Constraint {
      * See type property for effect of this field
      */
     @JsonProperty("value")
-    public double getValue() { return value; }
+    public Double getValue() { return value; }
     @JsonProperty("value")
-    public void setValue(double value) { this.value = value; }
+    public void setValue(Double value) { this.value = value; }
 }

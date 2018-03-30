@@ -6,10 +6,9 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Positioning of grid as a string enum
- *
- * * MIN: Grid starts at the left or top of the frame
- * * MAX: Grid starts at the right or bottom of the frame
- * * CENTER: Grid is center aligned
+ * "MIN": Grid starts at the left or top of the frame
+ * "MAX": Grid starts at the right or bottom of the frame
+ * "CENTER": Grid is center aligned
  */
 public enum Alignment {
     CENTER, MAX, MIN;

@@ -4,9 +4,10 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * A node that can have instances created of it that share the same properties
+ * An instance of a component, changes to the component result in the same
+ * changes applied to the instance
  */
-public class Component {
+public class Instance {
     private EffectElement[] effects;
     private LayoutGridElement[] layoutGrids;
     private Double opacity;
@@ -20,6 +21,7 @@ public class Component {
     private Boolean isMask;
     private Boolean clipsContent;
     private ExportSettingElement[] exportSettings;
+    private String componentID;
     private NodeType type;
     private String id;
     private Boolean preserveRatio;
@@ -131,6 +133,15 @@ public class Component {
     public ExportSettingElement[] getExportSettings() { return exportSettings; }
     @JsonProperty("exportSettings")
     public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
+
+    /**
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     */
+    @JsonProperty("componentId")
+    public String getComponentID() { return componentID; }
+    @JsonProperty("componentId")
+    public void setComponentID(String value) { this.componentID = value; }
 
     /**
      * the type of the node, refer to table below for details

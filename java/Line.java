@@ -4,26 +4,26 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * A node that can have instances created of it that share the same properties
+ * A straight line
  */
-public class Component {
+public class Line {
     private EffectElement[] effects;
-    private LayoutGridElement[] layoutGrids;
     private Double opacity;
     private String name;
+    private StrokeAlign strokeAlign;
+    private Double strokeWeight;
+    private PaintElement[] fills;
     private AbsoluteBoundingBox absoluteBoundingBox;
     private String transitionNodeID;
     private Boolean visible;
     private BlendMode blendMode;
-    private Olor backgroundColor;
     private Constraints constraints;
     private Boolean isMask;
-    private Boolean clipsContent;
     private ExportSettingElement[] exportSettings;
     private NodeType type;
     private String id;
+    private PaintElement[] strokes;
     private Boolean preserveRatio;
-    private DocumentElement[] children;
 
     /**
      * An array of effects attached to this node
@@ -33,15 +33,6 @@ public class Component {
     public EffectElement[] getEffects() { return effects; }
     @JsonProperty("effects")
     public void setEffects(EffectElement[] value) { this.effects = value; }
-
-    /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
-     */
-    @JsonProperty("layoutGrids")
-    public LayoutGridElement[] getLayoutGrids() { return layoutGrids; }
-    @JsonProperty("layoutGrids")
-    public void setLayoutGrids(LayoutGridElement[] value) { this.layoutGrids = value; }
 
     /**
      * Opacity of the node
@@ -58,6 +49,33 @@ public class Component {
     public String getName() { return name; }
     @JsonProperty("name")
     public void setName(String value) { this.name = value; }
+
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     * "INSIDE": draw stroke inside the shape boundary
+     * "OUTSIDE": draw stroke outside the shape boundary
+     * "CENTER": draw stroke centered along the shape boundary
+     */
+    @JsonProperty("strokeAlign")
+    public StrokeAlign getStrokeAlign() { return strokeAlign; }
+    @JsonProperty("strokeAlign")
+    public void setStrokeAlign(StrokeAlign value) { this.strokeAlign = value; }
+
+    /**
+     * The weight of strokes on the node
+     */
+    @JsonProperty("strokeWeight")
+    public Double getStrokeWeight() { return strokeWeight; }
+    @JsonProperty("strokeWeight")
+    public void setStrokeWeight(Double value) { this.strokeWeight = value; }
+
+    /**
+     * An array of fill paints applied to the node
+     */
+    @JsonProperty("fills")
+    public PaintElement[] getFills() { return fills; }
+    @JsonProperty("fills")
+    public void setFills(PaintElement[] value) { this.fills = value; }
 
     /**
      * Bounding box of the node in absolute space coordinates
@@ -93,14 +111,6 @@ public class Component {
     public void setBlendMode(BlendMode value) { this.blendMode = value; }
 
     /**
-     * Background color of the node
-     */
-    @JsonProperty("backgroundColor")
-    public Olor getBackgroundColor() { return backgroundColor; }
-    @JsonProperty("backgroundColor")
-    public void setBackgroundColor(Olor value) { this.backgroundColor = value; }
-
-    /**
      * Horizontal and vertical layout constraints for node
      */
     @JsonProperty("constraints")
@@ -115,14 +125,6 @@ public class Component {
     public Boolean getIsMask() { return isMask; }
     @JsonProperty("isMask")
     public void setIsMask(Boolean value) { this.isMask = value; }
-
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    @JsonProperty("clipsContent")
-    public Boolean getClipsContent() { return clipsContent; }
-    @JsonProperty("clipsContent")
-    public void setClipsContent(Boolean value) { this.clipsContent = value; }
 
     /**
      * An array of export settings representing images to export from node
@@ -149,18 +151,18 @@ public class Component {
     public void setID(String value) { this.id = value; }
 
     /**
+     * An array of stroke paints applied to the node
+     */
+    @JsonProperty("strokes")
+    public PaintElement[] getStrokes() { return strokes; }
+    @JsonProperty("strokes")
+    public void setStrokes(PaintElement[] value) { this.strokes = value; }
+
+    /**
      * Keep height and width constrained to same ratio
      */
     @JsonProperty("preserveRatio")
     public Boolean getPreserveRatio() { return preserveRatio; }
     @JsonProperty("preserveRatio")
     public void setPreserveRatio(Boolean value) { this.preserveRatio = value; }
-
-    /**
-     * An array of nodes that are direct children of this node
-     */
-    @JsonProperty("children")
-    public DocumentElement[] getChildren() { return children; }
-    @JsonProperty("children")
-    public void setChildren(DocumentElement[] value) { this.children = value; }
 }

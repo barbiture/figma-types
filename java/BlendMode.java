@@ -5,12 +5,8 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * Enum describing how layer blends with layers below
- *
- * See type property for effect of this field
- *
- * How this node blends with nodes behind it in the scene (see blend mode section for more
- * details)
+ * How this node blends with nodes behind it in the scene
+ * (see blend mode section for more details)
  */
 public enum BlendMode {
     COLOR, COLOR_BURN, COLOR_DODGE, DARKEN, DIFFERENCE, EXCLUSION, HARD_LIGHT, HUE, LIGHTEN, LINEAR_BURN, LINEAR_DODGE, LUMINOSITY, MULTIPLY, NORMAL, OVERLAY, PASS_THROUGH, SATURATION, SCREEN, SOFT_LIGHT;

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Layout constraint relative to containing Frame
+ *
+ * Horizontal and vertical layout constraints for node
  */
-public class LayoutConstraint {
+public class Constraints {
     private Horizontal horizontal;
     private Vertical vertical;
 

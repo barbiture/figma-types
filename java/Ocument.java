@@ -6,8 +6,18 @@ import com.fasterxml.jackson.annotation.*;
 /**
  * Node Properties
  * The root node
+ *
+ * An array of nodes that are direct children of this node
+ *
+ * An array of canvases attached to the document
+ *
+ * An array of top level layers on the canvas
+ *
+ * An array of nodes that are being boolean operated on
+ *
+ * The root node within the document
  */
-public class Document {
+public class Ocument {
     private DocumentElement[] children;
     private String id;
     private String name;
