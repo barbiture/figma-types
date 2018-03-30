@@ -15,5 +15,5 @@ $QUICKTYPE -o cpp/figma.cpp
 $QUICKTYPE -o java/Figma.java
 $QUICKTYPE -o typescript/figma.ts
 $QUICKTYPE -o javascript/figma.js
-$QUICKTYPE -o flow/figma.flow
+$QUICKTYPE -l flow -o flow/figma.js
 $QUICKTYPE -o elm/figma.elm
