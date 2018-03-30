@@ -37,25 +37,25 @@ struct Color: Codable {
 
 ```objc
 /// An RGBA color
-@interface QTColor : NSObject
-@property (nonatomic, nullable, strong) NSNumber *a;
-@property (nonatomic, nullable, strong) NSNumber *b;
-@property (nonatomic, nullable, strong) NSNumber *g;
-@property (nonatomic, nullable, strong) NSNumber *r;
+@interface FGColor : NSObject
+@property (nonatomic, assign) double a;
+@property (nonatomic, assign) double b;
+@property (nonatomic, assign) double g;
+@property (nonatomic, assign) double r;
 @end
 ```
 
 ### Flow
 
-```flow
+```js
 /**
  * An RGBA color
  */
 export type Color = {
-    a: number;
-    b: number;
-    g: number;
-    r: number;
+  a: number,
+  b: number,
+  g: number,
+  r: number
 };
 ```
 
