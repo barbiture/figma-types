@@ -7,25 +7,25 @@ import com.fasterxml.jackson.annotation.*;
  * A text box
  */
 public class Text {
-    private EffectElement[] effects;
+    private Effect[] effects;
     private String characters;
     private double opacity;
     private String name;
     private StrokeAlign strokeAlign;
     private double strokeWeight;
-    private PaintElement[] fills;
-    private AbsoluteBoundingBox absoluteBoundingBox;
-    private Tyle[] styleOverrideTable;
-    private Tyle style;
+    private Paint[] fills;
+    private Rectangle absoluteBoundingBox;
+    private TypeStyle[] styleOverrideTable;
+    private TypeStyle style;
     private String transitionNodeID;
     private boolean visible;
     private BlendMode blendMode;
-    private Constraints constraints;
+    private LayoutConstraint constraints;
     private boolean isMask;
-    private ExportSettingElement[] exportSettings;
+    private ExportSetting[] exportSettings;
     private NodeType type;
     private String id;
-    private PaintElement[] strokes;
+    private Paint[] strokes;
     private boolean preserveRatio;
     private double[] characterStyleOverrides;
 
@@ -34,9 +34,9 @@ public class Text {
      * (see effects sectionfor more details)
      */
     @JsonProperty("effects")
-    public EffectElement[] getEffects() { return effects; }
+    public Effect[] getEffects() { return effects; }
     @JsonProperty("effects")
-    public void setEffects(EffectElement[] value) { this.effects = value; }
+    public void setEffects(Effect[] value) { this.effects = value; }
 
     /**
      * Text contained within text box
@@ -85,34 +85,34 @@ public class Text {
      * An array of fill paints applied to the node
      */
     @JsonProperty("fills")
-    public PaintElement[] getFills() { return fills; }
+    public Paint[] getFills() { return fills; }
     @JsonProperty("fills")
-    public void setFills(PaintElement[] value) { this.fills = value; }
+    public void setFills(Paint[] value) { this.fills = value; }
 
     /**
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
-    public AbsoluteBoundingBox getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(AbsoluteBoundingBox value) { this.absoluteBoundingBox = value; }
+    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
 
     /**
      * Map from ID to TypeStyle for looking up style overrides
      */
     @JsonProperty("styleOverrideTable")
-    public Tyle[] getStyleOverrideTable() { return styleOverrideTable; }
+    public TypeStyle[] getStyleOverrideTable() { return styleOverrideTable; }
     @JsonProperty("styleOverrideTable")
-    public void setStyleOverrideTable(Tyle[] value) { this.styleOverrideTable = value; }
+    public void setStyleOverrideTable(TypeStyle[] value) { this.styleOverrideTable = value; }
 
     /**
      * Style of text including font family and weight (see type style
      * section for more information)
      */
     @JsonProperty("style")
-    public Tyle getStyle() { return style; }
+    public TypeStyle getStyle() { return style; }
     @JsonProperty("style")
-    public void setStyle(Tyle value) { this.style = value; }
+    public void setStyle(TypeStyle value) { this.style = value; }
 
     /**
      * Node ID of node to transition to in prototyping
@@ -143,9 +143,9 @@ public class Text {
      * Horizontal and vertical layout constraints for node
      */
     @JsonProperty("constraints")
-    public Constraints getConstraints() { return constraints; }
+    public LayoutConstraint getConstraints() { return constraints; }
     @JsonProperty("constraints")
-    public void setConstraints(Constraints value) { this.constraints = value; }
+    public void setConstraints(LayoutConstraint value) { this.constraints = value; }
 
     /**
      * Does this node mask sibling nodes in front of it?
@@ -159,9 +159,9 @@ public class Text {
      * An array of export settings representing images to export from node
      */
     @JsonProperty("exportSettings")
-    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    public ExportSetting[] getExportSettings() { return exportSettings; }
     @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
+    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
 
     /**
      * the type of the node, refer to table below for details
@@ -183,9 +183,9 @@ public class Text {
      * An array of stroke paints applied to the node
      */
     @JsonProperty("strokes")
-    public PaintElement[] getStrokes() { return strokes; }
+    public Paint[] getStrokes() { return strokes; }
     @JsonProperty("strokes")
-    public void setStrokes(PaintElement[] value) { this.strokes = value; }
+    public void setStrokes(Paint[] value) { this.strokes = value; }
 
     /**
      * Keep height and width constrained to same ratio

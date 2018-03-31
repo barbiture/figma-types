@@ -5,11 +5,17 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * A solid color, gradient, or image texture that can be applied as fills or strokes
+ *
+ * An array of stroke paints applied to the node
+ *
+ * An array of fill paints applied to the node
+ *
+ * Paints applied to characters
  */
 public class Paint {
-    private Olor color;
-    private Offset[] gradientHandlePositions;
-    private ColorStopElement[] gradientStops;
+    private Color color;
+    private Vector2D[] gradientHandlePositions;
+    private ColorStop[] gradientStops;
     private double opacity;
     private String scaleMode;
     private PaintType type;
@@ -19,9 +25,9 @@ public class Paint {
      * Solid color of the paint
      */
     @JsonProperty("color")
-    public Olor getColor() { return color; }
+    public Color getColor() { return color; }
     @JsonProperty("color")
-    public void setColor(Olor value) { this.color = value; }
+    public void setColor(Color value) { this.color = value; }
 
     /**
      * This field contains three vectors, each of which are a position in
@@ -34,9 +40,9 @@ public class Paint {
      * relevant for non-linear gradients).
      */
     @JsonProperty("gradientHandlePositions")
-    public Offset[] getGradientHandlePositions() { return gradientHandlePositions; }
+    public Vector2D[] getGradientHandlePositions() { return gradientHandlePositions; }
     @JsonProperty("gradientHandlePositions")
-    public void setGradientHandlePositions(Offset[] value) { this.gradientHandlePositions = value; }
+    public void setGradientHandlePositions(Vector2D[] value) { this.gradientHandlePositions = value; }
 
     /**
      * Positions of key points along the gradient axis with the colors
@@ -44,9 +50,9 @@ public class Paint {
      * between neighboring gradient stops.
      */
     @JsonProperty("gradientStops")
-    public ColorStopElement[] getGradientStops() { return gradientStops; }
+    public ColorStop[] getGradientStops() { return gradientStops; }
     @JsonProperty("gradientStops")
-    public void setGradientStops(ColorStopElement[] value) { this.gradientStops = value; }
+    public void setGradientStops(ColorStop[] value) { this.gradientStops = value; }
 
     /**
      * Overall opacity of paint (colors within the paint can also have opacity

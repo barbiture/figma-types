@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.*;
  * Represents a single page
  */
 public class Canvas {
-    private Olor backgroundColor;
+    private Color backgroundColor;
     private DocumentElement[] children;
-    private ExportSettingElement[] exportSettings;
+    private ExportSetting[] exportSettings;
     private String id;
     private String name;
     private NodeType type;
@@ -19,9 +19,9 @@ public class Canvas {
      * Background color of the canvas
      */
     @JsonProperty("backgroundColor")
-    public Olor getBackgroundColor() { return backgroundColor; }
+    public Color getBackgroundColor() { return backgroundColor; }
     @JsonProperty("backgroundColor")
-    public void setBackgroundColor(Olor value) { this.backgroundColor = value; }
+    public void setBackgroundColor(Color value) { this.backgroundColor = value; }
 
     /**
      * An array of top level layers on the canvas
@@ -35,9 +35,9 @@ public class Canvas {
      * An array of export settings representing images to export from the canvas
      */
     @JsonProperty("exportSettings")
-    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    public ExportSetting[] getExportSettings() { return exportSettings; }
     @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
+    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
 
     /**
      * a string uniquely identifying this node within the document

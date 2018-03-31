@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.*;
  * A rectangular region of the canvas that can be exported
  */
 public class Slice {
-    private AbsoluteBoundingBox absoluteBoundingBox;
-    private ExportSettingElement[] exportSettings;
+    private Rectangle absoluteBoundingBox;
+    private ExportSetting[] exportSettings;
     private String id;
     private String name;
     private NodeType type;
@@ -18,17 +18,17 @@ public class Slice {
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
-    public AbsoluteBoundingBox getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(AbsoluteBoundingBox value) { this.absoluteBoundingBox = value; }
+    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
 
     /**
      * An array of export settings representing images to export from this node
      */
     @JsonProperty("exportSettings")
-    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    public ExportSetting[] getExportSettings() { return exportSettings; }
     @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
+    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
 
     /**
      * a string uniquely identifying this node within the document

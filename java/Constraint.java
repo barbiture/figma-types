@@ -4,6 +4,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
+ * Constraint that determines sizing of exported asset
+ *
  * Sizing constraint for exports
  */
 public class Constraint {

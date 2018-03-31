@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.*;
 public class Comment {
     private String message;
     private String createdAt;
-    private CommentUser user;
+    private User user;
     private double orderID;
     private String parentID;
     private ClientMeta clientMeta;
@@ -38,9 +38,9 @@ public class Comment {
      * The user who left the comment
      */
     @JsonProperty("user")
-    public CommentUser getUser() { return user; }
+    public User getUser() { return user; }
     @JsonProperty("user")
-    public void setUser(CommentUser value) { this.user = value; }
+    public void setUser(User value) { this.user = value; }
 
     /**
      * Only set for top level comments. The number displayed with the

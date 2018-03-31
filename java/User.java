@@ -4,6 +4,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
+ * The user who left the comment
+ *
  * A description of a user
  */
 public class User {

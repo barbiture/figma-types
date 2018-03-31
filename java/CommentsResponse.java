@@ -14,10 +14,10 @@ import com.fasterxml.jackson.annotation.*;
  * File to get comments from
  */
 public class CommentsResponse {
-    private CommentElement[] comments;
+    private Comment[] comments;
 
     @JsonProperty("comments")
-    public CommentElement[] getComments() { return comments; }
+    public Comment[] getComments() { return comments; }
     @JsonProperty("comments")
-    public void setComments(CommentElement[] value) { this.comments = value; }
+    public void setComments(Comment[] value) { this.comments = value; }
 }

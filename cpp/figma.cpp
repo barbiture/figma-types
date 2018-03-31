@@ -48,10 +48,6 @@ namespace quicktype {
     using nlohmann::json;
 
     /**
-     * A 2d vector
-     *
-     * 2d vector offset within the frame.
-     *
      * This field contains three vectors, each of which are a position in
      * normalized object space (normalized object space is if the top left
      * corner of the bounding box of the object is (0, 0) and the bottom
@@ -60,8 +56,12 @@ namespace quicktype {
      * the second position is the end of the gradient (value 1), and the
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
+     *
+     * A 2d vector
+     *
+     * 2d vector offset within the frame.
      */
-    struct Offset {
+    struct Vector2D {
         /**
          * X coordinate of the vector
          */
@@ -83,7 +83,7 @@ namespace quicktype {
         /**
          * 2d vector offset within the frame.
          */
-        struct Offset node_offset;
+        struct Vector2D node_offset;
     };
 
     /**
@@ -115,11 +115,11 @@ namespace quicktype {
     enum class Vertical { BOTTOM, CENTER, SCALE, TOP, TOP_BOTTOM };
 
     /**
-     * Layout constraint relative to containing Frame
-     *
      * Horizontal and vertical layout constraints for node
+     *
+     * Layout constraint relative to containing Frame
      */
-    struct Constraints {
+    struct LayoutConstraint {
         /**
          * Horizontal constraint as an enum
          * "LEFT": Node is laid out relative to left of the containing frame
@@ -143,19 +143,19 @@ namespace quicktype {
     };
 
     /**
-     * An RGBA color
-     *
      * Solid color of the paint
      *
-     * Color attached to corresponding position
+     * An RGBA color
      *
      * Color of the grid
      *
      * Background color of the node
      *
+     * Color attached to corresponding position
+     *
      * Background color of the canvas
      */
-    struct Olor {
+    struct Color {
         /**
          * Alpha channel value, between 0 and 1
          */
@@ -180,15 +180,15 @@ namespace quicktype {
     enum class EffectType { BACKGROUND_BLUR, DROP_SHADOW, INNER_SHADOW, LAYER_BLUR };
 
     /**
-     * A visual effect such as a shadow or blur
-     *
      * An array of effects attached to this node
      * (see effects sectionfor more details)
+     *
+     * A visual effect such as a shadow or blur
      */
-    struct EffectElement {
+    struct Effect {
         std::unique_ptr<BlendMode> blend_mode;
-        std::unique_ptr<struct Olor> color;
-        std::unique_ptr<struct Offset> offset;
+        std::unique_ptr<struct Color> color;
+        std::unique_ptr<struct Vector2D> offset;
         /**
          * Radius of the blur effect (applies to shadows as well)
          */
@@ -212,11 +212,11 @@ namespace quicktype {
     enum class ConstraintType { HEIGHT, SCALE, WIDTH };
 
     /**
-     * Sizing constraint for exports
-     *
      * Constraint that determines sizing of exported asset
+     *
+     * Sizing constraint for exports
      */
-    struct ExportSettingConstraint {
+    struct Constraint {
         /**
          * Type of constraint to apply; string enum with potential values below
          * "SCALE": Scale by value
@@ -236,19 +236,19 @@ namespace quicktype {
     enum class Format { JPG, PNG, SVG };
 
     /**
-     * Format and size to export an asset at
-     *
      * An array of export settings representing images to export from node
      *
-     * An array of export settings representing images to export from this node
+     * Format and size to export an asset at
      *
      * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from this node
      */
-    struct ExportSettingElement {
+    struct ExportSetting {
         /**
          * Constraint that determines sizing of exported asset
          */
-        struct ExportSettingConstraint constraint;
+        struct Constraint constraint;
         /**
          * Image type, string enum
          */
@@ -260,17 +260,17 @@ namespace quicktype {
     };
 
     /**
-     * A position color pair representing a gradient stop
-     *
      * Positions of key points along the gradient axis with the colors
      * anchored there. Colors along the gradient are interpolated smoothly
      * between neighboring gradient stops.
+     *
+     * A position color pair representing a gradient stop
      */
-    struct ColorStopElement {
+    struct ColorStop {
         /**
          * Color attached to corresponding position
          */
-        struct Olor color;
+        struct Color color;
         /**
          * Value between 0 and 1 representing position along gradient axis
          */
@@ -285,17 +285,17 @@ namespace quicktype {
     /**
      * A solid color, gradient, or image texture that can be applied as fills or strokes
      *
-     * An array of fill paints applied to the node
-     *
      * An array of stroke paints applied to the node
+     *
+     * An array of fill paints applied to the node
      *
      * Paints applied to characters
      */
-    struct PaintElement {
+    struct Paint {
         /**
          * Solid color of the paint
          */
-        std::unique_ptr<struct Olor> color;
+        std::unique_ptr<struct Color> color;
         /**
          * This field contains three vectors, each of which are a position in
          * normalized object space (normalized object space is if the top left
@@ -306,13 +306,13 @@ namespace quicktype {
          * third handle position determines the width of the gradient (only
          * relevant for non-linear gradients).
          */
-        std::unique_ptr<std::vector<struct Offset>> gradient_handle_positions;
+        std::unique_ptr<std::vector<struct Vector2D>> gradient_handle_positions;
         /**
          * Positions of key points along the gradient axis with the colors
          * anchored there. Colors along the gradient are interpolated smoothly
          * between neighboring gradient stops.
          */
-        std::unique_ptr<std::vector<struct ColorStopElement>> gradient_stops;
+        std::unique_ptr<std::vector<struct ColorStop>> gradient_stops;
         /**
          * Overall opacity of paint (colors within the paint can also have opacity
          * values which would blend with this)
@@ -346,24 +346,16 @@ namespace quicktype {
     enum class NodeType { BOOLEAN, CANVAS, COMPONENT, DOCUMENT, ELLIPSE, FRAME, GROUP, INSTANCE, LINE, RECTANGLE, REGULAR_POLYGON, SLICE, STAR, TEXT, VECTOR };
 
     /**
-     * A rectangle
-     *
      * Bounding box of the node in absolute space coordinates
      *
-     * An array of nodes that are being boolean operated on
-     *
-     * An array of nodes that are direct children of this node
-     *
-     * An array of top level layers on the canvas
-     *
-     * An array of canvases attached to the document
+     * A rectangle
      */
-    struct AbsoluteBoundingBox {
+    struct Rectangle {
         /**
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * Radius of each corner of the rectangle
          */
@@ -390,11 +382,11 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -411,7 +403,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -419,7 +411,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -431,7 +423,7 @@ namespace quicktype {
         /**
          * An array of stroke paints applied to the node
          */
-        std::vector<struct PaintElement> strokes;
+        std::vector<struct Paint> strokes;
         /**
          * Keep height and width constrained to same ratio
          */
@@ -446,7 +438,7 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * Opacity of the node
          */
@@ -469,11 +461,11 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -490,7 +482,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -498,7 +490,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -510,81 +502,11 @@ namespace quicktype {
         /**
          * An array of stroke paints applied to the node
          */
-        std::vector<struct PaintElement> strokes;
+        std::vector<struct Paint> strokes;
         /**
          * Keep height and width constrained to same ratio
          */
         bool preserve_ratio;
-    };
-
-    /**
-     * An RGBA color
-     */
-    struct Color {
-        /**
-         * Alpha channel value, between 0 and 1
-         */
-        double a;
-        /**
-         * Blue channel value, between 0 and 1
-         */
-        double b;
-        /**
-         * Green channel value, between 0 and 1
-         */
-        double g;
-        /**
-         * Red channel value, between 0 and 1
-         */
-        double r;
-    };
-
-    /**
-     * A position color pair representing a gradient stop
-     */
-    struct ColorStop {
-        /**
-         * Color attached to corresponding position
-         */
-        struct Olor color;
-        /**
-         * Value between 0 and 1 representing position along gradient axis
-         */
-        double position;
-    };
-
-    /**
-     * Layout constraint relative to containing Frame
-     */
-    struct LayoutConstraint {
-        /**
-         * Horizontal constraint as an enum
-         * "LEFT": Node is laid out relative to left of the containing frame
-         * "RIGHT": Node is laid out relative to right of the containing frame
-         * "CENTER": Node is horizontally centered relative to containing frame
-         * "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
-         * (node stretches with frame)
-         * "SCALE": Node scales horizontally with containing frame
-         */
-        Horizontal horizontal;
-        /**
-         * Vertical constraint as an enum
-         * "TOP": Node is laid out relative to top of the containing frame
-         * "BOTTOM": Node is laid out relative to bottom of the containing frame
-         * "CENTER": Node is vertically centered relative to containing frame
-         * "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
-         * (node stretches with frame)
-         * "SCALE": Node scales vertically with containing frame
-         */
-        Vertical vertical;
-    };
-
-    /**
-     * A description of a user
-     */
-    struct User {
-        std::string handle;
-        std::string img_url;
     };
 
     /**
@@ -598,14 +520,14 @@ namespace quicktype {
     enum class TextAlignVertical { BOTTOM, CENTER, TOP };
 
     /**
-     * Metadata for character formatting
-     *
      * Map from ID to TypeStyle for looking up style overrides
+     *
+     * Metadata for character formatting
      *
      * Style of text including font family and weight (see type style
      * section for more information)
      */
-    struct Tyle {
+    struct TypeStyle {
         /**
          * Line height in px
          */
@@ -637,7 +559,7 @@ namespace quicktype {
         /**
          * Paints applied to characters
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Font family of text (standard name)
          */
@@ -660,7 +582,7 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * Text contained within text box
          */
@@ -687,20 +609,20 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Map from ID to TypeStyle for looking up style overrides
          */
-        std::vector<struct Tyle> style_override_table;
+        std::vector<struct TypeStyle> style_override_table;
         /**
          * Style of text including font family and weight (see type style
          * section for more information)
          */
-        struct Tyle style;
+        struct TypeStyle style;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -717,7 +639,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -725,7 +647,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -737,7 +659,7 @@ namespace quicktype {
         /**
          * An array of stroke paints applied to the node
          */
-        std::vector<struct PaintElement> strokes;
+        std::vector<struct Paint> strokes;
         /**
          * Keep height and width constrained to same ratio
          */
@@ -768,12 +690,12 @@ namespace quicktype {
     enum class Pattern { COLUMNS, GRID, ROWS };
 
     /**
-     * Guides to align and place objects within a frame
-     *
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
+     *
+     * Guides to align and place objects within a frame
      */
-    struct LayoutGridElement {
+    struct LayoutGrid {
         /**
          * Positioning of grid as a string enum
          * "MIN": Grid starts at the left or top of the frame
@@ -784,7 +706,7 @@ namespace quicktype {
         /**
          * Color of the grid
          */
-        struct Olor color;
+        struct Color color;
         /**
          * Number of columns or rows
          */
@@ -846,19 +768,15 @@ namespace quicktype {
      *
      * A regular n-sided polygon
      *
-     * A rectangle
-     *
      * Bounding box of the node in absolute space coordinates
+     *
+     * A rectangle
      *
      * A text box
      *
      * A rectangular region of the canvas that can be exported
      *
      * A node that can have instances created of it that share the same properties
-     *
-     * A mapping from node IDs to component metadata. This is to help you determine which
-     * components each instance comes from. Currently the only piece of metadata available on
-     * components is the name of the component, but more properties will be forthcoming.
      *
      * An instance of a component, changes to the component result in the same
      * changes applied to the instance
@@ -895,7 +813,7 @@ namespace quicktype {
          *
          * Background color of the node
          */
-        std::unique_ptr<struct Olor> background_color;
+        std::unique_ptr<struct Color> background_color;
         /**
          * An array of export settings representing images to export from the canvas
          *
@@ -903,17 +821,17 @@ namespace quicktype {
          *
          * An array of export settings representing images to export from this node
          */
-        std::unique_ptr<std::vector<struct ExportSettingElement>> export_settings;
+        std::unique_ptr<std::vector<struct ExportSetting>> export_settings;
         /**
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::unique_ptr<std::vector<struct EffectElement>> effects;
+        std::unique_ptr<std::vector<struct Effect>> effects;
         /**
          * An array of layout grids attached to this node (see layout grids section
          * for more details). GROUP nodes do not have this attribute
          */
-        std::unique_ptr<std::vector<struct LayoutGridElement>> layout_grids;
+        std::unique_ptr<std::vector<struct LayoutGrid>> layout_grids;
         /**
          * Opacity of the node
          */
@@ -921,7 +839,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        std::unique_ptr<struct AbsoluteBoundingBox> absolute_bounding_box;
+        std::unique_ptr<struct Rectangle> absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -934,7 +852,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        std::unique_ptr<struct Constraints> constraints;
+        std::unique_ptr<struct LayoutConstraint> constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -961,11 +879,11 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::unique_ptr<std::vector<struct PaintElement>> fills;
+        std::unique_ptr<std::vector<struct Paint>> fills;
         /**
          * An array of stroke paints applied to the node
          */
-        std::unique_ptr<std::vector<struct PaintElement>> strokes;
+        std::unique_ptr<std::vector<struct Paint>> strokes;
         /**
          * Radius of each corner of the rectangle
          */
@@ -977,12 +895,12 @@ namespace quicktype {
         /**
          * Map from ID to TypeStyle for looking up style overrides
          */
-        std::unique_ptr<std::vector<struct Tyle>> style_override_table;
+        std::unique_ptr<std::vector<struct TypeStyle>> style_override_table;
         /**
          * Style of text including font family and weight (see type style
          * section for more information)
          */
-        std::unique_ptr<struct Tyle> style;
+        std::unique_ptr<struct TypeStyle> style;
         /**
          * Array with same number of elements as characeters in text box,
          * each element is a reference to the styleOverrideTable defined
@@ -1005,12 +923,12 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * An array of layout grids attached to this node (see layout grids section
          * for more details). GROUP nodes do not have this attribute
          */
-        std::vector<struct LayoutGridElement> layout_grids;
+        std::vector<struct LayoutGrid> layout_grids;
         /**
          * Opacity of the node
          */
@@ -1022,7 +940,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -1039,11 +957,11 @@ namespace quicktype {
         /**
          * Background color of the node
          */
-        struct Olor background_color;
+        struct Color background_color;
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -1055,7 +973,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -1075,165 +993,17 @@ namespace quicktype {
     };
 
     /**
-     * A rectangle
-     */
-    struct Rectangle {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct EffectElement> effects;
-        /**
-         * Radius of each corner of the rectangle
-         */
-        double corner_radius;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
-         */
-        StrokeAlign stroke_align;
-        /**
-         * The weight of strokes on the node
-         */
-        double stroke_weight;
-        /**
-         * An array of fill paints applied to the node
-         */
-        std::vector<struct PaintElement> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct AbsoluteBoundingBox absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct Constraints constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSettingElement> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct PaintElement> strokes;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-    };
-
-    /**
-     * Guides to align and place objects within a frame
-     */
-    struct LayoutGrid {
-        /**
-         * Positioning of grid as a string enum
-         * "MIN": Grid starts at the left or top of the frame
-         * "MAX": Grid starts at the right or bottom of the frame
-         * "CENTER": Grid is center aligned
-         */
-        Alignment alignment;
-        /**
-         * Color of the grid
-         */
-        struct Olor color;
-        /**
-         * Number of columns or rows
-         */
-        double count;
-        /**
-         * Spacing in between columns and rows
-         */
-        double gutter_size;
-        /**
-         * Spacing before the first column or row
-         */
-        double offset;
-        /**
-         * Orientation of the grid as a string enum
-         * "COLUMNS": Vertical grid
-         * "ROWS": Horizontal grid
-         * "GRID": Square grid
-         */
-        Pattern pattern;
-        /**
-         * Width of column grid or height of row grid or square grid spacing
-         */
-        double section_size;
-        /**
-         * Is the grid currently visible?
-         */
-        bool visible;
-    };
-
-    /**
-     * A visual effect such as a shadow or blur
-     */
-    struct Effect {
-        std::unique_ptr<BlendMode> blend_mode;
-        std::unique_ptr<struct Olor> color;
-        std::unique_ptr<struct Offset> offset;
-        /**
-         * Radius of the blur effect (applies to shadows as well)
-         */
-        double radius;
-        /**
-         * Type of effect as a string enum
-         */
-        EffectType type;
-        /**
-         * Is the effect active?
-         */
-        bool visible;
-    };
-
-    /**
      * A rectangular region of the canvas that can be exported
      */
     struct Slice {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * An array of export settings representing images to export from this node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -1260,7 +1030,7 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * Opacity of the node
          */
@@ -1283,11 +1053,11 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -1304,7 +1074,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -1312,7 +1082,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -1324,7 +1094,7 @@ namespace quicktype {
         /**
          * An array of stroke paints applied to the node
          */
-        std::vector<struct PaintElement> strokes;
+        std::vector<struct Paint> strokes;
         /**
          * Keep height and width constrained to same ratio
          */
@@ -1339,7 +1109,7 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * Opacity of the node
          */
@@ -1362,11 +1132,11 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -1383,7 +1153,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -1391,7 +1161,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -1403,7 +1173,7 @@ namespace quicktype {
         /**
          * An array of stroke paints applied to the node
          */
-        std::vector<struct PaintElement> strokes;
+        std::vector<struct Paint> strokes;
         /**
          * Keep height and width constrained to same ratio
          */
@@ -1419,12 +1189,12 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * An array of layout grids attached to this node (see layout grids section
          * for more details). GROUP nodes do not have this attribute
          */
-        std::vector<struct LayoutGridElement> layout_grids;
+        std::vector<struct LayoutGrid> layout_grids;
         /**
          * Opacity of the node
          */
@@ -1436,7 +1206,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -1453,11 +1223,11 @@ namespace quicktype {
         /**
          * Background color of the node
          */
-        struct Olor background_color;
+        struct Color background_color;
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -1469,7 +1239,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * ID of component that this instance came from, refers to components
          * table (see endpoints section below)
@@ -1494,10 +1264,6 @@ namespace quicktype {
     };
 
     /**
-     * A 2d vector
-     *
-     * 2d vector offset within the frame.
-     *
      * This field contains three vectors, each of which are a position in
      * normalized object space (normalized object space is if the top left
      * corner of the bounding box of the object is (0, 0) and the bottom
@@ -1506,6 +1272,10 @@ namespace quicktype {
      * the second position is the end of the gradient (value 1), and the
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
+     *
+     * A 2d vector
+     *
+     * 2d vector offset within the frame.
      *
      * A relative offset within a frame
      */
@@ -1525,15 +1295,15 @@ namespace quicktype {
         /**
          * 2d vector offset within the frame.
          */
-        std::unique_ptr<struct Offset> node_offset;
+        std::unique_ptr<struct Vector2D> node_offset;
     };
 
     /**
-     * A description of a user
-     *
      * The user who left the comment
+     *
+     * A description of a user
      */
-    struct CommentUser {
+    struct User {
         std::string handle;
         std::string img_url;
     };
@@ -1541,7 +1311,7 @@ namespace quicktype {
     /**
      * A comment or reply left by a user
      */
-    struct CommentElement {
+    struct Comment {
         /**
          * (MISSING IN DOCS)
          * The content of the comment
@@ -1554,7 +1324,7 @@ namespace quicktype {
         /**
          * The user who left the comment
          */
-        struct CommentUser user;
+        struct User user;
         /**
          * Only set for top level comments. The number displayed with the
          * comment in the UI
@@ -1590,71 +1360,7 @@ namespace quicktype {
      * File to get comments from
      */
     struct CommentsResponse {
-        std::vector<struct CommentElement> comments;
-    };
-
-    /**
-     * A 2d vector
-     */
-    struct Vector2D {
-        /**
-         * X coordinate of the vector
-         */
-        double x;
-        /**
-         * Y coordinate of the vector
-         */
-        double y;
-    };
-
-    /**
-     * Metadata for character formatting
-     */
-    struct TypeStyle {
-        /**
-         * Line height in px
-         */
-        double line_height_px;
-        /**
-         * PostScript font name
-         */
-        std::string font_post_script_name;
-        /**
-         * Numeric font weight
-         */
-        double font_weight;
-        /**
-         * Line height as a percentage of normal line height
-         */
-        double line_height_percent;
-        /**
-         * Vertical text alignment as string enum
-         */
-        TextAlignVertical text_align_vertical;
-        /**
-         * Font size in px
-         */
-        double font_size;
-        /**
-         * Is text italicized?
-         */
-        bool italic;
-        /**
-         * Paints applied to characters
-         */
-        std::vector<struct PaintElement> fills;
-        /**
-         * Font family of text (standard name)
-         */
-        std::string font_family;
-        /**
-         * Horizontal text alignment as string enum
-         */
-        TextAlignHorizontal text_align_horizontal;
-        /**
-         * Space between characters in px
-         */
-        double letter_spacing;
+        std::vector<struct Comment> comments;
     };
 
     /**
@@ -1665,7 +1371,7 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * Opacity of the node
          */
@@ -1688,11 +1394,11 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -1709,7 +1415,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -1717,7 +1423,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -1729,7 +1435,7 @@ namespace quicktype {
         /**
          * An array of stroke paints applied to the node
          */
-        std::vector<struct PaintElement> strokes;
+        std::vector<struct Paint> strokes;
         /**
          * Keep height and width constrained to same ratio
          */
@@ -1747,7 +1453,7 @@ namespace quicktype {
         /**
          * Background color of the canvas
          */
-        struct Olor background_color;
+        struct Color background_color;
         /**
          * An array of top level layers on the canvas
          */
@@ -1755,7 +1461,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from the canvas
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -1772,51 +1478,6 @@ namespace quicktype {
          * whether or not the node is visible on the canvas
          */
         bool visible;
-    };
-
-    /**
-     * Node Properties
-     * The root node
-     */
-    struct Document {
-        /**
-         * An array of canvases attached to the document
-         */
-        std::vector<struct DocumentElement> children;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-    };
-
-    /**
-     * Format and size to export an asset at
-     */
-    struct ExportSetting {
-        /**
-         * Constraint that determines sizing of exported asset
-         */
-        struct ExportSettingConstraint constraint;
-        /**
-         * Image type, string enum
-         */
-        Format format;
-        /**
-         * File suffix to append to all filenames
-         */
-        std::string suffix;
     };
 
     /**
@@ -1827,12 +1488,12 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * An array of layout grids attached to this node (see layout grids section
          * for more details). GROUP nodes do not have this attribute
          */
-        std::vector<struct LayoutGridElement> layout_grids;
+        std::vector<struct LayoutGrid> layout_grids;
         /**
          * Opacity of the node
          */
@@ -1844,7 +1505,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -1861,11 +1522,11 @@ namespace quicktype {
         /**
          * Background color of the node
          */
-        struct Olor background_color;
+        struct Color background_color;
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -1877,96 +1538,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-        /**
-         * An array of nodes that are direct children of this node
-         */
-        std::vector<struct DocumentElement> children;
-    };
-
-    /**
-     * A node that can have instances created of it that share the same properties
-     *
-     * An array of nodes that are direct children of this node
-     *
-     * An array of nodes that are being boolean operated on
-     *
-     * An array of top level layers on the canvas
-     *
-     * An array of canvases attached to the document
-     *
-     * A mapping from node IDs to component metadata. This is to help you determine which
-     * components each instance comes from. Currently the only piece of metadata available on
-     * components is the name of the component, but more properties will be forthcoming.
-     */
-    struct ComponentValue {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct EffectElement> effects;
-        /**
-         * An array of layout grids attached to this node (see layout grids section
-         * for more details). GROUP nodes do not have this attribute
-         */
-        std::vector<struct LayoutGridElement> layout_grids;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct AbsoluteBoundingBox absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Background color of the node
-         */
-        struct Olor background_color;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct Constraints constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * Does this node clip content outside of its bounds?
-         */
-        bool clips_content;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -1989,17 +1561,9 @@ namespace quicktype {
      * Node Properties
      * The root node
      *
-     * An array of nodes that are direct children of this node
-     *
-     * An array of canvases attached to the document
-     *
-     * An array of top level layers on the canvas
-     *
-     * An array of nodes that are being boolean operated on
-     *
      * The root node within the document
      */
-    struct Ocument {
+    struct Document {
         /**
          * An array of canvases attached to the document
          */
@@ -2047,73 +1611,12 @@ namespace quicktype {
          * components each instance comes from. Currently the only piece of metadata available on
          * components is the name of the component, but more properties will be forthcoming.
          */
-        std::map<std::string, struct ComponentValue> components;
+        std::map<std::string, struct Component> components;
         /**
          * The root node within the document
          */
-        struct Ocument document;
+        struct Document document;
         double schema_version;
-    };
-
-    /**
-     * Sizing constraint for exports
-     */
-    struct Constraint {
-        /**
-         * Type of constraint to apply; string enum with potential values below
-         * "SCALE": Scale by value
-         * "WIDTH": Scale proportionally and set width to value
-         * "HEIGHT": Scale proportionally and set height to value
-         */
-        ConstraintType type;
-        /**
-         * See type property for effect of this field
-         */
-        double value;
-    };
-
-    /**
-     * A solid color, gradient, or image texture that can be applied as fills or strokes
-     */
-    struct Paint {
-        /**
-         * Solid color of the paint
-         */
-        std::unique_ptr<struct Olor> color;
-        /**
-         * This field contains three vectors, each of which are a position in
-         * normalized object space (normalized object space is if the top left
-         * corner of the bounding box of the object is (0, 0) and the bottom
-         * right is (1,1)). The first position corresponds to the start of the
-         * gradient (value 0 for the purposes of calculating gradient stops),
-         * the second position is the end of the gradient (value 1), and the
-         * third handle position determines the width of the gradient (only
-         * relevant for non-linear gradients).
-         */
-        std::unique_ptr<std::vector<struct Offset>> gradient_handle_positions;
-        /**
-         * Positions of key points along the gradient axis with the colors
-         * anchored there. Colors along the gradient are interpolated smoothly
-         * between neighboring gradient stops.
-         */
-        std::unique_ptr<std::vector<struct ColorStopElement>> gradient_stops;
-        /**
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         */
-        double opacity;
-        /**
-         * Image scaling mode
-         */
-        std::unique_ptr<std::string> scale_mode;
-        /**
-         * Type of paint as a string enum
-         */
-        PaintType type;
-        /**
-         * Is the paint enabled?
-         */
-        bool visible;
     };
 
     /**
@@ -2124,7 +1627,7 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * Opacity of the node
          */
@@ -2147,11 +1650,11 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -2168,7 +1671,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -2176,7 +1679,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -2188,7 +1691,7 @@ namespace quicktype {
         /**
          * An array of stroke paints applied to the node
          */
-        std::vector<struct PaintElement> strokes;
+        std::vector<struct Paint> strokes;
         /**
          * Keep height and width constrained to same ratio
          */
@@ -2203,7 +1706,7 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * Opacity of the node
          */
@@ -2226,11 +1729,11 @@ namespace quicktype {
         /**
          * An array of fill paints applied to the node
          */
-        std::vector<struct PaintElement> fills;
+        std::vector<struct Paint> fills;
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -2247,7 +1750,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -2255,7 +1758,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -2267,52 +1770,11 @@ namespace quicktype {
         /**
          * An array of stroke paints applied to the node
          */
-        std::vector<struct PaintElement> strokes;
+        std::vector<struct Paint> strokes;
         /**
          * Keep height and width constrained to same ratio
          */
         bool preserve_ratio;
-    };
-
-    /**
-     * A comment or reply left by a user
-     */
-    struct Comment {
-        /**
-         * (MISSING IN DOCS)
-         * The content of the comment
-         */
-        std::string message;
-        /**
-         * Enables basic storage and retrieval of dates and times.
-         */
-        std::string created_at;
-        /**
-         * The user who left the comment
-         */
-        struct CommentUser user;
-        /**
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double order_id;
-        /**
-         * If present, the id of the comment to which this is the reply
-         */
-        std::string parent_id;
-        struct ClientMeta client_meta;
-        /**
-         * Enables basic storage and retrieval of dates and times.
-         */
-        std::string resolved_at;
-        /**
-         * Unique identifier for comment
-         */
-        std::string id;
-        /**
-         * The file in which the comment lives
-         */
-        std::string file_key;
     };
 
     /**
@@ -2323,12 +1785,12 @@ namespace quicktype {
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
-        std::vector<struct EffectElement> effects;
+        std::vector<struct Effect> effects;
         /**
          * An array of layout grids attached to this node (see layout grids section
          * for more details). GROUP nodes do not have this attribute
          */
-        std::vector<struct LayoutGridElement> layout_grids;
+        std::vector<struct LayoutGrid> layout_grids;
         /**
          * Opacity of the node
          */
@@ -2340,7 +1802,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct AbsoluteBoundingBox absolute_bounding_box;
+        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -2357,11 +1819,11 @@ namespace quicktype {
         /**
          * Background color of the node
          */
-        struct Olor background_color;
+        struct Color background_color;
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct Constraints constraints;
+        struct LayoutConstraint constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -2373,7 +1835,7 @@ namespace quicktype {
         /**
          * An array of export settings representing images to export from node
          */
-        std::vector<struct ExportSettingElement> export_settings;
+        std::vector<struct ExportSetting> export_settings;
         /**
          * the type of the node, refer to table below for details
          */
@@ -2427,12 +1889,12 @@ namespace nlohmann {
         }
     };
 
-    inline void from_json(const json& _j, struct quicktype::Offset& _x) {
+    inline void from_json(const json& _j, struct quicktype::Vector2D& _x) {
         _x.x = _j.at("x").get<double>();
         _x.y = _j.at("y").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Offset& _x) {
+    inline void to_json(json& _j, const struct quicktype::Vector2D& _x) {
         _j = json::object();
         _j["x"] = _x.x;
         _j["y"] = _x.y;
@@ -2440,7 +1902,7 @@ namespace nlohmann {
 
     inline void from_json(const json& _j, struct quicktype::FrameOffset& _x) {
         _x.node_id = _j.at("node_id").get<std::vector<std::string>>();
-        _x.node_offset = _j.at("node_offset").get<struct quicktype::Offset>();
+        _x.node_offset = _j.at("node_offset").get<struct quicktype::Vector2D>();
     }
 
     inline void to_json(json& _j, const struct quicktype::FrameOffset& _x) {
@@ -2449,25 +1911,25 @@ namespace nlohmann {
         _j["node_offset"] = _x.node_offset;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Constraints& _x) {
+    inline void from_json(const json& _j, struct quicktype::LayoutConstraint& _x) {
         _x.horizontal = _j.at("horizontal").get<quicktype::Horizontal>();
         _x.vertical = _j.at("vertical").get<quicktype::Vertical>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Constraints& _x) {
+    inline void to_json(json& _j, const struct quicktype::LayoutConstraint& _x) {
         _j = json::object();
         _j["horizontal"] = _x.horizontal;
         _j["vertical"] = _x.vertical;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Olor& _x) {
+    inline void from_json(const json& _j, struct quicktype::Color& _x) {
         _x.a = _j.at("a").get<double>();
         _x.b = _j.at("b").get<double>();
         _x.g = _j.at("g").get<double>();
         _x.r = _j.at("r").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Olor& _x) {
+    inline void to_json(json& _j, const struct quicktype::Color& _x) {
         _j = json::object();
         _j["a"] = _x.a;
         _j["b"] = _x.b;
@@ -2475,16 +1937,16 @@ namespace nlohmann {
         _j["r"] = _x.r;
     }
 
-    inline void from_json(const json& _j, struct quicktype::EffectElement& _x) {
+    inline void from_json(const json& _j, struct quicktype::Effect& _x) {
         _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
-        _x.color = quicktype::get_optional<struct quicktype::Olor>(_j, "color");
-        _x.offset = quicktype::get_optional<struct quicktype::Offset>(_j, "offset");
+        _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
+        _x.offset = quicktype::get_optional<struct quicktype::Vector2D>(_j, "offset");
         _x.radius = _j.at("radius").get<double>();
         _x.type = _j.at("type").get<quicktype::EffectType>();
         _x.visible = _j.at("visible").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::EffectElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::Effect& _x) {
         _j = json::object();
         _j["blendMode"] = _x.blend_mode;
         _j["color"] = _x.color;
@@ -2494,52 +1956,52 @@ namespace nlohmann {
         _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::ExportSettingConstraint& _x) {
+    inline void from_json(const json& _j, struct quicktype::Constraint& _x) {
         _x.type = _j.at("type").get<quicktype::ConstraintType>();
         _x.value = _j.at("value").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::ExportSettingConstraint& _x) {
+    inline void to_json(json& _j, const struct quicktype::Constraint& _x) {
         _j = json::object();
         _j["type"] = _x.type;
         _j["value"] = _x.value;
     }
 
-    inline void from_json(const json& _j, struct quicktype::ExportSettingElement& _x) {
-        _x.constraint = _j.at("constraint").get<struct quicktype::ExportSettingConstraint>();
+    inline void from_json(const json& _j, struct quicktype::ExportSetting& _x) {
+        _x.constraint = _j.at("constraint").get<struct quicktype::Constraint>();
         _x.format = _j.at("format").get<quicktype::Format>();
         _x.suffix = _j.at("suffix").get<std::string>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::ExportSettingElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::ExportSetting& _x) {
         _j = json::object();
         _j["constraint"] = _x.constraint;
         _j["format"] = _x.format;
         _j["suffix"] = _x.suffix;
     }
 
-    inline void from_json(const json& _j, struct quicktype::ColorStopElement& _x) {
-        _x.color = _j.at("color").get<struct quicktype::Olor>();
+    inline void from_json(const json& _j, struct quicktype::ColorStop& _x) {
+        _x.color = _j.at("color").get<struct quicktype::Color>();
         _x.position = _j.at("position").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::ColorStopElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::ColorStop& _x) {
         _j = json::object();
         _j["color"] = _x.color;
         _j["position"] = _x.position;
     }
 
-    inline void from_json(const json& _j, struct quicktype::PaintElement& _x) {
-        _x.color = quicktype::get_optional<struct quicktype::Olor>(_j, "color");
-        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Offset>>(_j, "gradientHandlePositions");
-        _x.gradient_stops = quicktype::get_optional<std::vector<struct quicktype::ColorStopElement>>(_j, "gradientStops");
+    inline void from_json(const json& _j, struct quicktype::Paint& _x) {
+        _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
+        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Vector2D>>(_j, "gradientHandlePositions");
+        _x.gradient_stops = quicktype::get_optional<std::vector<struct quicktype::ColorStop>>(_j, "gradientStops");
         _x.opacity = _j.at("opacity").get<double>();
         _x.scale_mode = quicktype::get_optional<std::string>(_j, "scaleMode");
         _x.type = _j.at("type").get<quicktype::PaintType>();
         _x.visible = _j.at("visible").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::PaintElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::Paint& _x) {
         _j = json::object();
         _j["color"] = _x.color;
         _j["gradientHandlePositions"] = _x.gradient_handle_positions;
@@ -2550,28 +2012,28 @@ namespace nlohmann {
         _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::AbsoluteBoundingBox& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
+    inline void from_json(const json& _j, struct quicktype::Rectangle& _x) {
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.corner_radius = _j.at("cornerRadius").get<double>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::AbsoluteBoundingBox& _x) {
+    inline void to_json(json& _j, const struct quicktype::Rectangle& _x) {
         _j = json::object();
         _j["effects"] = _x.effects;
         _j["cornerRadius"] = _x.corner_radius;
@@ -2594,22 +2056,22 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Vector& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
     }
 
@@ -2634,55 +2096,7 @@ namespace nlohmann {
         _j["preserveRatio"] = _x.preserve_ratio;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Color& _x) {
-        _x.a = _j.at("a").get<double>();
-        _x.b = _j.at("b").get<double>();
-        _x.g = _j.at("g").get<double>();
-        _x.r = _j.at("r").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Color& _x) {
-        _j = json::object();
-        _j["a"] = _x.a;
-        _j["b"] = _x.b;
-        _j["g"] = _x.g;
-        _j["r"] = _x.r;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::ColorStop& _x) {
-        _x.color = _j.at("color").get<struct quicktype::Olor>();
-        _x.position = _j.at("position").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::ColorStop& _x) {
-        _j = json::object();
-        _j["color"] = _x.color;
-        _j["position"] = _x.position;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::LayoutConstraint& _x) {
-        _x.horizontal = _j.at("horizontal").get<quicktype::Horizontal>();
-        _x.vertical = _j.at("vertical").get<quicktype::Vertical>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::LayoutConstraint& _x) {
-        _j = json::object();
-        _j["horizontal"] = _x.horizontal;
-        _j["vertical"] = _x.vertical;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::User& _x) {
-        _x.handle = _j.at("handle").get<std::string>();
-        _x.img_url = _j.at("img_url").get<std::string>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::User& _x) {
-        _j = json::object();
-        _j["handle"] = _x.handle;
-        _j["img_url"] = _x.img_url;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Tyle& _x) {
+    inline void from_json(const json& _j, struct quicktype::TypeStyle& _x) {
         _x.line_height_px = _j.at("lineHeightPx").get<double>();
         _x.font_post_script_name = _j.at("fontPostScriptName").get<std::string>();
         _x.font_weight = _j.at("fontWeight").get<double>();
@@ -2690,13 +2104,13 @@ namespace nlohmann {
         _x.text_align_vertical = _j.at("textAlignVertical").get<quicktype::TextAlignVertical>();
         _x.font_size = _j.at("fontSize").get<double>();
         _x.italic = _j.at("italic").get<bool>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
         _x.font_family = _j.at("fontFamily").get<std::string>();
         _x.text_align_horizontal = _j.at("textAlignHorizontal").get<quicktype::TextAlignHorizontal>();
         _x.letter_spacing = _j.at("letterSpacing").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Tyle& _x) {
+    inline void to_json(json& _j, const struct quicktype::TypeStyle& _x) {
         _j = json::object();
         _j["lineHeightPx"] = _x.line_height_px;
         _j["fontPostScriptName"] = _x.font_post_script_name;
@@ -2712,25 +2126,25 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Text& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.characters = _j.at("characters").get<std::string>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
-        _x.style_override_table = _j.at("styleOverrideTable").get<std::vector<struct quicktype::Tyle>>();
-        _x.style = _j.at("style").get<struct quicktype::Tyle>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
+        _x.style_override_table = _j.at("styleOverrideTable").get<std::vector<struct quicktype::TypeStyle>>();
+        _x.style = _j.at("style").get<struct quicktype::TypeStyle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
         _x.character_style_overrides = _j.at("characterStyleOverrides").get<std::vector<double>>();
     }
@@ -2760,9 +2174,9 @@ namespace nlohmann {
         _j["characterStyleOverrides"] = _x.character_style_overrides;
     }
 
-    inline void from_json(const json& _j, struct quicktype::LayoutGridElement& _x) {
+    inline void from_json(const json& _j, struct quicktype::LayoutGrid& _x) {
         _x.alignment = _j.at("alignment").get<quicktype::Alignment>();
-        _x.color = _j.at("color").get<struct quicktype::Olor>();
+        _x.color = _j.at("color").get<struct quicktype::Color>();
         _x.count = _j.at("count").get<double>();
         _x.gutter_size = _j.at("gutterSize").get<double>();
         _x.offset = _j.at("offset").get<double>();
@@ -2771,7 +2185,7 @@ namespace nlohmann {
         _x.visible = _j.at("visible").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::LayoutGridElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::LayoutGrid& _x) {
         _j = json::object();
         _j["alignment"] = _x.alignment;
         _j["color"] = _x.color;
@@ -2789,26 +2203,26 @@ namespace nlohmann {
         _x.name = _j.at("name").get<std::string>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.visible = _j.at("visible").get<bool>();
-        _x.background_color = quicktype::get_optional<struct quicktype::Olor>(_j, "backgroundColor");
-        _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSettingElement>>(_j, "exportSettings");
-        _x.effects = quicktype::get_optional<std::vector<struct quicktype::EffectElement>>(_j, "effects");
-        _x.layout_grids = quicktype::get_optional<std::vector<struct quicktype::LayoutGridElement>>(_j, "layoutGrids");
+        _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
+        _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
+        _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
+        _x.layout_grids = quicktype::get_optional<std::vector<struct quicktype::LayoutGrid>>(_j, "layoutGrids");
         _x.opacity = quicktype::get_optional<double>(_j, "opacity");
-        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::AbsoluteBoundingBox>(_j, "absoluteBoundingBox");
+        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
         _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
         _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
-        _x.constraints = quicktype::get_optional<struct quicktype::Constraints>(_j, "constraints");
+        _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
         _x.is_mask = quicktype::get_optional<bool>(_j, "isMask");
         _x.clips_content = quicktype::get_optional<bool>(_j, "clipsContent");
         _x.preserve_ratio = quicktype::get_optional<bool>(_j, "preserveRatio");
         _x.stroke_align = quicktype::get_optional<quicktype::StrokeAlign>(_j, "strokeAlign");
         _x.stroke_weight = quicktype::get_optional<double>(_j, "strokeWeight");
-        _x.fills = quicktype::get_optional<std::vector<struct quicktype::PaintElement>>(_j, "fills");
-        _x.strokes = quicktype::get_optional<std::vector<struct quicktype::PaintElement>>(_j, "strokes");
+        _x.fills = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "fills");
+        _x.strokes = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "strokes");
         _x.corner_radius = quicktype::get_optional<double>(_j, "cornerRadius");
         _x.characters = quicktype::get_optional<std::string>(_j, "characters");
-        _x.style_override_table = quicktype::get_optional<std::vector<struct quicktype::Tyle>>(_j, "styleOverrideTable");
-        _x.style = quicktype::get_optional<struct quicktype::Tyle>(_j, "style");
+        _x.style_override_table = quicktype::get_optional<std::vector<struct quicktype::TypeStyle>>(_j, "styleOverrideTable");
+        _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
         _x.character_style_overrides = quicktype::get_optional<std::vector<double>>(_j, "characterStyleOverrides");
         _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
     }
@@ -2845,19 +2259,19 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Frame& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGridElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
+        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Olor>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
@@ -2885,94 +2299,9 @@ namespace nlohmann {
         _j["children"] = _x.children;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Rectangle& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
-        _x.corner_radius = _j.at("cornerRadius").get<double>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Rectangle& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["cornerRadius"] = _x.corner_radius;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::LayoutGrid& _x) {
-        _x.alignment = _j.at("alignment").get<quicktype::Alignment>();
-        _x.color = _j.at("color").get<struct quicktype::Olor>();
-        _x.count = _j.at("count").get<double>();
-        _x.gutter_size = _j.at("gutterSize").get<double>();
-        _x.offset = _j.at("offset").get<double>();
-        _x.pattern = _j.at("pattern").get<quicktype::Pattern>();
-        _x.section_size = _j.at("sectionSize").get<double>();
-        _x.visible = _j.at("visible").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::LayoutGrid& _x) {
-        _j = json::object();
-        _j["alignment"] = _x.alignment;
-        _j["color"] = _x.color;
-        _j["count"] = _x.count;
-        _j["gutterSize"] = _x.gutter_size;
-        _j["offset"] = _x.offset;
-        _j["pattern"] = _x.pattern;
-        _j["sectionSize"] = _x.section_size;
-        _j["visible"] = _x.visible;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Effect& _x) {
-        _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
-        _x.color = quicktype::get_optional<struct quicktype::Olor>(_j, "color");
-        _x.offset = quicktype::get_optional<struct quicktype::Offset>(_j, "offset");
-        _x.radius = _j.at("radius").get<double>();
-        _x.type = _j.at("type").get<quicktype::EffectType>();
-        _x.visible = _j.at("visible").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Effect& _x) {
-        _j = json::object();
-        _j["blendMode"] = _x.blend_mode;
-        _j["color"] = _x.color;
-        _j["offset"] = _x.offset;
-        _j["radius"] = _x.radius;
-        _j["type"] = _x.type;
-        _j["visible"] = _x.visible;
-    }
-
     inline void from_json(const json& _j, struct quicktype::Slice& _x) {
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
@@ -2990,22 +2319,22 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Star& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
     }
 
@@ -3031,22 +2360,22 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Line& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
     }
 
@@ -3072,19 +2401,19 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Instance& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGridElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
+        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Olor>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.component_id = _j.at("componentId").get<std::string>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
@@ -3118,7 +2447,7 @@ namespace nlohmann {
         _x.x = quicktype::get_optional<double>(_j, "x");
         _x.y = quicktype::get_optional<double>(_j, "y");
         _x.node_id = quicktype::get_optional<std::vector<std::string>>(_j, "node_id");
-        _x.node_offset = quicktype::get_optional<struct quicktype::Offset>(_j, "node_offset");
+        _x.node_offset = quicktype::get_optional<struct quicktype::Vector2D>(_j, "node_offset");
     }
 
     inline void to_json(json& _j, const struct quicktype::ClientMeta& _x) {
@@ -3129,21 +2458,21 @@ namespace nlohmann {
         _j["node_offset"] = _x.node_offset;
     }
 
-    inline void from_json(const json& _j, struct quicktype::CommentUser& _x) {
+    inline void from_json(const json& _j, struct quicktype::User& _x) {
         _x.handle = _j.at("handle").get<std::string>();
         _x.img_url = _j.at("img_url").get<std::string>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::CommentUser& _x) {
+    inline void to_json(json& _j, const struct quicktype::User& _x) {
         _j = json::object();
         _j["handle"] = _x.handle;
         _j["img_url"] = _x.img_url;
     }
 
-    inline void from_json(const json& _j, struct quicktype::CommentElement& _x) {
+    inline void from_json(const json& _j, struct quicktype::Comment& _x) {
         _x.message = _j.at("message").get<std::string>();
         _x.created_at = _j.at("created_at").get<std::string>();
-        _x.user = _j.at("user").get<struct quicktype::CommentUser>();
+        _x.user = _j.at("user").get<struct quicktype::User>();
         _x.order_id = _j.at("order_id").get<double>();
         _x.parent_id = _j.at("parent_id").get<std::string>();
         _x.client_meta = _j.at("client_meta").get<struct quicktype::ClientMeta>();
@@ -3152,7 +2481,7 @@ namespace nlohmann {
         _x.file_key = _j.at("file_key").get<std::string>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::CommentElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::Comment& _x) {
         _j = json::object();
         _j["message"] = _x.message;
         _j["created_at"] = _x.created_at;
@@ -3166,7 +2495,7 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::CommentsResponse& _x) {
-        _x.comments = _j.at("comments").get<std::vector<struct quicktype::CommentElement>>();
+        _x.comments = _j.at("comments").get<std::vector<struct quicktype::Comment>>();
     }
 
     inline void to_json(json& _j, const struct quicktype::CommentsResponse& _x) {
@@ -3174,63 +2503,23 @@ namespace nlohmann {
         _j["comments"] = _x.comments;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Vector2D& _x) {
-        _x.x = _j.at("x").get<double>();
-        _x.y = _j.at("y").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Vector2D& _x) {
-        _j = json::object();
-        _j["x"] = _x.x;
-        _j["y"] = _x.y;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::TypeStyle& _x) {
-        _x.line_height_px = _j.at("lineHeightPx").get<double>();
-        _x.font_post_script_name = _j.at("fontPostScriptName").get<std::string>();
-        _x.font_weight = _j.at("fontWeight").get<double>();
-        _x.line_height_percent = _j.at("lineHeightPercent").get<double>();
-        _x.text_align_vertical = _j.at("textAlignVertical").get<quicktype::TextAlignVertical>();
-        _x.font_size = _j.at("fontSize").get<double>();
-        _x.italic = _j.at("italic").get<bool>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.font_family = _j.at("fontFamily").get<std::string>();
-        _x.text_align_horizontal = _j.at("textAlignHorizontal").get<quicktype::TextAlignHorizontal>();
-        _x.letter_spacing = _j.at("letterSpacing").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::TypeStyle& _x) {
-        _j = json::object();
-        _j["lineHeightPx"] = _x.line_height_px;
-        _j["fontPostScriptName"] = _x.font_post_script_name;
-        _j["fontWeight"] = _x.font_weight;
-        _j["lineHeightPercent"] = _x.line_height_percent;
-        _j["textAlignVertical"] = _x.text_align_vertical;
-        _j["fontSize"] = _x.font_size;
-        _j["italic"] = _x.italic;
-        _j["fills"] = _x.fills;
-        _j["fontFamily"] = _x.font_family;
-        _j["textAlignHorizontal"] = _x.text_align_horizontal;
-        _j["letterSpacing"] = _x.letter_spacing;
-    }
-
     inline void from_json(const json& _j, struct quicktype::BooleanGroup& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
         _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
     }
@@ -3258,9 +2547,9 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Canvas& _x) {
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Olor>();
+        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
         _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
@@ -3278,50 +2567,20 @@ namespace nlohmann {
         _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Document& _x) {
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.visible = _j.at("visible").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Document& _x) {
-        _j = json::object();
-        _j["children"] = _x.children;
-        _j["id"] = _x.id;
-        _j["name"] = _x.name;
-        _j["type"] = _x.type;
-        _j["visible"] = _x.visible;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::ExportSetting& _x) {
-        _x.constraint = _j.at("constraint").get<struct quicktype::ExportSettingConstraint>();
-        _x.format = _j.at("format").get<quicktype::Format>();
-        _x.suffix = _j.at("suffix").get<std::string>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::ExportSetting& _x) {
-        _j = json::object();
-        _j["constraint"] = _x.constraint;
-        _j["format"] = _x.format;
-        _j["suffix"] = _x.suffix;
-    }
-
     inline void from_json(const json& _j, struct quicktype::Component& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGridElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
+        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Olor>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
@@ -3349,48 +2608,7 @@ namespace nlohmann {
         _j["children"] = _x.children;
     }
 
-    inline void from_json(const json& _j, struct quicktype::ComponentValue& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGridElement>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Olor>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.clips_content = _j.at("clipsContent").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::ComponentValue& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["layoutGrids"] = _x.layout_grids;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["backgroundColor"] = _x.background_color;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["clipsContent"] = _x.clips_content;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["preserveRatio"] = _x.preserve_ratio;
-        _j["children"] = _x.children;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Ocument& _x) {
+    inline void from_json(const json& _j, struct quicktype::Document& _x) {
         _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
@@ -3398,7 +2616,7 @@ namespace nlohmann {
         _x.visible = _j.at("visible").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Ocument& _x) {
+    inline void to_json(json& _j, const struct quicktype::Document& _x) {
         _j = json::object();
         _j["children"] = _x.children;
         _j["id"] = _x.id;
@@ -3408,8 +2626,8 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::FileResponse& _x) {
-        _x.components = _j.at("components").get<std::map<std::string, struct quicktype::ComponentValue>>();
-        _x.document = _j.at("document").get<struct quicktype::Ocument>();
+        _x.components = _j.at("components").get<std::map<std::string, struct quicktype::Component>>();
+        _x.document = _j.at("document").get<struct quicktype::Document>();
         _x.schema_version = _j.at("schemaVersion").get<double>();
     }
 
@@ -3420,55 +2638,23 @@ namespace nlohmann {
         _j["schemaVersion"] = _x.schema_version;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Constraint& _x) {
-        _x.type = _j.at("type").get<quicktype::ConstraintType>();
-        _x.value = _j.at("value").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Constraint& _x) {
-        _j = json::object();
-        _j["type"] = _x.type;
-        _j["value"] = _x.value;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Paint& _x) {
-        _x.color = quicktype::get_optional<struct quicktype::Olor>(_j, "color");
-        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Offset>>(_j, "gradientHandlePositions");
-        _x.gradient_stops = quicktype::get_optional<std::vector<struct quicktype::ColorStopElement>>(_j, "gradientStops");
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.scale_mode = quicktype::get_optional<std::string>(_j, "scaleMode");
-        _x.type = _j.at("type").get<quicktype::PaintType>();
-        _x.visible = _j.at("visible").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Paint& _x) {
-        _j = json::object();
-        _j["color"] = _x.color;
-        _j["gradientHandlePositions"] = _x.gradient_handle_positions;
-        _j["gradientStops"] = _x.gradient_stops;
-        _j["opacity"] = _x.opacity;
-        _j["scaleMode"] = _x.scale_mode;
-        _j["type"] = _x.type;
-        _j["visible"] = _x.visible;
-    }
-
     inline void from_json(const json& _j, struct quicktype::RegularPolygon& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
     }
 
@@ -3494,22 +2680,22 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Ellipse& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::PaintElement>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::PaintElement>>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
     }
 
@@ -3534,45 +2720,20 @@ namespace nlohmann {
         _j["preserveRatio"] = _x.preserve_ratio;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Comment& _x) {
-        _x.message = _j.at("message").get<std::string>();
-        _x.created_at = _j.at("created_at").get<std::string>();
-        _x.user = _j.at("user").get<struct quicktype::CommentUser>();
-        _x.order_id = _j.at("order_id").get<double>();
-        _x.parent_id = _j.at("parent_id").get<std::string>();
-        _x.client_meta = _j.at("client_meta").get<struct quicktype::ClientMeta>();
-        _x.resolved_at = _j.at("resolved_at").get<std::string>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.file_key = _j.at("file_key").get<std::string>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Comment& _x) {
-        _j = json::object();
-        _j["message"] = _x.message;
-        _j["created_at"] = _x.created_at;
-        _j["user"] = _x.user;
-        _j["order_id"] = _x.order_id;
-        _j["parent_id"] = _x.parent_id;
-        _j["client_meta"] = _x.client_meta;
-        _j["resolved_at"] = _x.resolved_at;
-        _j["id"] = _x.id;
-        _j["file_key"] = _x.file_key;
-    }
-
     inline void from_json(const json& _j, struct quicktype::Group& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::EffectElement>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGridElement>>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
+        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Olor>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
+        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.is_mask = _j.at("isMask").get<bool>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSettingElement>>();
+        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();

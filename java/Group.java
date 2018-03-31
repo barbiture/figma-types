@@ -7,19 +7,19 @@ import com.fasterxml.jackson.annotation.*;
  * A logical grouping of nodes
  */
 public class Group {
-    private EffectElement[] effects;
-    private LayoutGridElement[] layoutGrids;
+    private Effect[] effects;
+    private LayoutGrid[] layoutGrids;
     private double opacity;
     private String name;
-    private AbsoluteBoundingBox absoluteBoundingBox;
+    private Rectangle absoluteBoundingBox;
     private String transitionNodeID;
     private boolean visible;
     private BlendMode blendMode;
-    private Olor backgroundColor;
-    private Constraints constraints;
+    private Color backgroundColor;
+    private LayoutConstraint constraints;
     private boolean isMask;
     private boolean clipsContent;
-    private ExportSettingElement[] exportSettings;
+    private ExportSetting[] exportSettings;
     private NodeType type;
     private String id;
     private boolean preserveRatio;
@@ -30,18 +30,18 @@ public class Group {
      * (see effects sectionfor more details)
      */
     @JsonProperty("effects")
-    public EffectElement[] getEffects() { return effects; }
+    public Effect[] getEffects() { return effects; }
     @JsonProperty("effects")
-    public void setEffects(EffectElement[] value) { this.effects = value; }
+    public void setEffects(Effect[] value) { this.effects = value; }
 
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
     @JsonProperty("layoutGrids")
-    public LayoutGridElement[] getLayoutGrids() { return layoutGrids; }
+    public LayoutGrid[] getLayoutGrids() { return layoutGrids; }
     @JsonProperty("layoutGrids")
-    public void setLayoutGrids(LayoutGridElement[] value) { this.layoutGrids = value; }
+    public void setLayoutGrids(LayoutGrid[] value) { this.layoutGrids = value; }
 
     /**
      * Opacity of the node
@@ -63,9 +63,9 @@ public class Group {
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
-    public AbsoluteBoundingBox getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(AbsoluteBoundingBox value) { this.absoluteBoundingBox = value; }
+    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
 
     /**
      * Node ID of node to transition to in prototyping
@@ -96,17 +96,17 @@ public class Group {
      * Background color of the node
      */
     @JsonProperty("backgroundColor")
-    public Olor getBackgroundColor() { return backgroundColor; }
+    public Color getBackgroundColor() { return backgroundColor; }
     @JsonProperty("backgroundColor")
-    public void setBackgroundColor(Olor value) { this.backgroundColor = value; }
+    public void setBackgroundColor(Color value) { this.backgroundColor = value; }
 
     /**
      * Horizontal and vertical layout constraints for node
      */
     @JsonProperty("constraints")
-    public Constraints getConstraints() { return constraints; }
+    public LayoutConstraint getConstraints() { return constraints; }
     @JsonProperty("constraints")
-    public void setConstraints(Constraints value) { this.constraints = value; }
+    public void setConstraints(LayoutConstraint value) { this.constraints = value; }
 
     /**
      * Does this node mask sibling nodes in front of it?
@@ -128,9 +128,9 @@ public class Group {
      * An array of export settings representing images to export from node
      */
     @JsonProperty("exportSettings")
-    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    public ExportSetting[] getExportSettings() { return exportSettings; }
     @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
+    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
 
     /**
      * the type of the node, refer to table below for details

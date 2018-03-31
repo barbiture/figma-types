@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.*;
 /**
  * Node Properties
  * The root node
+ *
+ * The root node within the document
  */
 public class Document {
     private DocumentElement[] children;

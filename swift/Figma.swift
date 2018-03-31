@@ -43,7 +43,7 @@ struct FrameOffset: Codable {
     /// Unique id specifying the frame.
     let nodeID: [String]
     /// 2d vector offset within the frame.
-    let nodeOffset: Offset
+    let nodeOffset: Vector2D
 
     enum CodingKeys: String, CodingKey {
         case nodeID = "node_id"
@@ -51,10 +51,6 @@ struct FrameOffset: Codable {
     }
 }
 
-/// A 2d vector
-///
-/// 2d vector offset within the frame.
-///
 /// This field contains three vectors, each of which are a position in
 /// normalized object space (normalized object space is if the top left
 /// corner of the bounding box of the object is (0, 0) and the bottom
@@ -63,7 +59,11 @@ struct FrameOffset: Codable {
 /// the second position is the end of the gradient (value 1), and the
 /// third handle position determines the width of the gradient (only
 /// relevant for non-linear gradients).
-struct Offset: Codable {
+///
+/// A 2d vector
+///
+/// 2d vector offset within the frame.
+struct Vector2D: Codable {
     /// X coordinate of the vector
     let x: Double
     /// Y coordinate of the vector
@@ -74,7 +74,7 @@ struct Offset: Codable {
 struct Vector: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
@@ -87,9 +87,9 @@ struct Vector: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -98,36 +98,28 @@ struct Vector: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
     let id: String
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
+    let strokes: [Paint]
     /// Keep height and width constrained to same ratio
     let preserveRatio: Bool
 }
 
-/// A rectangle
-///
 /// Bounding box of the node in absolute space coordinates
 ///
-/// An array of nodes that are being boolean operated on
-///
-/// An array of nodes that are direct children of this node
-///
-/// An array of top level layers on the canvas
-///
-/// An array of canvases attached to the document
-class AbsoluteBoundingBox: Codable {
+/// A rectangle
+class Rectangle: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// Radius of each corner of the rectangle
     let cornerRadius: Double
     /// Opacity of the node
@@ -142,9 +134,9 @@ class AbsoluteBoundingBox: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -153,21 +145,21 @@ class AbsoluteBoundingBox: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
     let id: String
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
+    let strokes: [Paint]
     /// Keep height and width constrained to same ratio
     let preserveRatio: Bool
 
-    init(effects: [EffectElement], cornerRadius: Double, opacity: Double, name: String, strokeAlign: StrokeAlign, strokeWeight: Double, fills: [PaintElement], absoluteBoundingBox: AbsoluteBoundingBox, transitionNodeID: String, visible: Bool, blendMode: BlendMode, constraints: Constraints, isMask: Bool, exportSettings: [ExportSettingElement], type: NodeType, id: String, strokes: [PaintElement], preserveRatio: Bool) {
+    init(effects: [Effect], cornerRadius: Double, opacity: Double, name: String, strokeAlign: StrokeAlign, strokeWeight: Double, fills: [Paint], absoluteBoundingBox: Rectangle, transitionNodeID: String, visible: Bool, blendMode: BlendMode, constraints: LayoutConstraint, isMask: Bool, exportSettings: [ExportSetting], type: NodeType, id: String, strokes: [Paint], preserveRatio: Bool) {
         self.effects = effects
         self.cornerRadius = cornerRadius
         self.opacity = opacity
@@ -213,10 +205,10 @@ enum BlendMode: String, Codable {
     case softLight = "SOFT_LIGHT"
 }
 
-/// Layout constraint relative to containing Frame
-///
 /// Horizontal and vertical layout constraints for node
-struct Constraints: Codable {
+///
+/// Layout constraint relative to containing Frame
+struct LayoutConstraint: Codable {
     /// Horizontal constraint as an enum
     /// "LEFT": Node is laid out relative to left of the containing frame
     /// "RIGHT": Node is laid out relative to right of the containing frame
@@ -265,14 +257,14 @@ enum Vertical: String, Codable {
     case topBottom = "TOP_BOTTOM"
 }
 
-/// A visual effect such as a shadow or blur
-///
 /// An array of effects attached to this node
 /// (see effects sectionfor more details)
-struct EffectElement: Codable {
+///
+/// A visual effect such as a shadow or blur
+struct Effect: Codable {
     let blendMode: BlendMode?
-    let color: Olor?
-    let offset: Offset?
+    let color: Color?
+    let offset: Vector2D?
     /// Radius of the blur effect (applies to shadows as well)
     let radius: Double
     /// Type of effect as a string enum
@@ -281,18 +273,18 @@ struct EffectElement: Codable {
     let visible: Bool
 }
 
-/// An RGBA color
-///
 /// Solid color of the paint
 ///
-/// Color attached to corresponding position
+/// An RGBA color
 ///
 /// Color of the grid
 ///
 /// Background color of the node
 ///
+/// Color attached to corresponding position
+///
 /// Background color of the canvas
-struct Olor: Codable {
+struct Color: Codable {
     /// Alpha channel value, between 0 and 1
     let a: Double
     /// Blue channel value, between 0 and 1
@@ -311,26 +303,26 @@ enum EffectType: String, Codable {
     case layerBlur = "LAYER_BLUR"
 }
 
-/// Format and size to export an asset at
-///
 /// An array of export settings representing images to export from node
 ///
-/// An array of export settings representing images to export from this node
+/// Format and size to export an asset at
 ///
 /// An array of export settings representing images to export from the canvas
-struct ExportSettingElement: Codable {
+///
+/// An array of export settings representing images to export from this node
+struct ExportSetting: Codable {
     /// Constraint that determines sizing of exported asset
-    let constraint: ExportSettingConstraint
+    let constraint: Constraint
     /// Image type, string enum
     let format: Format
     /// File suffix to append to all filenames
     let suffix: String
 }
 
-/// Sizing constraint for exports
-///
 /// Constraint that determines sizing of exported asset
-struct ExportSettingConstraint: Codable {
+///
+/// Sizing constraint for exports
+struct Constraint: Codable {
     /// Type of constraint to apply; string enum with potential values below
     /// "SCALE": Scale by value
     /// "WIDTH": Scale proportionally and set width to value
@@ -359,14 +351,14 @@ enum Format: String, Codable {
 
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
 ///
-/// An array of fill paints applied to the node
-///
 /// An array of stroke paints applied to the node
 ///
+/// An array of fill paints applied to the node
+///
 /// Paints applied to characters
-struct PaintElement: Codable {
+struct Paint: Codable {
     /// Solid color of the paint
-    let color: Olor?
+    let color: Color?
     /// This field contains three vectors, each of which are a position in
     /// normalized object space (normalized object space is if the top left
     /// corner of the bounding box of the object is (0, 0) and the bottom
@@ -375,11 +367,11 @@ struct PaintElement: Codable {
     /// the second position is the end of the gradient (value 1), and the
     /// third handle position determines the width of the gradient (only
     /// relevant for non-linear gradients).
-    let gradientHandlePositions: [Offset]?
+    let gradientHandlePositions: [Vector2D]?
     /// Positions of key points along the gradient axis with the colors
     /// anchored there. Colors along the gradient are interpolated smoothly
     /// between neighboring gradient stops.
-    let gradientStops: [ColorStopElement]?
+    let gradientStops: [ColorStop]?
     /// Overall opacity of paint (colors within the paint can also have opacity
     /// values which would blend with this)
     let opacity: Double
@@ -391,14 +383,14 @@ struct PaintElement: Codable {
     let visible: Bool
 }
 
-/// A position color pair representing a gradient stop
-///
 /// Positions of key points along the gradient axis with the colors
 /// anchored there. Colors along the gradient are interpolated smoothly
 /// between neighboring gradient stops.
-struct ColorStopElement: Codable {
+///
+/// A position color pair representing a gradient stop
+struct ColorStop: Codable {
     /// Color attached to corresponding position
-    let color: Olor
+    let color: Color
     /// Value between 0 and 1 representing position along gradient axis
     let position: Double
 }
@@ -443,61 +435,11 @@ enum NodeType: String, Codable {
     case vector = "VECTOR"
 }
 
-/// An RGBA color
-struct Color: Codable {
-    /// Alpha channel value, between 0 and 1
-    let a: Double
-    /// Blue channel value, between 0 and 1
-    let b: Double
-    /// Green channel value, between 0 and 1
-    let g: Double
-    /// Red channel value, between 0 and 1
-    let r: Double
-}
-
-/// A position color pair representing a gradient stop
-struct ColorStop: Codable {
-    /// Color attached to corresponding position
-    let color: Olor
-    /// Value between 0 and 1 representing position along gradient axis
-    let position: Double
-}
-
-/// Layout constraint relative to containing Frame
-struct LayoutConstraint: Codable {
-    /// Horizontal constraint as an enum
-    /// "LEFT": Node is laid out relative to left of the containing frame
-    /// "RIGHT": Node is laid out relative to right of the containing frame
-    /// "CENTER": Node is horizontally centered relative to containing frame
-    /// "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
-    /// (node stretches with frame)
-    /// "SCALE": Node scales horizontally with containing frame
-    let horizontal: Horizontal
-    /// Vertical constraint as an enum
-    /// "TOP": Node is laid out relative to top of the containing frame
-    /// "BOTTOM": Node is laid out relative to bottom of the containing frame
-    /// "CENTER": Node is vertically centered relative to containing frame
-    /// "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
-    /// (node stretches with frame)
-    /// "SCALE": Node scales vertically with containing frame
-    let vertical: Vertical
-}
-
-/// A description of a user
-struct User: Codable {
-    let handle, imgURL: String
-
-    enum CodingKeys: String, CodingKey {
-        case handle
-        case imgURL = "img_url"
-    }
-}
-
 /// A text box
 struct Text: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// Text contained within text box
     let characters: String
     /// Opacity of the node
@@ -512,14 +454,14 @@ struct Text: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Map from ID to TypeStyle for looking up style overrides
-    let styleOverrideTable: [Tyle]
+    let styleOverrideTable: [TypeStyle]
     /// Style of text including font family and weight (see type style
     /// section for more information)
-    let style: Tyle
+    let style: TypeStyle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -528,17 +470,17 @@ struct Text: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
     let id: String
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
+    let strokes: [Paint]
     /// Keep height and width constrained to same ratio
     let preserveRatio: Bool
     /// Array with same number of elements as characeters in text box,
@@ -548,13 +490,13 @@ struct Text: Codable {
     let characterStyleOverrides: [Double]
 }
 
-/// Metadata for character formatting
-///
 /// Map from ID to TypeStyle for looking up style overrides
+///
+/// Metadata for character formatting
 ///
 /// Style of text including font family and weight (see type style
 /// section for more information)
-struct Tyle: Codable {
+struct TypeStyle: Codable {
     /// Line height in px
     let lineHeightPx: Double
     /// PostScript font name
@@ -570,7 +512,7 @@ struct Tyle: Codable {
     /// Is text italicized?
     let italic: Bool
     /// Paints applied to characters
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Font family of text (standard name)
     let fontFamily: String
     /// Horizontal text alignment as string enum
@@ -598,16 +540,16 @@ enum TextAlignVertical: String, Codable {
 struct Frame: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
-    let layoutGrids: [LayoutGridElement]
+    let layoutGrids: [LayoutGrid]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
     let name: String
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -616,15 +558,15 @@ struct Frame: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Background color of the node
-    let backgroundColor: Olor
+    let backgroundColor: Color
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// Does this node clip content outside of its bounds?
     let clipsContent: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
@@ -666,19 +608,15 @@ struct Frame: Codable {
 ///
 /// A regular n-sided polygon
 ///
-/// A rectangle
-///
 /// Bounding box of the node in absolute space coordinates
+///
+/// A rectangle
 ///
 /// A text box
 ///
 /// A rectangular region of the canvas that can be exported
 ///
 /// A node that can have instances created of it that share the same properties
-///
-/// A mapping from node IDs to component metadata. This is to help you determine which
-/// components each instance comes from. Currently the only piece of metadata available on
-/// components is the name of the component, but more properties will be forthcoming.
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
@@ -702,30 +640,30 @@ struct DocumentElement: Codable {
     /// Background color of the canvas
     ///
     /// Background color of the node
-    let backgroundColor: Olor?
+    let backgroundColor: Color?
     /// An array of export settings representing images to export from the canvas
     ///
     /// An array of export settings representing images to export from node
     ///
     /// An array of export settings representing images to export from this node
-    let exportSettings: [ExportSettingElement]?
+    let exportSettings: [ExportSetting]?
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]?
+    let effects: [Effect]?
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
-    let layoutGrids: [LayoutGridElement]?
+    let layoutGrids: [LayoutGrid]?
     /// Opacity of the node
     let opacity: Double?
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox?
+    let absoluteBoundingBox: Rectangle?
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String?
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
     let blendMode: BlendMode?
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints?
+    let constraints: LayoutConstraint?
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool?
     /// Does this node clip content outside of its bounds?
@@ -740,18 +678,18 @@ struct DocumentElement: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double?
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]?
+    let fills: [Paint]?
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]?
+    let strokes: [Paint]?
     /// Radius of each corner of the rectangle
     let cornerRadius: Double?
     /// Text contained within text box
     let characters: String?
     /// Map from ID to TypeStyle for looking up style overrides
-    let styleOverrideTable: [Tyle]?
+    let styleOverrideTable: [TypeStyle]?
     /// Style of text including font family and weight (see type style
     /// section for more information)
-    let style: Tyle?
+    let style: TypeStyle?
     /// Array with same number of elements as characeters in text box,
     /// each element is a reference to the styleOverrideTable defined
     /// below and maps to the corresponding character in the characters
@@ -767,18 +705,18 @@ struct DocumentElement: Codable {
     }
 }
 
-/// Guides to align and place objects within a frame
-///
 /// An array of layout grids attached to this node (see layout grids section
 /// for more details). GROUP nodes do not have this attribute
-struct LayoutGridElement: Codable {
+///
+/// Guides to align and place objects within a frame
+struct LayoutGrid: Codable {
     /// Positioning of grid as a string enum
     /// "MIN": Grid starts at the left or top of the frame
     /// "MAX": Grid starts at the right or bottom of the frame
     /// "CENTER": Grid is center aligned
     let alignment: Alignment
     /// Color of the grid
-    let color: Olor
+    let color: Color
     /// Number of columns or rows
     let count: Double
     /// Spacing in between columns and rows
@@ -816,96 +754,12 @@ enum Pattern: String, Codable {
     case rows = "ROWS"
 }
 
-/// A rectangle
-struct Rectangle: Codable {
-    /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
-    let effects: [EffectElement]
-    /// Radius of each corner of the rectangle
-    let cornerRadius: Double
-    /// Opacity of the node
-    let opacity: Double
-    /// the name given to the node by the user in the tool.
-    let name: String
-    /// Where stroke is drawn relative to the vector outline as a string enum
-    /// "INSIDE": draw stroke inside the shape boundary
-    /// "OUTSIDE": draw stroke outside the shape boundary
-    /// "CENTER": draw stroke centered along the shape boundary
-    let strokeAlign: StrokeAlign
-    /// The weight of strokes on the node
-    let strokeWeight: Double
-    /// An array of fill paints applied to the node
-    let fills: [PaintElement]
-    /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
-    /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String
-    /// whether or not the node is visible on the canvas
-    let visible: Bool
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    let blendMode: BlendMode
-    /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
-    /// Does this node mask sibling nodes in front of it?
-    let isMask: Bool
-    /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
-    /// the type of the node, refer to table below for details
-    let type: NodeType
-    /// a string uniquely identifying this node within the document
-    let id: String
-    /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
-    /// Keep height and width constrained to same ratio
-    let preserveRatio: Bool
-}
-
-/// Guides to align and place objects within a frame
-struct LayoutGrid: Codable {
-    /// Positioning of grid as a string enum
-    /// "MIN": Grid starts at the left or top of the frame
-    /// "MAX": Grid starts at the right or bottom of the frame
-    /// "CENTER": Grid is center aligned
-    let alignment: Alignment
-    /// Color of the grid
-    let color: Olor
-    /// Number of columns or rows
-    let count: Double
-    /// Spacing in between columns and rows
-    let gutterSize: Double
-    /// Spacing before the first column or row
-    let offset: Double
-    /// Orientation of the grid as a string enum
-    /// "COLUMNS": Vertical grid
-    /// "ROWS": Horizontal grid
-    /// "GRID": Square grid
-    let pattern: Pattern
-    /// Width of column grid or height of row grid or square grid spacing
-    let sectionSize: Double
-    /// Is the grid currently visible?
-    let visible: Bool
-}
-
-/// A visual effect such as a shadow or blur
-struct Effect: Codable {
-    let blendMode: BlendMode?
-    let color: Olor?
-    let offset: Offset?
-    /// Radius of the blur effect (applies to shadows as well)
-    let radius: Double
-    /// Type of effect as a string enum
-    let type: EffectType
-    /// Is the effect active?
-    let visible: Bool
-}
-
 /// A rectangular region of the canvas that can be exported
 struct Slice: Codable {
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// An array of export settings representing images to export from this node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// a string uniquely identifying this node within the document
     let id: String
     /// the name given to the node by the user in the tool.
@@ -920,7 +774,7 @@ struct Slice: Codable {
 struct Star: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
@@ -933,9 +787,9 @@ struct Star: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -944,17 +798,17 @@ struct Star: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
     let id: String
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
+    let strokes: [Paint]
     /// Keep height and width constrained to same ratio
     let preserveRatio: Bool
 }
@@ -963,7 +817,7 @@ struct Star: Codable {
 struct Line: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
@@ -976,9 +830,9 @@ struct Line: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -987,17 +841,17 @@ struct Line: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
     let id: String
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
+    let strokes: [Paint]
     /// Keep height and width constrained to same ratio
     let preserveRatio: Bool
 }
@@ -1007,16 +861,16 @@ struct Line: Codable {
 struct Instance: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
-    let layoutGrids: [LayoutGridElement]
+    let layoutGrids: [LayoutGrid]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
     let name: String
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -1025,15 +879,15 @@ struct Instance: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Background color of the node
-    let backgroundColor: Olor
+    let backgroundColor: Color
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// Does this node clip content outside of its bounds?
     let clipsContent: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// ID of component that this instance came from, refers to components
     /// table (see endpoints section below)
     let componentID: String
@@ -1062,18 +916,18 @@ struct Instance: Codable {
 /// key String
 /// File to get comments from
 struct CommentsResponse: Codable {
-    let comments: [CommentElement]
+    let comments: [Comment]
 }
 
 /// A comment or reply left by a user
-struct CommentElement: Codable {
+struct Comment: Codable {
     /// (MISSING IN DOCS)
     /// The content of the comment
     let message: String
     /// Enables basic storage and retrieval of dates and times.
     let createdAt: String
     /// The user who left the comment
-    let user: CommentUser
+    let user: User
     /// Only set for top level comments. The number displayed with the
     /// comment in the UI
     let orderID: Double
@@ -1100,10 +954,6 @@ struct CommentElement: Codable {
     }
 }
 
-/// A 2d vector
-///
-/// 2d vector offset within the frame.
-///
 /// This field contains three vectors, each of which are a position in
 /// normalized object space (normalized object space is if the top left
 /// corner of the bounding box of the object is (0, 0) and the bottom
@@ -1112,6 +962,10 @@ struct CommentElement: Codable {
 /// the second position is the end of the gradient (value 1), and the
 /// third handle position determines the width of the gradient (only
 /// relevant for non-linear gradients).
+///
+/// A 2d vector
+///
+/// 2d vector offset within the frame.
 ///
 /// A relative offset within a frame
 struct ClientMeta: Codable {
@@ -1122,7 +976,7 @@ struct ClientMeta: Codable {
     /// Unique id specifying the frame.
     let nodeID: [String]?
     /// 2d vector offset within the frame.
-    let nodeOffset: Offset?
+    let nodeOffset: Vector2D?
 
     enum CodingKeys: String, CodingKey {
         case x, y
@@ -1131,10 +985,10 @@ struct ClientMeta: Codable {
     }
 }
 
-/// A description of a user
-///
 /// The user who left the comment
-struct CommentUser: Codable {
+///
+/// A description of a user
+struct User: Codable {
     let handle, imgURL: String
 
     enum CodingKeys: String, CodingKey {
@@ -1143,45 +997,11 @@ struct CommentUser: Codable {
     }
 }
 
-/// A 2d vector
-struct Vector2D: Codable {
-    /// X coordinate of the vector
-    let x: Double
-    /// Y coordinate of the vector
-    let y: Double
-}
-
-/// Metadata for character formatting
-struct TypeStyle: Codable {
-    /// Line height in px
-    let lineHeightPx: Double
-    /// PostScript font name
-    let fontPostScriptName: String
-    /// Numeric font weight
-    let fontWeight: Double
-    /// Line height as a percentage of normal line height
-    let lineHeightPercent: Double
-    /// Vertical text alignment as string enum
-    let textAlignVertical: TextAlignVertical
-    /// Font size in px
-    let fontSize: Double
-    /// Is text italicized?
-    let italic: Bool
-    /// Paints applied to characters
-    let fills: [PaintElement]
-    /// Font family of text (standard name)
-    let fontFamily: String
-    /// Horizontal text alignment as string enum
-    let textAlignHorizontal: TextAlignHorizontal
-    /// Space between characters in px
-    let letterSpacing: Double
-}
-
 /// A group that has a boolean operation applied to it
 struct BooleanGroup: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
@@ -1194,9 +1014,9 @@ struct BooleanGroup: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -1205,17 +1025,17 @@ struct BooleanGroup: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
     let id: String
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
+    let strokes: [Paint]
     /// Keep height and width constrained to same ratio
     let preserveRatio: Bool
     /// An array of nodes that are being boolean operated on
@@ -1225,11 +1045,11 @@ struct BooleanGroup: Codable {
 /// Represents a single page
 struct Canvas: Codable {
     /// Background color of the canvas
-    let backgroundColor: Olor
+    let backgroundColor: Color
     /// An array of top level layers on the canvas
     let children: [DocumentElement]
     /// An array of export settings representing images to export from the canvas
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// a string uniquely identifying this node within the document
     let id: String
     /// the name given to the node by the user in the tool.
@@ -1238,72 +1058,6 @@ struct Canvas: Codable {
     let type: NodeType
     /// whether or not the node is visible on the canvas
     let visible: Bool
-}
-
-/// Node Properties
-/// The root node
-struct Document: Codable {
-    /// An array of canvases attached to the document
-    let children: [DocumentElement]
-    /// a string uniquely identifying this node within the document
-    let id: String
-    /// the name given to the node by the user in the tool.
-    let name: String
-    /// the type of the node, refer to table below for details
-    let type: NodeType
-    /// whether or not the node is visible on the canvas
-    let visible: Bool
-}
-
-/// Format and size to export an asset at
-struct ExportSetting: Codable {
-    /// Constraint that determines sizing of exported asset
-    let constraint: ExportSettingConstraint
-    /// Image type, string enum
-    let format: Format
-    /// File suffix to append to all filenames
-    let suffix: String
-}
-
-/// A node that can have instances created of it that share the same properties
-struct Component: Codable {
-    /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
-    let effects: [EffectElement]
-    /// An array of layout grids attached to this node (see layout grids section
-    /// for more details). GROUP nodes do not have this attribute
-    let layoutGrids: [LayoutGridElement]
-    /// Opacity of the node
-    let opacity: Double
-    /// the name given to the node by the user in the tool.
-    let name: String
-    /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
-    /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String
-    /// whether or not the node is visible on the canvas
-    let visible: Bool
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    let blendMode: BlendMode
-    /// Background color of the node
-    let backgroundColor: Olor
-    /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
-    /// Does this node mask sibling nodes in front of it?
-    let isMask: Bool
-    /// Does this node clip content outside of its bounds?
-    let clipsContent: Bool
-    /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
-    /// the type of the node, refer to table below for details
-    let type: NodeType
-    /// a string uniquely identifying this node within the document
-    let id: String
-    /// Keep height and width constrained to same ratio
-    let preserveRatio: Bool
-    /// An array of nodes that are direct children of this node
-    let children: [DocumentElement]
 }
 
 /// GET /v1/files/:key
@@ -1327,38 +1081,26 @@ struct FileResponse: Codable {
     /// A mapping from node IDs to component metadata. This is to help you determine which
     /// components each instance comes from. Currently the only piece of metadata available on
     /// components is the name of the component, but more properties will be forthcoming.
-    let components: [String: ComponentValue]
+    let components: [String: Component]
     /// The root node within the document
-    let document: Ocument
+    let document: Document
     let schemaVersion: Double
 }
 
 /// A node that can have instances created of it that share the same properties
-///
-/// An array of nodes that are direct children of this node
-///
-/// An array of nodes that are being boolean operated on
-///
-/// An array of top level layers on the canvas
-///
-/// An array of canvases attached to the document
-///
-/// A mapping from node IDs to component metadata. This is to help you determine which
-/// components each instance comes from. Currently the only piece of metadata available on
-/// components is the name of the component, but more properties will be forthcoming.
-struct ComponentValue: Codable {
+struct Component: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
-    let layoutGrids: [LayoutGridElement]
+    let layoutGrids: [LayoutGrid]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
     let name: String
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -1367,15 +1109,15 @@ struct ComponentValue: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Background color of the node
-    let backgroundColor: Olor
+    let backgroundColor: Color
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// Does this node clip content outside of its bounds?
     let clipsContent: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
@@ -1389,16 +1131,8 @@ struct ComponentValue: Codable {
 /// Node Properties
 /// The root node
 ///
-/// An array of nodes that are direct children of this node
-///
-/// An array of canvases attached to the document
-///
-/// An array of top level layers on the canvas
-///
-/// An array of nodes that are being boolean operated on
-///
 /// The root node within the document
-struct Ocument: Codable {
+struct Document: Codable {
     /// An array of canvases attached to the document
     let children: [DocumentElement]
     /// a string uniquely identifying this node within the document
@@ -1411,50 +1145,11 @@ struct Ocument: Codable {
     let visible: Bool
 }
 
-/// Sizing constraint for exports
-struct Constraint: Codable {
-    /// Type of constraint to apply; string enum with potential values below
-    /// "SCALE": Scale by value
-    /// "WIDTH": Scale proportionally and set width to value
-    /// "HEIGHT": Scale proportionally and set height to value
-    let type: ConstraintType
-    /// See type property for effect of this field
-    let value: Double
-}
-
-/// A solid color, gradient, or image texture that can be applied as fills or strokes
-struct Paint: Codable {
-    /// Solid color of the paint
-    let color: Olor?
-    /// This field contains three vectors, each of which are a position in
-    /// normalized object space (normalized object space is if the top left
-    /// corner of the bounding box of the object is (0, 0) and the bottom
-    /// right is (1,1)). The first position corresponds to the start of the
-    /// gradient (value 0 for the purposes of calculating gradient stops),
-    /// the second position is the end of the gradient (value 1), and the
-    /// third handle position determines the width of the gradient (only
-    /// relevant for non-linear gradients).
-    let gradientHandlePositions: [Offset]?
-    /// Positions of key points along the gradient axis with the colors
-    /// anchored there. Colors along the gradient are interpolated smoothly
-    /// between neighboring gradient stops.
-    let gradientStops: [ColorStopElement]?
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    let opacity: Double
-    /// Image scaling mode
-    let scaleMode: String?
-    /// Type of paint as a string enum
-    let type: PaintType
-    /// Is the paint enabled?
-    let visible: Bool
-}
-
 /// A regular n-sided polygon
 struct RegularPolygon: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
@@ -1467,9 +1162,9 @@ struct RegularPolygon: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -1478,17 +1173,17 @@ struct RegularPolygon: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
     let id: String
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
+    let strokes: [Paint]
     /// Keep height and width constrained to same ratio
     let preserveRatio: Bool
 }
@@ -1497,7 +1192,7 @@ struct RegularPolygon: Codable {
 struct Ellipse: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
@@ -1510,9 +1205,9 @@ struct Ellipse: Codable {
     /// The weight of strokes on the node
     let strokeWeight: Double
     /// An array of fill paints applied to the node
-    let fills: [PaintElement]
+    let fills: [Paint]
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -1521,70 +1216,35 @@ struct Ellipse: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
     let id: String
     /// An array of stroke paints applied to the node
-    let strokes: [PaintElement]
+    let strokes: [Paint]
     /// Keep height and width constrained to same ratio
     let preserveRatio: Bool
-}
-
-/// A comment or reply left by a user
-struct Comment: Codable {
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    let message: String
-    /// Enables basic storage and retrieval of dates and times.
-    let createdAt: String
-    /// The user who left the comment
-    let user: CommentUser
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    let orderID: Double
-    /// If present, the id of the comment to which this is the reply
-    let parentID: String
-    let clientMeta: ClientMeta
-    /// Enables basic storage and retrieval of dates and times.
-    let resolvedAt: String
-    /// Unique identifier for comment
-    let id: String
-    /// The file in which the comment lives
-    let fileKey: String
-
-    enum CodingKeys: String, CodingKey {
-        case message
-        case createdAt = "created_at"
-        case user
-        case orderID = "order_id"
-        case parentID = "parent_id"
-        case clientMeta = "client_meta"
-        case resolvedAt = "resolved_at"
-        case id
-        case fileKey = "file_key"
-    }
 }
 
 /// A logical grouping of nodes
 struct Group: Codable {
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [EffectElement]
+    let effects: [Effect]
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
-    let layoutGrids: [LayoutGridElement]
+    let layoutGrids: [LayoutGrid]
     /// Opacity of the node
     let opacity: Double
     /// the name given to the node by the user in the tool.
     let name: String
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: AbsoluteBoundingBox
+    let absoluteBoundingBox: Rectangle
     /// Node ID of node to transition to in prototyping
     let transitionNodeID: String
     /// whether or not the node is visible on the canvas
@@ -1593,15 +1253,15 @@ struct Group: Codable {
     /// (see blend mode section for more details)
     let blendMode: BlendMode
     /// Background color of the node
-    let backgroundColor: Olor
+    let backgroundColor: Color
     /// Horizontal and vertical layout constraints for node
-    let constraints: Constraints
+    let constraints: LayoutConstraint
     /// Does this node mask sibling nodes in front of it?
     let isMask: Bool
     /// Does this node clip content outside of its bounds?
     let clipsContent: Bool
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSettingElement]
+    let exportSettings: [ExportSetting]
     /// the type of the node, refer to table below for details
     let type: NodeType
     /// a string uniquely identifying this node within the document
@@ -1639,9 +1299,9 @@ extension FrameOffset {
     }
 }
 
-extension Offset {
+extension Vector2D {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(Offset.self, from: data)
+        self = try JSONDecoder().decode(Vector2D.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1689,9 +1349,9 @@ extension Vector {
     }
 }
 
-extension AbsoluteBoundingBox {
+extension Rectangle {
     convenience init(data: Data) throws {
-        let me = try JSONDecoder().decode(AbsoluteBoundingBox.self, from: data)
+        let me = try JSONDecoder().decode(Rectangle.self, from: data)
         self.init(effects: me.effects, cornerRadius: me.cornerRadius, opacity: me.opacity, name: me.name, strokeAlign: me.strokeAlign, strokeWeight: me.strokeWeight, fills: me.fills, absoluteBoundingBox: me.absoluteBoundingBox, transitionNodeID: me.transitionNodeID, visible: me.visible, blendMode: me.blendMode, constraints: me.constraints, isMask: me.isMask, exportSettings: me.exportSettings, type: me.type, id: me.id, strokes: me.strokes, preserveRatio: me.preserveRatio)
     }
 
@@ -1715,9 +1375,9 @@ extension AbsoluteBoundingBox {
     }
 }
 
-extension Constraints {
+extension LayoutConstraint {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(Constraints.self, from: data)
+        self = try JSONDecoder().decode(LayoutConstraint.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1740,134 +1400,9 @@ extension Constraints {
     }
 }
 
-extension EffectElement {
+extension Effect {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(EffectElement.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Olor {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Olor.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension ExportSettingElement {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(ExportSettingElement.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension ExportSettingConstraint {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(ExportSettingConstraint.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension PaintElement {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(PaintElement.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension ColorStopElement {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(ColorStopElement.self, from: data)
+        self = try JSONDecoder().decode(Effect.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1915,59 +1450,84 @@ extension Color {
     }
 }
 
+extension ExportSetting {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(ExportSetting.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension Constraint {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(Constraint.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension Paint {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(Paint.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
 extension ColorStop {
     init(data: Data) throws {
         self = try JSONDecoder().decode(ColorStop.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension LayoutConstraint {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(LayoutConstraint.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension User {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(User.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2015,9 +1575,9 @@ extension Text {
     }
 }
 
-extension Tyle {
+extension TypeStyle {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(Tyle.self, from: data)
+        self = try JSONDecoder().decode(TypeStyle.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2090,84 +1650,9 @@ extension DocumentElement {
     }
 }
 
-extension LayoutGridElement {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(LayoutGridElement.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Rectangle {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Rectangle.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
 extension LayoutGrid {
     init(data: Data) throws {
         self = try JSONDecoder().decode(LayoutGrid.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Effect {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Effect.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2315,9 +1800,9 @@ extension CommentsResponse {
     }
 }
 
-extension CommentElement {
+extension Comment {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(CommentElement.self, from: data)
+        self = try JSONDecoder().decode(Comment.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2365,59 +1850,9 @@ extension ClientMeta {
     }
 }
 
-extension CommentUser {
+extension User {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(CommentUser.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Vector2D {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Vector2D.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension TypeStyle {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(TypeStyle.self, from: data)
+        self = try JSONDecoder().decode(User.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2490,34 +1925,9 @@ extension Canvas {
     }
 }
 
-extension Document {
+extension FileResponse {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(Document.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension ExportSetting {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(ExportSetting.self, from: data)
+        self = try JSONDecoder().decode(FileResponse.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2565,109 +1975,9 @@ extension Component {
     }
 }
 
-extension FileResponse {
+extension Document {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(FileResponse.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension ComponentValue {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(ComponentValue.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Ocument {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Ocument.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Constraint {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Constraint.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Paint {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Paint.self, from: data)
+        self = try JSONDecoder().decode(Document.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -2718,31 +2028,6 @@ extension RegularPolygon {
 extension Ellipse {
     init(data: Data) throws {
         self = try JSONDecoder().decode(Ellipse.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Comment {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Comment.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {

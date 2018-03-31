@@ -7,22 +7,22 @@ import com.fasterxml.jackson.annotation.*;
  * A vector network, consisting of vertices and edges
  */
 public class Vector {
-    private EffectElement[] effects;
+    private Effect[] effects;
     private double opacity;
     private String name;
     private StrokeAlign strokeAlign;
     private double strokeWeight;
-    private PaintElement[] fills;
-    private AbsoluteBoundingBox absoluteBoundingBox;
+    private Paint[] fills;
+    private Rectangle absoluteBoundingBox;
     private String transitionNodeID;
     private boolean visible;
     private BlendMode blendMode;
-    private Constraints constraints;
+    private LayoutConstraint constraints;
     private boolean isMask;
-    private ExportSettingElement[] exportSettings;
+    private ExportSetting[] exportSettings;
     private NodeType type;
     private String id;
-    private PaintElement[] strokes;
+    private Paint[] strokes;
     private boolean preserveRatio;
 
     /**
@@ -30,9 +30,9 @@ public class Vector {
      * (see effects sectionfor more details)
      */
     @JsonProperty("effects")
-    public EffectElement[] getEffects() { return effects; }
+    public Effect[] getEffects() { return effects; }
     @JsonProperty("effects")
-    public void setEffects(EffectElement[] value) { this.effects = value; }
+    public void setEffects(Effect[] value) { this.effects = value; }
 
     /**
      * Opacity of the node
@@ -73,17 +73,17 @@ public class Vector {
      * An array of fill paints applied to the node
      */
     @JsonProperty("fills")
-    public PaintElement[] getFills() { return fills; }
+    public Paint[] getFills() { return fills; }
     @JsonProperty("fills")
-    public void setFills(PaintElement[] value) { this.fills = value; }
+    public void setFills(Paint[] value) { this.fills = value; }
 
     /**
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
-    public AbsoluteBoundingBox getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(AbsoluteBoundingBox value) { this.absoluteBoundingBox = value; }
+    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
 
     /**
      * Node ID of node to transition to in prototyping
@@ -114,9 +114,9 @@ public class Vector {
      * Horizontal and vertical layout constraints for node
      */
     @JsonProperty("constraints")
-    public Constraints getConstraints() { return constraints; }
+    public LayoutConstraint getConstraints() { return constraints; }
     @JsonProperty("constraints")
-    public void setConstraints(Constraints value) { this.constraints = value; }
+    public void setConstraints(LayoutConstraint value) { this.constraints = value; }
 
     /**
      * Does this node mask sibling nodes in front of it?
@@ -130,9 +130,9 @@ public class Vector {
      * An array of export settings representing images to export from node
      */
     @JsonProperty("exportSettings")
-    public ExportSettingElement[] getExportSettings() { return exportSettings; }
+    public ExportSetting[] getExportSettings() { return exportSettings; }
     @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSettingElement[] value) { this.exportSettings = value; }
+    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
 
     /**
      * the type of the node, refer to table below for details
@@ -154,9 +154,9 @@ public class Vector {
      * An array of stroke paints applied to the node
      */
     @JsonProperty("strokes")
-    public PaintElement[] getStrokes() { return strokes; }
+    public Paint[] getStrokes() { return strokes; }
     @JsonProperty("strokes")
-    public void setStrokes(PaintElement[] value) { this.strokes = value; }
+    public void setStrokes(Paint[] value) { this.strokes = value; }
 
     /**
      * Keep height and width constrained to same ratio

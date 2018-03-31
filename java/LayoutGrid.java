@@ -4,11 +4,14 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
+ * An array of layout grids attached to this node (see layout grids section
+ * for more details). GROUP nodes do not have this attribute
+ *
  * Guides to align and place objects within a frame
  */
 public class LayoutGrid {
     private Alignment alignment;
-    private Olor color;
+    private Color color;
     private double count;
     private double gutterSize;
     private double offset;
@@ -31,9 +34,9 @@ public class LayoutGrid {
      * Color of the grid
      */
     @JsonProperty("color")
-    public Olor getColor() { return color; }
+    public Color getColor() { return color; }
     @JsonProperty("color")
-    public void setColor(Olor value) { this.color = value; }
+    public void setColor(Color value) { this.color = value; }
 
     /**
      * Number of columns or rows

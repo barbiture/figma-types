@@ -52,14 +52,10 @@ export type FrameOffset = {
     /**
      * 2d vector offset within the frame.
      */
-    node_offset: Offset;
+    node_offset: Vector2D;
 };
 
 /**
- * A 2d vector
- *
- * 2d vector offset within the frame.
- *
  * This field contains three vectors, each of which are a position in
  * normalized object space (normalized object space is if the top left
  * corner of the bounding box of the object is (0, 0) and the bottom
@@ -68,8 +64,12 @@ export type FrameOffset = {
  * the second position is the end of the gradient (value 1), and the
  * third handle position determines the width of the gradient (only
  * relevant for non-linear gradients).
+ *
+ * A 2d vector
+ *
+ * 2d vector offset within the frame.
  */
-export type Offset = {
+export type Vector2D = {
     /**
      * X coordinate of the vector
      */
@@ -88,7 +88,7 @@ export type Vector = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * Opacity of the node
      */
@@ -111,11 +111,11 @@ export type Vector = {
     /**
      * An array of fill paints applied to the node
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -132,7 +132,7 @@ export type Vector = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -140,7 +140,7 @@ export type Vector = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -152,7 +152,7 @@ export type Vector = {
     /**
      * An array of stroke paints applied to the node
      */
-    strokes: PaintElement[];
+    strokes: Paint[];
     /**
      * Keep height and width constrained to same ratio
      */
@@ -160,24 +160,16 @@ export type Vector = {
 };
 
 /**
- * A rectangle
- *
  * Bounding box of the node in absolute space coordinates
  *
- * An array of nodes that are being boolean operated on
- *
- * An array of nodes that are direct children of this node
- *
- * An array of top level layers on the canvas
- *
- * An array of canvases attached to the document
+ * A rectangle
  */
-export type AbsoluteBoundingBox = {
+export type Rectangle = {
     /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * Radius of each corner of the rectangle
      */
@@ -204,11 +196,11 @@ export type AbsoluteBoundingBox = {
     /**
      * An array of fill paints applied to the node
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -225,7 +217,7 @@ export type AbsoluteBoundingBox = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -233,7 +225,7 @@ export type AbsoluteBoundingBox = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -245,7 +237,7 @@ export type AbsoluteBoundingBox = {
     /**
      * An array of stroke paints applied to the node
      */
-    strokes: PaintElement[];
+    strokes: Paint[];
     /**
      * Keep height and width constrained to same ratio
      */
@@ -278,11 +270,11 @@ export type BlendMode =
     | "SOFT_LIGHT";
 
 /**
- * Layout constraint relative to containing Frame
- *
  * Horizontal and vertical layout constraints for node
+ *
+ * Layout constraint relative to containing Frame
  */
-export type Constraints = {
+export type LayoutConstraint = {
     /**
      * Horizontal constraint as an enum
      * "LEFT": Node is laid out relative to left of the containing frame
@@ -338,15 +330,15 @@ export type Vertical =
     | "TOP_BOTTOM";
 
 /**
- * A visual effect such as a shadow or blur
- *
  * An array of effects attached to this node
  * (see effects sectionfor more details)
+ *
+ * A visual effect such as a shadow or blur
  */
-export type EffectElement = {
+export type Effect = {
     blendMode?: BlendMode;
-    color?:     Olor;
-    offset?:    Offset;
+    color?:     Color;
+    offset?:    Vector2D;
     /**
      * Radius of the blur effect (applies to shadows as well)
      */
@@ -362,19 +354,19 @@ export type EffectElement = {
 };
 
 /**
- * An RGBA color
- *
  * Solid color of the paint
  *
- * Color attached to corresponding position
+ * An RGBA color
  *
  * Color of the grid
  *
  * Background color of the node
  *
+ * Color attached to corresponding position
+ *
  * Background color of the canvas
  */
-export type Olor = {
+export type Color = {
     /**
      * Alpha channel value, between 0 and 1
      */
@@ -403,19 +395,19 @@ export type EffectType =
     | "LAYER_BLUR";
 
 /**
- * Format and size to export an asset at
- *
  * An array of export settings representing images to export from node
  *
- * An array of export settings representing images to export from this node
+ * Format and size to export an asset at
  *
  * An array of export settings representing images to export from the canvas
+ *
+ * An array of export settings representing images to export from this node
  */
-export type ExportSettingElement = {
+export type ExportSetting = {
     /**
      * Constraint that determines sizing of exported asset
      */
-    constraint: ExportSettingConstraint;
+    constraint: Constraint;
     /**
      * Image type, string enum
      */
@@ -427,11 +419,11 @@ export type ExportSettingElement = {
 };
 
 /**
- * Sizing constraint for exports
- *
  * Constraint that determines sizing of exported asset
+ *
+ * Sizing constraint for exports
  */
-export type ExportSettingConstraint = {
+export type Constraint = {
     /**
      * Type of constraint to apply; string enum with potential values below
      * "SCALE": Scale by value
@@ -467,17 +459,17 @@ export type Format =
 /**
  * A solid color, gradient, or image texture that can be applied as fills or strokes
  *
- * An array of fill paints applied to the node
- *
  * An array of stroke paints applied to the node
+ *
+ * An array of fill paints applied to the node
  *
  * Paints applied to characters
  */
-export type PaintElement = {
+export type Paint = {
     /**
      * Solid color of the paint
      */
-    color?: Olor;
+    color?: Color;
     /**
      * This field contains three vectors, each of which are a position in
      * normalized object space (normalized object space is if the top left
@@ -488,13 +480,13 @@ export type PaintElement = {
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
      */
-    gradientHandlePositions?: Offset[];
+    gradientHandlePositions?: Vector2D[];
     /**
      * Positions of key points along the gradient axis with the colors
      * anchored there. Colors along the gradient are interpolated smoothly
      * between neighboring gradient stops.
      */
-    gradientStops?: ColorStopElement[];
+    gradientStops?: ColorStop[];
     /**
      * Overall opacity of paint (colors within the paint can also have opacity
      * values which would blend with this)
@@ -515,17 +507,17 @@ export type PaintElement = {
 };
 
 /**
- * A position color pair representing a gradient stop
- *
  * Positions of key points along the gradient axis with the colors
  * anchored there. Colors along the gradient are interpolated smoothly
  * between neighboring gradient stops.
+ *
+ * A position color pair representing a gradient stop
  */
-export type ColorStopElement = {
+export type ColorStop = {
     /**
      * Color attached to corresponding position
      */
-    color: Olor;
+    color: Color;
     /**
      * Value between 0 and 1 representing position along gradient axis
      */
@@ -576,76 +568,6 @@ export type NodeType =
     | "VECTOR";
 
 /**
- * An RGBA color
- */
-export type Color = {
-    /**
-     * Alpha channel value, between 0 and 1
-     */
-    a: number;
-    /**
-     * Blue channel value, between 0 and 1
-     */
-    b: number;
-    /**
-     * Green channel value, between 0 and 1
-     */
-    g: number;
-    /**
-     * Red channel value, between 0 and 1
-     */
-    r: number;
-};
-
-/**
- * A position color pair representing a gradient stop
- */
-export type ColorStop = {
-    /**
-     * Color attached to corresponding position
-     */
-    color: Olor;
-    /**
-     * Value between 0 and 1 representing position along gradient axis
-     */
-    position: number;
-};
-
-/**
- * Layout constraint relative to containing Frame
- */
-export type LayoutConstraint = {
-    /**
-     * Horizontal constraint as an enum
-     * "LEFT": Node is laid out relative to left of the containing frame
-     * "RIGHT": Node is laid out relative to right of the containing frame
-     * "CENTER": Node is horizontally centered relative to containing frame
-     * "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
-     * (node stretches with frame)
-     * "SCALE": Node scales horizontally with containing frame
-     */
-    horizontal: Horizontal;
-    /**
-     * Vertical constraint as an enum
-     * "TOP": Node is laid out relative to top of the containing frame
-     * "BOTTOM": Node is laid out relative to bottom of the containing frame
-     * "CENTER": Node is vertically centered relative to containing frame
-     * "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
-     * (node stretches with frame)
-     * "SCALE": Node scales vertically with containing frame
-     */
-    vertical: Vertical;
-};
-
-/**
- * A description of a user
- */
-export type User = {
-    handle:  string;
-    img_url: string;
-};
-
-/**
  * A text box
  */
 export type Text = {
@@ -653,7 +575,7 @@ export type Text = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * Text contained within text box
      */
@@ -680,20 +602,20 @@ export type Text = {
     /**
      * An array of fill paints applied to the node
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Map from ID to TypeStyle for looking up style overrides
      */
-    styleOverrideTable: Tyle[];
+    styleOverrideTable: TypeStyle[];
     /**
      * Style of text including font family and weight (see type style
      * section for more information)
      */
-    style: Tyle;
+    style: TypeStyle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -710,7 +632,7 @@ export type Text = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -718,7 +640,7 @@ export type Text = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -730,7 +652,7 @@ export type Text = {
     /**
      * An array of stroke paints applied to the node
      */
-    strokes: PaintElement[];
+    strokes: Paint[];
     /**
      * Keep height and width constrained to same ratio
      */
@@ -745,14 +667,14 @@ export type Text = {
 };
 
 /**
- * Metadata for character formatting
- *
  * Map from ID to TypeStyle for looking up style overrides
+ *
+ * Metadata for character formatting
  *
  * Style of text including font family and weight (see type style
  * section for more information)
  */
-export type Tyle = {
+export type TypeStyle = {
     /**
      * Line height in px
      */
@@ -784,7 +706,7 @@ export type Tyle = {
     /**
      * Paints applied to characters
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Font family of text (standard name)
      */
@@ -824,12 +746,12 @@ export type Frame = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids: LayoutGridElement[];
+    layoutGrids: LayoutGrid[];
     /**
      * Opacity of the node
      */
@@ -841,7 +763,7 @@ export type Frame = {
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -858,11 +780,11 @@ export type Frame = {
     /**
      * Background color of the node
      */
-    backgroundColor: Olor;
+    backgroundColor: Color;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -874,7 +796,7 @@ export type Frame = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -925,19 +847,15 @@ export type Frame = {
  *
  * A regular n-sided polygon
  *
- * A rectangle
- *
  * Bounding box of the node in absolute space coordinates
+ *
+ * A rectangle
  *
  * A text box
  *
  * A rectangular region of the canvas that can be exported
  *
  * A node that can have instances created of it that share the same properties
- *
- * A mapping from node IDs to component metadata. This is to help you determine which
- * components each instance comes from. Currently the only piece of metadata available on
- * components is the name of the component, but more properties will be forthcoming.
  *
  * An instance of a component, changes to the component result in the same
  * changes applied to the instance
@@ -974,7 +892,7 @@ export type DocumentElement = {
      *
      * Background color of the node
      */
-    backgroundColor?: Olor;
+    backgroundColor?: Color;
     /**
      * An array of export settings representing images to export from the canvas
      *
@@ -982,17 +900,17 @@ export type DocumentElement = {
      *
      * An array of export settings representing images to export from this node
      */
-    exportSettings?: ExportSettingElement[];
+    exportSettings?: ExportSetting[];
     /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects?: EffectElement[];
+    effects?: Effect[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids?: LayoutGridElement[];
+    layoutGrids?: LayoutGrid[];
     /**
      * Opacity of the node
      */
@@ -1000,7 +918,7 @@ export type DocumentElement = {
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
+    absoluteBoundingBox?: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -1013,7 +931,7 @@ export type DocumentElement = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints?: Constraints;
+    constraints?: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -1040,11 +958,11 @@ export type DocumentElement = {
     /**
      * An array of fill paints applied to the node
      */
-    fills?: PaintElement[];
+    fills?: Paint[];
     /**
      * An array of stroke paints applied to the node
      */
-    strokes?: PaintElement[];
+    strokes?: Paint[];
     /**
      * Radius of each corner of the rectangle
      */
@@ -1056,12 +974,12 @@ export type DocumentElement = {
     /**
      * Map from ID to TypeStyle for looking up style overrides
      */
-    styleOverrideTable?: Tyle[];
+    styleOverrideTable?: TypeStyle[];
     /**
      * Style of text including font family and weight (see type style
      * section for more information)
      */
-    style?: Tyle;
+    style?: TypeStyle;
     /**
      * Array with same number of elements as characeters in text box,
      * each element is a reference to the styleOverrideTable defined
@@ -1077,12 +995,12 @@ export type DocumentElement = {
 };
 
 /**
- * Guides to align and place objects within a frame
- *
  * An array of layout grids attached to this node (see layout grids section
  * for more details). GROUP nodes do not have this attribute
+ *
+ * Guides to align and place objects within a frame
  */
-export type LayoutGridElement = {
+export type LayoutGrid = {
     /**
      * Positioning of grid as a string enum
      * "MIN": Grid starts at the left or top of the frame
@@ -1093,7 +1011,7 @@ export type LayoutGridElement = {
     /**
      * Color of the grid
      */
-    color: Olor;
+    color: Color;
     /**
      * Number of columns or rows
      */
@@ -1146,165 +1064,17 @@ export type Pattern =
     | "ROWS";
 
 /**
- * A rectangle
- */
-export type Rectangle = {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: EffectElement[];
-    /**
-     * Radius of each corner of the rectangle
-     */
-    cornerRadius: number;
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    strokeAlign: StrokeAlign;
-    /**
-     * The weight of strokes on the node
-     */
-    strokeWeight: number;
-    /**
-     * An array of fill paints applied to the node
-     */
-    fills: PaintElement[];
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: AbsoluteBoundingBox;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: Constraints;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSettingElement[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * An array of stroke paints applied to the node
-     */
-    strokes: PaintElement[];
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-};
-
-/**
- * Guides to align and place objects within a frame
- */
-export type LayoutGrid = {
-    /**
-     * Positioning of grid as a string enum
-     * "MIN": Grid starts at the left or top of the frame
-     * "MAX": Grid starts at the right or bottom of the frame
-     * "CENTER": Grid is center aligned
-     */
-    alignment: Alignment;
-    /**
-     * Color of the grid
-     */
-    color: Olor;
-    /**
-     * Number of columns or rows
-     */
-    count: number;
-    /**
-     * Spacing in between columns and rows
-     */
-    gutterSize: number;
-    /**
-     * Spacing before the first column or row
-     */
-    offset: number;
-    /**
-     * Orientation of the grid as a string enum
-     * "COLUMNS": Vertical grid
-     * "ROWS": Horizontal grid
-     * "GRID": Square grid
-     */
-    pattern: Pattern;
-    /**
-     * Width of column grid or height of row grid or square grid spacing
-     */
-    sectionSize: number;
-    /**
-     * Is the grid currently visible?
-     */
-    visible: boolean;
-};
-
-/**
- * A visual effect such as a shadow or blur
- */
-export type Effect = {
-    blendMode?: BlendMode;
-    color?:     Olor;
-    offset?:    Offset;
-    /**
-     * Radius of the blur effect (applies to shadows as well)
-     */
-    radius: number;
-    /**
-     * Type of effect as a string enum
-     */
-    type: EffectType;
-    /**
-     * Is the effect active?
-     */
-    visible: boolean;
-};
-
-/**
  * A rectangular region of the canvas that can be exported
  */
 export type Slice = {
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * An array of export settings representing images to export from this node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * a string uniquely identifying this node within the document
      */
@@ -1331,7 +1101,7 @@ export type Star = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * Opacity of the node
      */
@@ -1354,11 +1124,11 @@ export type Star = {
     /**
      * An array of fill paints applied to the node
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -1375,7 +1145,7 @@ export type Star = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -1383,7 +1153,7 @@ export type Star = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -1395,7 +1165,7 @@ export type Star = {
     /**
      * An array of stroke paints applied to the node
      */
-    strokes: PaintElement[];
+    strokes: Paint[];
     /**
      * Keep height and width constrained to same ratio
      */
@@ -1410,7 +1180,7 @@ export type Line = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * Opacity of the node
      */
@@ -1433,11 +1203,11 @@ export type Line = {
     /**
      * An array of fill paints applied to the node
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -1454,7 +1224,7 @@ export type Line = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -1462,7 +1232,7 @@ export type Line = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -1474,7 +1244,7 @@ export type Line = {
     /**
      * An array of stroke paints applied to the node
      */
-    strokes: PaintElement[];
+    strokes: Paint[];
     /**
      * Keep height and width constrained to same ratio
      */
@@ -1490,12 +1260,12 @@ export type Instance = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids: LayoutGridElement[];
+    layoutGrids: LayoutGrid[];
     /**
      * Opacity of the node
      */
@@ -1507,7 +1277,7 @@ export type Instance = {
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -1524,11 +1294,11 @@ export type Instance = {
     /**
      * Background color of the node
      */
-    backgroundColor: Olor;
+    backgroundColor: Color;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -1540,7 +1310,7 @@ export type Instance = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * ID of component that this instance came from, refers to components
      * table (see endpoints section below)
@@ -1575,13 +1345,13 @@ export type Instance = {
  * File to get comments from
  */
 export type CommentsResponse = {
-    comments: CommentElement[];
+    comments: Comment[];
 };
 
 /**
  * A comment or reply left by a user
  */
-export type CommentElement = {
+export type Comment = {
     /**
      * (MISSING IN DOCS)
      * The content of the comment
@@ -1594,7 +1364,7 @@ export type CommentElement = {
     /**
      * The user who left the comment
      */
-    user: CommentUser;
+    user: User;
     /**
      * Only set for top level comments. The number displayed with the
      * comment in the UI
@@ -1620,10 +1390,6 @@ export type CommentElement = {
 };
 
 /**
- * A 2d vector
- *
- * 2d vector offset within the frame.
- *
  * This field contains three vectors, each of which are a position in
  * normalized object space (normalized object space is if the top left
  * corner of the bounding box of the object is (0, 0) and the bottom
@@ -1632,6 +1398,10 @@ export type CommentElement = {
  * the second position is the end of the gradient (value 1), and the
  * third handle position determines the width of the gradient (only
  * relevant for non-linear gradients).
+ *
+ * A 2d vector
+ *
+ * 2d vector offset within the frame.
  *
  * A relative offset within a frame
  */
@@ -1651,81 +1421,17 @@ export type ClientMeta = {
     /**
      * 2d vector offset within the frame.
      */
-    node_offset?: Offset;
+    node_offset?: Vector2D;
 };
 
 /**
- * A description of a user
- *
  * The user who left the comment
+ *
+ * A description of a user
  */
-export type CommentUser = {
+export type User = {
     handle:  string;
     img_url: string;
-};
-
-/**
- * A 2d vector
- */
-export type Vector2D = {
-    /**
-     * X coordinate of the vector
-     */
-    x: number;
-    /**
-     * Y coordinate of the vector
-     */
-    y: number;
-};
-
-/**
- * Metadata for character formatting
- */
-export type TypeStyle = {
-    /**
-     * Line height in px
-     */
-    lineHeightPx: number;
-    /**
-     * PostScript font name
-     */
-    fontPostScriptName: string;
-    /**
-     * Numeric font weight
-     */
-    fontWeight: number;
-    /**
-     * Line height as a percentage of normal line height
-     */
-    lineHeightPercent: number;
-    /**
-     * Vertical text alignment as string enum
-     */
-    textAlignVertical: TextAlignVertical;
-    /**
-     * Font size in px
-     */
-    fontSize: number;
-    /**
-     * Is text italicized?
-     */
-    italic: boolean;
-    /**
-     * Paints applied to characters
-     */
-    fills: PaintElement[];
-    /**
-     * Font family of text (standard name)
-     */
-    fontFamily: string;
-    /**
-     * Horizontal text alignment as string enum
-     */
-    textAlignHorizontal: TextAlignHorizontal;
-    /**
-     * Space between characters in px
-     */
-    letterSpacing: number;
 };
 
 /**
@@ -1736,7 +1442,7 @@ export type BooleanGroup = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * Opacity of the node
      */
@@ -1759,11 +1465,11 @@ export type BooleanGroup = {
     /**
      * An array of fill paints applied to the node
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -1780,7 +1486,7 @@ export type BooleanGroup = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -1788,7 +1494,7 @@ export type BooleanGroup = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -1800,7 +1506,7 @@ export type BooleanGroup = {
     /**
      * An array of stroke paints applied to the node
      */
-    strokes: PaintElement[];
+    strokes: Paint[];
     /**
      * Keep height and width constrained to same ratio
      */
@@ -1818,7 +1524,7 @@ export type Canvas = {
     /**
      * Background color of the canvas
      */
-    backgroundColor: Olor;
+    backgroundColor: Color;
     /**
      * An array of top level layers on the canvas
      */
@@ -1826,7 +1532,7 @@ export type Canvas = {
     /**
      * An array of export settings representing images to export from the canvas
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * a string uniquely identifying this node within the document
      */
@@ -1843,128 +1549,6 @@ export type Canvas = {
      * whether or not the node is visible on the canvas
      */
     visible: boolean;
-};
-
-/**
- * Node Properties
- * The root node
- */
-export type Document = {
-    /**
-     * An array of canvases attached to the document
-     */
-    children: DocumentElement[];
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-};
-
-/**
- * Format and size to export an asset at
- */
-export type ExportSetting = {
-    /**
-     * Constraint that determines sizing of exported asset
-     */
-    constraint: ExportSettingConstraint;
-    /**
-     * Image type, string enum
-     */
-    format: Format;
-    /**
-     * File suffix to append to all filenames
-     */
-    suffix: string;
-};
-
-/**
- * A node that can have instances created of it that share the same properties
- */
-export type Component = {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: EffectElement[];
-    /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
-     */
-    layoutGrids: LayoutGridElement[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: AbsoluteBoundingBox;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Background color of the node
-     */
-    backgroundColor: Olor;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: Constraints;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    clipsContent: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSettingElement[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-    /**
-     * An array of nodes that are direct children of this node
-     */
-    children: DocumentElement[];
 };
 
 /**
@@ -1992,40 +1576,28 @@ export type FileResponse = {
      * components each instance comes from. Currently the only piece of metadata available on
      * components is the name of the component, but more properties will be forthcoming.
      */
-    components: { [key: string]: ComponentValue };
+    components: { [key: string]: Component };
     /**
      * The root node within the document
      */
-    document:      Ocument;
+    document:      Document;
     schemaVersion: number;
 };
 
 /**
  * A node that can have instances created of it that share the same properties
- *
- * An array of nodes that are direct children of this node
- *
- * An array of nodes that are being boolean operated on
- *
- * An array of top level layers on the canvas
- *
- * An array of canvases attached to the document
- *
- * A mapping from node IDs to component metadata. This is to help you determine which
- * components each instance comes from. Currently the only piece of metadata available on
- * components is the name of the component, but more properties will be forthcoming.
  */
-export type ComponentValue = {
+export type Component = {
     /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids: LayoutGridElement[];
+    layoutGrids: LayoutGrid[];
     /**
      * Opacity of the node
      */
@@ -2037,7 +1609,7 @@ export type ComponentValue = {
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -2054,11 +1626,11 @@ export type ComponentValue = {
     /**
      * Background color of the node
      */
-    backgroundColor: Olor;
+    backgroundColor: Color;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -2070,7 +1642,7 @@ export type ComponentValue = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -2093,17 +1665,9 @@ export type ComponentValue = {
  * Node Properties
  * The root node
  *
- * An array of nodes that are direct children of this node
- *
- * An array of canvases attached to the document
- *
- * An array of top level layers on the canvas
- *
- * An array of nodes that are being boolean operated on
- *
  * The root node within the document
  */
-export type Ocument = {
+export type Document = {
     /**
      * An array of canvases attached to the document
      */
@@ -2127,67 +1691,6 @@ export type Ocument = {
 };
 
 /**
- * Sizing constraint for exports
- */
-export type Constraint = {
-    /**
-     * Type of constraint to apply; string enum with potential values below
-     * "SCALE": Scale by value
-     * "WIDTH": Scale proportionally and set width to value
-     * "HEIGHT": Scale proportionally and set height to value
-     */
-    type: ConstraintType;
-    /**
-     * See type property for effect of this field
-     */
-    value: number;
-};
-
-/**
- * A solid color, gradient, or image texture that can be applied as fills or strokes
- */
-export type Paint = {
-    /**
-     * Solid color of the paint
-     */
-    color?: Olor;
-    /**
-     * This field contains three vectors, each of which are a position in
-     * normalized object space (normalized object space is if the top left
-     * corner of the bounding box of the object is (0, 0) and the bottom
-     * right is (1,1)). The first position corresponds to the start of the
-     * gradient (value 0 for the purposes of calculating gradient stops),
-     * the second position is the end of the gradient (value 1), and the
-     * third handle position determines the width of the gradient (only
-     * relevant for non-linear gradients).
-     */
-    gradientHandlePositions?: Offset[];
-    /**
-     * Positions of key points along the gradient axis with the colors
-     * anchored there. Colors along the gradient are interpolated smoothly
-     * between neighboring gradient stops.
-     */
-    gradientStops?: ColorStopElement[];
-    /**
-     * Overall opacity of paint (colors within the paint can also have opacity
-     * values which would blend with this)
-     */
-    opacity: number;
-    /**
-     * Image scaling mode
-     */
-    scaleMode?: string;
-    /**
-     * Type of paint as a string enum
-     */
-    type: PaintType;
-    /**
-     * Is the paint enabled?
-     */
-    visible: boolean;
-};
-
-/**
  * A regular n-sided polygon
  */
 export type RegularPolygon = {
@@ -2195,7 +1698,7 @@ export type RegularPolygon = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * Opacity of the node
      */
@@ -2218,11 +1721,11 @@ export type RegularPolygon = {
     /**
      * An array of fill paints applied to the node
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -2239,7 +1742,7 @@ export type RegularPolygon = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -2247,7 +1750,7 @@ export type RegularPolygon = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -2259,7 +1762,7 @@ export type RegularPolygon = {
     /**
      * An array of stroke paints applied to the node
      */
-    strokes: PaintElement[];
+    strokes: Paint[];
     /**
      * Keep height and width constrained to same ratio
      */
@@ -2274,7 +1777,7 @@ export type Ellipse = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * Opacity of the node
      */
@@ -2297,11 +1800,11 @@ export type Ellipse = {
     /**
      * An array of fill paints applied to the node
      */
-    fills: PaintElement[];
+    fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -2318,7 +1821,7 @@ export type Ellipse = {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -2326,7 +1829,7 @@ export type Ellipse = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -2338,52 +1841,11 @@ export type Ellipse = {
     /**
      * An array of stroke paints applied to the node
      */
-    strokes: PaintElement[];
+    strokes: Paint[];
     /**
      * Keep height and width constrained to same ratio
      */
     preserveRatio: boolean;
-};
-
-/**
- * A comment or reply left by a user
- */
-export type Comment = {
-    /**
-     * (MISSING IN DOCS)
-     * The content of the comment
-     */
-    message: string;
-    /**
-     * Enables basic storage and retrieval of dates and times.
-     */
-    created_at: string;
-    /**
-     * The user who left the comment
-     */
-    user: CommentUser;
-    /**
-     * Only set for top level comments. The number displayed with the
-     * comment in the UI
-     */
-    order_id: number;
-    /**
-     * If present, the id of the comment to which this is the reply
-     */
-    parent_id:   string;
-    client_meta: ClientMeta;
-    /**
-     * Enables basic storage and retrieval of dates and times.
-     */
-    resolved_at: string;
-    /**
-     * Unique identifier for comment
-     */
-    id: string;
-    /**
-     * The file in which the comment lives
-     */
-    file_key: string;
 };
 
 /**
@@ -2394,12 +1856,12 @@ export type Group = {
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
-    effects: EffectElement[];
+    effects: Effect[];
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
      */
-    layoutGrids: LayoutGridElement[];
+    layoutGrids: LayoutGrid[];
     /**
      * Opacity of the node
      */
@@ -2411,7 +1873,7 @@ export type Group = {
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -2428,11 +1890,11 @@ export type Group = {
     /**
      * Background color of the node
      */
-    backgroundColor: Olor;
+    backgroundColor: Color;
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -2444,7 +1906,7 @@ export type Group = {
     /**
      * An array of export settings representing images to export from node
      */
-    exportSettings: ExportSettingElement[];
+    exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
@@ -2809,90 +2271,62 @@ function o(className: string) {
 const typeMap: any = {
     "FrameOffset": {
         node_id: a(""),
-        node_offset: o("Offset"),
+        node_offset: o("Vector2D"),
     },
-    "Offset": {
+    "Vector2D": {
         x: 3.14,
         y: 3.14,
     },
     "Vector": {
-        effects: a(o("EffectElement")),
+        effects: a(o("Effect")),
         opacity: 3.14,
         name: "",
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        fills: a(o("Paint")),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
-        strokes: a(o("PaintElement")),
+        strokes: a(o("Paint")),
         preserveRatio: false,
     },
-    "AbsoluteBoundingBox": {
-        effects: a(o("EffectElement")),
+    "Rectangle": {
+        effects: a(o("Effect")),
         cornerRadius: 3.14,
         opacity: 3.14,
         name: "",
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        fills: a(o("Paint")),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
-        strokes: a(o("PaintElement")),
+        strokes: a(o("Paint")),
         preserveRatio: false,
     },
-    "Constraints": {
+    "LayoutConstraint": {
         horizontal: e("Horizontal"),
         vertical: e("Vertical"),
     },
-    "EffectElement": {
+    "Effect": {
         blendMode: u(null, e("BlendMode")),
-        color: u(null, o("Olor")),
-        offset: u(null, o("Offset")),
+        color: u(null, o("Color")),
+        offset: u(null, o("Vector2D")),
         radius: 3.14,
         type: e("EffectType"),
         visible: false,
-    },
-    "Olor": {
-        a: 3.14,
-        b: 3.14,
-        g: 3.14,
-        r: 3.14,
-    },
-    "ExportSettingElement": {
-        constraint: o("ExportSettingConstraint"),
-        format: e("Format"),
-        suffix: "",
-    },
-    "ExportSettingConstraint": {
-        type: e("ConstraintType"),
-        value: 3.14,
-    },
-    "PaintElement": {
-        color: u(null, o("Olor")),
-        gradientHandlePositions: u(null, a(o("Offset"))),
-        gradientStops: u(null, a(o("ColorStopElement"))),
-        opacity: 3.14,
-        scaleMode: u(null, ""),
-        type: e("PaintType"),
-        visible: false,
-    },
-    "ColorStopElement": {
-        color: o("Olor"),
-        position: 3.14,
     },
     "Color": {
         a: 3.14,
@@ -2900,42 +2334,52 @@ const typeMap: any = {
         g: 3.14,
         r: 3.14,
     },
+    "ExportSetting": {
+        constraint: o("Constraint"),
+        format: e("Format"),
+        suffix: "",
+    },
+    "Constraint": {
+        type: e("ConstraintType"),
+        value: 3.14,
+    },
+    "Paint": {
+        color: u(null, o("Color")),
+        gradientHandlePositions: u(null, a(o("Vector2D"))),
+        gradientStops: u(null, a(o("ColorStop"))),
+        opacity: 3.14,
+        scaleMode: u(null, ""),
+        type: e("PaintType"),
+        visible: false,
+    },
     "ColorStop": {
-        color: o("Olor"),
+        color: o("Color"),
         position: 3.14,
     },
-    "LayoutConstraint": {
-        horizontal: e("Horizontal"),
-        vertical: e("Vertical"),
-    },
-    "User": {
-        handle: "",
-        img_url: "",
-    },
     "Text": {
-        effects: a(o("EffectElement")),
+        effects: a(o("Effect")),
         characters: "",
         opacity: 3.14,
         name: "",
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
-        styleOverrideTable: a(o("Tyle")),
-        style: o("Tyle"),
+        fills: a(o("Paint")),
+        absoluteBoundingBox: o("Rectangle"),
+        styleOverrideTable: a(o("TypeStyle")),
+        style: o("TypeStyle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
-        strokes: a(o("PaintElement")),
+        strokes: a(o("Paint")),
         preserveRatio: false,
         characterStyleOverrides: a(3.14),
     },
-    "Tyle": {
+    "TypeStyle": {
         lineHeightPx: 3.14,
         fontPostScriptName: "",
         fontWeight: 3.14,
@@ -2943,25 +2387,25 @@ const typeMap: any = {
         textAlignVertical: e("TextAlignVertical"),
         fontSize: 3.14,
         italic: false,
-        fills: a(o("PaintElement")),
+        fills: a(o("Paint")),
         fontFamily: "",
         textAlignHorizontal: e("TextAlignHorizontal"),
         letterSpacing: 3.14,
     },
     "Frame": {
-        effects: a(o("EffectElement")),
-        layoutGrids: a(o("LayoutGridElement")),
+        effects: a(o("Effect")),
+        layoutGrids: a(o("LayoutGrid")),
         opacity: 3.14,
         name: "",
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        backgroundColor: o("Olor"),
-        constraints: o("Constraints"),
+        backgroundColor: o("Color"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
         clipsContent: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
         preserveRatio: false,
@@ -2973,137 +2417,99 @@ const typeMap: any = {
         name: "",
         type: e("NodeType"),
         visible: false,
-        backgroundColor: u(null, o("Olor")),
-        exportSettings: u(null, a(o("ExportSettingElement"))),
-        effects: u(null, a(o("EffectElement"))),
-        layoutGrids: u(null, a(o("LayoutGridElement"))),
+        backgroundColor: u(null, o("Color")),
+        exportSettings: u(null, a(o("ExportSetting"))),
+        effects: u(null, a(o("Effect"))),
+        layoutGrids: u(null, a(o("LayoutGrid"))),
         opacity: u(null, 3.14),
-        absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
+        absoluteBoundingBox: u(null, o("Rectangle")),
         transitionNodeID: u(null, ""),
         blendMode: u(null, e("BlendMode")),
-        constraints: u(null, o("Constraints")),
+        constraints: u(null, o("LayoutConstraint")),
         isMask: u(null, false),
         clipsContent: u(null, false),
         preserveRatio: u(null, false),
         strokeAlign: u(null, e("StrokeAlign")),
         strokeWeight: u(null, 3.14),
-        fills: u(null, a(o("PaintElement"))),
-        strokes: u(null, a(o("PaintElement"))),
+        fills: u(null, a(o("Paint"))),
+        strokes: u(null, a(o("Paint"))),
         cornerRadius: u(null, 3.14),
         characters: u(null, ""),
-        styleOverrideTable: u(null, a(o("Tyle"))),
-        style: u(null, o("Tyle")),
+        styleOverrideTable: u(null, a(o("TypeStyle"))),
+        style: u(null, o("TypeStyle")),
         characterStyleOverrides: u(null, a(3.14)),
         componentId: u(null, ""),
     },
-    "LayoutGridElement": {
-        alignment: e("Alignment"),
-        color: o("Olor"),
-        count: 3.14,
-        gutterSize: 3.14,
-        offset: 3.14,
-        pattern: e("Pattern"),
-        sectionSize: 3.14,
-        visible: false,
-    },
-    "Rectangle": {
-        effects: a(o("EffectElement")),
-        cornerRadius: 3.14,
-        opacity: 3.14,
-        name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
-        isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
-        type: e("NodeType"),
-        id: "",
-        strokes: a(o("PaintElement")),
-        preserveRatio: false,
-    },
     "LayoutGrid": {
         alignment: e("Alignment"),
-        color: o("Olor"),
+        color: o("Color"),
         count: 3.14,
         gutterSize: 3.14,
         offset: 3.14,
         pattern: e("Pattern"),
         sectionSize: 3.14,
-        visible: false,
-    },
-    "Effect": {
-        blendMode: u(null, e("BlendMode")),
-        color: u(null, o("Olor")),
-        offset: u(null, o("Offset")),
-        radius: 3.14,
-        type: e("EffectType"),
         visible: false,
     },
     "Slice": {
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
-        exportSettings: a(o("ExportSettingElement")),
+        absoluteBoundingBox: o("Rectangle"),
+        exportSettings: a(o("ExportSetting")),
         id: "",
         name: "",
         type: e("NodeType"),
         visible: false,
     },
     "Star": {
-        effects: a(o("EffectElement")),
+        effects: a(o("Effect")),
         opacity: 3.14,
         name: "",
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        fills: a(o("Paint")),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
-        strokes: a(o("PaintElement")),
+        strokes: a(o("Paint")),
         preserveRatio: false,
     },
     "Line": {
-        effects: a(o("EffectElement")),
+        effects: a(o("Effect")),
         opacity: 3.14,
         name: "",
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        fills: a(o("Paint")),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
-        strokes: a(o("PaintElement")),
+        strokes: a(o("Paint")),
         preserveRatio: false,
     },
     "Instance": {
-        effects: a(o("EffectElement")),
-        layoutGrids: a(o("LayoutGridElement")),
+        effects: a(o("Effect")),
+        layoutGrids: a(o("LayoutGrid")),
         opacity: 3.14,
         name: "",
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        backgroundColor: o("Olor"),
-        constraints: o("Constraints"),
+        backgroundColor: o("Color"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
         clipsContent: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         componentId: "",
         type: e("NodeType"),
         id: "",
@@ -3111,12 +2517,12 @@ const typeMap: any = {
         children: a(o("DocumentElement")),
     },
     "CommentsResponse": {
-        comments: a(o("CommentElement")),
+        comments: a(o("Comment")),
     },
-    "CommentElement": {
+    "Comment": {
         message: "",
         created_at: "",
-        user: o("CommentUser"),
+        user: o("User"),
         order_id: 3.14,
         parent_id: "",
         client_meta: o("ClientMeta"),
@@ -3128,57 +2534,64 @@ const typeMap: any = {
         x: u(null, 3.14),
         y: u(null, 3.14),
         node_id: u(null, a("")),
-        node_offset: u(null, o("Offset")),
+        node_offset: u(null, o("Vector2D")),
     },
-    "CommentUser": {
+    "User": {
         handle: "",
         img_url: "",
     },
-    "Vector2D": {
-        x: 3.14,
-        y: 3.14,
-    },
-    "TypeStyle": {
-        lineHeightPx: 3.14,
-        fontPostScriptName: "",
-        fontWeight: 3.14,
-        lineHeightPercent: 3.14,
-        textAlignVertical: e("TextAlignVertical"),
-        fontSize: 3.14,
-        italic: false,
-        fills: a(o("PaintElement")),
-        fontFamily: "",
-        textAlignHorizontal: e("TextAlignHorizontal"),
-        letterSpacing: 3.14,
-    },
     "BooleanGroup": {
-        effects: a(o("EffectElement")),
+        effects: a(o("Effect")),
         opacity: 3.14,
         name: "",
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        fills: a(o("Paint")),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
-        strokes: a(o("PaintElement")),
+        strokes: a(o("Paint")),
         preserveRatio: false,
         children: a(o("DocumentElement")),
     },
     "Canvas": {
-        backgroundColor: o("Olor"),
+        backgroundColor: o("Color"),
         children: a(o("DocumentElement")),
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         id: "",
         name: "",
         type: e("NodeType"),
         visible: false,
+    },
+    "FileResponse": {
+        components: m(o("Component")),
+        document: o("Document"),
+        schemaVersion: 3.14,
+    },
+    "Component": {
+        effects: a(o("Effect")),
+        layoutGrids: a(o("LayoutGrid")),
+        opacity: 3.14,
+        name: "",
+        absoluteBoundingBox: o("Rectangle"),
+        transitionNodeID: "",
+        visible: false,
+        blendMode: e("BlendMode"),
+        backgroundColor: o("Color"),
+        constraints: o("LayoutConstraint"),
+        isMask: false,
+        clipsContent: false,
+        exportSettings: a(o("ExportSetting")),
+        type: e("NodeType"),
+        id: "",
+        preserveRatio: false,
+        children: a(o("DocumentElement")),
     },
     "Document": {
         children: a(o("DocumentElement")),
@@ -3187,137 +2600,58 @@ const typeMap: any = {
         type: e("NodeType"),
         visible: false,
     },
-    "ExportSetting": {
-        constraint: o("ExportSettingConstraint"),
-        format: e("Format"),
-        suffix: "",
-    },
-    "Component": {
-        effects: a(o("EffectElement")),
-        layoutGrids: a(o("LayoutGridElement")),
-        opacity: 3.14,
-        name: "",
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        backgroundColor: o("Olor"),
-        constraints: o("Constraints"),
-        isMask: false,
-        clipsContent: false,
-        exportSettings: a(o("ExportSettingElement")),
-        type: e("NodeType"),
-        id: "",
-        preserveRatio: false,
-        children: a(o("DocumentElement")),
-    },
-    "FileResponse": {
-        components: m(o("ComponentValue")),
-        document: o("Ocument"),
-        schemaVersion: 3.14,
-    },
-    "ComponentValue": {
-        effects: a(o("EffectElement")),
-        layoutGrids: a(o("LayoutGridElement")),
-        opacity: 3.14,
-        name: "",
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        backgroundColor: o("Olor"),
-        constraints: o("Constraints"),
-        isMask: false,
-        clipsContent: false,
-        exportSettings: a(o("ExportSettingElement")),
-        type: e("NodeType"),
-        id: "",
-        preserveRatio: false,
-        children: a(o("DocumentElement")),
-    },
-    "Ocument": {
-        children: a(o("DocumentElement")),
-        id: "",
-        name: "",
-        type: e("NodeType"),
-        visible: false,
-    },
-    "Constraint": {
-        type: e("ConstraintType"),
-        value: 3.14,
-    },
-    "Paint": {
-        color: u(null, o("Olor")),
-        gradientHandlePositions: u(null, a(o("Offset"))),
-        gradientStops: u(null, a(o("ColorStopElement"))),
-        opacity: 3.14,
-        scaleMode: u(null, ""),
-        type: e("PaintType"),
-        visible: false,
-    },
     "RegularPolygon": {
-        effects: a(o("EffectElement")),
+        effects: a(o("Effect")),
         opacity: 3.14,
         name: "",
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        fills: a(o("Paint")),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
-        strokes: a(o("PaintElement")),
+        strokes: a(o("Paint")),
         preserveRatio: false,
     },
     "Ellipse": {
-        effects: a(o("EffectElement")),
+        effects: a(o("Effect")),
         opacity: 3.14,
         name: "",
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
-        fills: a(o("PaintElement")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        fills: a(o("Paint")),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
-        strokes: a(o("PaintElement")),
+        strokes: a(o("Paint")),
         preserveRatio: false,
     },
-    "Comment": {
-        message: "",
-        created_at: "",
-        user: o("CommentUser"),
-        order_id: 3.14,
-        parent_id: "",
-        client_meta: o("ClientMeta"),
-        resolved_at: "",
-        id: "",
-        file_key: "",
-    },
     "Group": {
-        effects: a(o("EffectElement")),
-        layoutGrids: a(o("LayoutGridElement")),
+        effects: a(o("Effect")),
+        layoutGrids: a(o("LayoutGrid")),
         opacity: 3.14,
         name: "",
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
+        absoluteBoundingBox: o("Rectangle"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        backgroundColor: o("Olor"),
-        constraints: o("Constraints"),
+        backgroundColor: o("Color"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
         clipsContent: false,
-        exportSettings: a(o("ExportSettingElement")),
+        exportSettings: a(o("ExportSetting")),
         type: e("NodeType"),
         id: "",
         preserveRatio: false,

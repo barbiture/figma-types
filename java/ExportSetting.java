@@ -4,10 +4,16 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
+ * An array of export settings representing images to export from node
+ *
  * Format and size to export an asset at
+ *
+ * An array of export settings representing images to export from the canvas
+ *
+ * An array of export settings representing images to export from this node
  */
 public class ExportSetting {
-    private ExportSettingConstraint constraint;
+    private Constraint constraint;
     private Format format;
     private String suffix;
 
@@ -15,9 +21,9 @@ public class ExportSetting {
      * Constraint that determines sizing of exported asset
      */
     @JsonProperty("constraint")
-    public ExportSettingConstraint getConstraint() { return constraint; }
+    public Constraint getConstraint() { return constraint; }
     @JsonProperty("constraint")
-    public void setConstraint(ExportSettingConstraint value) { this.constraint = value; }
+    public void setConstraint(Constraint value) { this.constraint = value; }
 
     /**
      * Image type, string enum
