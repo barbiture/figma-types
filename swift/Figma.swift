@@ -9,6 +9,7 @@
 //   let text = try Text(json)
 //   let frame = try Frame(json)
 //   let rectangle = try Rectangle(json)
+//   let vector2 = try Vector2(json)
 //   let layoutGrid = try LayoutGrid(json)
 //   let string = try String(json)
 //   let effect = try Effect(json)
@@ -18,7 +19,6 @@
 //   let blendMode = try BlendMode(json)
 //   let instance = try Instance(json)
 //   let commentsResponse = try CommentsResponse(json)
-//   let vector2D = try Vector2D(json)
 //   let typeStyle = try TypeStyle(json)
 //   let booleanGroup = try BooleanGroup(json)
 //   let canvas = try Canvas(json)
@@ -43,7 +43,7 @@ struct FrameOffset: Codable {
     /// Unique id specifying the frame.
     let nodeID: [String]
     /// 2d vector offset within the frame.
-    let nodeOffset: Vector2D
+    let nodeOffset: Vector2
 
     enum CodingKeys: String, CodingKey {
         case nodeID = "node_id"
@@ -63,7 +63,7 @@ struct FrameOffset: Codable {
 /// A 2d vector
 ///
 /// 2d vector offset within the frame.
-struct Vector2D: Codable {
+struct Vector2: Codable {
     /// X coordinate of the vector
     let x: Double
     /// Y coordinate of the vector
@@ -264,7 +264,7 @@ enum Vertical: String, Codable {
 struct Effect: Codable {
     let blendMode: BlendMode?
     let color: Color?
-    let offset: Vector2D?
+    let offset: Vector2?
     /// Radius of the blur effect (applies to shadows as well)
     let radius: Double
     /// Type of effect as a string enum
@@ -367,7 +367,7 @@ struct Paint: Codable {
     /// the second position is the end of the gradient (value 1), and the
     /// third handle position determines the width of the gradient (only
     /// relevant for non-linear gradients).
-    let gradientHandlePositions: [Vector2D]?
+    let gradientHandlePositions: [Vector2]?
     /// Positions of key points along the gradient axis with the colors
     /// anchored there. Colors along the gradient are interpolated smoothly
     /// between neighboring gradient stops.
@@ -976,7 +976,7 @@ struct ClientMeta: Codable {
     /// Unique id specifying the frame.
     let nodeID: [String]?
     /// 2d vector offset within the frame.
-    let nodeOffset: Vector2D?
+    let nodeOffset: Vector2?
 
     enum CodingKeys: String, CodingKey {
         case x, y
@@ -1299,9 +1299,9 @@ extension FrameOffset {
     }
 }
 
-extension Vector2D {
+extension Vector2 {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(Vector2D.self, from: data)
+        self = try JSONDecoder().decode(Vector2.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {

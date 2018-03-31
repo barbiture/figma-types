@@ -13,6 +13,7 @@
 //   const text = Convert.toText(json);
 //   const frame = Convert.toFrame(json);
 //   const rectangle = Convert.toRectangle(json);
+//   const vector2 = Convert.toVector2(json);
 //   const layoutGrid = Convert.toLayoutGrid(json);
 //   const string = Convert.toString(json);
 //   const effect = Convert.toEffect(json);
@@ -22,7 +23,6 @@
 //   const blendMode = Convert.toBlendMode(json);
 //   const instance = Convert.toInstance(json);
 //   const commentsResponse = Convert.toCommentsResponse(json);
-//   const vector2D = Convert.toVector2D(json);
 //   const typeStyle = Convert.toTypeStyle(json);
 //   const booleanGroup = Convert.toBooleanGroup(json);
 //   const canvas = Convert.toCanvas(json);
@@ -52,7 +52,7 @@ export type FrameOffset = {
     /**
      * 2d vector offset within the frame.
      */
-    node_offset: Vector2D;
+    node_offset: Vector2;
 };
 
 /**
@@ -69,7 +69,7 @@ export type FrameOffset = {
  *
  * 2d vector offset within the frame.
  */
-export type Vector2D = {
+export type Vector2 = {
     /**
      * X coordinate of the vector
      */
@@ -338,7 +338,7 @@ export type Vertical =
 export type Effect = {
     blendMode?: BlendMode;
     color?:     Color;
-    offset?:    Vector2D;
+    offset?:    Vector2;
     /**
      * Radius of the blur effect (applies to shadows as well)
      */
@@ -480,7 +480,7 @@ export type Paint = {
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
      */
-    gradientHandlePositions?: Vector2D[];
+    gradientHandlePositions?: Vector2[];
     /**
      * Positions of key points along the gradient axis with the colors
      * anchored there. Colors along the gradient are interpolated smoothly
@@ -1421,7 +1421,7 @@ export type ClientMeta = {
     /**
      * 2d vector offset within the frame.
      */
-    node_offset?: Vector2D;
+    node_offset?: Vector2;
 };
 
 /**
@@ -1999,6 +1999,14 @@ function rectangleToJson(value: Rectangle): string {
     return JSON.stringify(value, null, 2);
 }
 
+function toVector2(json: string): Vector2 {
+    return cast(JSON.parse(json), o("Vector2"));
+}
+
+function vector2ToJson(value: Vector2): string {
+    return JSON.stringify(value, null, 2);
+}
+
 function toLayoutGrid(json: string): LayoutGrid {
     return cast(JSON.parse(json), o("LayoutGrid"));
 }
@@ -2068,14 +2076,6 @@ function toCommentsResponse(json: string): CommentsResponse {
 }
 
 function commentsResponseToJson(value: CommentsResponse): string {
-    return JSON.stringify(value, null, 2);
-}
-
-function toVector2D(json: string): Vector2D {
-    return cast(JSON.parse(json), o("Vector2D"));
-}
-
-function vector2DToJson(value: Vector2D): string {
     return JSON.stringify(value, null, 2);
 }
 
@@ -2271,9 +2271,9 @@ function o(className: string) {
 const typeMap: any = {
     "FrameOffset": {
         node_id: a(""),
-        node_offset: o("Vector2D"),
+        node_offset: o("Vector2"),
     },
-    "Vector2D": {
+    "Vector2": {
         x: 3.14,
         y: 3.14,
     },
@@ -2323,7 +2323,7 @@ const typeMap: any = {
     "Effect": {
         blendMode: u(null, e("BlendMode")),
         color: u(null, o("Color")),
-        offset: u(null, o("Vector2D")),
+        offset: u(null, o("Vector2")),
         radius: 3.14,
         type: e("EffectType"),
         visible: false,
@@ -2345,7 +2345,7 @@ const typeMap: any = {
     },
     "Paint": {
         color: u(null, o("Color")),
-        gradientHandlePositions: u(null, a(o("Vector2D"))),
+        gradientHandlePositions: u(null, a(o("Vector2"))),
         gradientStops: u(null, a(o("ColorStop"))),
         opacity: 3.14,
         scaleMode: u(null, ""),
@@ -2534,7 +2534,7 @@ const typeMap: any = {
         x: u(null, 3.14),
         y: u(null, 3.14),
         node_id: u(null, a("")),
-        node_offset: u(null, o("Vector2D")),
+        node_offset: u(null, o("Vector2")),
     },
     "User": {
         handle: "",
@@ -2781,6 +2781,8 @@ module.exports = {
     "toFrame": toFrame,
     "rectangleToJson": rectangleToJson,
     "toRectangle": toRectangle,
+    "vector2ToJson": vector2ToJson,
+    "toVector2": toVector2,
     "layoutGridToJson": layoutGridToJson,
     "toLayoutGrid": toLayoutGrid,
     "stringToJson": stringToJson,
@@ -2799,8 +2801,6 @@ module.exports = {
     "toInstance": toInstance,
     "commentsResponseToJson": commentsResponseToJson,
     "toCommentsResponse": toCommentsResponse,
-    "vector2DToJson": vector2DToJson,
-    "toVector2D": toVector2D,
     "typeStyleToJson": typeStyleToJson,
     "toTypeStyle": toTypeStyle,
     "booleanGroupToJson": booleanGroupToJson,

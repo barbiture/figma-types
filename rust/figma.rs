@@ -25,7 +25,7 @@ pub struct FrameOffset {
 
     /// 2d vector offset within the frame.
     #[serde(rename = "node_offset")]
-    node_offset: Vector2D,
+    node_offset: Vector2,
 }
 
 /// This field contains three vectors, each of which are a position in
@@ -41,7 +41,7 @@ pub struct FrameOffset {
 ///
 /// 2d vector offset within the frame.
 #[derive(Serialize, Deserialize)]
-pub struct Vector2D {
+pub struct Vector2 {
     /// X coordinate of the vector
     #[serde(rename = "x")]
     x: f64,
@@ -250,7 +250,7 @@ pub struct Effect {
     color: Option<Color>,
 
     #[serde(rename = "offset")]
-    offset: Option<Vector2D>,
+    offset: Option<Vector2>,
 
     /// Radius of the blur effect (applies to shadows as well)
     #[serde(rename = "radius")]
@@ -356,7 +356,7 @@ pub struct Paint {
     /// third handle position determines the width of the gradient (only
     /// relevant for non-linear gradients).
     #[serde(rename = "gradientHandlePositions")]
-    gradient_handle_positions: Option<Vec<Vector2D>>,
+    gradient_handle_positions: Option<Vec<Vector2>>,
 
     /// Positions of key points along the gradient axis with the colors
     /// anchored there. Colors along the gradient are interpolated smoothly
@@ -1193,7 +1193,7 @@ pub struct ClientMeta {
 
     /// 2d vector offset within the frame.
     #[serde(rename = "node_offset")]
-    node_offset: Option<Vector2D>,
+    node_offset: Option<Vector2>,
 }
 
 /// The user who left the comment

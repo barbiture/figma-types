@@ -145,7 +145,7 @@ export interface Effect {
   // The following properties are for shadows only:
   color?: Color;
   blendMode?: BlendMode;
-  offset?: Vector2D;
+  offset?: Vector2;
 }
 
 /** A solid color, gradient, or image texture that can be applied as fills or strokes */
@@ -185,7 +185,7 @@ export interface Paint {
    * relevant for non-linear gradients).
    *
    */
-  gradientHandlePositions?: Vector2D[];
+  gradientHandlePositions?: Vector2[];
   /**
    * Positions of key points along the gradient axis with the colors
    * anchored there. Colors along the gradient are interpolated smoothly
@@ -198,7 +198,7 @@ export interface Paint {
 }
 
 /** A 2d vector */
-export interface Vector2D {
+export interface Vector2 {
   /** X coordinate of the vector */
   x: number;
   /** Y coordinate of the vector */
@@ -272,7 +272,7 @@ export interface Comment {
    */
   message: string;
 
-  client_meta: Vector2D | FrameOffset;
+  client_meta: Vector2 | FrameOffset;
 
   /**
    * Only set for top level comments. The number displayed with the
@@ -287,7 +287,7 @@ export interface FrameOffset {
   node_id: String;
 
   /** 2d vector offset within the frame.*/
-  node_offset: Vector2D;
+  node_offset: Vector2;
 }
 
 /** A description of a user */

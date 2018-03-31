@@ -14,6 +14,7 @@
 //     Text data = nlohmann::json::parse(jsonString);
 //     Frame data = nlohmann::json::parse(jsonString);
 //     Rectangle data = nlohmann::json::parse(jsonString);
+//     Vector2 data = nlohmann::json::parse(jsonString);
 //     LayoutGrid data = nlohmann::json::parse(jsonString);
 //     String data = nlohmann::json::parse(jsonString);
 //     Effect data = nlohmann::json::parse(jsonString);
@@ -23,7 +24,6 @@
 //     BlendMode data = nlohmann::json::parse(jsonString);
 //     Instance data = nlohmann::json::parse(jsonString);
 //     CommentsResponse data = nlohmann::json::parse(jsonString);
-//     Vector2D data = nlohmann::json::parse(jsonString);
 //     TypeStyle data = nlohmann::json::parse(jsonString);
 //     BooleanGroup data = nlohmann::json::parse(jsonString);
 //     Canvas data = nlohmann::json::parse(jsonString);
@@ -39,8 +39,8 @@
 //     Comment data = nlohmann::json::parse(jsonString);
 //     Group data = nlohmann::json::parse(jsonString);
 
-#ifndef __QUICKTYPE_FRAMEOFFSET_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_USER_TEXT_FRAME_RECTANGLE_LAYOUTGRID_STRING_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_COMMENTSRESPONSE_VECTOR2D_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_COMMENT_GROUP_HPP__
-#define __QUICKTYPE_FRAMEOFFSET_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_USER_TEXT_FRAME_RECTANGLE_LAYOUTGRID_STRING_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_COMMENTSRESPONSE_VECTOR2D_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_COMMENT_GROUP_HPP__
+#ifndef __QUICKTYPE_FRAMEOFFSET_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_USER_TEXT_FRAME_RECTANGLE_VECTOR2_LAYOUTGRID_STRING_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_COMMENTSRESPONSE_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_COMMENT_GROUP_HPP__
+#define __QUICKTYPE_FRAMEOFFSET_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_USER_TEXT_FRAME_RECTANGLE_VECTOR2_LAYOUTGRID_STRING_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_COMMENTSRESPONSE_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_COMMENT_GROUP_HPP__
 
 #include "json.hpp"
 
@@ -61,7 +61,7 @@ namespace quicktype {
      *
      * 2d vector offset within the frame.
      */
-    struct Vector2D {
+    struct Vector2 {
         /**
          * X coordinate of the vector
          */
@@ -83,7 +83,7 @@ namespace quicktype {
         /**
          * 2d vector offset within the frame.
          */
-        struct Vector2D node_offset;
+        struct Vector2 node_offset;
     };
 
     /**
@@ -188,7 +188,7 @@ namespace quicktype {
     struct Effect {
         std::unique_ptr<BlendMode> blend_mode;
         std::unique_ptr<struct Color> color;
-        std::unique_ptr<struct Vector2D> offset;
+        std::unique_ptr<struct Vector2> offset;
         /**
          * Radius of the blur effect (applies to shadows as well)
          */
@@ -306,7 +306,7 @@ namespace quicktype {
          * third handle position determines the width of the gradient (only
          * relevant for non-linear gradients).
          */
-        std::unique_ptr<std::vector<struct Vector2D>> gradient_handle_positions;
+        std::unique_ptr<std::vector<struct Vector2>> gradient_handle_positions;
         /**
          * Positions of key points along the gradient axis with the colors
          * anchored there. Colors along the gradient are interpolated smoothly
@@ -1295,7 +1295,7 @@ namespace quicktype {
         /**
          * 2d vector offset within the frame.
          */
-        std::unique_ptr<struct Vector2D> node_offset;
+        std::unique_ptr<struct Vector2> node_offset;
     };
 
     /**
@@ -1889,12 +1889,12 @@ namespace nlohmann {
         }
     };
 
-    inline void from_json(const json& _j, struct quicktype::Vector2D& _x) {
+    inline void from_json(const json& _j, struct quicktype::Vector2& _x) {
         _x.x = _j.at("x").get<double>();
         _x.y = _j.at("y").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Vector2D& _x) {
+    inline void to_json(json& _j, const struct quicktype::Vector2& _x) {
         _j = json::object();
         _j["x"] = _x.x;
         _j["y"] = _x.y;
@@ -1902,7 +1902,7 @@ namespace nlohmann {
 
     inline void from_json(const json& _j, struct quicktype::FrameOffset& _x) {
         _x.node_id = _j.at("node_id").get<std::vector<std::string>>();
-        _x.node_offset = _j.at("node_offset").get<struct quicktype::Vector2D>();
+        _x.node_offset = _j.at("node_offset").get<struct quicktype::Vector2>();
     }
 
     inline void to_json(json& _j, const struct quicktype::FrameOffset& _x) {
@@ -1940,7 +1940,7 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::Effect& _x) {
         _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
         _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
-        _x.offset = quicktype::get_optional<struct quicktype::Vector2D>(_j, "offset");
+        _x.offset = quicktype::get_optional<struct quicktype::Vector2>(_j, "offset");
         _x.radius = _j.at("radius").get<double>();
         _x.type = _j.at("type").get<quicktype::EffectType>();
         _x.visible = _j.at("visible").get<bool>();
@@ -1993,7 +1993,7 @@ namespace nlohmann {
 
     inline void from_json(const json& _j, struct quicktype::Paint& _x) {
         _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
-        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Vector2D>>(_j, "gradientHandlePositions");
+        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Vector2>>(_j, "gradientHandlePositions");
         _x.gradient_stops = quicktype::get_optional<std::vector<struct quicktype::ColorStop>>(_j, "gradientStops");
         _x.opacity = _j.at("opacity").get<double>();
         _x.scale_mode = quicktype::get_optional<std::string>(_j, "scaleMode");
@@ -2447,7 +2447,7 @@ namespace nlohmann {
         _x.x = quicktype::get_optional<double>(_j, "x");
         _x.y = quicktype::get_optional<double>(_j, "y");
         _x.node_id = quicktype::get_optional<std::vector<std::string>>(_j, "node_id");
-        _x.node_offset = quicktype::get_optional<struct quicktype::Vector2D>(_j, "node_offset");
+        _x.node_offset = quicktype::get_optional<struct quicktype::Vector2>(_j, "node_offset");
     }
 
     inline void to_json(json& _j, const struct quicktype::ClientMeta& _x) {

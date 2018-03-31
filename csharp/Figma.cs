@@ -11,6 +11,7 @@
 //    var text = Text.FromJson(jsonString);
 //    var frame = Frame.FromJson(jsonString);
 //    var rectangle = Rectangle.FromJson(jsonString);
+//    var vector2 = Vector2.FromJson(jsonString);
 //    var layoutGrid = LayoutGrid.FromJson(jsonString);
 //    var string = String.FromJson(jsonString);
 //    var effect = Effect.FromJson(jsonString);
@@ -20,7 +21,6 @@
 //    var blendMode = BlendMode.FromJson(jsonString);
 //    var instance = Instance.FromJson(jsonString);
 //    var commentsResponse = CommentsResponse.FromJson(jsonString);
-//    var vector2D = Vector2D.FromJson(jsonString);
 //    var typeStyle = TypeStyle.FromJson(jsonString);
 //    var booleanGroup = BooleanGroup.FromJson(jsonString);
 //    var canvas = Canvas.FromJson(jsonString);
@@ -61,7 +61,7 @@ namespace QuickType
         /// 2d vector offset within the frame.
         /// </summary>
         [JsonProperty("node_offset")]
-        public Vector2D NodeOffset { get; set; }
+        public Vector2 NodeOffset { get; set; }
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ namespace QuickType
     ///
     /// 2d vector offset within the frame.
     /// </summary>
-    public partial class Vector2D
+    public partial class Vector2
     {
         /// <summary>
         /// X coordinate of the vector
@@ -374,7 +374,7 @@ namespace QuickType
         public Color Color { get; set; }
 
         [JsonProperty("offset")]
-        public Vector2D Offset { get; set; }
+        public Vector2 Offset { get; set; }
 
         /// <summary>
         /// Radius of the blur effect (applies to shadows as well)
@@ -516,7 +516,7 @@ namespace QuickType
         /// relevant for non-linear gradients).
         /// </summary>
         [JsonProperty("gradientHandlePositions")]
-        public Vector2D[] GradientHandlePositions { get; set; }
+        public Vector2[] GradientHandlePositions { get; set; }
 
         /// <summary>
         /// Positions of key points along the gradient axis with the colors
@@ -1701,7 +1701,7 @@ namespace QuickType
         /// 2d vector offset within the frame.
         /// </summary>
         [JsonProperty("node_offset")]
-        public Vector2D NodeOffset { get; set; }
+        public Vector2 NodeOffset { get; set; }
     }
 
     /// <summary>
@@ -2546,6 +2546,11 @@ namespace QuickType
         public static Rectangle FromJson(string json) => JsonConvert.DeserializeObject<Rectangle>(json, QuickType.Converter.Settings);
     }
 
+    public partial class Vector2
+    {
+        public static Vector2 FromJson(string json) => JsonConvert.DeserializeObject<Vector2>(json, QuickType.Converter.Settings);
+    }
+
     public partial class LayoutGrid
     {
         public static LayoutGrid FromJson(string json) => JsonConvert.DeserializeObject<LayoutGrid>(json, QuickType.Converter.Settings);
@@ -2589,11 +2594,6 @@ namespace QuickType
     public partial class CommentsResponse
     {
         public static CommentsResponse FromJson(string json) => JsonConvert.DeserializeObject<CommentsResponse>(json, QuickType.Converter.Settings);
-    }
-
-    public partial class Vector2D
-    {
-        public static Vector2D FromJson(string json) => JsonConvert.DeserializeObject<Vector2D>(json, QuickType.Converter.Settings);
     }
 
     public partial class TypeStyle
@@ -3169,6 +3169,7 @@ namespace QuickType
         public static string ToJson(this Text self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Frame self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Rectangle self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this Vector2 self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this LayoutGrid self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this string[] self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Effect self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
@@ -3178,7 +3179,6 @@ namespace QuickType
         public static string ToJson(this BlendMode self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Instance self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this CommentsResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
-        public static string ToJson(this Vector2D self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this TypeStyle self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this BooleanGroup self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this Canvas self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);

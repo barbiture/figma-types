@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class Paint {
     private Color color;
-    private Vector2D[] gradientHandlePositions;
+    private Vector2[] gradientHandlePositions;
     private ColorStop[] gradientStops;
     private double opacity;
     private String scaleMode;
@@ -40,9 +40,9 @@ public class Paint {
      * relevant for non-linear gradients).
      */
     @JsonProperty("gradientHandlePositions")
-    public Vector2D[] getGradientHandlePositions() { return gradientHandlePositions; }
+    public Vector2[] getGradientHandlePositions() { return gradientHandlePositions; }
     @JsonProperty("gradientHandlePositions")
-    public void setGradientHandlePositions(Vector2D[] value) { this.gradientHandlePositions = value; }
+    public void setGradientHandlePositions(Vector2[] value) { this.gradientHandlePositions = value; }
 
     /**
      * Positions of key points along the gradient axis with the colors

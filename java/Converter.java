@@ -17,6 +17,7 @@
 //     Text data = Converter.TextFromJsonString(jsonString);
 //     Frame data = Converter.FrameFromJsonString(jsonString);
 //     Rectangle data = Converter.RectangleFromJsonString(jsonString);
+//     Vector2 data = Converter.Vector2FromJsonString(jsonString);
 //     LayoutGrid data = Converter.LayoutGridFromJsonString(jsonString);
 //     String[] data = Converter.StringFromJsonString(jsonString);
 //     Effect data = Converter.EffectFromJsonString(jsonString);
@@ -26,7 +27,6 @@
 //     BlendMode data = Converter.BlendModeFromJsonString(jsonString);
 //     Instance data = Converter.InstanceFromJsonString(jsonString);
 //     CommentsResponse data = Converter.CommentsResponseFromJsonString(jsonString);
-//     Vector2D data = Converter.Vector2DFromJsonString(jsonString);
 //     TypeStyle data = Converter.TypeStyleFromJsonString(jsonString);
 //     BooleanGroup data = Converter.BooleanGroupFromJsonString(jsonString);
 //     Canvas data = Converter.CanvasFromJsonString(jsonString);
@@ -124,6 +124,14 @@ public class Converter {
         return getRectangleObjectWriter().writeValueAsString(obj);
     }
 
+    public static Vector2 Vector2FromJsonString(String json) throws IOException {
+        return getVector2ObjectReader().readValue(json);
+    }
+
+    public static String Vector2ToJsonString(Vector2 obj) throws JsonProcessingException {
+        return getVector2ObjectWriter().writeValueAsString(obj);
+    }
+
     public static LayoutGrid LayoutGridFromJsonString(String json) throws IOException {
         return getLayoutGridObjectReader().readValue(json);
     }
@@ -194,14 +202,6 @@ public class Converter {
 
     public static String CommentsResponseToJsonString(CommentsResponse obj) throws JsonProcessingException {
         return getCommentsResponseObjectWriter().writeValueAsString(obj);
-    }
-
-    public static Vector2D Vector2DFromJsonString(String json) throws IOException {
-        return getVector2DObjectReader().readValue(json);
-    }
-
-    public static String Vector2DToJsonString(Vector2D obj) throws JsonProcessingException {
-        return getVector2DObjectWriter().writeValueAsString(obj);
     }
 
     public static TypeStyle TypeStyleFromJsonString(String json) throws IOException {
@@ -487,6 +487,25 @@ public class Converter {
         return RectangleWriter;
     }
 
+    private static ObjectReader Vector2Reader;
+    private static ObjectWriter Vector2Writer;
+
+    private static void instantiateVector2Mapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        Vector2Reader = mapper.reader(Vector2.class);
+        Vector2Writer = mapper.writerFor(Vector2.class);
+    }
+
+    private static ObjectReader getVector2ObjectReader() {
+        if (Vector2Reader == null) instantiateMapper();
+        return Vector2Reader;
+    }
+
+    private static ObjectWriter getVector2ObjectWriter() {
+        if (Vector2Writer == null) instantiateMapper();
+        return Vector2Writer;
+    }
+
     private static ObjectReader LayoutGridReader;
     private static ObjectWriter LayoutGridWriter;
 
@@ -656,25 +675,6 @@ public class Converter {
     private static ObjectWriter getCommentsResponseObjectWriter() {
         if (CommentsResponseWriter == null) instantiateMapper();
         return CommentsResponseWriter;
-    }
-
-    private static ObjectReader Vector2DReader;
-    private static ObjectWriter Vector2DWriter;
-
-    private static void instantiateVector2DMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        Vector2DReader = mapper.reader(Vector2D.class);
-        Vector2DWriter = mapper.writerFor(Vector2D.class);
-    }
-
-    private static ObjectReader getVector2DObjectReader() {
-        if (Vector2DReader == null) instantiateMapper();
-        return Vector2DReader;
-    }
-
-    private static ObjectWriter getVector2DObjectWriter() {
-        if (Vector2DWriter == null) instantiateMapper();
-        return Vector2DWriter;
     }
 
     private static ObjectReader TypeStyleReader;

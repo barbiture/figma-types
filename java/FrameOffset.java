@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class FrameOffset {
     private String[] nodeID;
-    private Vector2D nodeOffset;
+    private Vector2 nodeOffset;
 
     /**
      * Unique id specifying the frame.
@@ -22,7 +22,7 @@ public class FrameOffset {
      * 2d vector offset within the frame.
      */
     @JsonProperty("node_offset")
-    public Vector2D getNodeOffset() { return nodeOffset; }
+    public Vector2 getNodeOffset() { return nodeOffset; }
     @JsonProperty("node_offset")
-    public void setNodeOffset(Vector2D value) { this.nodeOffset = value; }
+    public void setNodeOffset(Vector2 value) { this.nodeOffset = value; }
 }

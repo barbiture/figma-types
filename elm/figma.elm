@@ -5,7 +5,7 @@
 -- add these imports
 --
 --     import Json.Decode exposing (decodeString)`);
---     import QuickType exposing (frameOffset, vector, color, colorStop, layoutConstraint, user, text, frame, rectangle, layoutGrid, purpleString, effect, slice, star, line, blendMode, instance, commentsResponse, vector2D, typeStyle, booleanGroup, canvas, document, nodeType, exportSetting, component, fileResponse, constraint, paint, regularPolygon, ellipse, comment, group)
+--     import QuickType exposing (frameOffset, vector, color, colorStop, layoutConstraint, user, text, frame, rectangle, vector2, layoutGrid, purpleString, effect, slice, star, line, blendMode, instance, commentsResponse, typeStyle, booleanGroup, canvas, document, nodeType, exportSetting, component, fileResponse, constraint, paint, regularPolygon, ellipse, comment, group)
 --
 -- and you're off to the races with
 --
@@ -18,6 +18,7 @@
 --     decodeString text myJsonString
 --     decodeString frame myJsonString
 --     decodeString rectangle myJsonString
+--     decodeString vector2 myJsonString
 --     decodeString layoutGrid myJsonString
 --     decodeString purpleString myJsonString
 --     decodeString effect myJsonString
@@ -27,7 +28,6 @@
 --     decodeString blendMode myJsonString
 --     decodeString instance myJsonString
 --     decodeString commentsResponse myJsonString
---     decodeString vector2D myJsonString
 --     decodeString typeStyle myJsonString
 --     decodeString booleanGroup myJsonString
 --     decodeString canvas myJsonString
@@ -71,6 +71,9 @@ module QuickType exposing
     , Rectangle
     , rectangleToString
     , rectangle
+    , Vector2
+    , vector2ToString
+    , vector2
     , LayoutGrid
     , layoutGridToString
     , layoutGrid
@@ -98,9 +101,6 @@ module QuickType exposing
     , CommentsResponse
     , commentsResponseToString
     , commentsResponse
-    , Vector2D
-    , vector2DToString
-    , vector2D
     , TypeStyle
     , typeStyleToString
     , typeStyle
@@ -176,7 +176,7 @@ nodeOffset:
 -}
 type alias FrameOffset =
     { nodeID : Array String
-    , nodeOffset : Vector2D
+    , nodeOffset : Vector2
     }
 
 {-| This field contains three vectors, each of which are a position in
@@ -198,7 +198,7 @@ X coordinate of the vector
 y:
 Y coordinate of the vector
 -}
-type alias Vector2D =
+type alias Vector2 =
     { x : Float
     , y : Float
     }
@@ -481,7 +481,7 @@ Is the effect active?
 type alias Effect =
     { blendMode : Maybe BlendMode
     , color : Maybe Color
-    , offset : Maybe Vector2D
+    , offset : Maybe Vector2
     , radius : Float
     , effectType : EffectType
     , visible : Bool
@@ -623,7 +623,7 @@ Is the paint enabled?
 -}
 type alias Paint =
     { color : Maybe Color
-    , gradientHandlePositions : Maybe (Array Vector2D)
+    , gradientHandlePositions : Maybe (Array Vector2)
     , gradientStops : Maybe (Array ColorStop)
     , opacity : Float
     , scaleMode : Maybe String
@@ -1504,7 +1504,7 @@ type alias ClientMeta =
     { x : Maybe Float
     , y : Maybe Float
     , nodeID : Maybe (Array String)
-    , nodeOffset : Maybe Vector2D
+    , nodeOffset : Maybe Vector2
     }
 
 {-| The user who left the comment
@@ -2028,6 +2028,9 @@ frameToString r = Jenc.encode 0 (encodeFrame r)
 rectangleToString : Rectangle -> String
 rectangleToString r = Jenc.encode 0 (encodeRectangle r)
 
+vector2ToString : Vector2 -> String
+vector2ToString r = Jenc.encode 0 (encodeVector2 r)
+
 layoutGridToString : LayoutGrid -> String
 layoutGridToString r = Jenc.encode 0 (encodeLayoutGrid r)
 
@@ -2057,9 +2060,6 @@ instanceToString r = Jenc.encode 0 (encodeInstance r)
 
 commentsResponseToString : CommentsResponse -> String
 commentsResponseToString r = Jenc.encode 0 (encodeCommentsResponse r)
-
-vector2DToString : Vector2D -> String
-vector2DToString r = Jenc.encode 0 (encodeVector2D r)
 
 typeStyleToString : TypeStyle -> String
 typeStyleToString r = Jenc.encode 0 (encodeTypeStyle r)
@@ -2107,23 +2107,23 @@ frameOffset : Jdec.Decoder FrameOffset
 frameOffset =
     Jpipe.decode FrameOffset
         |> Jpipe.required "node_id" (Jdec.array Jdec.string)
-        |> Jpipe.required "node_offset" vector2D
+        |> Jpipe.required "node_offset" vector2
 
 encodeFrameOffset : FrameOffset -> Jenc.Value
 encodeFrameOffset x =
     Jenc.object
         [ ("node_id", makeArrayEncoder Jenc.string x.nodeID)
-        , ("node_offset", encodeVector2D x.nodeOffset)
+        , ("node_offset", encodeVector2 x.nodeOffset)
         ]
 
-vector2D : Jdec.Decoder Vector2D
-vector2D =
-    Jpipe.decode Vector2D
+vector2 : Jdec.Decoder Vector2
+vector2 =
+    Jpipe.decode Vector2
         |> Jpipe.required "x" Jdec.float
         |> Jpipe.required "y" Jdec.float
 
-encodeVector2D : Vector2D -> Jenc.Value
-encodeVector2D x =
+encodeVector2 : Vector2 -> Jenc.Value
+encodeVector2 x =
     Jenc.object
         [ ("x", Jenc.float x.x)
         , ("y", Jenc.float x.y)
@@ -2367,7 +2367,7 @@ effect =
     Jpipe.decode Effect
         |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
         |> Jpipe.optional "color" (Jdec.nullable color) Nothing
-        |> Jpipe.optional "offset" (Jdec.nullable vector2D) Nothing
+        |> Jpipe.optional "offset" (Jdec.nullable vector2) Nothing
         |> Jpipe.required "radius" Jdec.float
         |> Jpipe.required "type" effectType
         |> Jpipe.required "visible" Jdec.bool
@@ -2377,7 +2377,7 @@ encodeEffect x =
     Jenc.object
         [ ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
         , ("color", makeNullableEncoder encodeColor x.color)
-        , ("offset", makeNullableEncoder encodeVector2D x.offset)
+        , ("offset", makeNullableEncoder encodeVector2 x.offset)
         , ("radius", Jenc.float x.radius)
         , ("type", encodeEffectType x.effectType)
         , ("visible", Jenc.bool x.visible)
@@ -2485,7 +2485,7 @@ paint : Jdec.Decoder Paint
 paint =
     Jpipe.decode Paint
         |> Jpipe.optional "color" (Jdec.nullable color) Nothing
-        |> Jpipe.optional "gradientHandlePositions" (Jdec.nullable (Jdec.array vector2D)) Nothing
+        |> Jpipe.optional "gradientHandlePositions" (Jdec.nullable (Jdec.array vector2)) Nothing
         |> Jpipe.optional "gradientStops" (Jdec.nullable (Jdec.array colorStop)) Nothing
         |> Jpipe.required "opacity" Jdec.float
         |> Jpipe.optional "scaleMode" (Jdec.nullable Jdec.string) Nothing
@@ -2496,7 +2496,7 @@ encodePaint : Paint -> Jenc.Value
 encodePaint x =
     Jenc.object
         [ ("color", makeNullableEncoder encodeColor x.color)
-        , ("gradientHandlePositions", makeNullableEncoder (makeArrayEncoder encodeVector2D) x.gradientHandlePositions)
+        , ("gradientHandlePositions", makeNullableEncoder (makeArrayEncoder encodeVector2) x.gradientHandlePositions)
         , ("gradientStops", makeNullableEncoder (makeArrayEncoder encodeColorStop) x.gradientStops)
         , ("opacity", Jenc.float x.opacity)
         , ("scaleMode", makeNullableEncoder Jenc.string x.scaleMode)
@@ -3038,7 +3038,7 @@ clientMeta =
         |> Jpipe.optional "x" (Jdec.nullable Jdec.float) Nothing
         |> Jpipe.optional "y" (Jdec.nullable Jdec.float) Nothing
         |> Jpipe.optional "node_id" (Jdec.nullable (Jdec.array Jdec.string)) Nothing
-        |> Jpipe.optional "node_offset" (Jdec.nullable vector2D) Nothing
+        |> Jpipe.optional "node_offset" (Jdec.nullable vector2) Nothing
 
 encodeClientMeta : ClientMeta -> Jenc.Value
 encodeClientMeta x =
@@ -3046,7 +3046,7 @@ encodeClientMeta x =
         [ ("x", makeNullableEncoder Jenc.float x.x)
         , ("y", makeNullableEncoder Jenc.float x.y)
         , ("node_id", makeNullableEncoder (makeArrayEncoder Jenc.string) x.nodeID)
-        , ("node_offset", makeNullableEncoder encodeVector2D x.nodeOffset)
+        , ("node_offset", makeNullableEncoder encodeVector2 x.nodeOffset)
         ]
 
 user : Jdec.Decoder User

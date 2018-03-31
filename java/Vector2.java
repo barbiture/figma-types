@@ -16,44 +16,24 @@ import com.fasterxml.jackson.annotation.*;
  * A 2d vector
  *
  * 2d vector offset within the frame.
- *
- * A relative offset within a frame
  */
-public class ClientMeta {
-    private Double x;
-    private Double y;
-    private String[] nodeID;
-    private Vector2 nodeOffset;
+public class Vector2 {
+    private double x;
+    private double y;
 
     /**
      * X coordinate of the vector
      */
     @JsonProperty("x")
-    public Double getX() { return x; }
+    public double getX() { return x; }
     @JsonProperty("x")
-    public void setX(Double value) { this.x = value; }
+    public void setX(double value) { this.x = value; }
 
     /**
      * Y coordinate of the vector
      */
     @JsonProperty("y")
-    public Double getY() { return y; }
+    public double getY() { return y; }
     @JsonProperty("y")
-    public void setY(Double value) { this.y = value; }
-
-    /**
-     * Unique id specifying the frame.
-     */
-    @JsonProperty("node_id")
-    public String[] getNodeID() { return nodeID; }
-    @JsonProperty("node_id")
-    public void setNodeID(String[] value) { this.nodeID = value; }
-
-    /**
-     * 2d vector offset within the frame.
-     */
-    @JsonProperty("node_offset")
-    public Vector2 getNodeOffset() { return nodeOffset; }
-    @JsonProperty("node_offset")
-    public void setNodeOffset(Vector2 value) { this.nodeOffset = value; }
+    public void setY(double value) { this.y = value; }
 }

@@ -27,6 +27,9 @@
 //    rectangle, err := UnmarshalRectangle(bytes)
 //    bytes, err = rectangle.Marshal()
 //
+//    vector2, err := UnmarshalVector2(bytes)
+//    bytes, err = vector2.Marshal()
+//
 //    layoutGrid, err := UnmarshalLayoutGrid(bytes)
 //    bytes, err = layoutGrid.Marshal()
 //
@@ -53,9 +56,6 @@
 //
 //    commentsResponse, err := UnmarshalCommentsResponse(bytes)
 //    bytes, err = commentsResponse.Marshal()
-//
-//    vector2D, err := UnmarshalVector2D(bytes)
-//    bytes, err = vector2D.Marshal()
 //
 //    typeStyle, err := UnmarshalTypeStyle(bytes)
 //    bytes, err = typeStyle.Marshal()
@@ -193,6 +193,16 @@ func (r *Rectangle) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
+func UnmarshalVector2(data []byte) (Vector2, error) {
+	var r Vector2
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *Vector2) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
 func UnmarshalLayoutGrid(data []byte) (LayoutGrid, error) {
 	var r LayoutGrid
 	err := json.Unmarshal(data, &r)
@@ -282,16 +292,6 @@ func UnmarshalCommentsResponse(data []byte) (CommentsResponse, error) {
 }
 
 func (r *CommentsResponse) Marshal() ([]byte, error) {
-	return json.Marshal(r)
-}
-
-func UnmarshalVector2D(data []byte) (Vector2D, error) {
-	var r Vector2D
-	err := json.Unmarshal(data, &r)
-	return r, err
-}
-
-func (r *Vector2D) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -438,7 +438,7 @@ func (r *Group) Marshal() ([]byte, error) {
 // A relative offset within a frame
 type FrameOffset struct {
 	NodeID     []string `json:"node_id"`    // Unique id specifying the frame.
-	NodeOffset Vector2D `json:"node_offset"`// 2d vector offset within the frame.
+	NodeOffset Vector2  `json:"node_offset"`// 2d vector offset within the frame.
 }
 
 // This field contains three vectors, each of which are a position in
@@ -453,7 +453,7 @@ type FrameOffset struct {
 // A 2d vector
 //
 // 2d vector offset within the frame.
-type Vector2D struct {
+type Vector2 struct {
 	X float64 `json:"x"`// X coordinate of the vector
 	Y float64 `json:"y"`// Y coordinate of the vector
 }
@@ -518,7 +518,7 @@ type LayoutConstraint struct {
 type Effect struct {
 	BlendMode *BlendMode `json:"blendMode"`
 	Color     *Color     `json:"color"`    
-	Offset    *Vector2D  `json:"offset"`   
+	Offset    *Vector2   `json:"offset"`   
 	Radius    float64    `json:"radius"`   // Radius of the blur effect (applies to shadows as well)
 	Type      EffectType `json:"type"`     // Type of effect as a string enum
 	Visible   bool       `json:"visible"`  // Is the effect active?
@@ -572,7 +572,7 @@ type Constraint struct {
 // Paints applied to characters
 type Paint struct {
 	Color                   *Color      `json:"color"`                  // Solid color of the paint
-	GradientHandlePositions []Vector2D  `json:"gradientHandlePositions"`// This field contains three vectors, each of which are a position in; normalized object space (normalized object space is if the top left; corner of the bounding box of the object is (0, 0) and the bottom; right is (1,1)). The first position corresponds to the start of the; gradient (value 0 for the purposes of calculating gradient stops),; the second position is the end of the gradient (value 1), and the; third handle position determines the width of the gradient (only; relevant for non-linear gradients).
+	GradientHandlePositions []Vector2   `json:"gradientHandlePositions"`// This field contains three vectors, each of which are a position in; normalized object space (normalized object space is if the top left; corner of the bounding box of the object is (0, 0) and the bottom; right is (1,1)). The first position corresponds to the start of the; gradient (value 0 for the purposes of calculating gradient stops),; the second position is the end of the gradient (value 1), and the; third handle position determines the width of the gradient (only; relevant for non-linear gradients).
 	GradientStops           []ColorStop `json:"gradientStops"`          // Positions of key points along the gradient axis with the colors; anchored there. Colors along the gradient are interpolated smoothly; between neighboring gradient stops.
 	Opacity                 float64     `json:"opacity"`                // Overall opacity of paint (colors within the paint can also have opacity; values which would blend with this)
 	ScaleMode               *string     `json:"scaleMode"`              // Image scaling mode
@@ -859,10 +859,10 @@ type Comment struct {
 //
 // A relative offset within a frame
 type ClientMeta struct {
-	X          *float64  `json:"x"`          // X coordinate of the vector
-	Y          *float64  `json:"y"`          // Y coordinate of the vector
-	NodeID     []string  `json:"node_id"`    // Unique id specifying the frame.
-	NodeOffset *Vector2D `json:"node_offset"`// 2d vector offset within the frame.
+	X          *float64 `json:"x"`          // X coordinate of the vector
+	Y          *float64 `json:"y"`          // Y coordinate of the vector
+	NodeID     []string `json:"node_id"`    // Unique id specifying the frame.
+	NodeOffset *Vector2 `json:"node_offset"`// 2d vector offset within the frame.
 }
 
 // The user who left the comment

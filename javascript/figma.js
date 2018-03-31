@@ -11,6 +11,7 @@
 //   const text = Convert.toText(json);
 //   const frame = Convert.toFrame(json);
 //   const rectangle = Convert.toRectangle(json);
+//   const vector2 = Convert.toVector2(json);
 //   const layoutGrid = Convert.toLayoutGrid(json);
 //   const string = Convert.toString(json);
 //   const effect = Convert.toEffect(json);
@@ -20,7 +21,6 @@
 //   const blendMode = Convert.toBlendMode(json);
 //   const instance = Convert.toInstance(json);
 //   const commentsResponse = Convert.toCommentsResponse(json);
-//   const vector2D = Convert.toVector2D(json);
 //   const typeStyle = Convert.toTypeStyle(json);
 //   const booleanGroup = Convert.toBooleanGroup(json);
 //   const canvas = Convert.toCanvas(json);
@@ -113,6 +113,14 @@ function rectangleToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
+function toVector2(json) {
+    return cast(JSON.parse(json), o("Vector2"));
+}
+
+function vector2ToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
 function toLayoutGrid(json) {
     return cast(JSON.parse(json), o("LayoutGrid"));
 }
@@ -182,14 +190,6 @@ function toCommentsResponse(json) {
 }
 
 function commentsResponseToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toVector2D(json) {
-    return cast(JSON.parse(json), o("Vector2D"));
-}
-
-function vector2DToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
@@ -385,9 +385,9 @@ function o(className) {
 const typeMap = {
     "FrameOffset": {
         node_id: a(""),
-        node_offset: o("Vector2D"),
+        node_offset: o("Vector2"),
     },
-    "Vector2D": {
+    "Vector2": {
         x: 3.14,
         y: 3.14,
     },
@@ -437,7 +437,7 @@ const typeMap = {
     "Effect": {
         blendMode: u(null, e("BlendMode")),
         color: u(null, o("Color")),
-        offset: u(null, o("Vector2D")),
+        offset: u(null, o("Vector2")),
         radius: 3.14,
         type: e("EffectType"),
         visible: false,
@@ -459,7 +459,7 @@ const typeMap = {
     },
     "Paint": {
         color: u(null, o("Color")),
-        gradientHandlePositions: u(null, a(o("Vector2D"))),
+        gradientHandlePositions: u(null, a(o("Vector2"))),
         gradientStops: u(null, a(o("ColorStop"))),
         opacity: 3.14,
         scaleMode: u(null, ""),
@@ -648,7 +648,7 @@ const typeMap = {
         x: u(null, 3.14),
         y: u(null, 3.14),
         node_id: u(null, a("")),
-        node_offset: u(null, o("Vector2D")),
+        node_offset: u(null, o("Vector2")),
     },
     "User": {
         handle: "",
@@ -895,6 +895,8 @@ module.exports = {
     "toFrame": toFrame,
     "rectangleToJson": rectangleToJson,
     "toRectangle": toRectangle,
+    "vector2ToJson": vector2ToJson,
+    "toVector2": toVector2,
     "layoutGridToJson": layoutGridToJson,
     "toLayoutGrid": toLayoutGrid,
     "stringToJson": stringToJson,
@@ -913,8 +915,6 @@ module.exports = {
     "toInstance": toInstance,
     "commentsResponseToJson": commentsResponseToJson,
     "toCommentsResponse": toCommentsResponse,
-    "vector2DToJson": vector2DToJson,
-    "toVector2D": toVector2D,
     "typeStyleToJson": typeStyleToJson,
     "toTypeStyle": toTypeStyle,
     "booleanGroupToJson": booleanGroupToJson,

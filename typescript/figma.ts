@@ -1,6 +1,6 @@
 // To parse this data:
 //
-//   import { Convert, FrameOffset, Vector, Color, ColorStop, LayoutConstraint, User, Text, Frame, Rectangle, LayoutGrid, Effect, Slice, Star, Line, BlendMode, Instance, CommentsResponse, Vector2D, TypeStyle, BooleanGroup, Canvas, Document, NodeType, ExportSetting, Component, FileResponse, Constraint, Paint, RegularPolygon, Ellipse, Comment, Group } from "./file";
+//   import { Convert, FrameOffset, Vector, Color, ColorStop, LayoutConstraint, User, Text, Frame, Rectangle, Vector2, LayoutGrid, Effect, Slice, Star, Line, BlendMode, Instance, CommentsResponse, TypeStyle, BooleanGroup, Canvas, Document, NodeType, ExportSetting, Component, FileResponse, Constraint, Paint, RegularPolygon, Ellipse, Comment, Group } from "./file";
 //
 //   const frameOffset = Convert.toFrameOffset(json);
 //   const vector = Convert.toVector(json);
@@ -11,6 +11,7 @@
 //   const text = Convert.toText(json);
 //   const frame = Convert.toFrame(json);
 //   const rectangle = Convert.toRectangle(json);
+//   const vector2 = Convert.toVector2(json);
 //   const layoutGrid = Convert.toLayoutGrid(json);
 //   const string = Convert.toString(json);
 //   const effect = Convert.toEffect(json);
@@ -20,7 +21,6 @@
 //   const blendMode = Convert.toBlendMode(json);
 //   const instance = Convert.toInstance(json);
 //   const commentsResponse = Convert.toCommentsResponse(json);
-//   const vector2D = Convert.toVector2D(json);
 //   const typeStyle = Convert.toTypeStyle(json);
 //   const booleanGroup = Convert.toBooleanGroup(json);
 //   const canvas = Convert.toCanvas(json);
@@ -50,7 +50,7 @@ export interface FrameOffset {
     /**
      * 2d vector offset within the frame.
      */
-    node_offset: Vector2D;
+    node_offset: Vector2;
 }
 
 /**
@@ -67,7 +67,7 @@ export interface FrameOffset {
  *
  * 2d vector offset within the frame.
  */
-export interface Vector2D {
+export interface Vector2 {
     /**
      * X coordinate of the vector
      */
@@ -339,7 +339,7 @@ export enum Vertical {
 export interface Effect {
     blendMode?: BlendMode;
     color?:     Color;
-    offset?:    Vector2D;
+    offset?:    Vector2;
     /**
      * Radius of the blur effect (applies to shadows as well)
      */
@@ -484,7 +484,7 @@ export interface Paint {
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
      */
-    gradientHandlePositions?: Vector2D[];
+    gradientHandlePositions?: Vector2[];
     /**
      * Positions of key points along the gradient axis with the colors
      * anchored there. Colors along the gradient are interpolated smoothly
@@ -1432,7 +1432,7 @@ export interface ClientMeta {
     /**
      * 2d vector offset within the frame.
      */
-    node_offset?: Vector2D;
+    node_offset?: Vector2;
 }
 
 /**
@@ -2011,6 +2011,14 @@ export module Convert {
         return JSON.stringify(value, null, 2);
     }
 
+    export function toVector2(json: string): Vector2 {
+        return cast(JSON.parse(json), o("Vector2"));
+    }
+
+    export function vector2ToJson(value: Vector2): string {
+        return JSON.stringify(value, null, 2);
+    }
+
     export function toLayoutGrid(json: string): LayoutGrid {
         return cast(JSON.parse(json), o("LayoutGrid"));
     }
@@ -2080,14 +2088,6 @@ export module Convert {
     }
 
     export function commentsResponseToJson(value: CommentsResponse): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toVector2D(json: string): Vector2D {
-        return cast(JSON.parse(json), o("Vector2D"));
-    }
-
-    export function vector2DToJson(value: Vector2D): string {
         return JSON.stringify(value, null, 2);
     }
 
@@ -2283,9 +2283,9 @@ export module Convert {
     const typeMap: any = {
         "FrameOffset": {
             node_id: a(""),
-            node_offset: o("Vector2D"),
+            node_offset: o("Vector2"),
         },
-        "Vector2D": {
+        "Vector2": {
             x: 3.14,
             y: 3.14,
         },
@@ -2335,7 +2335,7 @@ export module Convert {
         "Effect": {
             blendMode: u(null, e("BlendMode")),
             color: u(null, o("Color")),
-            offset: u(null, o("Vector2D")),
+            offset: u(null, o("Vector2")),
             radius: 3.14,
             type: e("EffectType"),
             visible: false,
@@ -2357,7 +2357,7 @@ export module Convert {
         },
         "Paint": {
             color: u(null, o("Color")),
-            gradientHandlePositions: u(null, a(o("Vector2D"))),
+            gradientHandlePositions: u(null, a(o("Vector2"))),
             gradientStops: u(null, a(o("ColorStop"))),
             opacity: 3.14,
             scaleMode: u(null, ""),
@@ -2546,7 +2546,7 @@ export module Convert {
             x: u(null, 3.14),
             y: u(null, 3.14),
             node_id: u(null, a("")),
-            node_offset: u(null, o("Vector2D")),
+            node_offset: u(null, o("Vector2")),
         },
         "User": {
             handle: "",
