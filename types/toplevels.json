@@ -32,6 +32,14 @@
           "$ref": "schema.json#/definitions/ProjectsResponse"
         }
       ]
+    },
+    "ProjectFilesResponse": {
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "schema.json#/definitions/ProjectFilesResponse"
+        }
+      ]
     }
   }
 }

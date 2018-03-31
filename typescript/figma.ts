@@ -1,11 +1,12 @@
 // To parse this data:
 //
-//   import { Convert, FileResponse, CommentsResponse, CommentRequest, ProjectsResponse } from "./file";
+//   import { Convert, FileResponse, CommentsResponse, CommentRequest, ProjectsResponse, ProjectFilesResponse } from "./file";
 //
 //   const fileResponse = Convert.toFileResponse(json);
 //   const commentsResponse = Convert.toCommentsResponse(json);
 //   const commentRequest = Convert.toCommentRequest(json);
 //   const projectsResponse = Convert.toProjectsResponse(json);
+//   const projectFilesResponse = Convert.toProjectFilesResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -1064,6 +1065,30 @@ export interface Project {
     name: string;
 }
 
+/**
+ * GET /v1/projects/:project_id/files
+ *
+ * > Description
+ * List the files in a given project.
+ *
+ * > Path parameters
+ * project_id String
+ * Id of the project to list files from
+ */
+export interface ProjectFilesResponse {
+    files: File[];
+}
+
+export interface File {
+    key: string;
+    /**
+     * utc date in iso8601
+     */
+    last_modified: string;
+    name:          string;
+    thumbnail_url: string;
+}
+
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
@@ -1096,6 +1121,14 @@ export module Convert {
     }
 
     export function projectsResponseToJson(value: ProjectsResponse): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toProjectFilesResponse(json: string): ProjectFilesResponse {
+        return cast(JSON.parse(json), o("ProjectFilesResponse"));
+    }
+
+    export function projectFilesResponseToJson(value: ProjectFilesResponse): string {
         return JSON.stringify(value, null, 2);
     }
     
@@ -1358,6 +1391,15 @@ export module Convert {
         "Project": {
             id: 3.14,
             name: "",
+        },
+        "ProjectFilesResponse": {
+            files: a(o("File")),
+        },
+        "File": {
+            key: "",
+            last_modified: "",
+            name: "",
+            thumbnail_url: "",
         },
         "BlendMode": [
             "COLOR",

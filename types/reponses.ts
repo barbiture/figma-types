@@ -90,3 +90,24 @@ export interface CommentRequest {
 export interface ProjectsResponse {
   projects: { id: number; name: string }[];
 }
+
+/**
+ * GET /v1/projects/:project_id/files
+ *
+ * > Description
+ * List the files in a given project.
+ *
+ * > Path parameters
+ * project_id String
+ * Id of the project to list files from
+ */
+export interface ProjectFilesResponse {
+  files: {
+    key: string;
+    name: string;
+    thumbnail_url: string;
+
+    /** utc date in iso8601 */
+    last_modified: string;
+  }[];
+}

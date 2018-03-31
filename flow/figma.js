@@ -8,6 +8,7 @@
 //   const commentsResponse = Convert.toCommentsResponse(json);
 //   const commentRequest = Convert.toCommentRequest(json);
 //   const projectsResponse = Convert.toProjectsResponse(json);
+//   const projectFilesResponse = Convert.toProjectFilesResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -1053,6 +1054,30 @@ export type Project = {
     name: string;
 };
 
+/**
+ * GET /v1/projects/:project_id/files
+ *
+ * > Description
+ * List the files in a given project.
+ *
+ * > Path parameters
+ * project_id String
+ * Id of the project to list files from
+ */
+export type ProjectFilesResponse = {
+    files: File[];
+};
+
+export type File = {
+    key: string;
+    /**
+     * utc date in iso8601
+     */
+    last_modified: string;
+    name:          string;
+    thumbnail_url: string;
+};
+
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 function toFileResponse(json: string): FileResponse {
@@ -1084,6 +1109,14 @@ function toProjectsResponse(json: string): ProjectsResponse {
 }
 
 function projectsResponseToJson(value: ProjectsResponse): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toProjectFilesResponse(json: string): ProjectFilesResponse {
+    return cast(JSON.parse(json), o("ProjectFilesResponse"));
+}
+
+function projectFilesResponseToJson(value: ProjectFilesResponse): string {
     return JSON.stringify(value, null, 2);
 }
 
@@ -1347,6 +1380,15 @@ const typeMap: any = {
         id: 3.14,
         name: "",
     },
+    "ProjectFilesResponse": {
+        files: a(o("File")),
+    },
+    "File": {
+        key: "",
+        last_modified: "",
+        name: "",
+        thumbnail_url: "",
+    },
     "BlendMode": [
         "COLOR",
         "COLOR_BURN",
@@ -1461,4 +1503,6 @@ module.exports = {
     "toCommentRequest": toCommentRequest,
     "projectsResponseToJson": projectsResponseToJson,
     "toProjectsResponse": toProjectsResponse,
+    "projectFilesResponseToJson": projectFilesResponseToJson,
+    "toProjectFilesResponse": toProjectFilesResponse,
 };

@@ -12,6 +12,7 @@
 //     CommentsResponse data = Converter.CommentsResponseFromJsonString(jsonString);
 //     CommentRequest data = Converter.CommentRequestFromJsonString(jsonString);
 //     ProjectsResponse data = Converter.ProjectsResponseFromJsonString(jsonString);
+//     ProjectFilesResponse data = Converter.ProjectFilesResponseFromJsonString(jsonString);
 
 package io.quicktype;
 
@@ -53,6 +54,14 @@ public class Converter {
 
     public static String ProjectsResponseToJsonString(ProjectsResponse obj) throws JsonProcessingException {
         return getProjectsResponseObjectWriter().writeValueAsString(obj);
+    }
+
+    public static ProjectFilesResponse ProjectFilesResponseFromJsonString(String json) throws IOException {
+        return getProjectFilesResponseObjectReader().readValue(json);
+    }
+
+    public static String ProjectFilesResponseToJsonString(ProjectFilesResponse obj) throws JsonProcessingException {
+        return getProjectFilesResponseObjectWriter().writeValueAsString(obj);
     }
 
     private static ObjectReader FileResponseReader;
@@ -129,5 +138,24 @@ public class Converter {
     private static ObjectWriter getProjectsResponseObjectWriter() {
         if (ProjectsResponseWriter == null) instantiateMapper();
         return ProjectsResponseWriter;
+    }
+
+    private static ObjectReader ProjectFilesResponseReader;
+    private static ObjectWriter ProjectFilesResponseWriter;
+
+    private static void instantiateProjectFilesResponseMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        ProjectFilesResponseReader = mapper.reader(ProjectFilesResponse.class);
+        ProjectFilesResponseWriter = mapper.writerFor(ProjectFilesResponse.class);
+    }
+
+    private static ObjectReader getProjectFilesResponseObjectReader() {
+        if (ProjectFilesResponseReader == null) instantiateMapper();
+        return ProjectFilesResponseReader;
+    }
+
+    private static ObjectWriter getProjectFilesResponseObjectWriter() {
+        if (ProjectFilesResponseWriter == null) instantiateMapper();
+        return ProjectFilesResponseWriter;
     }
 }

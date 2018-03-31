@@ -9,9 +9,10 @@
 //     CommentsResponse data = nlohmann::json::parse(jsonString);
 //     CommentRequest data = nlohmann::json::parse(jsonString);
 //     ProjectsResponse data = nlohmann::json::parse(jsonString);
+//     ProjectFilesResponse data = nlohmann::json::parse(jsonString);
 
-#ifndef __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_PROJECTSRESPONSE_HPP__
-#define __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_PROJECTSRESPONSE_HPP__
+#ifndef __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_PROJECTSRESPONSE_PROJECTFILESRESPONSE_HPP__
+#define __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_PROJECTSRESPONSE_PROJECTFILESRESPONSE_HPP__
 
 #include "json.hpp"
 
@@ -981,6 +982,30 @@ namespace quicktype {
     struct ProjectsResponse {
         std::vector<struct Project> projects;
     };
+
+    struct File {
+        std::string key;
+        /**
+         * utc date in iso8601
+         */
+        std::string last_modified;
+        std::string name;
+        std::string thumbnail_url;
+    };
+
+    /**
+     * GET /v1/projects/:project_id/files
+     *
+     * > Description
+     * List the files in a given project.
+     *
+     * > Path parameters
+     * project_id String
+     * Id of the project to list files from
+     */
+    struct ProjectFilesResponse {
+        std::vector<struct File> files;
+    };
     
     inline json get_untyped(const json &j, const char *property) {
         if (j.find(property) != j.end()) {
@@ -1443,6 +1468,30 @@ namespace nlohmann {
     inline void to_json(json& _j, const struct quicktype::ProjectsResponse& _x) {
         _j = json::object();
         _j["projects"] = _x.projects;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::File& _x) {
+        _x.key = _j.at("key").get<std::string>();
+        _x.last_modified = _j.at("last_modified").get<std::string>();
+        _x.name = _j.at("name").get<std::string>();
+        _x.thumbnail_url = _j.at("thumbnail_url").get<std::string>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::File& _x) {
+        _j = json::object();
+        _j["key"] = _x.key;
+        _j["last_modified"] = _x.last_modified;
+        _j["name"] = _x.name;
+        _j["thumbnail_url"] = _x.thumbnail_url;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::ProjectFilesResponse& _x) {
+        _x.files = _j.at("files").get<std::vector<struct quicktype::File>>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::ProjectFilesResponse& _x) {
+        _j = json::object();
+        _j["files"] = _x.files;
     }
 
     inline void from_json(const json& _j, quicktype::BlendMode& _x) {

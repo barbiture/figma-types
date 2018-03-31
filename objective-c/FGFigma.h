@@ -5,6 +5,7 @@
 //   FGCommentsResponse *commentsResponse = [FGCommentsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
 //   FGCommentRequest *commentRequest = [FGCommentRequest fromJSON:json encoding:NSUTF8Encoding error:&error];
 //   FGProjectsResponse *projectsResponse = [FGProjectsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
+//   FGProjectFilesResponse *projectFilesResponse = [FGProjectFilesResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
 
 #import <Foundation/Foundation.h>
 
@@ -43,6 +44,8 @@
 @class FGCommentRequest;
 @class FGProjectsResponse;
 @class FGProject;
+@class FGProjectFilesResponse;
+@class FGFile;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -830,6 +833,31 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FGProject : NSObject
 @property (nonatomic, assign) double identifier;
 @property (nonatomic, copy)   NSString *name;
+@end
+
+/// GET /v1/projects/:project_id/files
+///
+/// > Description
+/// List the files in a given project.
+///
+/// > Path parameters
+/// project_id String
+/// Id of the project to list files from
+@interface FGProjectFilesResponse : NSObject
+@property (nonatomic, copy) NSArray<FGFile *> *files;
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+@end
+
+@interface FGFile : NSObject
+@property (nonatomic, copy) NSString *key;
+/// utc date in iso8601
+@property (nonatomic, copy) NSString *lastModified;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *thumbnailURL;
 @end
 
 NS_ASSUME_NONNULL_END

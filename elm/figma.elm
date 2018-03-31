@@ -5,7 +5,7 @@
 -- add these imports
 --
 --     import Json.Decode exposing (decodeString)`);
---     import QuickType exposing (fileResponse, commentsResponse, commentRequest, projectsResponse)
+--     import QuickType exposing (fileResponse, commentsResponse, commentRequest, projectsResponse, projectFilesResponse)
 --
 -- and you're off to the races with
 --
@@ -13,6 +13,7 @@
 --     decodeString commentsResponse myJsonString
 --     decodeString commentRequest myJsonString
 --     decodeString projectsResponse myJsonString
+--     decodeString projectFilesResponse myJsonString
 
 module QuickType exposing
     ( FileResponse
@@ -27,6 +28,9 @@ module QuickType exposing
     , ProjectsResponse
     , projectsResponseToString
     , projectsResponse
+    , ProjectFilesResponse
+    , projectFilesResponseToString
+    , projectFilesResponse
     , Component
     , AbsoluteBoundingBox
     , Constraints
@@ -45,6 +49,7 @@ module QuickType exposing
     , ClientMeta
     , User
     , Project
+    , File
     , AbsoluteBoundingBoxType(..)
     , BlendMode(..)
     , Horizontal(..)
@@ -1067,6 +1072,29 @@ type alias Project =
     , name : String
     }
 
+{-| GET /v1/projects/:project_id/files
+
+> Description
+List the files in a given project.
+
+> Path parameters
+project_id String
+Id of the project to list files from
+-}
+type alias ProjectFilesResponse =
+    { files : Array File
+    }
+
+{-| lastModified:
+utc date in iso8601
+-}
+type alias File =
+    { key : String
+    , lastModified : String
+    , name : String
+    , thumbnailURL : String
+    }
+
 -- decoders and encoders
 
 fileResponseToString : FileResponse -> String
@@ -1080,6 +1108,9 @@ commentRequestToString r = Jenc.encode 0 (encodeCommentRequest r)
 
 projectsResponseToString : ProjectsResponse -> String
 projectsResponseToString r = Jenc.encode 0 (encodeProjectsResponse r)
+
+projectFilesResponseToString : ProjectFilesResponse -> String
+projectFilesResponseToString r = Jenc.encode 0 (encodeProjectFilesResponse r)
 
 fileResponse : Jdec.Decoder FileResponse
 fileResponse =
@@ -1850,6 +1881,34 @@ encodeProject x =
     Jenc.object
         [ ("id", Jenc.float x.id)
         , ("name", Jenc.string x.name)
+        ]
+
+projectFilesResponse : Jdec.Decoder ProjectFilesResponse
+projectFilesResponse =
+    Jpipe.decode ProjectFilesResponse
+        |> Jpipe.required "files" (Jdec.array file)
+
+encodeProjectFilesResponse : ProjectFilesResponse -> Jenc.Value
+encodeProjectFilesResponse x =
+    Jenc.object
+        [ ("files", makeArrayEncoder encodeFile x.files)
+        ]
+
+file : Jdec.Decoder File
+file =
+    Jpipe.decode File
+        |> Jpipe.required "key" Jdec.string
+        |> Jpipe.required "last_modified" Jdec.string
+        |> Jpipe.required "name" Jdec.string
+        |> Jpipe.required "thumbnail_url" Jdec.string
+
+encodeFile : File -> Jenc.Value
+encodeFile x =
+    Jenc.object
+        [ ("key", Jenc.string x.key)
+        , ("last_modified", Jenc.string x.lastModified)
+        , ("name", Jenc.string x.name)
+        , ("thumbnail_url", Jenc.string x.thumbnailURL)
         ]
 
 --- encoder helpers

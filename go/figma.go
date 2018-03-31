@@ -11,6 +11,9 @@
 //
 //    projectsResponse, err := UnmarshalProjectsResponse(bytes)
 //    bytes, err = projectsResponse.Marshal()
+//
+//    projectFilesResponse, err := UnmarshalProjectFilesResponse(bytes)
+//    bytes, err = projectFilesResponse.Marshal()
 
 package main
 
@@ -53,6 +56,16 @@ func UnmarshalProjectsResponse(data []byte) (ProjectsResponse, error) {
 }
 
 func (r *ProjectsResponse) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+func UnmarshalProjectFilesResponse(data []byte) (ProjectFilesResponse, error) {
+	var r ProjectFilesResponse
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *ProjectFilesResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -445,6 +458,25 @@ type ProjectsResponse struct {
 type Project struct {
 	ID   float64 `json:"id"`  
 	Name string  `json:"name"`
+}
+
+// GET /v1/projects/:project_id/files
+//
+// > Description
+// List the files in a given project.
+//
+// > Path parameters
+// project_id String
+// Id of the project to list files from
+type ProjectFilesResponse struct {
+	Files []File `json:"files"`
+}
+
+type File struct {
+	Key          string `json:"key"`          
+	LastModified string `json:"last_modified"`// utc date in iso8601
+	Name         string `json:"name"`         
+	ThumbnailURL string `json:"thumbnail_url"`
 }
 
 // How this node blends with nodes behind it in the scene

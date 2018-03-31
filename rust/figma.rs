@@ -872,6 +872,36 @@ pub struct Project {
     name: String,
 }
 
+/// GET /v1/projects/:project_id/files
+///
+/// > Description
+/// List the files in a given project.
+///
+/// > Path parameters
+/// project_id String
+/// Id of the project to list files from
+#[derive(Serialize, Deserialize)]
+pub struct ProjectFilesResponse {
+    #[serde(rename = "files")]
+    files: Vec<File>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct File {
+    #[serde(rename = "key")]
+    key: String,
+
+    /// utc date in iso8601
+    #[serde(rename = "last_modified")]
+    last_modified: String,
+
+    #[serde(rename = "name")]
+    name: String,
+
+    #[serde(rename = "thumbnail_url")]
+    thumbnail_url: String,
+}
+
 /// the type of the node, refer to table below for details
 #[derive(Serialize, Deserialize)]
 pub enum AbsoluteBoundingBoxType {

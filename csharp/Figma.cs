@@ -6,6 +6,7 @@
 //    var commentsResponse = CommentsResponse.FromJson(jsonString);
 //    var commentRequest = CommentRequest.FromJson(jsonString);
 //    var projectsResponse = ProjectsResponse.FromJson(jsonString);
+//    var projectFilesResponse = ProjectFilesResponse.FromJson(jsonString);
 
 namespace QuickType
 {
@@ -1168,6 +1169,40 @@ namespace QuickType
     }
 
     /// <summary>
+    /// GET /v1/projects/:project_id/files
+    ///
+    /// > Description
+    /// List the files in a given project.
+    ///
+    /// > Path parameters
+    /// project_id String
+    /// Id of the project to list files from
+    /// </summary>
+    public partial class ProjectFilesResponse
+    {
+        [JsonProperty("files")]
+        public File[] Files { get; set; }
+    }
+
+    public partial class File
+    {
+        [JsonProperty("key")]
+        public string Key { get; set; }
+
+        /// <summary>
+        /// utc date in iso8601
+        /// </summary>
+        [JsonProperty("last_modified")]
+        public string LastModified { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("thumbnail_url")]
+        public string ThumbnailUrl { get; set; }
+    }
+
+    /// <summary>
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
     /// </summary>
@@ -1275,6 +1310,11 @@ namespace QuickType
     public partial class ProjectsResponse
     {
         public static ProjectsResponse FromJson(string json) => JsonConvert.DeserializeObject<ProjectsResponse>(json, QuickType.Converter.Settings);
+    }
+
+    public partial class ProjectFilesResponse
+    {
+        public static ProjectFilesResponse FromJson(string json) => JsonConvert.DeserializeObject<ProjectFilesResponse>(json, QuickType.Converter.Settings);
     }
 
     static class BlendModeExtensions
@@ -1775,6 +1815,7 @@ namespace QuickType
         public static string ToJson(this CommentsResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this CommentRequest self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this ProjectsResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this ProjectFilesResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
     }
 
     internal class Converter: JsonConverter

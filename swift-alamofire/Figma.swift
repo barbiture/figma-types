@@ -4,6 +4,7 @@
 //   let commentsResponse = try CommentsResponse(json)
 //   let commentRequest = try CommentRequest(json)
 //   let projectsResponse = try ProjectsResponse(json)
+//   let projectFilesResponse = try ProjectFilesResponse(json)
 //
 // To parse values from Alamofire responses:
 //
@@ -27,6 +28,12 @@
 //
 //   Alamofire.request(url).responseProjectsResponse { response in
 //     if let projectsResponse = response.result.value {
+//       ...
+//     }
+//   }
+//
+//   Alamofire.request(url).responseProjectFilesResponse { response in
+//     if let projectFilesResponse = response.result.value {
 //       ...
 //     }
 //   }
@@ -823,6 +830,32 @@ struct Project: Codable {
     let name: String
 }
 
+/// GET /v1/projects/:project_id/files
+///
+/// > Description
+/// List the files in a given project.
+///
+/// > Path parameters
+/// project_id String
+/// Id of the project to list files from
+struct ProjectFilesResponse: Codable {
+    let files: [File]
+}
+
+struct File: Codable {
+    let key: String
+    /// utc date in iso8601
+    let lastModified: String
+    let name, thumbnailURL: String
+
+    enum CodingKeys: String, CodingKey {
+        case key
+        case lastModified = "last_modified"
+        case name
+        case thumbnailURL = "thumbnail_url"
+    }
+}
+
 // MARK: - Alamofire response handlers
 
 extension DataRequest {
@@ -860,6 +893,11 @@ extension DataRequest {
 
     @discardableResult
     func responseProjectsResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ProjectsResponse>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    func responseProjectFilesResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ProjectFilesResponse>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }
@@ -1395,6 +1433,56 @@ extension ProjectsResponse {
 extension Project {
     init(data: Data) throws {
         self = try JSONDecoder().decode(Project.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension ProjectFilesResponse {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(ProjectFilesResponse.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension File {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(File.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
