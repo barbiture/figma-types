@@ -1,8 +1,6 @@
 import { Document, Component } from "./nodes";
 import { Comment } from "./types";
 
-export type Export = FileResponse | CommentsResponse;
-
 /**
  * GET /v1/files/:key
  *
