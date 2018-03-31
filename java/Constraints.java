@@ -4,9 +4,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * Layout constraint relative to containing Frame
- *
  * Horizontal and vertical layout constraints for node
+ *
+ * Layout constraint relative to containing Frame
  */
 public class Constraints {
     private Horizontal horizontal;

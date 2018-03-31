@@ -5,86 +5,16 @@
 //
 //  Then include this file, and then do
 //
-//     FrameOffset data = nlohmann::json::parse(jsonString);
-//     Vector data = nlohmann::json::parse(jsonString);
-//     Color data = nlohmann::json::parse(jsonString);
-//     ColorStop data = nlohmann::json::parse(jsonString);
-//     LayoutConstraint data = nlohmann::json::parse(jsonString);
-//     User data = nlohmann::json::parse(jsonString);
-//     Text data = nlohmann::json::parse(jsonString);
-//     Frame data = nlohmann::json::parse(jsonString);
-//     Rectangle data = nlohmann::json::parse(jsonString);
-//     Vector2 data = nlohmann::json::parse(jsonString);
-//     LayoutGrid data = nlohmann::json::parse(jsonString);
-//     String data = nlohmann::json::parse(jsonString);
-//     Effect data = nlohmann::json::parse(jsonString);
-//     Slice data = nlohmann::json::parse(jsonString);
-//     Star data = nlohmann::json::parse(jsonString);
-//     Line data = nlohmann::json::parse(jsonString);
-//     BlendMode data = nlohmann::json::parse(jsonString);
-//     Instance data = nlohmann::json::parse(jsonString);
-//     CommentsResponse data = nlohmann::json::parse(jsonString);
-//     TypeStyle data = nlohmann::json::parse(jsonString);
-//     BooleanGroup data = nlohmann::json::parse(jsonString);
-//     Canvas data = nlohmann::json::parse(jsonString);
-//     Document data = nlohmann::json::parse(jsonString);
-//     NodeType data = nlohmann::json::parse(jsonString);
-//     ExportSetting data = nlohmann::json::parse(jsonString);
-//     Component data = nlohmann::json::parse(jsonString);
 //     FileResponse data = nlohmann::json::parse(jsonString);
-//     Constraint data = nlohmann::json::parse(jsonString);
-//     Paint data = nlohmann::json::parse(jsonString);
-//     RegularPolygon data = nlohmann::json::parse(jsonString);
-//     Ellipse data = nlohmann::json::parse(jsonString);
-//     Comment data = nlohmann::json::parse(jsonString);
-//     Group data = nlohmann::json::parse(jsonString);
+//     CommentsResponse data = nlohmann::json::parse(jsonString);
 
-#ifndef __QUICKTYPE_FRAMEOFFSET_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_USER_TEXT_FRAME_RECTANGLE_VECTOR2_LAYOUTGRID_STRING_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_COMMENTSRESPONSE_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_COMMENT_GROUP_HPP__
-#define __QUICKTYPE_FRAMEOFFSET_VECTOR_COLOR_COLORSTOP_LAYOUTCONSTRAINT_USER_TEXT_FRAME_RECTANGLE_VECTOR2_LAYOUTGRID_STRING_EFFECT_SLICE_STAR_LINE_BLENDMODE_INSTANCE_COMMENTSRESPONSE_TYPESTYLE_BOOLEANGROUP_CANVAS_DOCUMENT_NODETYPE_EXPORTSETTING_COMPONENT_FILERESPONSE_CONSTRAINT_PAINT_REGULARPOLYGON_ELLIPSE_COMMENT_GROUP_HPP__
+#ifndef __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_HPP__
+#define __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_HPP__
 
 #include "json.hpp"
 
 namespace quicktype {
     using nlohmann::json;
-
-    /**
-     * This field contains three vectors, each of which are a position in
-     * normalized object space (normalized object space is if the top left
-     * corner of the bounding box of the object is (0, 0) and the bottom
-     * right is (1,1)). The first position corresponds to the start of the
-     * gradient (value 0 for the purposes of calculating gradient stops),
-     * the second position is the end of the gradient (value 1), and the
-     * third handle position determines the width of the gradient (only
-     * relevant for non-linear gradients).
-     *
-     * A 2d vector
-     *
-     * 2d vector offset within the frame.
-     */
-    struct Vector2 {
-        /**
-         * X coordinate of the vector
-         */
-        double x;
-        /**
-         * Y coordinate of the vector
-         */
-        double y;
-    };
-
-    /**
-     * A relative offset within a frame
-     */
-    struct FrameOffset {
-        /**
-         * Unique id specifying the frame.
-         */
-        std::vector<std::string> node_id;
-        /**
-         * 2d vector offset within the frame.
-         */
-        struct Vector2 node_offset;
-    };
 
     /**
      * How this node blends with nodes behind it in the scene
@@ -119,7 +49,7 @@ namespace quicktype {
      *
      * Layout constraint relative to containing Frame
      */
-    struct LayoutConstraint {
+    struct Constraints {
         /**
          * Horizontal constraint as an enum
          * "LEFT": Node is laid out relative to left of the containing frame
@@ -147,15 +77,15 @@ namespace quicktype {
      *
      * An RGBA color
      *
-     * Color of the grid
-     *
      * Background color of the node
      *
      * Color attached to corresponding position
      *
      * Background color of the canvas
+     *
+     * Color of the grid
      */
-    struct Color {
+    struct Olor {
         /**
          * Alpha channel value, between 0 and 1
          */
@@ -175,6 +105,31 @@ namespace quicktype {
     };
 
     /**
+     * This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left
+     * corner of the bounding box of the object is (0, 0) and the bottom
+     * right is (1,1)). The first position corresponds to the start of the
+     * gradient (value 0 for the purposes of calculating gradient stops),
+     * the second position is the end of the gradient (value 1), and the
+     * third handle position determines the width of the gradient (only
+     * relevant for non-linear gradients).
+     *
+     * A 2d vector
+     *
+     * 2d vector offset within the frame.
+     */
+    struct Offset {
+        /**
+         * X coordinate of the vector
+         */
+        double x;
+        /**
+         * Y coordinate of the vector
+         */
+        double y;
+    };
+
+    /**
      * Type of effect as a string enum
      */
     enum class EffectType { BACKGROUND_BLUR, DROP_SHADOW, INNER_SHADOW, LAYER_BLUR };
@@ -187,8 +142,8 @@ namespace quicktype {
      */
     struct Effect {
         std::unique_ptr<BlendMode> blend_mode;
-        std::unique_ptr<struct Color> color;
-        std::unique_ptr<struct Vector2> offset;
+        std::unique_ptr<struct Olor> color;
+        std::unique_ptr<struct Offset> offset;
         /**
          * Radius of the blur effect (applies to shadows as well)
          */
@@ -240,9 +195,9 @@ namespace quicktype {
      *
      * Format and size to export an asset at
      *
-     * An array of export settings representing images to export from the canvas
-     *
      * An array of export settings representing images to export from this node
+     *
+     * An array of export settings representing images to export from the canvas
      */
     struct ExportSetting {
         /**
@@ -270,7 +225,7 @@ namespace quicktype {
         /**
          * Color attached to corresponding position
          */
-        struct Color color;
+        struct Olor color;
         /**
          * Value between 0 and 1 representing position along gradient axis
          */
@@ -283,11 +238,11 @@ namespace quicktype {
     enum class PaintType { EMOJI, GRADIENT_ANGULAR, GRADIENT_DIAMOND, GRADIENT_LINEAR, GRADIENT_RADIAL, IMAGE, SOLID };
 
     /**
+     * An array of fill paints applied to the node
+     *
      * A solid color, gradient, or image texture that can be applied as fills or strokes
      *
      * An array of stroke paints applied to the node
-     *
-     * An array of fill paints applied to the node
      *
      * Paints applied to characters
      */
@@ -295,7 +250,7 @@ namespace quicktype {
         /**
          * Solid color of the paint
          */
-        std::unique_ptr<struct Color> color;
+        std::unique_ptr<struct Olor> color;
         /**
          * This field contains three vectors, each of which are a position in
          * normalized object space (normalized object space is if the top left
@@ -306,7 +261,7 @@ namespace quicktype {
          * third handle position determines the width of the gradient (only
          * relevant for non-linear gradients).
          */
-        std::unique_ptr<std::vector<struct Vector2>> gradient_handle_positions;
+        std::unique_ptr<std::vector<struct Offset>> gradient_handle_positions;
         /**
          * Positions of key points along the gradient axis with the colors
          * anchored there. Colors along the gradient are interpolated smoothly
@@ -343,14 +298,14 @@ namespace quicktype {
     /**
      * the type of the node, refer to table below for details
      */
-    enum class NodeType { BOOLEAN, CANVAS, COMPONENT, DOCUMENT, ELLIPSE, FRAME, GROUP, INSTANCE, LINE, RECTANGLE, REGULAR_POLYGON, SLICE, STAR, TEXT, VECTOR };
+    enum class AbsoluteBoundingBoxType { BOOLEAN, CANVAS, COMPONENT, DOCUMENT, ELLIPSE, FRAME, GROUP, INSTANCE, LINE, RECTANGLE, REGULAR_POLYGON, SLICE, STAR, TEXT, VECTOR };
 
     /**
      * Bounding box of the node in absolute space coordinates
      *
      * A rectangle
      */
-    struct Rectangle {
+    struct AbsoluteBoundingBox {
         /**
          * An array of effects attached to this node
          * (see effects sectionfor more details)
@@ -386,7 +341,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct Rectangle absolute_bounding_box;
+        struct AbsoluteBoundingBox absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -403,7 +358,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct LayoutConstraint constraints;
+        struct Constraints constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -415,7 +370,7 @@ namespace quicktype {
         /**
          * the type of the node, refer to table below for details
          */
-        NodeType type;
+        AbsoluteBoundingBoxType type;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -431,82 +386,66 @@ namespace quicktype {
     };
 
     /**
-     * A vector network, consisting of vertices and edges
+     * Positioning of grid as a string enum
+     * "MIN": Grid starts at the left or top of the frame
+     * "MAX": Grid starts at the right or bottom of the frame
+     * "CENTER": Grid is center aligned
      */
-    struct Vector {
+    enum class Alignment { CENTER, MAX, MIN };
+
+    /**
+     * Orientation of the grid as a string enum
+     * "COLUMNS": Vertical grid
+     * "ROWS": Horizontal grid
+     * "GRID": Square grid
+     */
+    enum class Pattern { COLUMNS, GRID, ROWS };
+
+    /**
+     * An array of layout grids attached to this node (see layout grids section
+     * for more details). GROUP nodes do not have this attribute
+     *
+     * Guides to align and place objects within a frame
+     */
+    struct LayoutGrid {
         /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
+         * Positioning of grid as a string enum
+         * "MIN": Grid starts at the left or top of the frame
+         * "MAX": Grid starts at the right or bottom of the frame
+         * "CENTER": Grid is center aligned
          */
-        std::vector<struct Effect> effects;
+        Alignment alignment;
         /**
-         * Opacity of the node
+         * Color of the grid
          */
-        double opacity;
+        struct Olor color;
         /**
-         * the name given to the node by the user in the tool.
+         * Number of columns or rows
          */
-        std::string name;
+        double count;
         /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
+         * Spacing in between columns and rows
          */
-        StrokeAlign stroke_align;
+        double gutter_size;
         /**
-         * The weight of strokes on the node
+         * Spacing before the first column or row
          */
-        double stroke_weight;
+        double offset;
         /**
-         * An array of fill paints applied to the node
+         * Orientation of the grid as a string enum
+         * "COLUMNS": Vertical grid
+         * "ROWS": Horizontal grid
+         * "GRID": Square grid
          */
-        std::vector<struct Paint> fills;
+        Pattern pattern;
         /**
-         * Bounding box of the node in absolute space coordinates
+         * Width of column grid or height of row grid or square grid spacing
          */
-        struct Rectangle absolute_bounding_box;
+        double section_size;
         /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
+         * Is the grid currently visible?
          */
         bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
     };
 
     /**
@@ -527,7 +466,7 @@ namespace quicktype {
      * Style of text including font family and weight (see type style
      * section for more information)
      */
-    struct TypeStyle {
+    struct Tyle {
         /**
          * Line height in px
          */
@@ -575,168 +514,6 @@ namespace quicktype {
     };
 
     /**
-     * A text box
-     */
-    struct Text {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * Text contained within text box
-         */
-        std::string characters;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
-         */
-        StrokeAlign stroke_align;
-        /**
-         * The weight of strokes on the node
-         */
-        double stroke_weight;
-        /**
-         * An array of fill paints applied to the node
-         */
-        std::vector<struct Paint> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Map from ID to TypeStyle for looking up style overrides
-         */
-        std::vector<struct TypeStyle> style_override_table;
-        /**
-         * Style of text including font family and weight (see type style
-         * section for more information)
-         */
-        struct TypeStyle style;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-        /**
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         */
-        std::vector<double> character_style_overrides;
-    };
-
-    /**
-     * Positioning of grid as a string enum
-     * "MIN": Grid starts at the left or top of the frame
-     * "MAX": Grid starts at the right or bottom of the frame
-     * "CENTER": Grid is center aligned
-     */
-    enum class Alignment { CENTER, MAX, MIN };
-
-    /**
-     * Orientation of the grid as a string enum
-     * "COLUMNS": Vertical grid
-     * "ROWS": Horizontal grid
-     * "GRID": Square grid
-     */
-    enum class Pattern { COLUMNS, GRID, ROWS };
-
-    /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
-     *
-     * Guides to align and place objects within a frame
-     */
-    struct LayoutGrid {
-        /**
-         * Positioning of grid as a string enum
-         * "MIN": Grid starts at the left or top of the frame
-         * "MAX": Grid starts at the right or bottom of the frame
-         * "CENTER": Grid is center aligned
-         */
-        Alignment alignment;
-        /**
-         * Color of the grid
-         */
-        struct Color color;
-        /**
-         * Number of columns or rows
-         */
-        double count;
-        /**
-         * Spacing in between columns and rows
-         */
-        double gutter_size;
-        /**
-         * Spacing before the first column or row
-         */
-        double offset;
-        /**
-         * Orientation of the grid as a string enum
-         * "COLUMNS": Vertical grid
-         * "ROWS": Horizontal grid
-         * "GRID": Square grid
-         */
-        Pattern pattern;
-        /**
-         * Width of column grid or height of row grid or square grid spacing
-         */
-        double section_size;
-        /**
-         * Is the grid currently visible?
-         */
-        bool visible;
-    };
-
-    /**
      * An array of nodes that are direct children of this node
      *
      * An array of nodes that are being boolean operated on
@@ -781,7 +558,7 @@ namespace quicktype {
      * An instance of a component, changes to the component result in the same
      * changes applied to the instance
      */
-    struct DocumentElement {
+    struct Document {
         /**
          * An array of canvases attached to the document
          *
@@ -791,7 +568,7 @@ namespace quicktype {
          *
          * An array of nodes that are being boolean operated on
          */
-        std::unique_ptr<std::vector<struct DocumentElement>> children;
+        std::unique_ptr<std::vector<struct Document>> children;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -803,7 +580,7 @@ namespace quicktype {
         /**
          * the type of the node, refer to table below for details
          */
-        NodeType type;
+        AbsoluteBoundingBoxType type;
         /**
          * whether or not the node is visible on the canvas
          */
@@ -813,7 +590,7 @@ namespace quicktype {
          *
          * Background color of the node
          */
-        std::unique_ptr<struct Color> background_color;
+        std::unique_ptr<struct Olor> background_color;
         /**
          * An array of export settings representing images to export from the canvas
          *
@@ -839,7 +616,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        std::unique_ptr<struct Rectangle> absolute_bounding_box;
+        std::unique_ptr<struct AbsoluteBoundingBox> absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -852,7 +629,7 @@ namespace quicktype {
         /**
          * Horizontal and vertical layout constraints for node
          */
-        std::unique_ptr<struct LayoutConstraint> constraints;
+        std::unique_ptr<struct Constraints> constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -895,12 +672,12 @@ namespace quicktype {
         /**
          * Map from ID to TypeStyle for looking up style overrides
          */
-        std::unique_ptr<std::vector<struct TypeStyle>> style_override_table;
+        std::unique_ptr<std::vector<struct Tyle>> style_override_table;
         /**
          * Style of text including font family and weight (see type style
          * section for more information)
          */
-        std::unique_ptr<struct TypeStyle> style;
+        std::unique_ptr<struct Tyle> style;
         /**
          * Array with same number of elements as characeters in text box,
          * each element is a reference to the styleOverrideTable defined
@@ -916,9 +693,9 @@ namespace quicktype {
     };
 
     /**
-     * A node of fixed size containing other nodes
+     * A node that can have instances created of it that share the same properties
      */
-    struct Frame {
+    struct Component {
         /**
          * An array of effects attached to this node
          * (see effects sectionfor more details)
@@ -940,7 +717,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct Rectangle absolute_bounding_box;
+        struct AbsoluteBoundingBox absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
@@ -957,11 +734,11 @@ namespace quicktype {
         /**
          * Background color of the node
          */
-        struct Color background_color;
+        struct Olor background_color;
         /**
          * Horizontal and vertical layout constraints for node
          */
-        struct LayoutConstraint constraints;
+        struct Constraints constraints;
         /**
          * Does this node mask sibling nodes in front of it?
          */
@@ -977,7 +754,7 @@ namespace quicktype {
         /**
          * the type of the node, refer to table below for details
          */
-        NodeType type;
+        AbsoluteBoundingBoxType type;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -989,21 +766,20 @@ namespace quicktype {
         /**
          * An array of nodes that are direct children of this node
          */
-        std::vector<struct DocumentElement> children;
+        std::vector<struct Document> children;
     };
 
     /**
-     * A rectangular region of the canvas that can be exported
+     * Node Properties
+     * The root node
+     *
+     * The root node within the document
      */
-    struct Slice {
+    struct Ocument {
         /**
-         * Bounding box of the node in absolute space coordinates
+         * An array of canvases attached to the document
          */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * An array of export settings representing images to export from this node
-         */
-        std::vector<struct ExportSetting> export_settings;
+        std::vector<struct Document> children;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -1015,7 +791,7 @@ namespace quicktype {
         /**
          * the type of the node, refer to table below for details
          */
-        NodeType type;
+        AbsoluteBoundingBoxType type;
         /**
          * whether or not the node is visible on the canvas
          */
@@ -1023,244 +799,36 @@ namespace quicktype {
     };
 
     /**
-     * A regular star shape
+     * GET /v1/files/:key
+     *
+     * > Description
+     *
+     * Returns the document refered to by :key as a JSON object. The file key can be parsed from
+     * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
+     * contains a Node of type DOCUMENT.
+     *
+     * The "components" key contains a mapping from node IDs to component metadata. This is to
+     * help you determine which components each instance comes from. Currently the only piece of
+     * metadata available on components is the name of the component, but more properties will
+     * be forthcoming.
+     *
+     * > Path parameters
+     *
+     * key String
+     * File to export JSON from
      */
-    struct Star {
+    struct FileResponse {
         /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
+         * A mapping from node IDs to component metadata. This is to help you determine which
+         * components each instance comes from. Currently the only piece of metadata available on
+         * components is the name of the component, but more properties will be forthcoming.
          */
-        std::vector<struct Effect> effects;
+        std::map<std::string, struct Component> components;
         /**
-         * Opacity of the node
+         * The root node within the document
          */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
-         */
-        StrokeAlign stroke_align;
-        /**
-         * The weight of strokes on the node
-         */
-        double stroke_weight;
-        /**
-         * An array of fill paints applied to the node
-         */
-        std::vector<struct Paint> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-    };
-
-    /**
-     * A straight line
-     */
-    struct Line {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
-         */
-        StrokeAlign stroke_align;
-        /**
-         * The weight of strokes on the node
-         */
-        double stroke_weight;
-        /**
-         * An array of fill paints applied to the node
-         */
-        std::vector<struct Paint> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-    };
-
-    /**
-     * An instance of a component, changes to the component result in the same
-     * changes applied to the instance
-     */
-    struct Instance {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * An array of layout grids attached to this node (see layout grids section
-         * for more details). GROUP nodes do not have this attribute
-         */
-        std::vector<struct LayoutGrid> layout_grids;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Background color of the node
-         */
-        struct Color background_color;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * Does this node clip content outside of its bounds?
-         */
-        bool clips_content;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         */
-        std::string component_id;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-        /**
-         * An array of nodes that are direct children of this node
-         */
-        std::vector<struct DocumentElement> children;
+        struct Ocument document;
+        double schema_version;
     };
 
     /**
@@ -1295,7 +863,7 @@ namespace quicktype {
         /**
          * 2d vector offset within the frame.
          */
-        std::unique_ptr<struct Vector2> node_offset;
+        std::unique_ptr<struct Offset> node_offset;
     };
 
     /**
@@ -1362,499 +930,6 @@ namespace quicktype {
     struct CommentsResponse {
         std::vector<struct Comment> comments;
     };
-
-    /**
-     * A group that has a boolean operation applied to it
-     */
-    struct BooleanGroup {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
-         */
-        StrokeAlign stroke_align;
-        /**
-         * The weight of strokes on the node
-         */
-        double stroke_weight;
-        /**
-         * An array of fill paints applied to the node
-         */
-        std::vector<struct Paint> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-        /**
-         * An array of nodes that are being boolean operated on
-         */
-        std::vector<struct DocumentElement> children;
-    };
-
-    /**
-     * Represents a single page
-     */
-    struct Canvas {
-        /**
-         * Background color of the canvas
-         */
-        struct Color background_color;
-        /**
-         * An array of top level layers on the canvas
-         */
-        std::vector<struct DocumentElement> children;
-        /**
-         * An array of export settings representing images to export from the canvas
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-    };
-
-    /**
-     * A node that can have instances created of it that share the same properties
-     */
-    struct Component {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * An array of layout grids attached to this node (see layout grids section
-         * for more details). GROUP nodes do not have this attribute
-         */
-        std::vector<struct LayoutGrid> layout_grids;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Background color of the node
-         */
-        struct Color background_color;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * Does this node clip content outside of its bounds?
-         */
-        bool clips_content;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-        /**
-         * An array of nodes that are direct children of this node
-         */
-        std::vector<struct DocumentElement> children;
-    };
-
-    /**
-     * Node Properties
-     * The root node
-     *
-     * The root node within the document
-     */
-    struct Document {
-        /**
-         * An array of canvases attached to the document
-         */
-        std::vector<struct DocumentElement> children;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-    };
-
-    /**
-     * GET /v1/files/:key
-     *
-     * > Description
-     *
-     * Returns the document refered to by :key as a JSON object. The file key can be parsed from
-     * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
-     * contains a Node of type DOCUMENT.
-     *
-     * The "components" key contains a mapping from node IDs to component metadata. This is to
-     * help you determine which components each instance comes from. Currently the only piece of
-     * metadata available on components is the name of the component, but more properties will
-     * be forthcoming.
-     *
-     * > Path parameters
-     *
-     * key String
-     * File to export JSON from
-     */
-    struct FileResponse {
-        /**
-         * A mapping from node IDs to component metadata. This is to help you determine which
-         * components each instance comes from. Currently the only piece of metadata available on
-         * components is the name of the component, but more properties will be forthcoming.
-         */
-        std::map<std::string, struct Component> components;
-        /**
-         * The root node within the document
-         */
-        struct Document document;
-        double schema_version;
-    };
-
-    /**
-     * A regular n-sided polygon
-     */
-    struct RegularPolygon {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
-         */
-        StrokeAlign stroke_align;
-        /**
-         * The weight of strokes on the node
-         */
-        double stroke_weight;
-        /**
-         * An array of fill paints applied to the node
-         */
-        std::vector<struct Paint> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-    };
-
-    /**
-     * An ellipse
-     */
-    struct Ellipse {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
-         */
-        StrokeAlign stroke_align;
-        /**
-         * The weight of strokes on the node
-         */
-        double stroke_weight;
-        /**
-         * An array of fill paints applied to the node
-         */
-        std::vector<struct Paint> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-    };
-
-    /**
-     * A logical grouping of nodes
-     */
-    struct Group {
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * An array of layout grids attached to this node (see layout grids section
-         * for more details). GROUP nodes do not have this attribute
-         */
-        std::vector<struct LayoutGrid> layout_grids;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::string transition_node_id;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Background color of the node
-         */
-        struct Color background_color;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * Does this node clip content outside of its bounds?
-         */
-        bool clips_content;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-        /**
-         * An array of nodes that are direct children of this node
-         */
-        std::vector<struct DocumentElement> children;
-    };
-
-    typedef std::vector<std::string> String;
     
     inline json get_untyped(const json &j, const char *property) {
         if (j.find(property) != j.end()) {
@@ -1889,47 +964,25 @@ namespace nlohmann {
         }
     };
 
-    inline void from_json(const json& _j, struct quicktype::Vector2& _x) {
-        _x.x = _j.at("x").get<double>();
-        _x.y = _j.at("y").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Vector2& _x) {
-        _j = json::object();
-        _j["x"] = _x.x;
-        _j["y"] = _x.y;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::FrameOffset& _x) {
-        _x.node_id = _j.at("node_id").get<std::vector<std::string>>();
-        _x.node_offset = _j.at("node_offset").get<struct quicktype::Vector2>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::FrameOffset& _x) {
-        _j = json::object();
-        _j["node_id"] = _x.node_id;
-        _j["node_offset"] = _x.node_offset;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::LayoutConstraint& _x) {
+    inline void from_json(const json& _j, struct quicktype::Constraints& _x) {
         _x.horizontal = _j.at("horizontal").get<quicktype::Horizontal>();
         _x.vertical = _j.at("vertical").get<quicktype::Vertical>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::LayoutConstraint& _x) {
+    inline void to_json(json& _j, const struct quicktype::Constraints& _x) {
         _j = json::object();
         _j["horizontal"] = _x.horizontal;
         _j["vertical"] = _x.vertical;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Color& _x) {
+    inline void from_json(const json& _j, struct quicktype::Olor& _x) {
         _x.a = _j.at("a").get<double>();
         _x.b = _j.at("b").get<double>();
         _x.g = _j.at("g").get<double>();
         _x.r = _j.at("r").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Color& _x) {
+    inline void to_json(json& _j, const struct quicktype::Olor& _x) {
         _j = json::object();
         _j["a"] = _x.a;
         _j["b"] = _x.b;
@@ -1937,10 +990,21 @@ namespace nlohmann {
         _j["r"] = _x.r;
     }
 
+    inline void from_json(const json& _j, struct quicktype::Offset& _x) {
+        _x.x = _j.at("x").get<double>();
+        _x.y = _j.at("y").get<double>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::Offset& _x) {
+        _j = json::object();
+        _j["x"] = _x.x;
+        _j["y"] = _x.y;
+    }
+
     inline void from_json(const json& _j, struct quicktype::Effect& _x) {
         _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
-        _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
-        _x.offset = quicktype::get_optional<struct quicktype::Vector2>(_j, "offset");
+        _x.color = quicktype::get_optional<struct quicktype::Olor>(_j, "color");
+        _x.offset = quicktype::get_optional<struct quicktype::Offset>(_j, "offset");
         _x.radius = _j.at("radius").get<double>();
         _x.type = _j.at("type").get<quicktype::EffectType>();
         _x.visible = _j.at("visible").get<bool>();
@@ -1981,7 +1045,7 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::ColorStop& _x) {
-        _x.color = _j.at("color").get<struct quicktype::Color>();
+        _x.color = _j.at("color").get<struct quicktype::Olor>();
         _x.position = _j.at("position").get<double>();
     }
 
@@ -1992,8 +1056,8 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Paint& _x) {
-        _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
-        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Vector2>>(_j, "gradientHandlePositions");
+        _x.color = quicktype::get_optional<struct quicktype::Olor>(_j, "color");
+        _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Offset>>(_j, "gradientHandlePositions");
         _x.gradient_stops = quicktype::get_optional<std::vector<struct quicktype::ColorStop>>(_j, "gradientStops");
         _x.opacity = _j.at("opacity").get<double>();
         _x.scale_mode = quicktype::get_optional<std::string>(_j, "scaleMode");
@@ -2012,7 +1076,7 @@ namespace nlohmann {
         _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Rectangle& _x) {
+    inline void from_json(const json& _j, struct quicktype::AbsoluteBoundingBox& _x) {
         _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.corner_radius = _j.at("cornerRadius").get<double>();
         _x.opacity = _j.at("opacity").get<double>();
@@ -2020,20 +1084,20 @@ namespace nlohmann {
         _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
         _x.stroke_weight = _j.at("strokeWeight").get<double>();
         _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
         _x.is_mask = _j.at("isMask").get<bool>();
         _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.type = _j.at("type").get<quicktype::AbsoluteBoundingBoxType>();
         _x.id = _j.at("id").get<std::string>();
         _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Rectangle& _x) {
+    inline void to_json(json& _j, const struct quicktype::AbsoluteBoundingBox& _x) {
         _j = json::object();
         _j["effects"] = _x.effects;
         _j["cornerRadius"] = _x.corner_radius;
@@ -2055,128 +1119,9 @@ namespace nlohmann {
         _j["preserveRatio"] = _x.preserve_ratio;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Vector& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Vector& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::TypeStyle& _x) {
-        _x.line_height_px = _j.at("lineHeightPx").get<double>();
-        _x.font_post_script_name = _j.at("fontPostScriptName").get<std::string>();
-        _x.font_weight = _j.at("fontWeight").get<double>();
-        _x.line_height_percent = _j.at("lineHeightPercent").get<double>();
-        _x.text_align_vertical = _j.at("textAlignVertical").get<quicktype::TextAlignVertical>();
-        _x.font_size = _j.at("fontSize").get<double>();
-        _x.italic = _j.at("italic").get<bool>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.font_family = _j.at("fontFamily").get<std::string>();
-        _x.text_align_horizontal = _j.at("textAlignHorizontal").get<quicktype::TextAlignHorizontal>();
-        _x.letter_spacing = _j.at("letterSpacing").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::TypeStyle& _x) {
-        _j = json::object();
-        _j["lineHeightPx"] = _x.line_height_px;
-        _j["fontPostScriptName"] = _x.font_post_script_name;
-        _j["fontWeight"] = _x.font_weight;
-        _j["lineHeightPercent"] = _x.line_height_percent;
-        _j["textAlignVertical"] = _x.text_align_vertical;
-        _j["fontSize"] = _x.font_size;
-        _j["italic"] = _x.italic;
-        _j["fills"] = _x.fills;
-        _j["fontFamily"] = _x.font_family;
-        _j["textAlignHorizontal"] = _x.text_align_horizontal;
-        _j["letterSpacing"] = _x.letter_spacing;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Text& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.characters = _j.at("characters").get<std::string>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.style_override_table = _j.at("styleOverrideTable").get<std::vector<struct quicktype::TypeStyle>>();
-        _x.style = _j.at("style").get<struct quicktype::TypeStyle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.character_style_overrides = _j.at("characterStyleOverrides").get<std::vector<double>>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Text& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["characters"] = _x.characters;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["styleOverrideTable"] = _x.style_override_table;
-        _j["style"] = _x.style;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-        _j["characterStyleOverrides"] = _x.character_style_overrides;
-    }
-
     inline void from_json(const json& _j, struct quicktype::LayoutGrid& _x) {
         _x.alignment = _j.at("alignment").get<quicktype::Alignment>();
-        _x.color = _j.at("color").get<struct quicktype::Color>();
+        _x.color = _j.at("color").get<struct quicktype::Olor>();
         _x.count = _j.at("count").get<double>();
         _x.gutter_size = _j.at("gutterSize").get<double>();
         _x.offset = _j.at("offset").get<double>();
@@ -2197,21 +1142,50 @@ namespace nlohmann {
         _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::DocumentElement& _x) {
-        _x.children = quicktype::get_optional<std::vector<struct quicktype::DocumentElement>>(_j, "children");
+    inline void from_json(const json& _j, struct quicktype::Tyle& _x) {
+        _x.line_height_px = _j.at("lineHeightPx").get<double>();
+        _x.font_post_script_name = _j.at("fontPostScriptName").get<std::string>();
+        _x.font_weight = _j.at("fontWeight").get<double>();
+        _x.line_height_percent = _j.at("lineHeightPercent").get<double>();
+        _x.text_align_vertical = _j.at("textAlignVertical").get<quicktype::TextAlignVertical>();
+        _x.font_size = _j.at("fontSize").get<double>();
+        _x.italic = _j.at("italic").get<bool>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
+        _x.font_family = _j.at("fontFamily").get<std::string>();
+        _x.text_align_horizontal = _j.at("textAlignHorizontal").get<quicktype::TextAlignHorizontal>();
+        _x.letter_spacing = _j.at("letterSpacing").get<double>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::Tyle& _x) {
+        _j = json::object();
+        _j["lineHeightPx"] = _x.line_height_px;
+        _j["fontPostScriptName"] = _x.font_post_script_name;
+        _j["fontWeight"] = _x.font_weight;
+        _j["lineHeightPercent"] = _x.line_height_percent;
+        _j["textAlignVertical"] = _x.text_align_vertical;
+        _j["fontSize"] = _x.font_size;
+        _j["italic"] = _x.italic;
+        _j["fills"] = _x.fills;
+        _j["fontFamily"] = _x.font_family;
+        _j["textAlignHorizontal"] = _x.text_align_horizontal;
+        _j["letterSpacing"] = _x.letter_spacing;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::Document& _x) {
+        _x.children = quicktype::get_optional<std::vector<struct quicktype::Document>>(_j, "children");
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.type = _j.at("type").get<quicktype::AbsoluteBoundingBoxType>();
         _x.visible = _j.at("visible").get<bool>();
-        _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
+        _x.background_color = quicktype::get_optional<struct quicktype::Olor>(_j, "backgroundColor");
         _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
         _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
         _x.layout_grids = quicktype::get_optional<std::vector<struct quicktype::LayoutGrid>>(_j, "layoutGrids");
         _x.opacity = quicktype::get_optional<double>(_j, "opacity");
-        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
+        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::AbsoluteBoundingBox>(_j, "absoluteBoundingBox");
         _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
         _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
-        _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
+        _x.constraints = quicktype::get_optional<struct quicktype::Constraints>(_j, "constraints");
         _x.is_mask = quicktype::get_optional<bool>(_j, "isMask");
         _x.clips_content = quicktype::get_optional<bool>(_j, "clipsContent");
         _x.preserve_ratio = quicktype::get_optional<bool>(_j, "preserveRatio");
@@ -2221,13 +1195,13 @@ namespace nlohmann {
         _x.strokes = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "strokes");
         _x.corner_radius = quicktype::get_optional<double>(_j, "cornerRadius");
         _x.characters = quicktype::get_optional<std::string>(_j, "characters");
-        _x.style_override_table = quicktype::get_optional<std::vector<struct quicktype::TypeStyle>>(_j, "styleOverrideTable");
-        _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
+        _x.style_override_table = quicktype::get_optional<std::vector<struct quicktype::Tyle>>(_j, "styleOverrideTable");
+        _x.style = quicktype::get_optional<struct quicktype::Tyle>(_j, "style");
         _x.character_style_overrides = quicktype::get_optional<std::vector<double>>(_j, "characterStyleOverrides");
         _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
     }
 
-    inline void to_json(json& _j, const struct quicktype::DocumentElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::Document& _x) {
         _j = json::object();
         _j["children"] = _x.children;
         _j["id"] = _x.id;
@@ -2258,27 +1232,27 @@ namespace nlohmann {
         _j["componentId"] = _x.component_id;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Frame& _x) {
+    inline void from_json(const json& _j, struct quicktype::Component& _x) {
         _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
         _x.opacity = _j.at("opacity").get<double>();
         _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::AbsoluteBoundingBox>();
         _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
         _x.visible = _j.at("visible").get<bool>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
+        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Olor>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::Constraints>();
         _x.is_mask = _j.at("isMask").get<bool>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
         _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.type = _j.at("type").get<quicktype::AbsoluteBoundingBoxType>();
         _x.id = _j.at("id").get<std::string>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
+        _x.children = _j.at("children").get<std::vector<struct quicktype::Document>>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Frame& _x) {
+    inline void to_json(json& _j, const struct quicktype::Component& _x) {
         _j = json::object();
         _j["effects"] = _x.effects;
         _j["layoutGrids"] = _x.layout_grids;
@@ -2299,155 +1273,41 @@ namespace nlohmann {
         _j["children"] = _x.children;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Slice& _x) {
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
+    inline void from_json(const json& _j, struct quicktype::Ocument& _x) {
+        _x.children = _j.at("children").get<std::vector<struct quicktype::Document>>();
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.type = _j.at("type").get<quicktype::AbsoluteBoundingBoxType>();
         _x.visible = _j.at("visible").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Slice& _x) {
+    inline void to_json(json& _j, const struct quicktype::Ocument& _x) {
         _j = json::object();
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["exportSettings"] = _x.export_settings;
-        _j["id"] = _x.id;
-        _j["name"] = _x.name;
-        _j["type"] = _x.type;
-        _j["visible"] = _x.visible;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Star& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Star& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Line& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Line& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Instance& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.clips_content = _j.at("clipsContent").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.component_id = _j.at("componentId").get<std::string>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Instance& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["layoutGrids"] = _x.layout_grids;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["backgroundColor"] = _x.background_color;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["clipsContent"] = _x.clips_content;
-        _j["exportSettings"] = _x.export_settings;
-        _j["componentId"] = _x.component_id;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["preserveRatio"] = _x.preserve_ratio;
         _j["children"] = _x.children;
+        _j["id"] = _x.id;
+        _j["name"] = _x.name;
+        _j["type"] = _x.type;
+        _j["visible"] = _x.visible;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::FileResponse& _x) {
+        _x.components = _j.at("components").get<std::map<std::string, struct quicktype::Component>>();
+        _x.document = _j.at("document").get<struct quicktype::Ocument>();
+        _x.schema_version = _j.at("schemaVersion").get<double>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::FileResponse& _x) {
+        _j = json::object();
+        _j["components"] = _x.components;
+        _j["document"] = _x.document;
+        _j["schemaVersion"] = _x.schema_version;
     }
 
     inline void from_json(const json& _j, struct quicktype::ClientMeta& _x) {
         _x.x = quicktype::get_optional<double>(_j, "x");
         _x.y = quicktype::get_optional<double>(_j, "y");
         _x.node_id = quicktype::get_optional<std::vector<std::string>>(_j, "node_id");
-        _x.node_offset = quicktype::get_optional<struct quicktype::Vector2>(_j, "node_offset");
+        _x.node_offset = quicktype::get_optional<struct quicktype::Offset>(_j, "node_offset");
     }
 
     inline void to_json(json& _j, const struct quicktype::ClientMeta& _x) {
@@ -2501,264 +1361,6 @@ namespace nlohmann {
     inline void to_json(json& _j, const struct quicktype::CommentsResponse& _x) {
         _j = json::object();
         _j["comments"] = _x.comments;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::BooleanGroup& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::BooleanGroup& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-        _j["children"] = _x.children;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Canvas& _x) {
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.visible = _j.at("visible").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Canvas& _x) {
-        _j = json::object();
-        _j["backgroundColor"] = _x.background_color;
-        _j["children"] = _x.children;
-        _j["exportSettings"] = _x.export_settings;
-        _j["id"] = _x.id;
-        _j["name"] = _x.name;
-        _j["type"] = _x.type;
-        _j["visible"] = _x.visible;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Component& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.clips_content = _j.at("clipsContent").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Component& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["layoutGrids"] = _x.layout_grids;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["backgroundColor"] = _x.background_color;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["clipsContent"] = _x.clips_content;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["preserveRatio"] = _x.preserve_ratio;
-        _j["children"] = _x.children;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Document& _x) {
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.visible = _j.at("visible").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Document& _x) {
-        _j = json::object();
-        _j["children"] = _x.children;
-        _j["id"] = _x.id;
-        _j["name"] = _x.name;
-        _j["type"] = _x.type;
-        _j["visible"] = _x.visible;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::FileResponse& _x) {
-        _x.components = _j.at("components").get<std::map<std::string, struct quicktype::Component>>();
-        _x.document = _j.at("document").get<struct quicktype::Document>();
-        _x.schema_version = _j.at("schemaVersion").get<double>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::FileResponse& _x) {
-        _j = json::object();
-        _j["components"] = _x.components;
-        _j["document"] = _x.document;
-        _j["schemaVersion"] = _x.schema_version;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::RegularPolygon& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::RegularPolygon& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Ellipse& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Ellipse& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-    }
-
-    inline void from_json(const json& _j, struct quicktype::Group& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = _j.at("transitionNodeID").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.clips_content = _j.at("clipsContent").get<bool>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Group& _x) {
-        _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["layoutGrids"] = _x.layout_grids;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["backgroundColor"] = _x.background_color;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["clipsContent"] = _x.clips_content;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["preserveRatio"] = _x.preserve_ratio;
-        _j["children"] = _x.children;
     }
 
     inline void from_json(const json& _j, quicktype::BlendMode& _x) {
@@ -2939,42 +1541,74 @@ namespace nlohmann {
         }
     }
 
-    inline void from_json(const json& _j, quicktype::NodeType& _x) {
-        if (_j == "BOOLEAN") _x = quicktype::NodeType::BOOLEAN;
-        else if (_j == "CANVAS") _x = quicktype::NodeType::CANVAS;
-        else if (_j == "COMPONENT") _x = quicktype::NodeType::COMPONENT;
-        else if (_j == "DOCUMENT") _x = quicktype::NodeType::DOCUMENT;
-        else if (_j == "ELLIPSE") _x = quicktype::NodeType::ELLIPSE;
-        else if (_j == "FRAME") _x = quicktype::NodeType::FRAME;
-        else if (_j == "GROUP") _x = quicktype::NodeType::GROUP;
-        else if (_j == "INSTANCE") _x = quicktype::NodeType::INSTANCE;
-        else if (_j == "LINE") _x = quicktype::NodeType::LINE;
-        else if (_j == "RECTANGLE") _x = quicktype::NodeType::RECTANGLE;
-        else if (_j == "REGULAR_POLYGON") _x = quicktype::NodeType::REGULAR_POLYGON;
-        else if (_j == "SLICE") _x = quicktype::NodeType::SLICE;
-        else if (_j == "STAR") _x = quicktype::NodeType::STAR;
-        else if (_j == "TEXT") _x = quicktype::NodeType::TEXT;
-        else if (_j == "VECTOR") _x = quicktype::NodeType::VECTOR;
+    inline void from_json(const json& _j, quicktype::AbsoluteBoundingBoxType& _x) {
+        if (_j == "BOOLEAN") _x = quicktype::AbsoluteBoundingBoxType::BOOLEAN;
+        else if (_j == "CANVAS") _x = quicktype::AbsoluteBoundingBoxType::CANVAS;
+        else if (_j == "COMPONENT") _x = quicktype::AbsoluteBoundingBoxType::COMPONENT;
+        else if (_j == "DOCUMENT") _x = quicktype::AbsoluteBoundingBoxType::DOCUMENT;
+        else if (_j == "ELLIPSE") _x = quicktype::AbsoluteBoundingBoxType::ELLIPSE;
+        else if (_j == "FRAME") _x = quicktype::AbsoluteBoundingBoxType::FRAME;
+        else if (_j == "GROUP") _x = quicktype::AbsoluteBoundingBoxType::GROUP;
+        else if (_j == "INSTANCE") _x = quicktype::AbsoluteBoundingBoxType::INSTANCE;
+        else if (_j == "LINE") _x = quicktype::AbsoluteBoundingBoxType::LINE;
+        else if (_j == "RECTANGLE") _x = quicktype::AbsoluteBoundingBoxType::RECTANGLE;
+        else if (_j == "REGULAR_POLYGON") _x = quicktype::AbsoluteBoundingBoxType::REGULAR_POLYGON;
+        else if (_j == "SLICE") _x = quicktype::AbsoluteBoundingBoxType::SLICE;
+        else if (_j == "STAR") _x = quicktype::AbsoluteBoundingBoxType::STAR;
+        else if (_j == "TEXT") _x = quicktype::AbsoluteBoundingBoxType::TEXT;
+        else if (_j == "VECTOR") _x = quicktype::AbsoluteBoundingBoxType::VECTOR;
         else throw "Input JSON does not conform to schema";
     }
 
-    inline void to_json(json& _j, const quicktype::NodeType& _x) {
+    inline void to_json(json& _j, const quicktype::AbsoluteBoundingBoxType& _x) {
         switch (_x) {
-            case quicktype::NodeType::BOOLEAN: _j = "BOOLEAN"; break;
-            case quicktype::NodeType::CANVAS: _j = "CANVAS"; break;
-            case quicktype::NodeType::COMPONENT: _j = "COMPONENT"; break;
-            case quicktype::NodeType::DOCUMENT: _j = "DOCUMENT"; break;
-            case quicktype::NodeType::ELLIPSE: _j = "ELLIPSE"; break;
-            case quicktype::NodeType::FRAME: _j = "FRAME"; break;
-            case quicktype::NodeType::GROUP: _j = "GROUP"; break;
-            case quicktype::NodeType::INSTANCE: _j = "INSTANCE"; break;
-            case quicktype::NodeType::LINE: _j = "LINE"; break;
-            case quicktype::NodeType::RECTANGLE: _j = "RECTANGLE"; break;
-            case quicktype::NodeType::REGULAR_POLYGON: _j = "REGULAR_POLYGON"; break;
-            case quicktype::NodeType::SLICE: _j = "SLICE"; break;
-            case quicktype::NodeType::STAR: _j = "STAR"; break;
-            case quicktype::NodeType::TEXT: _j = "TEXT"; break;
-            case quicktype::NodeType::VECTOR: _j = "VECTOR"; break;
+            case quicktype::AbsoluteBoundingBoxType::BOOLEAN: _j = "BOOLEAN"; break;
+            case quicktype::AbsoluteBoundingBoxType::CANVAS: _j = "CANVAS"; break;
+            case quicktype::AbsoluteBoundingBoxType::COMPONENT: _j = "COMPONENT"; break;
+            case quicktype::AbsoluteBoundingBoxType::DOCUMENT: _j = "DOCUMENT"; break;
+            case quicktype::AbsoluteBoundingBoxType::ELLIPSE: _j = "ELLIPSE"; break;
+            case quicktype::AbsoluteBoundingBoxType::FRAME: _j = "FRAME"; break;
+            case quicktype::AbsoluteBoundingBoxType::GROUP: _j = "GROUP"; break;
+            case quicktype::AbsoluteBoundingBoxType::INSTANCE: _j = "INSTANCE"; break;
+            case quicktype::AbsoluteBoundingBoxType::LINE: _j = "LINE"; break;
+            case quicktype::AbsoluteBoundingBoxType::RECTANGLE: _j = "RECTANGLE"; break;
+            case quicktype::AbsoluteBoundingBoxType::REGULAR_POLYGON: _j = "REGULAR_POLYGON"; break;
+            case quicktype::AbsoluteBoundingBoxType::SLICE: _j = "SLICE"; break;
+            case quicktype::AbsoluteBoundingBoxType::STAR: _j = "STAR"; break;
+            case quicktype::AbsoluteBoundingBoxType::TEXT: _j = "TEXT"; break;
+            case quicktype::AbsoluteBoundingBoxType::VECTOR: _j = "VECTOR"; break;
+            default: throw "This should not happen";
+        }
+    }
+
+    inline void from_json(const json& _j, quicktype::Alignment& _x) {
+        if (_j == "CENTER") _x = quicktype::Alignment::CENTER;
+        else if (_j == "MAX") _x = quicktype::Alignment::MAX;
+        else if (_j == "MIN") _x = quicktype::Alignment::MIN;
+        else throw "Input JSON does not conform to schema";
+    }
+
+    inline void to_json(json& _j, const quicktype::Alignment& _x) {
+        switch (_x) {
+            case quicktype::Alignment::CENTER: _j = "CENTER"; break;
+            case quicktype::Alignment::MAX: _j = "MAX"; break;
+            case quicktype::Alignment::MIN: _j = "MIN"; break;
+            default: throw "This should not happen";
+        }
+    }
+
+    inline void from_json(const json& _j, quicktype::Pattern& _x) {
+        if (_j == "COLUMNS") _x = quicktype::Pattern::COLUMNS;
+        else if (_j == "GRID") _x = quicktype::Pattern::GRID;
+        else if (_j == "ROWS") _x = quicktype::Pattern::ROWS;
+        else throw "Input JSON does not conform to schema";
+    }
+
+    inline void to_json(json& _j, const quicktype::Pattern& _x) {
+        switch (_x) {
+            case quicktype::Pattern::COLUMNS: _j = "COLUMNS"; break;
+            case quicktype::Pattern::GRID: _j = "GRID"; break;
+            case quicktype::Pattern::ROWS: _j = "ROWS"; break;
             default: throw "This should not happen";
         }
     }
@@ -3009,38 +1643,6 @@ namespace nlohmann {
             case quicktype::TextAlignVertical::BOTTOM: _j = "BOTTOM"; break;
             case quicktype::TextAlignVertical::CENTER: _j = "CENTER"; break;
             case quicktype::TextAlignVertical::TOP: _j = "TOP"; break;
-            default: throw "This should not happen";
-        }
-    }
-
-    inline void from_json(const json& _j, quicktype::Alignment& _x) {
-        if (_j == "CENTER") _x = quicktype::Alignment::CENTER;
-        else if (_j == "MAX") _x = quicktype::Alignment::MAX;
-        else if (_j == "MIN") _x = quicktype::Alignment::MIN;
-        else throw "Input JSON does not conform to schema";
-    }
-
-    inline void to_json(json& _j, const quicktype::Alignment& _x) {
-        switch (_x) {
-            case quicktype::Alignment::CENTER: _j = "CENTER"; break;
-            case quicktype::Alignment::MAX: _j = "MAX"; break;
-            case quicktype::Alignment::MIN: _j = "MIN"; break;
-            default: throw "This should not happen";
-        }
-    }
-
-    inline void from_json(const json& _j, quicktype::Pattern& _x) {
-        if (_j == "COLUMNS") _x = quicktype::Pattern::COLUMNS;
-        else if (_j == "GRID") _x = quicktype::Pattern::GRID;
-        else if (_j == "ROWS") _x = quicktype::Pattern::ROWS;
-        else throw "Input JSON does not conform to schema";
-    }
-
-    inline void to_json(json& _j, const quicktype::Pattern& _x) {
-        switch (_x) {
-            case quicktype::Pattern::COLUMNS: _j = "COLUMNS"; break;
-            case quicktype::Pattern::GRID: _j = "GRID"; break;
-            case quicktype::Pattern::ROWS: _j = "ROWS"; break;
             default: throw "This should not happen";
         }
     }

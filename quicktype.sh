@@ -2,7 +2,7 @@
 
 set -xe
 
-QUICKTYPE="quicktype --src-lang schema schema.json --add-schema-top-level /definitions/"
+QUICKTYPE="quicktype --src-lang schema types/toplevels.json --add-schema-top-level /definitions/"
 
 $QUICKTYPE -o swift/Figma.swift
 $QUICKTYPE -o swift-alamofire/Figma.swift --alamofire

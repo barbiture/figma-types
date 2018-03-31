@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class LayoutGrid {
     private Alignment alignment;
-    private Color color;
+    private Olor color;
     private double count;
     private double gutterSize;
     private double offset;
@@ -34,9 +34,9 @@ public class LayoutGrid {
      * Color of the grid
      */
     @JsonProperty("color")
-    public Color getColor() { return color; }
+    public Olor getColor() { return color; }
     @JsonProperty("color")
-    public void setColor(Color value) { this.color = value; }
+    public void setColor(Olor value) { this.color = value; }
 
     /**
      * Number of columns or rows

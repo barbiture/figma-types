@@ -4,17 +4,17 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * An RGBA color
- *
  * Solid color of the paint
  *
- * Color attached to corresponding position
- *
- * Color of the grid
+ * An RGBA color
  *
  * Background color of the node
  *
+ * Color attached to corresponding position
+ *
  * Background color of the canvas
+ *
+ * Color of the grid
  */
 public class Olor {
     private double a;

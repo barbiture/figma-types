@@ -4,9 +4,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * Metadata for character formatting
- *
  * Map from ID to TypeStyle for looking up style overrides
+ *
+ * Metadata for character formatting
  *
  * Style of text including font family and weight (see type style
  * section for more information)
@@ -19,7 +19,7 @@ public class Tyle {
     private TextAlignVertical textAlignVertical;
     private double fontSize;
     private boolean italic;
-    private PaintElement[] fills;
+    private Paint[] fills;
     private String fontFamily;
     private TextAlignHorizontal textAlignHorizontal;
     private double letterSpacing;
@@ -84,9 +84,9 @@ public class Tyle {
      * Paints applied to characters
      */
     @JsonProperty("fills")
-    public PaintElement[] getFills() { return fills; }
+    public Paint[] getFills() { return fills; }
     @JsonProperty("fills")
-    public void setFills(PaintElement[] value) { this.fills = value; }
+    public void setFills(Paint[] value) { this.fills = value; }
 
     /**
      * Font family of text (standard name)

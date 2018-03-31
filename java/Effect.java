@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class Effect {
     private BlendMode blendMode;
-    private Color color;
-    private Vector2 offset;
+    private Olor color;
+    private Offset offset;
     private double radius;
     private EffectType type;
     private boolean visible;
@@ -23,14 +23,14 @@ public class Effect {
     public void setBlendMode(BlendMode value) { this.blendMode = value; }
 
     @JsonProperty("color")
-    public Color getColor() { return color; }
+    public Olor getColor() { return color; }
     @JsonProperty("color")
-    public void setColor(Color value) { this.color = value; }
+    public void setColor(Olor value) { this.color = value; }
 
     @JsonProperty("offset")
-    public Vector2 getOffset() { return offset; }
+    public Offset getOffset() { return offset; }
     @JsonProperty("offset")
-    public void setOffset(Vector2 value) { this.offset = value; }
+    public void setOffset(Offset value) { this.offset = value; }
 
     /**
      * Radius of the blur effect (applies to shadows as well)

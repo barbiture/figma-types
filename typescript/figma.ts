@@ -1,92 +1,60 @@
 // To parse this data:
 //
-//   import { Convert, FrameOffset, Vector, Color, ColorStop, LayoutConstraint, User, Text, Frame, Rectangle, Vector2, LayoutGrid, Effect, Slice, Star, Line, BlendMode, Instance, CommentsResponse, TypeStyle, BooleanGroup, Canvas, Document, NodeType, ExportSetting, Component, FileResponse, Constraint, Paint, RegularPolygon, Ellipse, Comment, Group } from "./file";
+//   import { Convert, FileResponse, CommentsResponse } from "./file";
 //
-//   const frameOffset = Convert.toFrameOffset(json);
-//   const vector = Convert.toVector(json);
-//   const color = Convert.toColor(json);
-//   const colorStop = Convert.toColorStop(json);
-//   const layoutConstraint = Convert.toLayoutConstraint(json);
-//   const user = Convert.toUser(json);
-//   const text = Convert.toText(json);
-//   const frame = Convert.toFrame(json);
-//   const rectangle = Convert.toRectangle(json);
-//   const vector2 = Convert.toVector2(json);
-//   const layoutGrid = Convert.toLayoutGrid(json);
-//   const string = Convert.toString(json);
-//   const effect = Convert.toEffect(json);
-//   const slice = Convert.toSlice(json);
-//   const star = Convert.toStar(json);
-//   const line = Convert.toLine(json);
-//   const blendMode = Convert.toBlendMode(json);
-//   const instance = Convert.toInstance(json);
-//   const commentsResponse = Convert.toCommentsResponse(json);
-//   const typeStyle = Convert.toTypeStyle(json);
-//   const booleanGroup = Convert.toBooleanGroup(json);
-//   const canvas = Convert.toCanvas(json);
-//   const document = Convert.toDocument(json);
-//   const nodeType = Convert.toNodeType(json);
-//   const exportSetting = Convert.toExportSetting(json);
-//   const component = Convert.toComponent(json);
 //   const fileResponse = Convert.toFileResponse(json);
-//   const constraint = Convert.toConstraint(json);
-//   const paint = Convert.toPaint(json);
-//   const regularPolygon = Convert.toRegularPolygon(json);
-//   const ellipse = Convert.toEllipse(json);
-//   const comment = Convert.toComment(json);
-//   const group = Convert.toGroup(json);
+//   const commentsResponse = Convert.toCommentsResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
 /**
- * A relative offset within a frame
+ * GET /v1/files/:key
+ *
+ * > Description
+ *
+ * Returns the document refered to by :key as a JSON object. The file key can be parsed from
+ * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
+ * contains a Node of type DOCUMENT.
+ *
+ * The "components" key contains a mapping from node IDs to component metadata. This is to
+ * help you determine which components each instance comes from. Currently the only piece of
+ * metadata available on components is the name of the component, but more properties will
+ * be forthcoming.
+ *
+ * > Path parameters
+ *
+ * key String
+ * File to export JSON from
  */
-export interface FrameOffset {
+export interface FileResponse {
     /**
-     * Unique id specifying the frame.
+     * A mapping from node IDs to component metadata. This is to help you determine which
+     * components each instance comes from. Currently the only piece of metadata available on
+     * components is the name of the component, but more properties will be forthcoming.
      */
-    node_id: string[];
+    components: { [key: string]: Component };
     /**
-     * 2d vector offset within the frame.
+     * The root node within the document
      */
-    node_offset: Vector2;
+    document:      Ocument;
+    schemaVersion: number;
 }
 
 /**
- * This field contains three vectors, each of which are a position in
- * normalized object space (normalized object space is if the top left
- * corner of the bounding box of the object is (0, 0) and the bottom
- * right is (1,1)). The first position corresponds to the start of the
- * gradient (value 0 for the purposes of calculating gradient stops),
- * the second position is the end of the gradient (value 1), and the
- * third handle position determines the width of the gradient (only
- * relevant for non-linear gradients).
- *
- * A 2d vector
- *
- * 2d vector offset within the frame.
+ * A node that can have instances created of it that share the same properties
  */
-export interface Vector2 {
-    /**
-     * X coordinate of the vector
-     */
-    x: number;
-    /**
-     * Y coordinate of the vector
-     */
-    y: number;
-}
-
-/**
- * A vector network, consisting of vertices and edges
- */
-export interface Vector {
+export interface Component {
     /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
     effects: Effect[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section
+     * for more details). GROUP nodes do not have this attribute
+     */
+    layoutGrids: LayoutGrid[];
     /**
      * Opacity of the node
      */
@@ -96,24 +64,9 @@ export interface Vector {
      */
     name: string;
     /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    strokeAlign: StrokeAlign;
-    /**
-     * The weight of strokes on the node
-     */
-    strokeWeight: number;
-    /**
-     * An array of fill paints applied to the node
-     */
-    fills: Paint[];
-    /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: Rectangle;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -128,13 +81,21 @@ export interface Vector {
      */
     blendMode: BlendMode;
     /**
+     * Background color of the node
+     */
+    backgroundColor: Olor;
+    /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: LayoutConstraint;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
     isMask: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent: boolean;
     /**
      * An array of export settings representing images to export from node
      */
@@ -142,19 +103,19 @@ export interface Vector {
     /**
      * the type of the node, refer to table below for details
      */
-    type: NodeType;
+    type: AbsoluteBoundingBoxType;
     /**
      * a string uniquely identifying this node within the document
      */
     id: string;
     /**
-     * An array of stroke paints applied to the node
-     */
-    strokes: Paint[];
-    /**
      * Keep height and width constrained to same ratio
      */
     preserveRatio: boolean;
+    /**
+     * An array of nodes that are direct children of this node
+     */
+    children: Document[];
 }
 
 /**
@@ -162,7 +123,7 @@ export interface Vector {
  *
  * A rectangle
  */
-export interface Rectangle {
+export interface AbsoluteBoundingBox {
     /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
@@ -198,7 +159,7 @@ export interface Rectangle {
     /**
      * Bounding box of the node in absolute space coordinates
      */
-    absoluteBoundingBox: Rectangle;
+    absoluteBoundingBox: AbsoluteBoundingBox;
     /**
      * Node ID of node to transition to in prototyping
      */
@@ -215,7 +176,7 @@ export interface Rectangle {
     /**
      * Horizontal and vertical layout constraints for node
      */
-    constraints: LayoutConstraint;
+    constraints: Constraints;
     /**
      * Does this node mask sibling nodes in front of it?
      */
@@ -227,7 +188,7 @@ export interface Rectangle {
     /**
      * the type of the node, refer to table below for details
      */
-    type: NodeType;
+    type: AbsoluteBoundingBoxType;
     /**
      * a string uniquely identifying this node within the document
      */
@@ -273,7 +234,7 @@ export enum BlendMode {
  *
  * Layout constraint relative to containing Frame
  */
-export interface LayoutConstraint {
+export interface Constraints {
     /**
      * Horizontal constraint as an enum
      * "LEFT": Node is laid out relative to left of the containing frame
@@ -338,8 +299,8 @@ export enum Vertical {
  */
 export interface Effect {
     blendMode?: BlendMode;
-    color?:     Color;
-    offset?:    Vector2;
+    color?:     Olor;
+    offset?:    Offset;
     /**
      * Radius of the blur effect (applies to shadows as well)
      */
@@ -359,15 +320,15 @@ export interface Effect {
  *
  * An RGBA color
  *
- * Color of the grid
- *
  * Background color of the node
  *
  * Color attached to corresponding position
  *
  * Background color of the canvas
+ *
+ * Color of the grid
  */
-export interface Color {
+export interface Olor {
     /**
      * Alpha channel value, between 0 and 1
      */
@@ -387,6 +348,31 @@ export interface Color {
 }
 
 /**
+ * This field contains three vectors, each of which are a position in
+ * normalized object space (normalized object space is if the top left
+ * corner of the bounding box of the object is (0, 0) and the bottom
+ * right is (1,1)). The first position corresponds to the start of the
+ * gradient (value 0 for the purposes of calculating gradient stops),
+ * the second position is the end of the gradient (value 1), and the
+ * third handle position determines the width of the gradient (only
+ * relevant for non-linear gradients).
+ *
+ * A 2d vector
+ *
+ * 2d vector offset within the frame.
+ */
+export interface Offset {
+    /**
+     * X coordinate of the vector
+     */
+    x: number;
+    /**
+     * Y coordinate of the vector
+     */
+    y: number;
+}
+
+/**
  * Type of effect as a string enum
  */
 export enum EffectType {
@@ -401,9 +387,9 @@ export enum EffectType {
  *
  * Format and size to export an asset at
  *
- * An array of export settings representing images to export from the canvas
- *
  * An array of export settings representing images to export from this node
+ *
+ * An array of export settings representing images to export from the canvas
  */
 export interface ExportSetting {
     /**
@@ -461,11 +447,11 @@ export enum Format {
 }
 
 /**
+ * An array of fill paints applied to the node
+ *
  * A solid color, gradient, or image texture that can be applied as fills or strokes
  *
  * An array of stroke paints applied to the node
- *
- * An array of fill paints applied to the node
  *
  * Paints applied to characters
  */
@@ -473,7 +459,7 @@ export interface Paint {
     /**
      * Solid color of the paint
      */
-    color?: Color;
+    color?: Olor;
     /**
      * This field contains three vectors, each of which are a position in
      * normalized object space (normalized object space is if the top left
@@ -484,7 +470,7 @@ export interface Paint {
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
      */
-    gradientHandlePositions?: Vector2[];
+    gradientHandlePositions?: Offset[];
     /**
      * Positions of key points along the gradient axis with the colors
      * anchored there. Colors along the gradient are interpolated smoothly
@@ -521,7 +507,7 @@ export interface ColorStop {
     /**
      * Color attached to corresponding position
      */
-    color: Color;
+    color: Olor;
     /**
      * Value between 0 and 1 representing position along gradient axis
      */
@@ -556,7 +542,7 @@ export enum StrokeAlign {
 /**
  * the type of the node, refer to table below for details
  */
-export enum NodeType {
+export enum AbsoluteBoundingBoxType {
     Boolean = "BOOLEAN",
     Canvas = "CANVAS",
     Component = "COMPONENT",
@@ -575,102 +561,253 @@ export enum NodeType {
 }
 
 /**
+ * An array of nodes that are direct children of this node
+ *
+ * An array of nodes that are being boolean operated on
+ *
+ * An array of top level layers on the canvas
+ *
+ * An array of canvases attached to the document
+ *
+ * Node Properties
+ * The root node
+ *
+ * The root node within the document
+ *
+ * Represents a single page
+ *
+ * A node of fixed size containing other nodes
+ *
+ * A logical grouping of nodes
+ *
+ * A vector network, consisting of vertices and edges
+ *
+ * A group that has a boolean operation applied to it
+ *
+ * A regular star shape
+ *
+ * A straight line
+ *
+ * An ellipse
+ *
+ * A regular n-sided polygon
+ *
+ * Bounding box of the node in absolute space coordinates
+ *
+ * A rectangle
+ *
  * A text box
+ *
+ * A rectangular region of the canvas that can be exported
+ *
+ * A node that can have instances created of it that share the same properties
+ *
+ * An instance of a component, changes to the component result in the same
+ * changes applied to the instance
  */
-export interface Text {
+export interface Document {
     /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
+     * An array of canvases attached to the document
+     *
+     * An array of top level layers on the canvas
+     *
+     * An array of nodes that are direct children of this node
+     *
+     * An array of nodes that are being boolean operated on
      */
-    effects: Effect[];
+    children?: Document[];
     /**
-     * Text contained within text box
+     * a string uniquely identifying this node within the document
      */
-    characters: string;
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
+    id: string;
     /**
      * the name given to the node by the user in the tool.
      */
     name: string;
+    /**
+     * the type of the node, refer to table below for details
+     */
+    type: AbsoluteBoundingBoxType;
+    /**
+     * whether or not the node is visible on the canvas
+     */
+    visible: boolean;
+    /**
+     * Background color of the canvas
+     *
+     * Background color of the node
+     */
+    backgroundColor?: Olor;
+    /**
+     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
+     * An array of export settings representing images to export from this node
+     */
+    exportSettings?: ExportSetting[];
+    /**
+     * An array of effects attached to this node
+     * (see effects sectionfor more details)
+     */
+    effects?: Effect[];
+    /**
+     * An array of layout grids attached to this node (see layout grids section
+     * for more details). GROUP nodes do not have this attribute
+     */
+    layoutGrids?: LayoutGrid[];
+    /**
+     * Opacity of the node
+     */
+    opacity?: number;
+    /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    absoluteBoundingBox?: AbsoluteBoundingBox;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * How this node blends with nodes behind it in the scene
+     * (see blend mode section for more details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * Horizontal and vertical layout constraints for node
+     */
+    constraints?: Constraints;
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    isMask?: boolean;
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    clipsContent?: boolean;
+    /**
+     * Keep height and width constrained to same ratio
+     */
+    preserveRatio?: boolean;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
      * "OUTSIDE": draw stroke outside the shape boundary
      * "CENTER": draw stroke centered along the shape boundary
      */
-    strokeAlign: StrokeAlign;
+    strokeAlign?: StrokeAlign;
     /**
      * The weight of strokes on the node
      */
-    strokeWeight: number;
+    strokeWeight?: number;
     /**
      * An array of fill paints applied to the node
      */
-    fills: Paint[];
+    fills?: Paint[];
     /**
-     * Bounding box of the node in absolute space coordinates
+     * An array of stroke paints applied to the node
      */
-    absoluteBoundingBox: Rectangle;
+    strokes?: Paint[];
+    /**
+     * Radius of each corner of the rectangle
+     */
+    cornerRadius?: number;
+    /**
+     * Text contained within text box
+     */
+    characters?: string;
     /**
      * Map from ID to TypeStyle for looking up style overrides
      */
-    styleOverrideTable: TypeStyle[];
+    styleOverrideTable?: Tyle[];
     /**
      * Style of text including font family and weight (see type style
      * section for more information)
      */
-    style: TypeStyle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * An array of stroke paints applied to the node
-     */
-    strokes: Paint[];
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
+    style?: Tyle;
     /**
      * Array with same number of elements as characeters in text box,
      * each element is a reference to the styleOverrideTable defined
      * below and maps to the corresponding character in the characters
      * field. Elements with value 0 have the default type style
      */
-    characterStyleOverrides: number[];
+    characterStyleOverrides?: number[];
+    /**
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     */
+    componentId?: string;
+}
+
+/**
+ * An array of layout grids attached to this node (see layout grids section
+ * for more details). GROUP nodes do not have this attribute
+ *
+ * Guides to align and place objects within a frame
+ */
+export interface LayoutGrid {
+    /**
+     * Positioning of grid as a string enum
+     * "MIN": Grid starts at the left or top of the frame
+     * "MAX": Grid starts at the right or bottom of the frame
+     * "CENTER": Grid is center aligned
+     */
+    alignment: Alignment;
+    /**
+     * Color of the grid
+     */
+    color: Olor;
+    /**
+     * Number of columns or rows
+     */
+    count: number;
+    /**
+     * Spacing in between columns and rows
+     */
+    gutterSize: number;
+    /**
+     * Spacing before the first column or row
+     */
+    offset: number;
+    /**
+     * Orientation of the grid as a string enum
+     * "COLUMNS": Vertical grid
+     * "ROWS": Horizontal grid
+     * "GRID": Square grid
+     */
+    pattern: Pattern;
+    /**
+     * Width of column grid or height of row grid or square grid spacing
+     */
+    sectionSize: number;
+    /**
+     * Is the grid currently visible?
+     */
+    visible: boolean;
+}
+
+/**
+ * Positioning of grid as a string enum
+ * "MIN": Grid starts at the left or top of the frame
+ * "MAX": Grid starts at the right or bottom of the frame
+ * "CENTER": Grid is center aligned
+ */
+export enum Alignment {
+    Center = "CENTER",
+    Max = "MAX",
+    Min = "MIN",
+}
+
+/**
+ * Orientation of the grid as a string enum
+ * "COLUMNS": Vertical grid
+ * "ROWS": Horizontal grid
+ * "GRID": Square grid
+ */
+export enum Pattern {
+    Columns = "COLUMNS",
+    Grid = "GRID",
+    Rows = "ROWS",
 }
 
 /**
@@ -681,7 +818,7 @@ export interface Text {
  * Style of text including font family and weight (see type style
  * section for more information)
  */
-export interface TypeStyle {
+export interface Tyle {
     /**
      * Line height in px
      */
@@ -748,138 +885,16 @@ export enum TextAlignVertical {
 }
 
 /**
- * A node of fixed size containing other nodes
- */
-export interface Frame {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
-     */
-    layoutGrids: LayoutGrid[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Background color of the node
-     */
-    backgroundColor: Color;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    clipsContent: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-    /**
-     * An array of nodes that are direct children of this node
-     */
-    children: DocumentElement[];
-}
-
-/**
- * An array of nodes that are direct children of this node
- *
- * An array of nodes that are being boolean operated on
- *
- * An array of top level layers on the canvas
- *
- * An array of canvases attached to the document
- *
  * Node Properties
  * The root node
  *
  * The root node within the document
- *
- * Represents a single page
- *
- * A node of fixed size containing other nodes
- *
- * A logical grouping of nodes
- *
- * A vector network, consisting of vertices and edges
- *
- * A group that has a boolean operation applied to it
- *
- * A regular star shape
- *
- * A straight line
- *
- * An ellipse
- *
- * A regular n-sided polygon
- *
- * Bounding box of the node in absolute space coordinates
- *
- * A rectangle
- *
- * A text box
- *
- * A rectangular region of the canvas that can be exported
- *
- * A node that can have instances created of it that share the same properties
- *
- * An instance of a component, changes to the component result in the same
- * changes applied to the instance
  */
-export interface DocumentElement {
+export interface Ocument {
     /**
      * An array of canvases attached to the document
-     *
-     * An array of top level layers on the canvas
-     *
-     * An array of nodes that are direct children of this node
-     *
-     * An array of nodes that are being boolean operated on
      */
-    children?: DocumentElement[];
+    children: Document[];
     /**
      * a string uniquely identifying this node within the document
      */
@@ -891,458 +906,11 @@ export interface DocumentElement {
     /**
      * the type of the node, refer to table below for details
      */
-    type: NodeType;
+    type: AbsoluteBoundingBoxType;
     /**
      * whether or not the node is visible on the canvas
      */
     visible: boolean;
-    /**
-     * Background color of the canvas
-     *
-     * Background color of the node
-     */
-    backgroundColor?: Color;
-    /**
-     * An array of export settings representing images to export from the canvas
-     *
-     * An array of export settings representing images to export from node
-     *
-     * An array of export settings representing images to export from this node
-     */
-    exportSettings?: ExportSetting[];
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects?: Effect[];
-    /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
-     */
-    layoutGrids?: LayoutGrid[];
-    /**
-     * Opacity of the node
-     */
-    opacity?: number;
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox?: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID?: string;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode?: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints?: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask?: boolean;
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    clipsContent?: boolean;
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio?: boolean;
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    strokeAlign?: StrokeAlign;
-    /**
-     * The weight of strokes on the node
-     */
-    strokeWeight?: number;
-    /**
-     * An array of fill paints applied to the node
-     */
-    fills?: Paint[];
-    /**
-     * An array of stroke paints applied to the node
-     */
-    strokes?: Paint[];
-    /**
-     * Radius of each corner of the rectangle
-     */
-    cornerRadius?: number;
-    /**
-     * Text contained within text box
-     */
-    characters?: string;
-    /**
-     * Map from ID to TypeStyle for looking up style overrides
-     */
-    styleOverrideTable?: TypeStyle[];
-    /**
-     * Style of text including font family and weight (see type style
-     * section for more information)
-     */
-    style?: TypeStyle;
-    /**
-     * Array with same number of elements as characeters in text box,
-     * each element is a reference to the styleOverrideTable defined
-     * below and maps to the corresponding character in the characters
-     * field. Elements with value 0 have the default type style
-     */
-    characterStyleOverrides?: number[];
-    /**
-     * ID of component that this instance came from, refers to components
-     * table (see endpoints section below)
-     */
-    componentId?: string;
-}
-
-/**
- * An array of layout grids attached to this node (see layout grids section
- * for more details). GROUP nodes do not have this attribute
- *
- * Guides to align and place objects within a frame
- */
-export interface LayoutGrid {
-    /**
-     * Positioning of grid as a string enum
-     * "MIN": Grid starts at the left or top of the frame
-     * "MAX": Grid starts at the right or bottom of the frame
-     * "CENTER": Grid is center aligned
-     */
-    alignment: Alignment;
-    /**
-     * Color of the grid
-     */
-    color: Color;
-    /**
-     * Number of columns or rows
-     */
-    count: number;
-    /**
-     * Spacing in between columns and rows
-     */
-    gutterSize: number;
-    /**
-     * Spacing before the first column or row
-     */
-    offset: number;
-    /**
-     * Orientation of the grid as a string enum
-     * "COLUMNS": Vertical grid
-     * "ROWS": Horizontal grid
-     * "GRID": Square grid
-     */
-    pattern: Pattern;
-    /**
-     * Width of column grid or height of row grid or square grid spacing
-     */
-    sectionSize: number;
-    /**
-     * Is the grid currently visible?
-     */
-    visible: boolean;
-}
-
-/**
- * Positioning of grid as a string enum
- * "MIN": Grid starts at the left or top of the frame
- * "MAX": Grid starts at the right or bottom of the frame
- * "CENTER": Grid is center aligned
- */
-export enum Alignment {
-    Center = "CENTER",
-    Max = "MAX",
-    Min = "MIN",
-}
-
-/**
- * Orientation of the grid as a string enum
- * "COLUMNS": Vertical grid
- * "ROWS": Horizontal grid
- * "GRID": Square grid
- */
-export enum Pattern {
-    Columns = "COLUMNS",
-    Grid = "GRID",
-    Rows = "ROWS",
-}
-
-/**
- * A rectangular region of the canvas that can be exported
- */
-export interface Slice {
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * An array of export settings representing images to export from this node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-}
-
-/**
- * A regular star shape
- */
-export interface Star {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    strokeAlign: StrokeAlign;
-    /**
-     * The weight of strokes on the node
-     */
-    strokeWeight: number;
-    /**
-     * An array of fill paints applied to the node
-     */
-    fills: Paint[];
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * An array of stroke paints applied to the node
-     */
-    strokes: Paint[];
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-}
-
-/**
- * A straight line
- */
-export interface Line {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    strokeAlign: StrokeAlign;
-    /**
-     * The weight of strokes on the node
-     */
-    strokeWeight: number;
-    /**
-     * An array of fill paints applied to the node
-     */
-    fills: Paint[];
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * An array of stroke paints applied to the node
-     */
-    strokes: Paint[];
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-}
-
-/**
- * An instance of a component, changes to the component result in the same
- * changes applied to the instance
- */
-export interface Instance {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
-     */
-    layoutGrids: LayoutGrid[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Background color of the node
-     */
-    backgroundColor: Color;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    clipsContent: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * ID of component that this instance came from, refers to components
-     * table (see endpoints section below)
-     */
-    componentId: string;
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-    /**
-     * An array of nodes that are direct children of this node
-     */
-    children: DocumentElement[];
 }
 
 /**
@@ -1432,7 +1000,7 @@ export interface ClientMeta {
     /**
      * 2d vector offset within the frame.
      */
-    node_offset?: Vector2;
+    node_offset?: Offset;
 }
 
 /**
@@ -1445,708 +1013,9 @@ export interface User {
     img_url: string;
 }
 
-/**
- * A group that has a boolean operation applied to it
- */
-export interface BooleanGroup {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    strokeAlign: StrokeAlign;
-    /**
-     * The weight of strokes on the node
-     */
-    strokeWeight: number;
-    /**
-     * An array of fill paints applied to the node
-     */
-    fills: Paint[];
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * An array of stroke paints applied to the node
-     */
-    strokes: Paint[];
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-    /**
-     * An array of nodes that are being boolean operated on
-     */
-    children: DocumentElement[];
-}
-
-/**
- * Represents a single page
- */
-export interface Canvas {
-    /**
-     * Background color of the canvas
-     */
-    backgroundColor: Color;
-    /**
-     * An array of top level layers on the canvas
-     */
-    children: DocumentElement[];
-    /**
-     * An array of export settings representing images to export from the canvas
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-}
-
-/**
- * GET /v1/files/:key
- *
- * > Description
- *
- * Returns the document refered to by :key as a JSON object. The file key can be parsed from
- * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
- * contains a Node of type DOCUMENT.
- *
- * The "components" key contains a mapping from node IDs to component metadata. This is to
- * help you determine which components each instance comes from. Currently the only piece of
- * metadata available on components is the name of the component, but more properties will
- * be forthcoming.
- *
- * > Path parameters
- *
- * key String
- * File to export JSON from
- */
-export interface FileResponse {
-    /**
-     * A mapping from node IDs to component metadata. This is to help you determine which
-     * components each instance comes from. Currently the only piece of metadata available on
-     * components is the name of the component, but more properties will be forthcoming.
-     */
-    components: { [key: string]: Component };
-    /**
-     * The root node within the document
-     */
-    document:      Document;
-    schemaVersion: number;
-}
-
-/**
- * A node that can have instances created of it that share the same properties
- */
-export interface Component {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
-     */
-    layoutGrids: LayoutGrid[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Background color of the node
-     */
-    backgroundColor: Color;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    clipsContent: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-    /**
-     * An array of nodes that are direct children of this node
-     */
-    children: DocumentElement[];
-}
-
-/**
- * Node Properties
- * The root node
- *
- * The root node within the document
- */
-export interface Document {
-    /**
-     * An array of canvases attached to the document
-     */
-    children: DocumentElement[];
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-}
-
-/**
- * A regular n-sided polygon
- */
-export interface RegularPolygon {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    strokeAlign: StrokeAlign;
-    /**
-     * The weight of strokes on the node
-     */
-    strokeWeight: number;
-    /**
-     * An array of fill paints applied to the node
-     */
-    fills: Paint[];
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * An array of stroke paints applied to the node
-     */
-    strokes: Paint[];
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-}
-
-/**
- * An ellipse
- */
-export interface Ellipse {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    strokeAlign: StrokeAlign;
-    /**
-     * The weight of strokes on the node
-     */
-    strokeWeight: number;
-    /**
-     * An array of fill paints applied to the node
-     */
-    fills: Paint[];
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * An array of stroke paints applied to the node
-     */
-    strokes: Paint[];
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-}
-
-/**
- * A logical grouping of nodes
- */
-export interface Group {
-    /**
-     * An array of effects attached to this node
-     * (see effects sectionfor more details)
-     */
-    effects: Effect[];
-    /**
-     * An array of layout grids attached to this node (see layout grids section
-     * for more details). GROUP nodes do not have this attribute
-     */
-    layoutGrids: LayoutGrid[];
-    /**
-     * Opacity of the node
-     */
-    opacity: number;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * Bounding box of the node in absolute space coordinates
-     */
-    absoluteBoundingBox: Rectangle;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID: string;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode: BlendMode;
-    /**
-     * Background color of the node
-     */
-    backgroundColor: Color;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints: LayoutConstraint;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask: boolean;
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    clipsContent: boolean;
-    /**
-     * An array of export settings representing images to export from node
-     */
-    exportSettings: ExportSetting[];
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: NodeType;
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio: boolean;
-    /**
-     * An array of nodes that are direct children of this node
-     */
-    children: DocumentElement[];
-}
-
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
-    export function toFrameOffset(json: string): FrameOffset {
-        return cast(JSON.parse(json), o("FrameOffset"));
-    }
-
-    export function frameOffsetToJson(value: FrameOffset): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toVector(json: string): Vector {
-        return cast(JSON.parse(json), o("Vector"));
-    }
-
-    export function vectorToJson(value: Vector): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toColor(json: string): Color {
-        return cast(JSON.parse(json), o("Color"));
-    }
-
-    export function colorToJson(value: Color): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toColorStop(json: string): ColorStop {
-        return cast(JSON.parse(json), o("ColorStop"));
-    }
-
-    export function colorStopToJson(value: ColorStop): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toLayoutConstraint(json: string): LayoutConstraint {
-        return cast(JSON.parse(json), o("LayoutConstraint"));
-    }
-
-    export function layoutConstraintToJson(value: LayoutConstraint): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toUser(json: string): User {
-        return cast(JSON.parse(json), o("User"));
-    }
-
-    export function userToJson(value: User): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toText(json: string): Text {
-        return cast(JSON.parse(json), o("Text"));
-    }
-
-    export function textToJson(value: Text): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toFrame(json: string): Frame {
-        return cast(JSON.parse(json), o("Frame"));
-    }
-
-    export function frameToJson(value: Frame): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toRectangle(json: string): Rectangle {
-        return cast(JSON.parse(json), o("Rectangle"));
-    }
-
-    export function rectangleToJson(value: Rectangle): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toVector2(json: string): Vector2 {
-        return cast(JSON.parse(json), o("Vector2"));
-    }
-
-    export function vector2ToJson(value: Vector2): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toLayoutGrid(json: string): LayoutGrid {
-        return cast(JSON.parse(json), o("LayoutGrid"));
-    }
-
-    export function layoutGridToJson(value: LayoutGrid): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toString(json: string): string[] {
-        return cast(JSON.parse(json), a(""));
-    }
-
-    export function stringToJson(value: string[]): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toEffect(json: string): Effect {
-        return cast(JSON.parse(json), o("Effect"));
-    }
-
-    export function effectToJson(value: Effect): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toSlice(json: string): Slice {
-        return cast(JSON.parse(json), o("Slice"));
-    }
-
-    export function sliceToJson(value: Slice): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toStar(json: string): Star {
-        return cast(JSON.parse(json), o("Star"));
-    }
-
-    export function starToJson(value: Star): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toLine(json: string): Line {
-        return cast(JSON.parse(json), o("Line"));
-    }
-
-    export function lineToJson(value: Line): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toBlendMode(json: string): BlendMode {
-        return cast(JSON.parse(json), e("BlendMode"));
-    }
-
-    export function blendModeToJson(value: BlendMode): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toInstance(json: string): Instance {
-        return cast(JSON.parse(json), o("Instance"));
-    }
-
-    export function instanceToJson(value: Instance): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toCommentsResponse(json: string): CommentsResponse {
-        return cast(JSON.parse(json), o("CommentsResponse"));
-    }
-
-    export function commentsResponseToJson(value: CommentsResponse): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toTypeStyle(json: string): TypeStyle {
-        return cast(JSON.parse(json), o("TypeStyle"));
-    }
-
-    export function typeStyleToJson(value: TypeStyle): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toBooleanGroup(json: string): BooleanGroup {
-        return cast(JSON.parse(json), o("BooleanGroup"));
-    }
-
-    export function booleanGroupToJson(value: BooleanGroup): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toCanvas(json: string): Canvas {
-        return cast(JSON.parse(json), o("Canvas"));
-    }
-
-    export function canvasToJson(value: Canvas): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toDocument(json: string): Document {
-        return cast(JSON.parse(json), o("Document"));
-    }
-
-    export function documentToJson(value: Document): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toNodeType(json: string): NodeType {
-        return cast(JSON.parse(json), e("NodeType"));
-    }
-
-    export function nodeTypeToJson(value: NodeType): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toExportSetting(json: string): ExportSetting {
-        return cast(JSON.parse(json), o("ExportSetting"));
-    }
-
-    export function exportSettingToJson(value: ExportSetting): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toComponent(json: string): Component {
-        return cast(JSON.parse(json), o("Component"));
-    }
-
-    export function componentToJson(value: Component): string {
-        return JSON.stringify(value, null, 2);
-    }
-
     export function toFileResponse(json: string): FileResponse {
         return cast(JSON.parse(json), o("FileResponse"));
     }
@@ -2155,51 +1024,11 @@ export module Convert {
         return JSON.stringify(value, null, 2);
     }
 
-    export function toConstraint(json: string): Constraint {
-        return cast(JSON.parse(json), o("Constraint"));
+    export function toCommentsResponse(json: string): CommentsResponse {
+        return cast(JSON.parse(json), o("CommentsResponse"));
     }
 
-    export function constraintToJson(value: Constraint): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toPaint(json: string): Paint {
-        return cast(JSON.parse(json), o("Paint"));
-    }
-
-    export function paintToJson(value: Paint): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toRegularPolygon(json: string): RegularPolygon {
-        return cast(JSON.parse(json), o("RegularPolygon"));
-    }
-
-    export function regularPolygonToJson(value: RegularPolygon): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toEllipse(json: string): Ellipse {
-        return cast(JSON.parse(json), o("Ellipse"));
-    }
-
-    export function ellipseToJson(value: Ellipse): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toComment(json: string): Comment {
-        return cast(JSON.parse(json), o("Comment"));
-    }
-
-    export function commentToJson(value: Comment): string {
-        return JSON.stringify(value, null, 2);
-    }
-
-    export function toGroup(json: string): Group {
-        return cast(JSON.parse(json), o("Group"));
-    }
-
-    export function groupToJson(value: Group): string {
+    export function commentsResponseToJson(value: CommentsResponse): string {
         return JSON.stringify(value, null, 2);
     }
     
@@ -2281,34 +1110,31 @@ export module Convert {
     }
 
     const typeMap: any = {
-        "FrameOffset": {
-            node_id: a(""),
-            node_offset: o("Vector2"),
+        "FileResponse": {
+            components: m(o("Component")),
+            document: o("Ocument"),
+            schemaVersion: 3.14,
         },
-        "Vector2": {
-            x: 3.14,
-            y: 3.14,
-        },
-        "Vector": {
+        "Component": {
             effects: a(o("Effect")),
+            layoutGrids: a(o("LayoutGrid")),
             opacity: 3.14,
             name: "",
-            strokeAlign: e("StrokeAlign"),
-            strokeWeight: 3.14,
-            fills: a(o("Paint")),
-            absoluteBoundingBox: o("Rectangle"),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
             transitionNodeID: "",
             visible: false,
             blendMode: e("BlendMode"),
-            constraints: o("LayoutConstraint"),
+            backgroundColor: o("Olor"),
+            constraints: o("Constraints"),
             isMask: false,
+            clipsContent: false,
             exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
+            type: e("AbsoluteBoundingBoxType"),
             id: "",
-            strokes: a(o("Paint")),
             preserveRatio: false,
+            children: a(o("Document")),
         },
-        "Rectangle": {
+        "AbsoluteBoundingBox": {
             effects: a(o("Effect")),
             cornerRadius: 3.14,
             opacity: 3.14,
@@ -2316,35 +1142,39 @@ export module Convert {
             strokeAlign: e("StrokeAlign"),
             strokeWeight: 3.14,
             fills: a(o("Paint")),
-            absoluteBoundingBox: o("Rectangle"),
+            absoluteBoundingBox: o("AbsoluteBoundingBox"),
             transitionNodeID: "",
             visible: false,
             blendMode: e("BlendMode"),
-            constraints: o("LayoutConstraint"),
+            constraints: o("Constraints"),
             isMask: false,
             exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
+            type: e("AbsoluteBoundingBoxType"),
             id: "",
             strokes: a(o("Paint")),
             preserveRatio: false,
         },
-        "LayoutConstraint": {
+        "Constraints": {
             horizontal: e("Horizontal"),
             vertical: e("Vertical"),
         },
         "Effect": {
             blendMode: u(null, e("BlendMode")),
-            color: u(null, o("Color")),
-            offset: u(null, o("Vector2")),
+            color: u(null, o("Olor")),
+            offset: u(null, o("Offset")),
             radius: 3.14,
             type: e("EffectType"),
             visible: false,
         },
-        "Color": {
+        "Olor": {
             a: 3.14,
             b: 3.14,
             g: 3.14,
             r: 3.14,
+        },
+        "Offset": {
+            x: 3.14,
+            y: 3.14,
         },
         "ExportSetting": {
             constraint: o("Constraint"),
@@ -2356,8 +1186,8 @@ export module Convert {
             value: 3.14,
         },
         "Paint": {
-            color: u(null, o("Color")),
-            gradientHandlePositions: u(null, a(o("Vector2"))),
+            color: u(null, o("Olor")),
+            gradientHandlePositions: u(null, a(o("Offset"))),
             gradientStops: u(null, a(o("ColorStop"))),
             opacity: 3.14,
             scaleMode: u(null, ""),
@@ -2365,33 +1195,49 @@ export module Convert {
             visible: false,
         },
         "ColorStop": {
-            color: o("Color"),
+            color: o("Olor"),
             position: 3.14,
         },
-        "Text": {
-            effects: a(o("Effect")),
-            characters: "",
-            opacity: 3.14,
-            name: "",
-            strokeAlign: e("StrokeAlign"),
-            strokeWeight: 3.14,
-            fills: a(o("Paint")),
-            absoluteBoundingBox: o("Rectangle"),
-            styleOverrideTable: a(o("TypeStyle")),
-            style: o("TypeStyle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
+        "Document": {
+            children: u(null, a(o("Document"))),
             id: "",
-            strokes: a(o("Paint")),
-            preserveRatio: false,
-            characterStyleOverrides: a(3.14),
+            name: "",
+            type: e("AbsoluteBoundingBoxType"),
+            visible: false,
+            backgroundColor: u(null, o("Olor")),
+            exportSettings: u(null, a(o("ExportSetting"))),
+            effects: u(null, a(o("Effect"))),
+            layoutGrids: u(null, a(o("LayoutGrid"))),
+            opacity: u(null, 3.14),
+            absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
+            transitionNodeID: u(null, ""),
+            blendMode: u(null, e("BlendMode")),
+            constraints: u(null, o("Constraints")),
+            isMask: u(null, false),
+            clipsContent: u(null, false),
+            preserveRatio: u(null, false),
+            strokeAlign: u(null, e("StrokeAlign")),
+            strokeWeight: u(null, 3.14),
+            fills: u(null, a(o("Paint"))),
+            strokes: u(null, a(o("Paint"))),
+            cornerRadius: u(null, 3.14),
+            characters: u(null, ""),
+            styleOverrideTable: u(null, a(o("Tyle"))),
+            style: u(null, o("Tyle")),
+            characterStyleOverrides: u(null, a(3.14)),
+            componentId: u(null, ""),
         },
-        "TypeStyle": {
+        "LayoutGrid": {
+            alignment: e("Alignment"),
+            color: o("Olor"),
+            count: 3.14,
+            gutterSize: 3.14,
+            offset: 3.14,
+            pattern: e("Pattern"),
+            sectionSize: 3.14,
+            visible: false,
+        },
+        "Tyle": {
             lineHeightPx: 3.14,
             fontPostScriptName: "",
             fontWeight: 3.14,
@@ -2404,129 +1250,12 @@ export module Convert {
             textAlignHorizontal: e("TextAlignHorizontal"),
             letterSpacing: 3.14,
         },
-        "Frame": {
-            effects: a(o("Effect")),
-            layoutGrids: a(o("LayoutGrid")),
-            opacity: 3.14,
-            name: "",
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            backgroundColor: o("Color"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            clipsContent: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
-            id: "",
-            preserveRatio: false,
-            children: a(o("DocumentElement")),
-        },
-        "DocumentElement": {
-            children: u(null, a(o("DocumentElement"))),
+        "Ocument": {
+            children: a(o("Document")),
             id: "",
             name: "",
-            type: e("NodeType"),
+            type: e("AbsoluteBoundingBoxType"),
             visible: false,
-            backgroundColor: u(null, o("Color")),
-            exportSettings: u(null, a(o("ExportSetting"))),
-            effects: u(null, a(o("Effect"))),
-            layoutGrids: u(null, a(o("LayoutGrid"))),
-            opacity: u(null, 3.14),
-            absoluteBoundingBox: u(null, o("Rectangle")),
-            transitionNodeID: u(null, ""),
-            blendMode: u(null, e("BlendMode")),
-            constraints: u(null, o("LayoutConstraint")),
-            isMask: u(null, false),
-            clipsContent: u(null, false),
-            preserveRatio: u(null, false),
-            strokeAlign: u(null, e("StrokeAlign")),
-            strokeWeight: u(null, 3.14),
-            fills: u(null, a(o("Paint"))),
-            strokes: u(null, a(o("Paint"))),
-            cornerRadius: u(null, 3.14),
-            characters: u(null, ""),
-            styleOverrideTable: u(null, a(o("TypeStyle"))),
-            style: u(null, o("TypeStyle")),
-            characterStyleOverrides: u(null, a(3.14)),
-            componentId: u(null, ""),
-        },
-        "LayoutGrid": {
-            alignment: e("Alignment"),
-            color: o("Color"),
-            count: 3.14,
-            gutterSize: 3.14,
-            offset: 3.14,
-            pattern: e("Pattern"),
-            sectionSize: 3.14,
-            visible: false,
-        },
-        "Slice": {
-            absoluteBoundingBox: o("Rectangle"),
-            exportSettings: a(o("ExportSetting")),
-            id: "",
-            name: "",
-            type: e("NodeType"),
-            visible: false,
-        },
-        "Star": {
-            effects: a(o("Effect")),
-            opacity: 3.14,
-            name: "",
-            strokeAlign: e("StrokeAlign"),
-            strokeWeight: 3.14,
-            fills: a(o("Paint")),
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
-            id: "",
-            strokes: a(o("Paint")),
-            preserveRatio: false,
-        },
-        "Line": {
-            effects: a(o("Effect")),
-            opacity: 3.14,
-            name: "",
-            strokeAlign: e("StrokeAlign"),
-            strokeWeight: 3.14,
-            fills: a(o("Paint")),
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
-            id: "",
-            strokes: a(o("Paint")),
-            preserveRatio: false,
-        },
-        "Instance": {
-            effects: a(o("Effect")),
-            layoutGrids: a(o("LayoutGrid")),
-            opacity: 3.14,
-            name: "",
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            backgroundColor: o("Color"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            clipsContent: false,
-            exportSettings: a(o("ExportSetting")),
-            componentId: "",
-            type: e("NodeType"),
-            id: "",
-            preserveRatio: false,
-            children: a(o("DocumentElement")),
         },
         "CommentsResponse": {
             comments: a(o("Comment")),
@@ -2546,128 +1275,11 @@ export module Convert {
             x: u(null, 3.14),
             y: u(null, 3.14),
             node_id: u(null, a("")),
-            node_offset: u(null, o("Vector2")),
+            node_offset: u(null, o("Offset")),
         },
         "User": {
             handle: "",
             img_url: "",
-        },
-        "BooleanGroup": {
-            effects: a(o("Effect")),
-            opacity: 3.14,
-            name: "",
-            strokeAlign: e("StrokeAlign"),
-            strokeWeight: 3.14,
-            fills: a(o("Paint")),
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
-            id: "",
-            strokes: a(o("Paint")),
-            preserveRatio: false,
-            children: a(o("DocumentElement")),
-        },
-        "Canvas": {
-            backgroundColor: o("Color"),
-            children: a(o("DocumentElement")),
-            exportSettings: a(o("ExportSetting")),
-            id: "",
-            name: "",
-            type: e("NodeType"),
-            visible: false,
-        },
-        "FileResponse": {
-            components: m(o("Component")),
-            document: o("Document"),
-            schemaVersion: 3.14,
-        },
-        "Component": {
-            effects: a(o("Effect")),
-            layoutGrids: a(o("LayoutGrid")),
-            opacity: 3.14,
-            name: "",
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            backgroundColor: o("Color"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            clipsContent: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
-            id: "",
-            preserveRatio: false,
-            children: a(o("DocumentElement")),
-        },
-        "Document": {
-            children: a(o("DocumentElement")),
-            id: "",
-            name: "",
-            type: e("NodeType"),
-            visible: false,
-        },
-        "RegularPolygon": {
-            effects: a(o("Effect")),
-            opacity: 3.14,
-            name: "",
-            strokeAlign: e("StrokeAlign"),
-            strokeWeight: 3.14,
-            fills: a(o("Paint")),
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
-            id: "",
-            strokes: a(o("Paint")),
-            preserveRatio: false,
-        },
-        "Ellipse": {
-            effects: a(o("Effect")),
-            opacity: 3.14,
-            name: "",
-            strokeAlign: e("StrokeAlign"),
-            strokeWeight: 3.14,
-            fills: a(o("Paint")),
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
-            id: "",
-            strokes: a(o("Paint")),
-            preserveRatio: false,
-        },
-        "Group": {
-            effects: a(o("Effect")),
-            layoutGrids: a(o("LayoutGrid")),
-            opacity: 3.14,
-            name: "",
-            absoluteBoundingBox: o("Rectangle"),
-            transitionNodeID: "",
-            visible: false,
-            blendMode: e("BlendMode"),
-            backgroundColor: o("Color"),
-            constraints: o("LayoutConstraint"),
-            isMask: false,
-            clipsContent: false,
-            exportSettings: a(o("ExportSetting")),
-            type: e("NodeType"),
-            id: "",
-            preserveRatio: false,
-            children: a(o("DocumentElement")),
         },
         "BlendMode": [
             "COLOR",
@@ -2734,7 +1346,7 @@ export module Convert {
             "INSIDE",
             "OUTSIDE",
         ],
-        "NodeType": [
+        "AbsoluteBoundingBoxType": [
             "BOOLEAN",
             "CANVAS",
             "COMPONENT",
@@ -2751,6 +1363,16 @@ export module Convert {
             "TEXT",
             "VECTOR",
         ],
+        "Alignment": [
+            "CENTER",
+            "MAX",
+            "MIN",
+        ],
+        "Pattern": [
+            "COLUMNS",
+            "GRID",
+            "ROWS",
+        ],
         "TextAlignHorizontal": [
             "CENTER",
             "JUSTIFIED",
@@ -2761,16 +1383,6 @@ export module Convert {
             "BOTTOM",
             "CENTER",
             "TOP",
-        ],
-        "Alignment": [
-            "CENTER",
-            "MAX",
-            "MIN",
-        ],
-        "Pattern": [
-            "COLUMNS",
-            "GRID",
-            "ROWS",
         ],
     };
 }

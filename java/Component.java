@@ -11,19 +11,19 @@ public class Component {
     private LayoutGrid[] layoutGrids;
     private double opacity;
     private String name;
-    private Rectangle absoluteBoundingBox;
+    private AbsoluteBoundingBox absoluteBoundingBox;
     private String transitionNodeID;
     private boolean visible;
     private BlendMode blendMode;
-    private Color backgroundColor;
-    private LayoutConstraint constraints;
+    private Olor backgroundColor;
+    private Constraints constraints;
     private boolean isMask;
     private boolean clipsContent;
     private ExportSetting[] exportSettings;
-    private NodeType type;
+    private AbsoluteBoundingBoxType type;
     private String id;
     private boolean preserveRatio;
-    private DocumentElement[] children;
+    private Document[] children;
 
     /**
      * An array of effects attached to this node
@@ -63,9 +63,9 @@ public class Component {
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
-    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    public AbsoluteBoundingBox getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
+    public void setAbsoluteBoundingBox(AbsoluteBoundingBox value) { this.absoluteBoundingBox = value; }
 
     /**
      * Node ID of node to transition to in prototyping
@@ -96,17 +96,17 @@ public class Component {
      * Background color of the node
      */
     @JsonProperty("backgroundColor")
-    public Color getBackgroundColor() { return backgroundColor; }
+    public Olor getBackgroundColor() { return backgroundColor; }
     @JsonProperty("backgroundColor")
-    public void setBackgroundColor(Color value) { this.backgroundColor = value; }
+    public void setBackgroundColor(Olor value) { this.backgroundColor = value; }
 
     /**
      * Horizontal and vertical layout constraints for node
      */
     @JsonProperty("constraints")
-    public LayoutConstraint getConstraints() { return constraints; }
+    public Constraints getConstraints() { return constraints; }
     @JsonProperty("constraints")
-    public void setConstraints(LayoutConstraint value) { this.constraints = value; }
+    public void setConstraints(Constraints value) { this.constraints = value; }
 
     /**
      * Does this node mask sibling nodes in front of it?
@@ -136,9 +136,9 @@ public class Component {
      * the type of the node, refer to table below for details
      */
     @JsonProperty("type")
-    public NodeType getType() { return type; }
+    public AbsoluteBoundingBoxType getType() { return type; }
     @JsonProperty("type")
-    public void setType(NodeType value) { this.type = value; }
+    public void setType(AbsoluteBoundingBoxType value) { this.type = value; }
 
     /**
      * a string uniquely identifying this node within the document
@@ -160,7 +160,7 @@ public class Component {
      * An array of nodes that are direct children of this node
      */
     @JsonProperty("children")
-    public DocumentElement[] getChildren() { return children; }
+    public Document[] getChildren() { return children; }
     @JsonProperty("children")
-    public void setChildren(DocumentElement[] value) { this.children = value; }
+    public void setChildren(Document[] value) { this.children = value; }
 }

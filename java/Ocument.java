@@ -7,30 +7,22 @@ import com.fasterxml.jackson.annotation.*;
  * Node Properties
  * The root node
  *
- * An array of nodes that are direct children of this node
- *
- * An array of canvases attached to the document
- *
- * An array of top level layers on the canvas
- *
- * An array of nodes that are being boolean operated on
- *
  * The root node within the document
  */
 public class Ocument {
-    private DocumentElement[] children;
+    private Document[] children;
     private String id;
     private String name;
-    private NodeType type;
+    private AbsoluteBoundingBoxType type;
     private boolean visible;
 
     /**
      * An array of canvases attached to the document
      */
     @JsonProperty("children")
-    public DocumentElement[] getChildren() { return children; }
+    public Document[] getChildren() { return children; }
     @JsonProperty("children")
-    public void setChildren(DocumentElement[] value) { this.children = value; }
+    public void setChildren(Document[] value) { this.children = value; }
 
     /**
      * a string uniquely identifying this node within the document
@@ -52,9 +44,9 @@ public class Ocument {
      * the type of the node, refer to table below for details
      */
     @JsonProperty("type")
-    public NodeType getType() { return type; }
+    public AbsoluteBoundingBoxType getType() { return type; }
     @JsonProperty("type")
-    public void setType(NodeType value) { this.type = value; }
+    public void setType(AbsoluteBoundingBoxType value) { this.type = value; }
 
     /**
      * whether or not the node is visible on the canvas

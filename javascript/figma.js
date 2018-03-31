@@ -2,253 +2,14 @@
 //
 //   const Convert = require("./file");
 //
-//   const frameOffset = Convert.toFrameOffset(json);
-//   const vector = Convert.toVector(json);
-//   const color = Convert.toColor(json);
-//   const colorStop = Convert.toColorStop(json);
-//   const layoutConstraint = Convert.toLayoutConstraint(json);
-//   const user = Convert.toUser(json);
-//   const text = Convert.toText(json);
-//   const frame = Convert.toFrame(json);
-//   const rectangle = Convert.toRectangle(json);
-//   const vector2 = Convert.toVector2(json);
-//   const layoutGrid = Convert.toLayoutGrid(json);
-//   const string = Convert.toString(json);
-//   const effect = Convert.toEffect(json);
-//   const slice = Convert.toSlice(json);
-//   const star = Convert.toStar(json);
-//   const line = Convert.toLine(json);
-//   const blendMode = Convert.toBlendMode(json);
-//   const instance = Convert.toInstance(json);
-//   const commentsResponse = Convert.toCommentsResponse(json);
-//   const typeStyle = Convert.toTypeStyle(json);
-//   const booleanGroup = Convert.toBooleanGroup(json);
-//   const canvas = Convert.toCanvas(json);
-//   const document = Convert.toDocument(json);
-//   const nodeType = Convert.toNodeType(json);
-//   const exportSetting = Convert.toExportSetting(json);
-//   const component = Convert.toComponent(json);
 //   const fileResponse = Convert.toFileResponse(json);
-//   const constraint = Convert.toConstraint(json);
-//   const paint = Convert.toPaint(json);
-//   const regularPolygon = Convert.toRegularPolygon(json);
-//   const ellipse = Convert.toEllipse(json);
-//   const comment = Convert.toComment(json);
-//   const group = Convert.toGroup(json);
+//   const commentsResponse = Convert.toCommentsResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
-function toFrameOffset(json) {
-    return cast(JSON.parse(json), o("FrameOffset"));
-}
-
-function frameOffsetToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toVector(json) {
-    return cast(JSON.parse(json), o("Vector"));
-}
-
-function vectorToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toColor(json) {
-    return cast(JSON.parse(json), o("Color"));
-}
-
-function colorToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toColorStop(json) {
-    return cast(JSON.parse(json), o("ColorStop"));
-}
-
-function colorStopToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toLayoutConstraint(json) {
-    return cast(JSON.parse(json), o("LayoutConstraint"));
-}
-
-function layoutConstraintToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toUser(json) {
-    return cast(JSON.parse(json), o("User"));
-}
-
-function userToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toText(json) {
-    return cast(JSON.parse(json), o("Text"));
-}
-
-function textToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toFrame(json) {
-    return cast(JSON.parse(json), o("Frame"));
-}
-
-function frameToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toRectangle(json) {
-    return cast(JSON.parse(json), o("Rectangle"));
-}
-
-function rectangleToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toVector2(json) {
-    return cast(JSON.parse(json), o("Vector2"));
-}
-
-function vector2ToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toLayoutGrid(json) {
-    return cast(JSON.parse(json), o("LayoutGrid"));
-}
-
-function layoutGridToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toString(json) {
-    return cast(JSON.parse(json), a(""));
-}
-
-function stringToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toEffect(json) {
-    return cast(JSON.parse(json), o("Effect"));
-}
-
-function effectToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toSlice(json) {
-    return cast(JSON.parse(json), o("Slice"));
-}
-
-function sliceToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toStar(json) {
-    return cast(JSON.parse(json), o("Star"));
-}
-
-function starToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toLine(json) {
-    return cast(JSON.parse(json), o("Line"));
-}
-
-function lineToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toBlendMode(json) {
-    return cast(JSON.parse(json), e("BlendMode"));
-}
-
-function blendModeToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toInstance(json) {
-    return cast(JSON.parse(json), o("Instance"));
-}
-
-function instanceToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toCommentsResponse(json) {
-    return cast(JSON.parse(json), o("CommentsResponse"));
-}
-
-function commentsResponseToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toTypeStyle(json) {
-    return cast(JSON.parse(json), o("TypeStyle"));
-}
-
-function typeStyleToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toBooleanGroup(json) {
-    return cast(JSON.parse(json), o("BooleanGroup"));
-}
-
-function booleanGroupToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toCanvas(json) {
-    return cast(JSON.parse(json), o("Canvas"));
-}
-
-function canvasToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toDocument(json) {
-    return cast(JSON.parse(json), o("Document"));
-}
-
-function documentToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toNodeType(json) {
-    return cast(JSON.parse(json), e("NodeType"));
-}
-
-function nodeTypeToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toExportSetting(json) {
-    return cast(JSON.parse(json), o("ExportSetting"));
-}
-
-function exportSettingToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toComponent(json) {
-    return cast(JSON.parse(json), o("Component"));
-}
-
-function componentToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
 function toFileResponse(json) {
     return cast(JSON.parse(json), o("FileResponse"));
 }
@@ -257,51 +18,11 @@ function fileResponseToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
-function toConstraint(json) {
-    return cast(JSON.parse(json), o("Constraint"));
+function toCommentsResponse(json) {
+    return cast(JSON.parse(json), o("CommentsResponse"));
 }
 
-function constraintToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toPaint(json) {
-    return cast(JSON.parse(json), o("Paint"));
-}
-
-function paintToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toRegularPolygon(json) {
-    return cast(JSON.parse(json), o("RegularPolygon"));
-}
-
-function regularPolygonToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toEllipse(json) {
-    return cast(JSON.parse(json), o("Ellipse"));
-}
-
-function ellipseToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toComment(json) {
-    return cast(JSON.parse(json), o("Comment"));
-}
-
-function commentToJson(value) {
-    return JSON.stringify(value, null, 2);
-}
-
-function toGroup(json) {
-    return cast(JSON.parse(json), o("Group"));
-}
-
-function groupToJson(value) {
+function commentsResponseToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
@@ -383,34 +104,31 @@ function o(className) {
 }
 
 const typeMap = {
-    "FrameOffset": {
-        node_id: a(""),
-        node_offset: o("Vector2"),
+    "FileResponse": {
+        components: m(o("Component")),
+        document: o("Ocument"),
+        schemaVersion: 3.14,
     },
-    "Vector2": {
-        x: 3.14,
-        y: 3.14,
-    },
-    "Vector": {
+    "Component": {
         effects: a(o("Effect")),
+        layoutGrids: a(o("LayoutGrid")),
         opacity: 3.14,
         name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
+        absoluteBoundingBox: o("AbsoluteBoundingBox"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
+        backgroundColor: o("Olor"),
+        constraints: o("Constraints"),
         isMask: false,
+        clipsContent: false,
         exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
+        type: e("AbsoluteBoundingBoxType"),
         id: "",
-        strokes: a(o("Paint")),
         preserveRatio: false,
+        children: a(o("Document")),
     },
-    "Rectangle": {
+    "AbsoluteBoundingBox": {
         effects: a(o("Effect")),
         cornerRadius: 3.14,
         opacity: 3.14,
@@ -418,35 +136,39 @@ const typeMap = {
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
         fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
+        absoluteBoundingBox: o("AbsoluteBoundingBox"),
         transitionNodeID: "",
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
+        constraints: o("Constraints"),
         isMask: false,
         exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
+        type: e("AbsoluteBoundingBoxType"),
         id: "",
         strokes: a(o("Paint")),
         preserveRatio: false,
     },
-    "LayoutConstraint": {
+    "Constraints": {
         horizontal: e("Horizontal"),
         vertical: e("Vertical"),
     },
     "Effect": {
         blendMode: u(null, e("BlendMode")),
-        color: u(null, o("Color")),
-        offset: u(null, o("Vector2")),
+        color: u(null, o("Olor")),
+        offset: u(null, o("Offset")),
         radius: 3.14,
         type: e("EffectType"),
         visible: false,
     },
-    "Color": {
+    "Olor": {
         a: 3.14,
         b: 3.14,
         g: 3.14,
         r: 3.14,
+    },
+    "Offset": {
+        x: 3.14,
+        y: 3.14,
     },
     "ExportSetting": {
         constraint: o("Constraint"),
@@ -458,8 +180,8 @@ const typeMap = {
         value: 3.14,
     },
     "Paint": {
-        color: u(null, o("Color")),
-        gradientHandlePositions: u(null, a(o("Vector2"))),
+        color: u(null, o("Olor")),
+        gradientHandlePositions: u(null, a(o("Offset"))),
         gradientStops: u(null, a(o("ColorStop"))),
         opacity: 3.14,
         scaleMode: u(null, ""),
@@ -467,33 +189,49 @@ const typeMap = {
         visible: false,
     },
     "ColorStop": {
-        color: o("Color"),
+        color: o("Olor"),
         position: 3.14,
     },
-    "Text": {
-        effects: a(o("Effect")),
-        characters: "",
-        opacity: 3.14,
-        name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
-        styleOverrideTable: a(o("TypeStyle")),
-        style: o("TypeStyle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
+    "Document": {
+        children: u(null, a(o("Document"))),
         id: "",
-        strokes: a(o("Paint")),
-        preserveRatio: false,
-        characterStyleOverrides: a(3.14),
+        name: "",
+        type: e("AbsoluteBoundingBoxType"),
+        visible: false,
+        backgroundColor: u(null, o("Olor")),
+        exportSettings: u(null, a(o("ExportSetting"))),
+        effects: u(null, a(o("Effect"))),
+        layoutGrids: u(null, a(o("LayoutGrid"))),
+        opacity: u(null, 3.14),
+        absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
+        transitionNodeID: u(null, ""),
+        blendMode: u(null, e("BlendMode")),
+        constraints: u(null, o("Constraints")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        preserveRatio: u(null, false),
+        strokeAlign: u(null, e("StrokeAlign")),
+        strokeWeight: u(null, 3.14),
+        fills: u(null, a(o("Paint"))),
+        strokes: u(null, a(o("Paint"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
+        styleOverrideTable: u(null, a(o("Tyle"))),
+        style: u(null, o("Tyle")),
+        characterStyleOverrides: u(null, a(3.14)),
+        componentId: u(null, ""),
     },
-    "TypeStyle": {
+    "LayoutGrid": {
+        alignment: e("Alignment"),
+        color: o("Olor"),
+        count: 3.14,
+        gutterSize: 3.14,
+        offset: 3.14,
+        pattern: e("Pattern"),
+        sectionSize: 3.14,
+        visible: false,
+    },
+    "Tyle": {
         lineHeightPx: 3.14,
         fontPostScriptName: "",
         fontWeight: 3.14,
@@ -506,129 +244,12 @@ const typeMap = {
         textAlignHorizontal: e("TextAlignHorizontal"),
         letterSpacing: 3.14,
     },
-    "Frame": {
-        effects: a(o("Effect")),
-        layoutGrids: a(o("LayoutGrid")),
-        opacity: 3.14,
-        name: "",
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        backgroundColor: o("Color"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        clipsContent: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
-        id: "",
-        preserveRatio: false,
-        children: a(o("DocumentElement")),
-    },
-    "DocumentElement": {
-        children: u(null, a(o("DocumentElement"))),
+    "Ocument": {
+        children: a(o("Document")),
         id: "",
         name: "",
-        type: e("NodeType"),
+        type: e("AbsoluteBoundingBoxType"),
         visible: false,
-        backgroundColor: u(null, o("Color")),
-        exportSettings: u(null, a(o("ExportSetting"))),
-        effects: u(null, a(o("Effect"))),
-        layoutGrids: u(null, a(o("LayoutGrid"))),
-        opacity: u(null, 3.14),
-        absoluteBoundingBox: u(null, o("Rectangle")),
-        transitionNodeID: u(null, ""),
-        blendMode: u(null, e("BlendMode")),
-        constraints: u(null, o("LayoutConstraint")),
-        isMask: u(null, false),
-        clipsContent: u(null, false),
-        preserveRatio: u(null, false),
-        strokeAlign: u(null, e("StrokeAlign")),
-        strokeWeight: u(null, 3.14),
-        fills: u(null, a(o("Paint"))),
-        strokes: u(null, a(o("Paint"))),
-        cornerRadius: u(null, 3.14),
-        characters: u(null, ""),
-        styleOverrideTable: u(null, a(o("TypeStyle"))),
-        style: u(null, o("TypeStyle")),
-        characterStyleOverrides: u(null, a(3.14)),
-        componentId: u(null, ""),
-    },
-    "LayoutGrid": {
-        alignment: e("Alignment"),
-        color: o("Color"),
-        count: 3.14,
-        gutterSize: 3.14,
-        offset: 3.14,
-        pattern: e("Pattern"),
-        sectionSize: 3.14,
-        visible: false,
-    },
-    "Slice": {
-        absoluteBoundingBox: o("Rectangle"),
-        exportSettings: a(o("ExportSetting")),
-        id: "",
-        name: "",
-        type: e("NodeType"),
-        visible: false,
-    },
-    "Star": {
-        effects: a(o("Effect")),
-        opacity: 3.14,
-        name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
-        id: "",
-        strokes: a(o("Paint")),
-        preserveRatio: false,
-    },
-    "Line": {
-        effects: a(o("Effect")),
-        opacity: 3.14,
-        name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
-        id: "",
-        strokes: a(o("Paint")),
-        preserveRatio: false,
-    },
-    "Instance": {
-        effects: a(o("Effect")),
-        layoutGrids: a(o("LayoutGrid")),
-        opacity: 3.14,
-        name: "",
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        backgroundColor: o("Color"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        clipsContent: false,
-        exportSettings: a(o("ExportSetting")),
-        componentId: "",
-        type: e("NodeType"),
-        id: "",
-        preserveRatio: false,
-        children: a(o("DocumentElement")),
     },
     "CommentsResponse": {
         comments: a(o("Comment")),
@@ -648,128 +269,11 @@ const typeMap = {
         x: u(null, 3.14),
         y: u(null, 3.14),
         node_id: u(null, a("")),
-        node_offset: u(null, o("Vector2")),
+        node_offset: u(null, o("Offset")),
     },
     "User": {
         handle: "",
         img_url: "",
-    },
-    "BooleanGroup": {
-        effects: a(o("Effect")),
-        opacity: 3.14,
-        name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
-        id: "",
-        strokes: a(o("Paint")),
-        preserveRatio: false,
-        children: a(o("DocumentElement")),
-    },
-    "Canvas": {
-        backgroundColor: o("Color"),
-        children: a(o("DocumentElement")),
-        exportSettings: a(o("ExportSetting")),
-        id: "",
-        name: "",
-        type: e("NodeType"),
-        visible: false,
-    },
-    "FileResponse": {
-        components: m(o("Component")),
-        document: o("Document"),
-        schemaVersion: 3.14,
-    },
-    "Component": {
-        effects: a(o("Effect")),
-        layoutGrids: a(o("LayoutGrid")),
-        opacity: 3.14,
-        name: "",
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        backgroundColor: o("Color"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        clipsContent: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
-        id: "",
-        preserveRatio: false,
-        children: a(o("DocumentElement")),
-    },
-    "Document": {
-        children: a(o("DocumentElement")),
-        id: "",
-        name: "",
-        type: e("NodeType"),
-        visible: false,
-    },
-    "RegularPolygon": {
-        effects: a(o("Effect")),
-        opacity: 3.14,
-        name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
-        id: "",
-        strokes: a(o("Paint")),
-        preserveRatio: false,
-    },
-    "Ellipse": {
-        effects: a(o("Effect")),
-        opacity: 3.14,
-        name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
-        id: "",
-        strokes: a(o("Paint")),
-        preserveRatio: false,
-    },
-    "Group": {
-        effects: a(o("Effect")),
-        layoutGrids: a(o("LayoutGrid")),
-        opacity: 3.14,
-        name: "",
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: "",
-        visible: false,
-        blendMode: e("BlendMode"),
-        backgroundColor: o("Color"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        clipsContent: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
-        id: "",
-        preserveRatio: false,
-        children: a(o("DocumentElement")),
     },
     "BlendMode": [
         "COLOR",
@@ -836,7 +340,7 @@ const typeMap = {
         "INSIDE",
         "OUTSIDE",
     ],
-    "NodeType": [
+    "AbsoluteBoundingBoxType": [
         "BOOLEAN",
         "CANVAS",
         "COMPONENT",
@@ -853,6 +357,16 @@ const typeMap = {
         "TEXT",
         "VECTOR",
     ],
+    "Alignment": [
+        "CENTER",
+        "MAX",
+        "MIN",
+    ],
+    "Pattern": [
+        "COLUMNS",
+        "GRID",
+        "ROWS",
+    ],
     "TextAlignHorizontal": [
         "CENTER",
         "JUSTIFIED",
@@ -864,83 +378,11 @@ const typeMap = {
         "CENTER",
         "TOP",
     ],
-    "Alignment": [
-        "CENTER",
-        "MAX",
-        "MIN",
-    ],
-    "Pattern": [
-        "COLUMNS",
-        "GRID",
-        "ROWS",
-    ],
 };
 
 module.exports = {
-    "frameOffsetToJson": frameOffsetToJson,
-    "toFrameOffset": toFrameOffset,
-    "vectorToJson": vectorToJson,
-    "toVector": toVector,
-    "colorToJson": colorToJson,
-    "toColor": toColor,
-    "colorStopToJson": colorStopToJson,
-    "toColorStop": toColorStop,
-    "layoutConstraintToJson": layoutConstraintToJson,
-    "toLayoutConstraint": toLayoutConstraint,
-    "userToJson": userToJson,
-    "toUser": toUser,
-    "textToJson": textToJson,
-    "toText": toText,
-    "frameToJson": frameToJson,
-    "toFrame": toFrame,
-    "rectangleToJson": rectangleToJson,
-    "toRectangle": toRectangle,
-    "vector2ToJson": vector2ToJson,
-    "toVector2": toVector2,
-    "layoutGridToJson": layoutGridToJson,
-    "toLayoutGrid": toLayoutGrid,
-    "stringToJson": stringToJson,
-    "toString": toString,
-    "effectToJson": effectToJson,
-    "toEffect": toEffect,
-    "sliceToJson": sliceToJson,
-    "toSlice": toSlice,
-    "starToJson": starToJson,
-    "toStar": toStar,
-    "lineToJson": lineToJson,
-    "toLine": toLine,
-    "blendModeToJson": blendModeToJson,
-    "toBlendMode": toBlendMode,
-    "instanceToJson": instanceToJson,
-    "toInstance": toInstance,
-    "commentsResponseToJson": commentsResponseToJson,
-    "toCommentsResponse": toCommentsResponse,
-    "typeStyleToJson": typeStyleToJson,
-    "toTypeStyle": toTypeStyle,
-    "booleanGroupToJson": booleanGroupToJson,
-    "toBooleanGroup": toBooleanGroup,
-    "canvasToJson": canvasToJson,
-    "toCanvas": toCanvas,
-    "documentToJson": documentToJson,
-    "toDocument": toDocument,
-    "nodeTypeToJson": nodeTypeToJson,
-    "toNodeType": toNodeType,
-    "exportSettingToJson": exportSettingToJson,
-    "toExportSetting": toExportSetting,
-    "componentToJson": componentToJson,
-    "toComponent": toComponent,
     "fileResponseToJson": fileResponseToJson,
     "toFileResponse": toFileResponse,
-    "constraintToJson": constraintToJson,
-    "toConstraint": toConstraint,
-    "paintToJson": paintToJson,
-    "toPaint": toPaint,
-    "regularPolygonToJson": regularPolygonToJson,
-    "toRegularPolygon": toRegularPolygon,
-    "ellipseToJson": ellipseToJson,
-    "toEllipse": toEllipse,
-    "commentToJson": commentToJson,
-    "toComment": toComment,
-    "groupToJson": groupToJson,
-    "toGroup": toGroup,
+    "commentsResponseToJson": commentsResponseToJson,
+    "toCommentsResponse": toCommentsResponse,
 };

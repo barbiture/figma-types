@@ -23,7 +23,7 @@ public class ClientMeta {
     private Double x;
     private Double y;
     private String[] nodeID;
-    private Vector2 nodeOffset;
+    private Offset nodeOffset;
 
     /**
      * X coordinate of the vector
@@ -53,7 +53,7 @@ public class ClientMeta {
      * 2d vector offset within the frame.
      */
     @JsonProperty("node_offset")
-    public Vector2 getNodeOffset() { return nodeOffset; }
+    public Offset getNodeOffset() { return nodeOffset; }
     @JsonProperty("node_offset")
-    public void setNodeOffset(Vector2 value) { this.nodeOffset = value; }
+    public void setNodeOffset(Offset value) { this.nodeOffset = value; }
 }
