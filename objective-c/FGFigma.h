@@ -4,6 +4,7 @@
 //   FGFileResponse *fileResponse = [FGFileResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
 //   FGCommentsResponse *commentsResponse = [FGCommentsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
 //   FGCommentRequest *commentRequest = [FGCommentRequest fromJSON:json encoding:NSUTF8Encoding error:&error];
+//   FGProjectsResponse *projectsResponse = [FGProjectsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
 
 #import <Foundation/Foundation.h>
 
@@ -40,6 +41,8 @@
 @class FGClientMeta;
 @class FGUser;
 @class FGCommentRequest;
+@class FGProjectsResponse;
+@class FGProject;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -804,6 +807,29 @@ NS_ASSUME_NONNULL_BEGIN
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
 - (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+@end
+
+/// GET /v1/teams/:team_id/projects
+///
+/// > Description
+/// Lists the projects for a specified team. Note that this will only return projects visible
+/// to the authenticated user or owner of the developer token.
+///
+/// > Path parameters
+/// team_id String
+/// Id of the team to list projects from
+@interface FGProjectsResponse : NSObject
+@property (nonatomic, copy) NSArray<FGProject *> *projects;
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+@end
+
+@interface FGProject : NSObject
+@property (nonatomic, assign) double identifier;
+@property (nonatomic, copy)   NSString *name;
 @end
 
 NS_ASSUME_NONNULL_END

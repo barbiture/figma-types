@@ -7,6 +7,7 @@
 //   const fileResponse = Convert.toFileResponse(json);
 //   const commentsResponse = Convert.toCommentsResponse(json);
 //   const commentRequest = Convert.toCommentRequest(json);
+//   const projectsResponse = Convert.toProjectsResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -1032,6 +1033,26 @@ export type CommentRequest = {
     message:     string;
 };
 
+/**
+ * GET /v1/teams/:team_id/projects
+ *
+ * > Description
+ * Lists the projects for a specified team. Note that this will only return projects visible
+ * to the authenticated user or owner of the developer token.
+ *
+ * > Path parameters
+ * team_id String
+ * Id of the team to list projects from
+ */
+export type ProjectsResponse = {
+    projects: Project[];
+};
+
+export type Project = {
+    id:   number;
+    name: string;
+};
+
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 function toFileResponse(json: string): FileResponse {
@@ -1055,6 +1076,14 @@ function toCommentRequest(json: string): CommentRequest {
 }
 
 function commentRequestToJson(value: CommentRequest): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toProjectsResponse(json: string): ProjectsResponse {
+    return cast(JSON.parse(json), o("ProjectsResponse"));
+}
+
+function projectsResponseToJson(value: ProjectsResponse): string {
     return JSON.stringify(value, null, 2);
 }
 
@@ -1311,6 +1340,13 @@ const typeMap: any = {
         client_meta: o("ClientMeta"),
         message: "",
     },
+    "ProjectsResponse": {
+        projects: a(o("Project")),
+    },
+    "Project": {
+        id: 3.14,
+        name: "",
+    },
     "BlendMode": [
         "COLOR",
         "COLOR_BURN",
@@ -1423,4 +1459,6 @@ module.exports = {
     "toCommentsResponse": toCommentsResponse,
     "commentRequestToJson": commentRequestToJson,
     "toCommentRequest": toCommentRequest,
+    "projectsResponseToJson": projectsResponseToJson,
+    "toProjectsResponse": toProjectsResponse,
 };

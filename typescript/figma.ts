@@ -1,10 +1,11 @@
 // To parse this data:
 //
-//   import { Convert, FileResponse, CommentsResponse, CommentRequest } from "./file";
+//   import { Convert, FileResponse, CommentsResponse, CommentRequest, ProjectsResponse } from "./file";
 //
 //   const fileResponse = Convert.toFileResponse(json);
 //   const commentsResponse = Convert.toCommentsResponse(json);
 //   const commentRequest = Convert.toCommentRequest(json);
+//   const projectsResponse = Convert.toProjectsResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -1043,6 +1044,26 @@ export interface CommentRequest {
     message:     string;
 }
 
+/**
+ * GET /v1/teams/:team_id/projects
+ *
+ * > Description
+ * Lists the projects for a specified team. Note that this will only return projects visible
+ * to the authenticated user or owner of the developer token.
+ *
+ * > Path parameters
+ * team_id String
+ * Id of the team to list projects from
+ */
+export interface ProjectsResponse {
+    projects: Project[];
+}
+
+export interface Project {
+    id:   number;
+    name: string;
+}
+
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
@@ -1067,6 +1088,14 @@ export module Convert {
     }
 
     export function commentRequestToJson(value: CommentRequest): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toProjectsResponse(json: string): ProjectsResponse {
+        return cast(JSON.parse(json), o("ProjectsResponse"));
+    }
+
+    export function projectsResponseToJson(value: ProjectsResponse): string {
         return JSON.stringify(value, null, 2);
     }
     
@@ -1322,6 +1351,13 @@ export module Convert {
         "CommentRequest": {
             client_meta: o("ClientMeta"),
             message: "",
+        },
+        "ProjectsResponse": {
+            projects: a(o("Project")),
+        },
+        "Project": {
+            id: 3.14,
+            name: "",
         },
         "BlendMode": [
             "COLOR",

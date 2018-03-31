@@ -8,6 +8,9 @@
 //
 //    commentRequest, err := UnmarshalCommentRequest(bytes)
 //    bytes, err = commentRequest.Marshal()
+//
+//    projectsResponse, err := UnmarshalProjectsResponse(bytes)
+//    bytes, err = projectsResponse.Marshal()
 
 package main
 
@@ -40,6 +43,16 @@ func UnmarshalCommentRequest(data []byte) (CommentRequest, error) {
 }
 
 func (r *CommentRequest) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+func UnmarshalProjectsResponse(data []byte) (ProjectsResponse, error) {
+	var r ProjectsResponse
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *ProjectsResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -414,6 +427,24 @@ type User struct {
 type CommentRequest struct {
 	ClientMeta ClientMeta `json:"client_meta"`
 	Message    string     `json:"message"`    
+}
+
+// GET /v1/teams/:team_id/projects
+//
+// > Description
+// Lists the projects for a specified team. Note that this will only return projects visible
+// to the authenticated user or owner of the developer token.
+//
+// > Path parameters
+// team_id String
+// Id of the team to list projects from
+type ProjectsResponse struct {
+	Projects []Project `json:"projects"`
+}
+
+type Project struct {
+	ID   float64 `json:"id"`  
+	Name string  `json:"name"`
 }
 
 // How this node blends with nodes behind it in the scene

@@ -3,6 +3,7 @@
 //   let fileResponse = try FileResponse(json)
 //   let commentsResponse = try CommentsResponse(json)
 //   let commentRequest = try CommentRequest(json)
+//   let projectsResponse = try ProjectsResponse(json)
 
 import Foundation
 
@@ -777,6 +778,24 @@ struct CommentRequest: Codable {
     }
 }
 
+/// GET /v1/teams/:team_id/projects
+///
+/// > Description
+/// Lists the projects for a specified team. Note that this will only return projects visible
+/// to the authenticated user or owner of the developer token.
+///
+/// > Path parameters
+/// team_id String
+/// Id of the team to list projects from
+struct ProjectsResponse: Codable {
+    let projects: [Project]
+}
+
+struct Project: Codable {
+    let id: Double
+    let name: String
+}
+
 // MARK: Convenience initializers
 
 extension FileResponse {
@@ -1258,6 +1277,56 @@ extension User {
 extension CommentRequest {
     init(data: Data) throws {
         self = try JSONDecoder().decode(CommentRequest.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension ProjectsResponse {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(ProjectsResponse.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension Project {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(Project.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {

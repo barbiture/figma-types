@@ -11,6 +11,7 @@
 //     FileResponse data = Converter.FileResponseFromJsonString(jsonString);
 //     CommentsResponse data = Converter.CommentsResponseFromJsonString(jsonString);
 //     CommentRequest data = Converter.CommentRequestFromJsonString(jsonString);
+//     ProjectsResponse data = Converter.ProjectsResponseFromJsonString(jsonString);
 
 package io.quicktype;
 
@@ -44,6 +45,14 @@ public class Converter {
 
     public static String CommentRequestToJsonString(CommentRequest obj) throws JsonProcessingException {
         return getCommentRequestObjectWriter().writeValueAsString(obj);
+    }
+
+    public static ProjectsResponse ProjectsResponseFromJsonString(String json) throws IOException {
+        return getProjectsResponseObjectReader().readValue(json);
+    }
+
+    public static String ProjectsResponseToJsonString(ProjectsResponse obj) throws JsonProcessingException {
+        return getProjectsResponseObjectWriter().writeValueAsString(obj);
     }
 
     private static ObjectReader FileResponseReader;
@@ -101,5 +110,24 @@ public class Converter {
     private static ObjectWriter getCommentRequestObjectWriter() {
         if (CommentRequestWriter == null) instantiateMapper();
         return CommentRequestWriter;
+    }
+
+    private static ObjectReader ProjectsResponseReader;
+    private static ObjectWriter ProjectsResponseWriter;
+
+    private static void instantiateProjectsResponseMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        ProjectsResponseReader = mapper.reader(ProjectsResponse.class);
+        ProjectsResponseWriter = mapper.writerFor(ProjectsResponse.class);
+    }
+
+    private static ObjectReader getProjectsResponseObjectReader() {
+        if (ProjectsResponseReader == null) instantiateMapper();
+        return ProjectsResponseReader;
+    }
+
+    private static ObjectWriter getProjectsResponseObjectWriter() {
+        if (ProjectsResponseWriter == null) instantiateMapper();
+        return ProjectsResponseWriter;
     }
 }

@@ -5,13 +5,14 @@
 -- add these imports
 --
 --     import Json.Decode exposing (decodeString)`);
---     import QuickType exposing (fileResponse, commentsResponse, commentRequest)
+--     import QuickType exposing (fileResponse, commentsResponse, commentRequest, projectsResponse)
 --
 -- and you're off to the races with
 --
 --     decodeString fileResponse myJsonString
 --     decodeString commentsResponse myJsonString
 --     decodeString commentRequest myJsonString
+--     decodeString projectsResponse myJsonString
 
 module QuickType exposing
     ( FileResponse
@@ -23,6 +24,9 @@ module QuickType exposing
     , CommentRequest
     , commentRequestToString
     , commentRequest
+    , ProjectsResponse
+    , projectsResponseToString
+    , projectsResponse
     , Component
     , AbsoluteBoundingBox
     , Constraints
@@ -40,6 +44,7 @@ module QuickType exposing
     , Comment
     , ClientMeta
     , User
+    , Project
     , AbsoluteBoundingBoxType(..)
     , BlendMode(..)
     , Horizontal(..)
@@ -1043,6 +1048,25 @@ type alias CommentRequest =
     , message : String
     }
 
+{-| GET /v1/teams/:team_id/projects
+
+> Description
+Lists the projects for a specified team. Note that this will only return projects visible
+to the authenticated user or owner of the developer token.
+
+> Path parameters
+team_id String
+Id of the team to list projects from
+-}
+type alias ProjectsResponse =
+    { projects : Array Project
+    }
+
+type alias Project =
+    { id : Float
+    , name : String
+    }
+
 -- decoders and encoders
 
 fileResponseToString : FileResponse -> String
@@ -1053,6 +1077,9 @@ commentsResponseToString r = Jenc.encode 0 (encodeCommentsResponse r)
 
 commentRequestToString : CommentRequest -> String
 commentRequestToString r = Jenc.encode 0 (encodeCommentRequest r)
+
+projectsResponseToString : ProjectsResponse -> String
+projectsResponseToString r = Jenc.encode 0 (encodeProjectsResponse r)
 
 fileResponse : Jdec.Decoder FileResponse
 fileResponse =
@@ -1799,6 +1826,30 @@ encodeCommentRequest x =
     Jenc.object
         [ ("client_meta", encodeClientMeta x.clientMeta)
         , ("message", Jenc.string x.message)
+        ]
+
+projectsResponse : Jdec.Decoder ProjectsResponse
+projectsResponse =
+    Jpipe.decode ProjectsResponse
+        |> Jpipe.required "projects" (Jdec.array project)
+
+encodeProjectsResponse : ProjectsResponse -> Jenc.Value
+encodeProjectsResponse x =
+    Jenc.object
+        [ ("projects", makeArrayEncoder encodeProject x.projects)
+        ]
+
+project : Jdec.Decoder Project
+project =
+    Jpipe.decode Project
+        |> Jpipe.required "id" Jdec.float
+        |> Jpipe.required "name" Jdec.string
+
+encodeProject : Project -> Jenc.Value
+encodeProject x =
+    Jenc.object
+        [ ("id", Jenc.float x.id)
+        , ("name", Jenc.string x.name)
         ]
 
 --- encoder helpers

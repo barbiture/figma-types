@@ -8,9 +8,10 @@
 //     FileResponse data = nlohmann::json::parse(jsonString);
 //     CommentsResponse data = nlohmann::json::parse(jsonString);
 //     CommentRequest data = nlohmann::json::parse(jsonString);
+//     ProjectsResponse data = nlohmann::json::parse(jsonString);
 
-#ifndef __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_HPP__
-#define __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_HPP__
+#ifndef __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_PROJECTSRESPONSE_HPP__
+#define __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_PROJECTSRESPONSE_HPP__
 
 #include "json.hpp"
 
@@ -960,6 +961,26 @@ namespace quicktype {
         struct ClientMeta client_meta;
         std::string message;
     };
+
+    struct Project {
+        double id;
+        std::string name;
+    };
+
+    /**
+     * GET /v1/teams/:team_id/projects
+     *
+     * > Description
+     * Lists the projects for a specified team. Note that this will only return projects visible
+     * to the authenticated user or owner of the developer token.
+     *
+     * > Path parameters
+     * team_id String
+     * Id of the team to list projects from
+     */
+    struct ProjectsResponse {
+        std::vector<struct Project> projects;
+    };
     
     inline json get_untyped(const json &j, const char *property) {
         if (j.find(property) != j.end()) {
@@ -1402,6 +1423,26 @@ namespace nlohmann {
         _j = json::object();
         _j["client_meta"] = _x.client_meta;
         _j["message"] = _x.message;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::Project& _x) {
+        _x.id = _j.at("id").get<double>();
+        _x.name = _j.at("name").get<std::string>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::Project& _x) {
+        _j = json::object();
+        _j["id"] = _x.id;
+        _j["name"] = _x.name;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::ProjectsResponse& _x) {
+        _x.projects = _j.at("projects").get<std::vector<struct quicktype::Project>>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::ProjectsResponse& _x) {
+        _j = json::object();
+        _j["projects"] = _x.projects;
     }
 
     inline void from_json(const json& _j, quicktype::BlendMode& _x) {

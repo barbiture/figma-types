@@ -848,6 +848,30 @@ pub struct CommentRequest {
     message: String,
 }
 
+/// GET /v1/teams/:team_id/projects
+///
+/// > Description
+/// Lists the projects for a specified team. Note that this will only return projects visible
+/// to the authenticated user or owner of the developer token.
+///
+/// > Path parameters
+/// team_id String
+/// Id of the team to list projects from
+#[derive(Serialize, Deserialize)]
+pub struct ProjectsResponse {
+    #[serde(rename = "projects")]
+    projects: Vec<Project>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Project {
+    #[serde(rename = "id")]
+    id: f64,
+
+    #[serde(rename = "name")]
+    name: String,
+}
+
 /// the type of the node, refer to table below for details
 #[derive(Serialize, Deserialize)]
 pub enum AbsoluteBoundingBoxType {

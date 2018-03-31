@@ -108,6 +108,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
+@interface FGProjectsResponse (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
+@interface FGProject (JSONConversion)
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
+- (NSDictionary *)JSONDictionary;
+@end
+
 @implementation FGBlendMode
 + (NSDictionary<NSString *, FGBlendMode *> *)values
 {
@@ -674,6 +684,40 @@ NSData *_Nullable FGCommentRequestToData(FGCommentRequest *commentRequest, NSErr
 NSString *_Nullable FGCommentRequestToJSON(FGCommentRequest *commentRequest, NSStringEncoding encoding, NSError **error)
 {
     NSData *data = FGCommentRequestToData(commentRequest, error);
+    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
+}
+
+FGProjectsResponse *_Nullable FGProjectsResponseFromData(NSData *data, NSError **error)
+{
+    @try {
+        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
+        return *error ? nil : [FGProjectsResponse fromJSONDictionary:json];
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+FGProjectsResponse *_Nullable FGProjectsResponseFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+{
+    return FGProjectsResponseFromData([json dataUsingEncoding:encoding], error);
+}
+
+NSData *_Nullable FGProjectsResponseToData(FGProjectsResponse *projectsResponse, NSError **error)
+{
+    @try {
+        id json = [projectsResponse JSONDictionary];
+        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
+        return *error ? nil : data;
+    } @catch (NSException *exception) {
+        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
+        return nil;
+    }
+}
+
+NSString *_Nullable FGProjectsResponseToJSON(FGProjectsResponse *projectsResponse, NSStringEncoding encoding, NSError **error)
+{
+    NSData *data = FGProjectsResponseToData(projectsResponse, error);
     return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
 }
 
@@ -1787,6 +1831,105 @@ NSString *_Nullable FGCommentRequestToJSON(FGCommentRequest *commentRequest, NSS
 - (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
 {
     return FGCommentRequestToJSON(self, encoding, error);
+}
+@end
+
+@implementation FGProjectsResponse
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"projects": @"projects",
+    };
+}
+
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
+{
+    return FGProjectsResponseFromData(data, error);
+}
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return FGProjectsResponseFromJSON(json, encoding, error);
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGProjectsResponse alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _projects = map(_projects, λ(id x, [FGProject fromJSONDictionary:x]));
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGProjectsResponse.properties.allValues] mutableCopy];
+
+    [dict addEntriesFromDictionary:@{
+        @"projects": map(_projects, λ(id x, [x JSONDictionary])),
+    }];
+
+    return dict;
+}
+
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error
+{
+    return FGProjectsResponseToData(self, error);
+}
+
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return FGProjectsResponseToJSON(self, encoding, error);
+}
+@end
+
+@implementation FGProject
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"id": @"identifier",
+        @"name": @"name",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGProject alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGProject.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGProject.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGProject.properties) {
+        id propertyName = FGProject.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    return dict;
 }
 @end
 

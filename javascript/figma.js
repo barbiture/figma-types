@@ -5,6 +5,7 @@
 //   const fileResponse = Convert.toFileResponse(json);
 //   const commentsResponse = Convert.toCommentsResponse(json);
 //   const commentRequest = Convert.toCommentRequest(json);
+//   const projectsResponse = Convert.toProjectsResponse(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -32,6 +33,14 @@ function toCommentRequest(json) {
 }
 
 function commentRequestToJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function toProjectsResponse(json) {
+    return cast(JSON.parse(json), o("ProjectsResponse"));
+}
+
+function projectsResponseToJson(value) {
     return JSON.stringify(value, null, 2);
 }
 
@@ -288,6 +297,13 @@ const typeMap = {
         client_meta: o("ClientMeta"),
         message: "",
     },
+    "ProjectsResponse": {
+        projects: a(o("Project")),
+    },
+    "Project": {
+        id: 3.14,
+        name: "",
+    },
     "BlendMode": [
         "COLOR",
         "COLOR_BURN",
@@ -400,4 +416,6 @@ module.exports = {
     "toCommentsResponse": toCommentsResponse,
     "commentRequestToJson": commentRequestToJson,
     "toCommentRequest": toCommentRequest,
+    "projectsResponseToJson": projectsResponseToJson,
+    "toProjectsResponse": toProjectsResponse,
 };
