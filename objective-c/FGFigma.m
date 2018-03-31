@@ -8,256 +8,156 @@ static id NSNullify(id _Nullable x) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface QTVector (JSONConversion)
+@interface FGFileResponse (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTAbsoluteBoundingBox (JSONConversion)
+@interface FGComponent (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTConstraints (JSONConversion)
+@interface FGAbsoluteBoundingBox (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTEffectElement (JSONConversion)
+@interface FGConstraints (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTOlor (JSONConversion)
+@interface FGEffect (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTOffset (JSONConversion)
+@interface FGOlor (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTExportSettingElement (JSONConversion)
+@interface FGOffset (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTExportSettingConstraint (JSONConversion)
+@interface FGExportSetting (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTPaintElement (JSONConversion)
+@interface FGConstraint (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTColorStopElement (JSONConversion)
+@interface FGPaint (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTColor (JSONConversion)
+@interface FGColorStop (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTColorStop (JSONConversion)
+@interface FGDocument (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTLayoutConstraint (JSONConversion)
+@interface FGLayoutGrid (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTText (JSONConversion)
+@interface FGTyle (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTTyle (JSONConversion)
+@interface FGOcument (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTFrame (JSONConversion)
+@interface FGCommentsResponse (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTDocumentElement (JSONConversion)
+@interface FGComment (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTLayoutGridElement (JSONConversion)
+@interface FGClientMeta (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTRectangle (JSONConversion)
+@interface FGUser (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTLayoutGrid (JSONConversion)
+@interface FGCommentRequest (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface QTEffect (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTSlice (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTStar (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTLine (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTInstance (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTVector2D (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTTypeStyle (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTBooleanGroup (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTCanvas (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTDocument (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTExportSetting (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTComponent (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTFileResponse (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTComponentValue (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTOcument (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTConstraint (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTPaint (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTRegularPolygon (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTEllipse (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface QTGroup (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@implementation QTBlendMode
-+ (NSDictionary<NSString *, QTBlendMode *> *)values
+@implementation FGBlendMode
++ (NSDictionary<NSString *, FGBlendMode *> *)values
 {
-    static NSDictionary<NSString *, QTBlendMode *> *values;
+    static NSDictionary<NSString *, FGBlendMode *> *values;
     return values = values ? values : @{
-        @"COLOR": [[QTBlendMode alloc] initWithValue:@"COLOR"],
-        @"COLOR_BURN": [[QTBlendMode alloc] initWithValue:@"COLOR_BURN"],
-        @"COLOR_DODGE": [[QTBlendMode alloc] initWithValue:@"COLOR_DODGE"],
-        @"DARKEN": [[QTBlendMode alloc] initWithValue:@"DARKEN"],
-        @"DIFFERENCE": [[QTBlendMode alloc] initWithValue:@"DIFFERENCE"],
-        @"EXCLUSION": [[QTBlendMode alloc] initWithValue:@"EXCLUSION"],
-        @"HARD_LIGHT": [[QTBlendMode alloc] initWithValue:@"HARD_LIGHT"],
-        @"HUE": [[QTBlendMode alloc] initWithValue:@"HUE"],
-        @"LIGHTEN": [[QTBlendMode alloc] initWithValue:@"LIGHTEN"],
-        @"LINEAR_BURN": [[QTBlendMode alloc] initWithValue:@"LINEAR_BURN"],
-        @"LINEAR_DODGE": [[QTBlendMode alloc] initWithValue:@"LINEAR_DODGE"],
-        @"LUMINOSITY": [[QTBlendMode alloc] initWithValue:@"LUMINOSITY"],
-        @"MULTIPLY": [[QTBlendMode alloc] initWithValue:@"MULTIPLY"],
-        @"NORMAL": [[QTBlendMode alloc] initWithValue:@"NORMAL"],
-        @"OVERLAY": [[QTBlendMode alloc] initWithValue:@"OVERLAY"],
-        @"PASS_THROUGH": [[QTBlendMode alloc] initWithValue:@"PASS_THROUGH"],
-        @"SATURATION": [[QTBlendMode alloc] initWithValue:@"SATURATION"],
-        @"SCREEN": [[QTBlendMode alloc] initWithValue:@"SCREEN"],
-        @"SOFT_LIGHT": [[QTBlendMode alloc] initWithValue:@"SOFT_LIGHT"],
+        @"COLOR": [[FGBlendMode alloc] initWithValue:@"COLOR"],
+        @"COLOR_BURN": [[FGBlendMode alloc] initWithValue:@"COLOR_BURN"],
+        @"COLOR_DODGE": [[FGBlendMode alloc] initWithValue:@"COLOR_DODGE"],
+        @"DARKEN": [[FGBlendMode alloc] initWithValue:@"DARKEN"],
+        @"DIFFERENCE": [[FGBlendMode alloc] initWithValue:@"DIFFERENCE"],
+        @"EXCLUSION": [[FGBlendMode alloc] initWithValue:@"EXCLUSION"],
+        @"HARD_LIGHT": [[FGBlendMode alloc] initWithValue:@"HARD_LIGHT"],
+        @"HUE": [[FGBlendMode alloc] initWithValue:@"HUE"],
+        @"LIGHTEN": [[FGBlendMode alloc] initWithValue:@"LIGHTEN"],
+        @"LINEAR_BURN": [[FGBlendMode alloc] initWithValue:@"LINEAR_BURN"],
+        @"LINEAR_DODGE": [[FGBlendMode alloc] initWithValue:@"LINEAR_DODGE"],
+        @"LUMINOSITY": [[FGBlendMode alloc] initWithValue:@"LUMINOSITY"],
+        @"MULTIPLY": [[FGBlendMode alloc] initWithValue:@"MULTIPLY"],
+        @"NORMAL": [[FGBlendMode alloc] initWithValue:@"NORMAL"],
+        @"OVERLAY": [[FGBlendMode alloc] initWithValue:@"OVERLAY"],
+        @"PASS_THROUGH": [[FGBlendMode alloc] initWithValue:@"PASS_THROUGH"],
+        @"SATURATION": [[FGBlendMode alloc] initWithValue:@"SATURATION"],
+        @"SCREEN": [[FGBlendMode alloc] initWithValue:@"SCREEN"],
+        @"SOFT_LIGHT": [[FGBlendMode alloc] initWithValue:@"SOFT_LIGHT"],
     };
 }
 
-+ (QTBlendMode *)color { return QTBlendMode.values[@"COLOR"]; }
-+ (QTBlendMode *)colorBurn { return QTBlendMode.values[@"COLOR_BURN"]; }
-+ (QTBlendMode *)colorDodge { return QTBlendMode.values[@"COLOR_DODGE"]; }
-+ (QTBlendMode *)darken { return QTBlendMode.values[@"DARKEN"]; }
-+ (QTBlendMode *)difference { return QTBlendMode.values[@"DIFFERENCE"]; }
-+ (QTBlendMode *)exclusion { return QTBlendMode.values[@"EXCLUSION"]; }
-+ (QTBlendMode *)hardLight { return QTBlendMode.values[@"HARD_LIGHT"]; }
-+ (QTBlendMode *)hue { return QTBlendMode.values[@"HUE"]; }
-+ (QTBlendMode *)lighten { return QTBlendMode.values[@"LIGHTEN"]; }
-+ (QTBlendMode *)linearBurn { return QTBlendMode.values[@"LINEAR_BURN"]; }
-+ (QTBlendMode *)linearDodge { return QTBlendMode.values[@"LINEAR_DODGE"]; }
-+ (QTBlendMode *)luminosity { return QTBlendMode.values[@"LUMINOSITY"]; }
-+ (QTBlendMode *)multiply { return QTBlendMode.values[@"MULTIPLY"]; }
-+ (QTBlendMode *)normal { return QTBlendMode.values[@"NORMAL"]; }
-+ (QTBlendMode *)overlay { return QTBlendMode.values[@"OVERLAY"]; }
-+ (QTBlendMode *)passThrough { return QTBlendMode.values[@"PASS_THROUGH"]; }
-+ (QTBlendMode *)saturation { return QTBlendMode.values[@"SATURATION"]; }
-+ (QTBlendMode *)screen { return QTBlendMode.values[@"SCREEN"]; }
-+ (QTBlendMode *)softLight { return QTBlendMode.values[@"SOFT_LIGHT"]; }
++ (FGBlendMode *)color { return FGBlendMode.values[@"COLOR"]; }
++ (FGBlendMode *)colorBurn { return FGBlendMode.values[@"COLOR_BURN"]; }
++ (FGBlendMode *)colorDodge { return FGBlendMode.values[@"COLOR_DODGE"]; }
++ (FGBlendMode *)darken { return FGBlendMode.values[@"DARKEN"]; }
++ (FGBlendMode *)difference { return FGBlendMode.values[@"DIFFERENCE"]; }
++ (FGBlendMode *)exclusion { return FGBlendMode.values[@"EXCLUSION"]; }
++ (FGBlendMode *)hardLight { return FGBlendMode.values[@"HARD_LIGHT"]; }
++ (FGBlendMode *)hue { return FGBlendMode.values[@"HUE"]; }
++ (FGBlendMode *)lighten { return FGBlendMode.values[@"LIGHTEN"]; }
++ (FGBlendMode *)linearBurn { return FGBlendMode.values[@"LINEAR_BURN"]; }
++ (FGBlendMode *)linearDodge { return FGBlendMode.values[@"LINEAR_DODGE"]; }
++ (FGBlendMode *)luminosity { return FGBlendMode.values[@"LUMINOSITY"]; }
++ (FGBlendMode *)multiply { return FGBlendMode.values[@"MULTIPLY"]; }
++ (FGBlendMode *)normal { return FGBlendMode.values[@"NORMAL"]; }
++ (FGBlendMode *)overlay { return FGBlendMode.values[@"OVERLAY"]; }
++ (FGBlendMode *)passThrough { return FGBlendMode.values[@"PASS_THROUGH"]; }
++ (FGBlendMode *)saturation { return FGBlendMode.values[@"SATURATION"]; }
++ (FGBlendMode *)screen { return FGBlendMode.values[@"SCREEN"]; }
++ (FGBlendMode *)softLight { return FGBlendMode.values[@"SOFT_LIGHT"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTBlendMode.values[value];
+    return FGBlendMode.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -269,28 +169,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTHorizontal
-+ (NSDictionary<NSString *, QTHorizontal *> *)values
+@implementation FGHorizontal
++ (NSDictionary<NSString *, FGHorizontal *> *)values
 {
-    static NSDictionary<NSString *, QTHorizontal *> *values;
+    static NSDictionary<NSString *, FGHorizontal *> *values;
     return values = values ? values : @{
-        @"CENTER": [[QTHorizontal alloc] initWithValue:@"CENTER"],
-        @"LEFT": [[QTHorizontal alloc] initWithValue:@"LEFT"],
-        @"LEFT_RIGHT": [[QTHorizontal alloc] initWithValue:@"LEFT_RIGHT"],
-        @"RIGHT": [[QTHorizontal alloc] initWithValue:@"RIGHT"],
-        @"SCALE": [[QTHorizontal alloc] initWithValue:@"SCALE"],
+        @"CENTER": [[FGHorizontal alloc] initWithValue:@"CENTER"],
+        @"LEFT": [[FGHorizontal alloc] initWithValue:@"LEFT"],
+        @"LEFT_RIGHT": [[FGHorizontal alloc] initWithValue:@"LEFT_RIGHT"],
+        @"RIGHT": [[FGHorizontal alloc] initWithValue:@"RIGHT"],
+        @"SCALE": [[FGHorizontal alloc] initWithValue:@"SCALE"],
     };
 }
 
-+ (QTHorizontal *)center { return QTHorizontal.values[@"CENTER"]; }
-+ (QTHorizontal *)left { return QTHorizontal.values[@"LEFT"]; }
-+ (QTHorizontal *)leftRight { return QTHorizontal.values[@"LEFT_RIGHT"]; }
-+ (QTHorizontal *)right { return QTHorizontal.values[@"RIGHT"]; }
-+ (QTHorizontal *)scale { return QTHorizontal.values[@"SCALE"]; }
++ (FGHorizontal *)center { return FGHorizontal.values[@"CENTER"]; }
++ (FGHorizontal *)left { return FGHorizontal.values[@"LEFT"]; }
++ (FGHorizontal *)leftRight { return FGHorizontal.values[@"LEFT_RIGHT"]; }
++ (FGHorizontal *)right { return FGHorizontal.values[@"RIGHT"]; }
++ (FGHorizontal *)scale { return FGHorizontal.values[@"SCALE"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTHorizontal.values[value];
+    return FGHorizontal.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -302,28 +202,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTVertical
-+ (NSDictionary<NSString *, QTVertical *> *)values
+@implementation FGVertical
++ (NSDictionary<NSString *, FGVertical *> *)values
 {
-    static NSDictionary<NSString *, QTVertical *> *values;
+    static NSDictionary<NSString *, FGVertical *> *values;
     return values = values ? values : @{
-        @"BOTTOM": [[QTVertical alloc] initWithValue:@"BOTTOM"],
-        @"CENTER": [[QTVertical alloc] initWithValue:@"CENTER"],
-        @"SCALE": [[QTVertical alloc] initWithValue:@"SCALE"],
-        @"TOP": [[QTVertical alloc] initWithValue:@"TOP"],
-        @"TOP_BOTTOM": [[QTVertical alloc] initWithValue:@"TOP_BOTTOM"],
+        @"BOTTOM": [[FGVertical alloc] initWithValue:@"BOTTOM"],
+        @"CENTER": [[FGVertical alloc] initWithValue:@"CENTER"],
+        @"SCALE": [[FGVertical alloc] initWithValue:@"SCALE"],
+        @"TOP": [[FGVertical alloc] initWithValue:@"TOP"],
+        @"TOP_BOTTOM": [[FGVertical alloc] initWithValue:@"TOP_BOTTOM"],
     };
 }
 
-+ (QTVertical *)bottom { return QTVertical.values[@"BOTTOM"]; }
-+ (QTVertical *)center { return QTVertical.values[@"CENTER"]; }
-+ (QTVertical *)scale { return QTVertical.values[@"SCALE"]; }
-+ (QTVertical *)top { return QTVertical.values[@"TOP"]; }
-+ (QTVertical *)topBottom { return QTVertical.values[@"TOP_BOTTOM"]; }
++ (FGVertical *)bottom { return FGVertical.values[@"BOTTOM"]; }
++ (FGVertical *)center { return FGVertical.values[@"CENTER"]; }
++ (FGVertical *)scale { return FGVertical.values[@"SCALE"]; }
++ (FGVertical *)top { return FGVertical.values[@"TOP"]; }
++ (FGVertical *)topBottom { return FGVertical.values[@"TOP_BOTTOM"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTVertical.values[value];
+    return FGVertical.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -335,26 +235,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTEffectType
-+ (NSDictionary<NSString *, QTEffectType *> *)values
+@implementation FGEffectType
++ (NSDictionary<NSString *, FGEffectType *> *)values
 {
-    static NSDictionary<NSString *, QTEffectType *> *values;
+    static NSDictionary<NSString *, FGEffectType *> *values;
     return values = values ? values : @{
-        @"BACKGROUND_BLUR": [[QTEffectType alloc] initWithValue:@"BACKGROUND_BLUR"],
-        @"DROP_SHADOW": [[QTEffectType alloc] initWithValue:@"DROP_SHADOW"],
-        @"INNER_SHADOW": [[QTEffectType alloc] initWithValue:@"INNER_SHADOW"],
-        @"LAYER_BLUR": [[QTEffectType alloc] initWithValue:@"LAYER_BLUR"],
+        @"BACKGROUND_BLUR": [[FGEffectType alloc] initWithValue:@"BACKGROUND_BLUR"],
+        @"DROP_SHADOW": [[FGEffectType alloc] initWithValue:@"DROP_SHADOW"],
+        @"INNER_SHADOW": [[FGEffectType alloc] initWithValue:@"INNER_SHADOW"],
+        @"LAYER_BLUR": [[FGEffectType alloc] initWithValue:@"LAYER_BLUR"],
     };
 }
 
-+ (QTEffectType *)backgroundBlur { return QTEffectType.values[@"BACKGROUND_BLUR"]; }
-+ (QTEffectType *)dropShadow { return QTEffectType.values[@"DROP_SHADOW"]; }
-+ (QTEffectType *)innerShadow { return QTEffectType.values[@"INNER_SHADOW"]; }
-+ (QTEffectType *)layerBlur { return QTEffectType.values[@"LAYER_BLUR"]; }
++ (FGEffectType *)backgroundBlur { return FGEffectType.values[@"BACKGROUND_BLUR"]; }
++ (FGEffectType *)dropShadow { return FGEffectType.values[@"DROP_SHADOW"]; }
++ (FGEffectType *)innerShadow { return FGEffectType.values[@"INNER_SHADOW"]; }
++ (FGEffectType *)layerBlur { return FGEffectType.values[@"LAYER_BLUR"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTEffectType.values[value];
+    return FGEffectType.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -366,24 +266,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTConstraintType
-+ (NSDictionary<NSString *, QTConstraintType *> *)values
+@implementation FGConstraintType
++ (NSDictionary<NSString *, FGConstraintType *> *)values
 {
-    static NSDictionary<NSString *, QTConstraintType *> *values;
+    static NSDictionary<NSString *, FGConstraintType *> *values;
     return values = values ? values : @{
-        @"HEIGHT": [[QTConstraintType alloc] initWithValue:@"HEIGHT"],
-        @"SCALE": [[QTConstraintType alloc] initWithValue:@"SCALE"],
-        @"WIDTH": [[QTConstraintType alloc] initWithValue:@"WIDTH"],
+        @"HEIGHT": [[FGConstraintType alloc] initWithValue:@"HEIGHT"],
+        @"SCALE": [[FGConstraintType alloc] initWithValue:@"SCALE"],
+        @"WIDTH": [[FGConstraintType alloc] initWithValue:@"WIDTH"],
     };
 }
 
-+ (QTConstraintType *)height { return QTConstraintType.values[@"HEIGHT"]; }
-+ (QTConstraintType *)scale { return QTConstraintType.values[@"SCALE"]; }
-+ (QTConstraintType *)width { return QTConstraintType.values[@"WIDTH"]; }
++ (FGConstraintType *)height { return FGConstraintType.values[@"HEIGHT"]; }
++ (FGConstraintType *)scale { return FGConstraintType.values[@"SCALE"]; }
++ (FGConstraintType *)width { return FGConstraintType.values[@"WIDTH"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTConstraintType.values[value];
+    return FGConstraintType.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -395,24 +295,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTFormat
-+ (NSDictionary<NSString *, QTFormat *> *)values
+@implementation FGFormat
++ (NSDictionary<NSString *, FGFormat *> *)values
 {
-    static NSDictionary<NSString *, QTFormat *> *values;
+    static NSDictionary<NSString *, FGFormat *> *values;
     return values = values ? values : @{
-        @"JPG": [[QTFormat alloc] initWithValue:@"JPG"],
-        @"PNG": [[QTFormat alloc] initWithValue:@"PNG"],
-        @"SVG": [[QTFormat alloc] initWithValue:@"SVG"],
+        @"JPG": [[FGFormat alloc] initWithValue:@"JPG"],
+        @"PNG": [[FGFormat alloc] initWithValue:@"PNG"],
+        @"SVG": [[FGFormat alloc] initWithValue:@"SVG"],
     };
 }
 
-+ (QTFormat *)jpg { return QTFormat.values[@"JPG"]; }
-+ (QTFormat *)png { return QTFormat.values[@"PNG"]; }
-+ (QTFormat *)svg { return QTFormat.values[@"SVG"]; }
++ (FGFormat *)jpg { return FGFormat.values[@"JPG"]; }
++ (FGFormat *)png { return FGFormat.values[@"PNG"]; }
++ (FGFormat *)svg { return FGFormat.values[@"SVG"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTFormat.values[value];
+    return FGFormat.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -424,20 +324,32 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTSuffix
-+ (NSDictionary<NSString *, QTSuffix *> *)values
+@implementation FGPaintType
++ (NSDictionary<NSString *, FGPaintType *> *)values
 {
-    static NSDictionary<NSString *, QTSuffix *> *values;
+    static NSDictionary<NSString *, FGPaintType *> *values;
     return values = values ? values : @{
-        @"string": [[QTSuffix alloc] initWithValue:@"string"],
+        @"EMOJI": [[FGPaintType alloc] initWithValue:@"EMOJI"],
+        @"GRADIENT_ANGULAR": [[FGPaintType alloc] initWithValue:@"GRADIENT_ANGULAR"],
+        @"GRADIENT_DIAMOND": [[FGPaintType alloc] initWithValue:@"GRADIENT_DIAMOND"],
+        @"GRADIENT_LINEAR": [[FGPaintType alloc] initWithValue:@"GRADIENT_LINEAR"],
+        @"GRADIENT_RADIAL": [[FGPaintType alloc] initWithValue:@"GRADIENT_RADIAL"],
+        @"IMAGE": [[FGPaintType alloc] initWithValue:@"IMAGE"],
+        @"SOLID": [[FGPaintType alloc] initWithValue:@"SOLID"],
     };
 }
 
-+ (QTSuffix *)string { return QTSuffix.values[@"string"]; }
++ (FGPaintType *)emoji { return FGPaintType.values[@"EMOJI"]; }
++ (FGPaintType *)gradientAngular { return FGPaintType.values[@"GRADIENT_ANGULAR"]; }
++ (FGPaintType *)gradientDiamond { return FGPaintType.values[@"GRADIENT_DIAMOND"]; }
++ (FGPaintType *)gradientLinear { return FGPaintType.values[@"GRADIENT_LINEAR"]; }
++ (FGPaintType *)gradientRadial { return FGPaintType.values[@"GRADIENT_RADIAL"]; }
++ (FGPaintType *)image { return FGPaintType.values[@"IMAGE"]; }
++ (FGPaintType *)solid { return FGPaintType.values[@"SOLID"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTSuffix.values[value];
+    return FGPaintType.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -449,32 +361,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTPaintType
-+ (NSDictionary<NSString *, QTPaintType *> *)values
+@implementation FGStrokeAlign
++ (NSDictionary<NSString *, FGStrokeAlign *> *)values
 {
-    static NSDictionary<NSString *, QTPaintType *> *values;
+    static NSDictionary<NSString *, FGStrokeAlign *> *values;
     return values = values ? values : @{
-        @"EMOJI": [[QTPaintType alloc] initWithValue:@"EMOJI"],
-        @"GRADIENT_ANGULAR": [[QTPaintType alloc] initWithValue:@"GRADIENT_ANGULAR"],
-        @"GRADIENT_DIAMOND": [[QTPaintType alloc] initWithValue:@"GRADIENT_DIAMOND"],
-        @"GRADIENT_LINEAR": [[QTPaintType alloc] initWithValue:@"GRADIENT_LINEAR"],
-        @"GRADIENT_RADIAL": [[QTPaintType alloc] initWithValue:@"GRADIENT_RADIAL"],
-        @"IMAGE": [[QTPaintType alloc] initWithValue:@"IMAGE"],
-        @"SOLID": [[QTPaintType alloc] initWithValue:@"SOLID"],
+        @"CENTER": [[FGStrokeAlign alloc] initWithValue:@"CENTER"],
+        @"INSIDE": [[FGStrokeAlign alloc] initWithValue:@"INSIDE"],
+        @"OUTSIDE": [[FGStrokeAlign alloc] initWithValue:@"OUTSIDE"],
     };
 }
 
-+ (QTPaintType *)emoji { return QTPaintType.values[@"EMOJI"]; }
-+ (QTPaintType *)gradientAngular { return QTPaintType.values[@"GRADIENT_ANGULAR"]; }
-+ (QTPaintType *)gradientDiamond { return QTPaintType.values[@"GRADIENT_DIAMOND"]; }
-+ (QTPaintType *)gradientLinear { return QTPaintType.values[@"GRADIENT_LINEAR"]; }
-+ (QTPaintType *)gradientRadial { return QTPaintType.values[@"GRADIENT_RADIAL"]; }
-+ (QTPaintType *)image { return QTPaintType.values[@"IMAGE"]; }
-+ (QTPaintType *)solid { return QTPaintType.values[@"SOLID"]; }
++ (FGStrokeAlign *)center { return FGStrokeAlign.values[@"CENTER"]; }
++ (FGStrokeAlign *)inside { return FGStrokeAlign.values[@"INSIDE"]; }
++ (FGStrokeAlign *)outside { return FGStrokeAlign.values[@"OUTSIDE"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTPaintType.values[value];
+    return FGStrokeAlign.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -486,24 +390,48 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTStrokeAlign
-+ (NSDictionary<NSString *, QTStrokeAlign *> *)values
+@implementation FGAbsoluteBoundingBoxType
++ (NSDictionary<NSString *, FGAbsoluteBoundingBoxType *> *)values
 {
-    static NSDictionary<NSString *, QTStrokeAlign *> *values;
+    static NSDictionary<NSString *, FGAbsoluteBoundingBoxType *> *values;
     return values = values ? values : @{
-        @"CENTER": [[QTStrokeAlign alloc] initWithValue:@"CENTER"],
-        @"INSIDE": [[QTStrokeAlign alloc] initWithValue:@"INSIDE"],
-        @"OUTSIDE": [[QTStrokeAlign alloc] initWithValue:@"OUTSIDE"],
+        @"BOOLEAN": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"BOOLEAN"],
+        @"CANVAS": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"CANVAS"],
+        @"COMPONENT": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"COMPONENT"],
+        @"DOCUMENT": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"DOCUMENT"],
+        @"ELLIPSE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"ELLIPSE"],
+        @"FRAME": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"FRAME"],
+        @"GROUP": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"GROUP"],
+        @"INSTANCE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"INSTANCE"],
+        @"LINE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"LINE"],
+        @"RECTANGLE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"RECTANGLE"],
+        @"REGULAR_POLYGON": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"REGULAR_POLYGON"],
+        @"SLICE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"SLICE"],
+        @"STAR": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"STAR"],
+        @"TEXT": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"TEXT"],
+        @"VECTOR": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"VECTOR"],
     };
 }
 
-+ (QTStrokeAlign *)center { return QTStrokeAlign.values[@"CENTER"]; }
-+ (QTStrokeAlign *)inside { return QTStrokeAlign.values[@"INSIDE"]; }
-+ (QTStrokeAlign *)outside { return QTStrokeAlign.values[@"OUTSIDE"]; }
++ (FGAbsoluteBoundingBoxType *)boolean { return FGAbsoluteBoundingBoxType.values[@"BOOLEAN"]; }
++ (FGAbsoluteBoundingBoxType *)canvas { return FGAbsoluteBoundingBoxType.values[@"CANVAS"]; }
++ (FGAbsoluteBoundingBoxType *)component { return FGAbsoluteBoundingBoxType.values[@"COMPONENT"]; }
++ (FGAbsoluteBoundingBoxType *)document { return FGAbsoluteBoundingBoxType.values[@"DOCUMENT"]; }
++ (FGAbsoluteBoundingBoxType *)ellipse { return FGAbsoluteBoundingBoxType.values[@"ELLIPSE"]; }
++ (FGAbsoluteBoundingBoxType *)frame { return FGAbsoluteBoundingBoxType.values[@"FRAME"]; }
++ (FGAbsoluteBoundingBoxType *)group { return FGAbsoluteBoundingBoxType.values[@"GROUP"]; }
++ (FGAbsoluteBoundingBoxType *)instance { return FGAbsoluteBoundingBoxType.values[@"INSTANCE"]; }
++ (FGAbsoluteBoundingBoxType *)line { return FGAbsoluteBoundingBoxType.values[@"LINE"]; }
++ (FGAbsoluteBoundingBoxType *)rectangle { return FGAbsoluteBoundingBoxType.values[@"RECTANGLE"]; }
++ (FGAbsoluteBoundingBoxType *)regularPolygon { return FGAbsoluteBoundingBoxType.values[@"REGULAR_POLYGON"]; }
++ (FGAbsoluteBoundingBoxType *)slice { return FGAbsoluteBoundingBoxType.values[@"SLICE"]; }
++ (FGAbsoluteBoundingBoxType *)star { return FGAbsoluteBoundingBoxType.values[@"STAR"]; }
++ (FGAbsoluteBoundingBoxType *)text { return FGAbsoluteBoundingBoxType.values[@"TEXT"]; }
++ (FGAbsoluteBoundingBoxType *)vector { return FGAbsoluteBoundingBoxType.values[@"VECTOR"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTStrokeAlign.values[value];
+    return FGAbsoluteBoundingBoxType.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -515,48 +443,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTNodeType
-+ (NSDictionary<NSString *, QTNodeType *> *)values
+@implementation FGAlignment
++ (NSDictionary<NSString *, FGAlignment *> *)values
 {
-    static NSDictionary<NSString *, QTNodeType *> *values;
+    static NSDictionary<NSString *, FGAlignment *> *values;
     return values = values ? values : @{
-        @"BOOLEAN": [[QTNodeType alloc] initWithValue:@"BOOLEAN"],
-        @"CANVAS": [[QTNodeType alloc] initWithValue:@"CANVAS"],
-        @"COMPONENT": [[QTNodeType alloc] initWithValue:@"COMPONENT"],
-        @"DOCUMENT": [[QTNodeType alloc] initWithValue:@"DOCUMENT"],
-        @"ELLIPSE": [[QTNodeType alloc] initWithValue:@"ELLIPSE"],
-        @"FRAME": [[QTNodeType alloc] initWithValue:@"FRAME"],
-        @"GROUP": [[QTNodeType alloc] initWithValue:@"GROUP"],
-        @"INSTANCE": [[QTNodeType alloc] initWithValue:@"INSTANCE"],
-        @"LINE": [[QTNodeType alloc] initWithValue:@"LINE"],
-        @"RECTANGLE": [[QTNodeType alloc] initWithValue:@"RECTANGLE"],
-        @"REGULAR_POLYGON": [[QTNodeType alloc] initWithValue:@"REGULAR_POLYGON"],
-        @"SLICE": [[QTNodeType alloc] initWithValue:@"SLICE"],
-        @"STAR": [[QTNodeType alloc] initWithValue:@"STAR"],
-        @"TEXT": [[QTNodeType alloc] initWithValue:@"TEXT"],
-        @"VECTOR": [[QTNodeType alloc] initWithValue:@"VECTOR"],
+        @"CENTER": [[FGAlignment alloc] initWithValue:@"CENTER"],
+        @"MAX": [[FGAlignment alloc] initWithValue:@"MAX"],
+        @"MIN": [[FGAlignment alloc] initWithValue:@"MIN"],
     };
 }
 
-+ (QTNodeType *)boolean { return QTNodeType.values[@"BOOLEAN"]; }
-+ (QTNodeType *)canvas { return QTNodeType.values[@"CANVAS"]; }
-+ (QTNodeType *)component { return QTNodeType.values[@"COMPONENT"]; }
-+ (QTNodeType *)document { return QTNodeType.values[@"DOCUMENT"]; }
-+ (QTNodeType *)ellipse { return QTNodeType.values[@"ELLIPSE"]; }
-+ (QTNodeType *)frame { return QTNodeType.values[@"FRAME"]; }
-+ (QTNodeType *)group { return QTNodeType.values[@"GROUP"]; }
-+ (QTNodeType *)instance { return QTNodeType.values[@"INSTANCE"]; }
-+ (QTNodeType *)line { return QTNodeType.values[@"LINE"]; }
-+ (QTNodeType *)rectangle { return QTNodeType.values[@"RECTANGLE"]; }
-+ (QTNodeType *)regularPolygon { return QTNodeType.values[@"REGULAR_POLYGON"]; }
-+ (QTNodeType *)slice { return QTNodeType.values[@"SLICE"]; }
-+ (QTNodeType *)star { return QTNodeType.values[@"STAR"]; }
-+ (QTNodeType *)text { return QTNodeType.values[@"TEXT"]; }
-+ (QTNodeType *)vector { return QTNodeType.values[@"VECTOR"]; }
++ (FGAlignment *)center { return FGAlignment.values[@"CENTER"]; }
++ (FGAlignment *)max { return FGAlignment.values[@"MAX"]; }
++ (FGAlignment *)min { return FGAlignment.values[@"MIN"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTNodeType.values[value];
+    return FGAlignment.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -568,26 +472,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTTextAlignHorizontal
-+ (NSDictionary<NSString *, QTTextAlignHorizontal *> *)values
+@implementation FGPattern
++ (NSDictionary<NSString *, FGPattern *> *)values
 {
-    static NSDictionary<NSString *, QTTextAlignHorizontal *> *values;
+    static NSDictionary<NSString *, FGPattern *> *values;
     return values = values ? values : @{
-        @"CENTER": [[QTTextAlignHorizontal alloc] initWithValue:@"CENTER"],
-        @"JUSTIFIED": [[QTTextAlignHorizontal alloc] initWithValue:@"JUSTIFIED"],
-        @"LEFT": [[QTTextAlignHorizontal alloc] initWithValue:@"LEFT"],
-        @"RIGHT": [[QTTextAlignHorizontal alloc] initWithValue:@"RIGHT"],
+        @"COLUMNS": [[FGPattern alloc] initWithValue:@"COLUMNS"],
+        @"GRID": [[FGPattern alloc] initWithValue:@"GRID"],
+        @"ROWS": [[FGPattern alloc] initWithValue:@"ROWS"],
     };
 }
 
-+ (QTTextAlignHorizontal *)center { return QTTextAlignHorizontal.values[@"CENTER"]; }
-+ (QTTextAlignHorizontal *)justified { return QTTextAlignHorizontal.values[@"JUSTIFIED"]; }
-+ (QTTextAlignHorizontal *)left { return QTTextAlignHorizontal.values[@"LEFT"]; }
-+ (QTTextAlignHorizontal *)right { return QTTextAlignHorizontal.values[@"RIGHT"]; }
++ (FGPattern *)columns { return FGPattern.values[@"COLUMNS"]; }
++ (FGPattern *)grid { return FGPattern.values[@"GRID"]; }
++ (FGPattern *)rows { return FGPattern.values[@"ROWS"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTTextAlignHorizontal.values[value];
+    return FGPattern.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -599,24 +501,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTTextAlignVertical
-+ (NSDictionary<NSString *, QTTextAlignVertical *> *)values
+@implementation FGTextAlignHorizontal
++ (NSDictionary<NSString *, FGTextAlignHorizontal *> *)values
 {
-    static NSDictionary<NSString *, QTTextAlignVertical *> *values;
+    static NSDictionary<NSString *, FGTextAlignHorizontal *> *values;
     return values = values ? values : @{
-        @"BOTTOM": [[QTTextAlignVertical alloc] initWithValue:@"BOTTOM"],
-        @"CENTER": [[QTTextAlignVertical alloc] initWithValue:@"CENTER"],
-        @"TOP": [[QTTextAlignVertical alloc] initWithValue:@"TOP"],
+        @"CENTER": [[FGTextAlignHorizontal alloc] initWithValue:@"CENTER"],
+        @"JUSTIFIED": [[FGTextAlignHorizontal alloc] initWithValue:@"JUSTIFIED"],
+        @"LEFT": [[FGTextAlignHorizontal alloc] initWithValue:@"LEFT"],
+        @"RIGHT": [[FGTextAlignHorizontal alloc] initWithValue:@"RIGHT"],
     };
 }
 
-+ (QTTextAlignVertical *)bottom { return QTTextAlignVertical.values[@"BOTTOM"]; }
-+ (QTTextAlignVertical *)center { return QTTextAlignVertical.values[@"CENTER"]; }
-+ (QTTextAlignVertical *)top { return QTTextAlignVertical.values[@"TOP"]; }
++ (FGTextAlignHorizontal *)center { return FGTextAlignHorizontal.values[@"CENTER"]; }
++ (FGTextAlignHorizontal *)justified { return FGTextAlignHorizontal.values[@"JUSTIFIED"]; }
++ (FGTextAlignHorizontal *)left { return FGTextAlignHorizontal.values[@"LEFT"]; }
++ (FGTextAlignHorizontal *)right { return FGTextAlignHorizontal.values[@"RIGHT"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTTextAlignVertical.values[value];
+    return FGTextAlignHorizontal.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -628,53 +532,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation QTAlignment
-+ (NSDictionary<NSString *, QTAlignment *> *)values
+@implementation FGTextAlignVertical
++ (NSDictionary<NSString *, FGTextAlignVertical *> *)values
 {
-    static NSDictionary<NSString *, QTAlignment *> *values;
+    static NSDictionary<NSString *, FGTextAlignVertical *> *values;
     return values = values ? values : @{
-        @"CENTER": [[QTAlignment alloc] initWithValue:@"CENTER"],
-        @"MAX": [[QTAlignment alloc] initWithValue:@"MAX"],
-        @"MIN": [[QTAlignment alloc] initWithValue:@"MIN"],
+        @"BOTTOM": [[FGTextAlignVertical alloc] initWithValue:@"BOTTOM"],
+        @"CENTER": [[FGTextAlignVertical alloc] initWithValue:@"CENTER"],
+        @"TOP": [[FGTextAlignVertical alloc] initWithValue:@"TOP"],
     };
 }
 
-+ (QTAlignment *)center { return QTAlignment.values[@"CENTER"]; }
-+ (QTAlignment *)max { return QTAlignment.values[@"MAX"]; }
-+ (QTAlignment *)min { return QTAlignment.values[@"MIN"]; }
++ (FGTextAlignVertical *)bottom { return FGTextAlignVertical.values[@"BOTTOM"]; }
++ (FGTextAlignVertical *)center { return FGTextAlignVertical.values[@"CENTER"]; }
++ (FGTextAlignVertical *)top { return FGTextAlignVertical.values[@"TOP"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return QTAlignment.values[value];
-}
-
-- (instancetype)initWithValue:(NSString *)value
-{
-    if (self = [super init]) _value = value;
-    return self;
-}
-
-- (NSUInteger)hash { return _value.hash; }
-@end
-
-@implementation QTPattern
-+ (NSDictionary<NSString *, QTPattern *> *)values
-{
-    static NSDictionary<NSString *, QTPattern *> *values;
-    return values = values ? values : @{
-        @"COLUMNS": [[QTPattern alloc] initWithValue:@"COLUMNS"],
-        @"GRID": [[QTPattern alloc] initWithValue:@"GRID"],
-        @"ROWS": [[QTPattern alloc] initWithValue:@"ROWS"],
-    };
-}
-
-+ (QTPattern *)columns { return QTPattern.values[@"COLUMNS"]; }
-+ (QTPattern *)grid { return QTPattern.values[@"GRID"]; }
-+ (QTPattern *)rows { return QTPattern.values[@"ROWS"]; }
-
-+ (instancetype _Nullable)withValue:(NSString *)value
-{
-    return QTPattern.values[value];
+    return FGTextAlignVertical.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -700,771 +575,23 @@ static id map(id collection, id (^f)(id value)) {
 
 #pragma mark - JSON serialization
 
-QTVector *_Nullable QTVectorFromData(NSData *data, NSError **error)
+FGFileResponse *_Nullable FGFileResponseFromData(NSData *data, NSError **error)
 {
     @try {
         id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTVector fromJSONDictionary:json];
+        return *error ? nil : [FGFileResponse fromJSONDictionary:json];
     } @catch (NSException *exception) {
         *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
         return nil;
     }
 }
 
-QTVector *_Nullable QTVectorFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+FGFileResponse *_Nullable FGFileResponseFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
 {
-    return QTVectorFromData([json dataUsingEncoding:encoding], error);
+    return FGFileResponseFromData([json dataUsingEncoding:encoding], error);
 }
 
-NSData *_Nullable QTVectorToData(QTVector *vector, NSError **error)
-{
-    @try {
-        id json = [vector JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTVectorToJSON(QTVector *vector, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTVectorToData(vector, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTColor *_Nullable QTColorFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTColor fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTColor *_Nullable QTColorFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTColorFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTColorToData(QTColor *color, NSError **error)
-{
-    @try {
-        id json = [color JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTColorToJSON(QTColor *color, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTColorToData(color, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTColorStop *_Nullable QTColorStopFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTColorStop fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTColorStop *_Nullable QTColorStopFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTColorStopFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTColorStopToData(QTColorStop *colorStop, NSError **error)
-{
-    @try {
-        id json = [colorStop JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTColorStopToJSON(QTColorStop *colorStop, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTColorStopToData(colorStop, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTLayoutConstraint *_Nullable QTLayoutConstraintFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTLayoutConstraint fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTLayoutConstraint *_Nullable QTLayoutConstraintFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTLayoutConstraintFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTLayoutConstraintToData(QTLayoutConstraint *layoutConstraint, NSError **error)
-{
-    @try {
-        id json = [layoutConstraint JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTLayoutConstraintToJSON(QTLayoutConstraint *layoutConstraint, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTLayoutConstraintToData(layoutConstraint, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTText *_Nullable QTTextFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTText fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTText *_Nullable QTTextFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTTextFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTTextToData(QTText *text, NSError **error)
-{
-    @try {
-        id json = [text JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTTextToJSON(QTText *text, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTTextToData(text, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTFrame *_Nullable QTFrameFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTFrame fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTFrame *_Nullable QTFrameFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTFrameFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTFrameToData(QTFrame *frame, NSError **error)
-{
-    @try {
-        id json = [frame JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTFrameToJSON(QTFrame *frame, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTFrameToData(frame, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTRectangle *_Nullable QTRectangleFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTRectangle fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTRectangle *_Nullable QTRectangleFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTRectangleFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTRectangleToData(QTRectangle *rectangle, NSError **error)
-{
-    @try {
-        id json = [rectangle JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTRectangleToJSON(QTRectangle *rectangle, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTRectangleToData(rectangle, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTLayoutGrid *_Nullable QTLayoutGridFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTLayoutGrid fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTLayoutGrid *_Nullable QTLayoutGridFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTLayoutGridFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTLayoutGridToData(QTLayoutGrid *layoutGrid, NSError **error)
-{
-    @try {
-        id json = [layoutGrid JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTLayoutGridToJSON(QTLayoutGrid *layoutGrid, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTLayoutGridToData(layoutGrid, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTEffect *_Nullable QTEffectFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTEffect fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTEffect *_Nullable QTEffectFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTEffectFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTEffectToData(QTEffect *effect, NSError **error)
-{
-    @try {
-        id json = [effect JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTEffectToJSON(QTEffect *effect, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTEffectToData(effect, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTSlice *_Nullable QTSliceFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTSlice fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTSlice *_Nullable QTSliceFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTSliceFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTSliceToData(QTSlice *slice, NSError **error)
-{
-    @try {
-        id json = [slice JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTSliceToJSON(QTSlice *slice, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTSliceToData(slice, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTStar *_Nullable QTStarFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTStar fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTStar *_Nullable QTStarFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTStarFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTStarToData(QTStar *star, NSError **error)
-{
-    @try {
-        id json = [star JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTStarToJSON(QTStar *star, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTStarToData(star, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTLine *_Nullable QTLineFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTLine fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTLine *_Nullable QTLineFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTLineFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTLineToData(QTLine *line, NSError **error)
-{
-    @try {
-        id json = [line JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTLineToJSON(QTLine *line, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTLineToData(line, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTBlendMode *_Nullable QTBlendModeFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTBlendMode withValue:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTBlendMode *_Nullable QTBlendModeFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTBlendModeFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTBlendModeToData(QTBlendMode *blendMode, NSError **error)
-{
-    @try {
-        id json = [blendMode value];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTBlendModeToJSON(QTBlendMode *blendMode, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTBlendModeToData(blendMode, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTInstance *_Nullable QTInstanceFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTInstance fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTInstance *_Nullable QTInstanceFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTInstanceFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTInstanceToData(QTInstance *instance, NSError **error)
-{
-    @try {
-        id json = [instance JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTInstanceToJSON(QTInstance *instance, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTInstanceToData(instance, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTVector2D *_Nullable QTVector2DFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTVector2D fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTVector2D *_Nullable QTVector2DFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTVector2DFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTVector2DToData(QTVector2D *vector2D, NSError **error)
-{
-    @try {
-        id json = [vector2D JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTVector2DToJSON(QTVector2D *vector2D, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTVector2DToData(vector2D, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTTypeStyle *_Nullable QTTypeStyleFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTTypeStyle fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTTypeStyle *_Nullable QTTypeStyleFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTTypeStyleFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTTypeStyleToData(QTTypeStyle *typeStyle, NSError **error)
-{
-    @try {
-        id json = [typeStyle JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTTypeStyleToJSON(QTTypeStyle *typeStyle, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTTypeStyleToData(typeStyle, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTBooleanGroup *_Nullable QTBooleanGroupFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTBooleanGroup fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTBooleanGroup *_Nullable QTBooleanGroupFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTBooleanGroupFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTBooleanGroupToData(QTBooleanGroup *booleanGroup, NSError **error)
-{
-    @try {
-        id json = [booleanGroup JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTBooleanGroupToJSON(QTBooleanGroup *booleanGroup, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTBooleanGroupToData(booleanGroup, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTCanvas *_Nullable QTCanvasFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTCanvas fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTCanvas *_Nullable QTCanvasFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTCanvasFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTCanvasToData(QTCanvas *canvas, NSError **error)
-{
-    @try {
-        id json = [canvas JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTCanvasToJSON(QTCanvas *canvas, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTCanvasToData(canvas, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTDocument *_Nullable QTDocumentFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTDocument fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTDocument *_Nullable QTDocumentFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTDocumentFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTDocumentToData(QTDocument *document, NSError **error)
-{
-    @try {
-        id json = [document JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTDocumentToJSON(QTDocument *document, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTDocumentToData(document, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTNodeType *_Nullable QTNodeTypeFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTNodeType withValue:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTNodeType *_Nullable QTNodeTypeFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTNodeTypeFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTNodeTypeToData(QTNodeType *nodeType, NSError **error)
-{
-    @try {
-        id json = [nodeType value];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTNodeTypeToJSON(QTNodeType *nodeType, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTNodeTypeToData(nodeType, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTExportSetting *_Nullable QTExportSettingFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTExportSetting fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTExportSetting *_Nullable QTExportSettingFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTExportSettingFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTExportSettingToData(QTExportSetting *exportSetting, NSError **error)
-{
-    @try {
-        id json = [exportSetting JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTExportSettingToJSON(QTExportSetting *exportSetting, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTExportSettingToData(exportSetting, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTComponent *_Nullable QTComponentFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTComponent fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTComponent *_Nullable QTComponentFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTComponentFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTComponentToData(QTComponent *component, NSError **error)
-{
-    @try {
-        id json = [component JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTComponentToJSON(QTComponent *component, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTComponentToData(component, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTFileResponse *_Nullable QTFileResponseFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTFileResponse fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTFileResponse *_Nullable QTFileResponseFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTFileResponseFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTFileResponseToData(QTFileResponse *fileResponse, NSError **error)
+NSData *_Nullable FGFileResponseToData(FGFileResponse *fileResponse, NSError **error)
 {
     @try {
         id json = [fileResponse JSONDictionary];
@@ -1476,32 +603,32 @@ NSData *_Nullable QTFileResponseToData(QTFileResponse *fileResponse, NSError **e
     }
 }
 
-NSString *_Nullable QTFileResponseToJSON(QTFileResponse *fileResponse, NSStringEncoding encoding, NSError **error)
+NSString *_Nullable FGFileResponseToJSON(FGFileResponse *fileResponse, NSStringEncoding encoding, NSError **error)
 {
-    NSData *data = QTFileResponseToData(fileResponse, error);
+    NSData *data = FGFileResponseToData(fileResponse, error);
     return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
 }
 
-QTConstraint *_Nullable QTConstraintFromData(NSData *data, NSError **error)
+FGCommentsResponse *_Nullable FGCommentsResponseFromData(NSData *data, NSError **error)
 {
     @try {
         id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTConstraint fromJSONDictionary:json];
+        return *error ? nil : [FGCommentsResponse fromJSONDictionary:json];
     } @catch (NSException *exception) {
         *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
         return nil;
     }
 }
 
-QTConstraint *_Nullable QTConstraintFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+FGCommentsResponse *_Nullable FGCommentsResponseFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
 {
-    return QTConstraintFromData([json dataUsingEncoding:encoding], error);
+    return FGCommentsResponseFromData([json dataUsingEncoding:encoding], error);
 }
 
-NSData *_Nullable QTConstraintToData(QTConstraint *constraint, NSError **error)
+NSData *_Nullable FGCommentsResponseToData(FGCommentsResponse *commentsResponse, NSError **error)
 {
     @try {
-        id json = [constraint JSONDictionary];
+        id json = [commentsResponse JSONDictionary];
         NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
         return *error ? nil : data;
     } @catch (NSException *exception) {
@@ -1510,32 +637,32 @@ NSData *_Nullable QTConstraintToData(QTConstraint *constraint, NSError **error)
     }
 }
 
-NSString *_Nullable QTConstraintToJSON(QTConstraint *constraint, NSStringEncoding encoding, NSError **error)
+NSString *_Nullable FGCommentsResponseToJSON(FGCommentsResponse *commentsResponse, NSStringEncoding encoding, NSError **error)
 {
-    NSData *data = QTConstraintToData(constraint, error);
+    NSData *data = FGCommentsResponseToData(commentsResponse, error);
     return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
 }
 
-QTPaint *_Nullable QTPaintFromData(NSData *data, NSError **error)
+FGCommentRequest *_Nullable FGCommentRequestFromData(NSData *data, NSError **error)
 {
     @try {
         id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTPaint fromJSONDictionary:json];
+        return *error ? nil : [FGCommentRequest fromJSONDictionary:json];
     } @catch (NSException *exception) {
         *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
         return nil;
     }
 }
 
-QTPaint *_Nullable QTPaintFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
+FGCommentRequest *_Nullable FGCommentRequestFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
 {
-    return QTPaintFromData([json dataUsingEncoding:encoding], error);
+    return FGCommentRequestFromData([json dataUsingEncoding:encoding], error);
 }
 
-NSData *_Nullable QTPaintToData(QTPaint *paint, NSError **error)
+NSData *_Nullable FGCommentRequestToData(FGCommentRequest *commentRequest, NSError **error)
 {
     @try {
-        id json = [paint JSONDictionary];
+        id json = [commentRequest JSONDictionary];
         NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
         return *error ? nil : data;
     } @catch (NSException *exception) {
@@ -1544,2315 +671,13 @@ NSData *_Nullable QTPaintToData(QTPaint *paint, NSError **error)
     }
 }
 
-NSString *_Nullable QTPaintToJSON(QTPaint *paint, NSStringEncoding encoding, NSError **error)
+NSString *_Nullable FGCommentRequestToJSON(FGCommentRequest *commentRequest, NSStringEncoding encoding, NSError **error)
 {
-    NSData *data = QTPaintToData(paint, error);
+    NSData *data = FGCommentRequestToData(commentRequest, error);
     return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
 }
 
-QTRegularPolygon *_Nullable QTRegularPolygonFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTRegularPolygon fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTRegularPolygon *_Nullable QTRegularPolygonFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTRegularPolygonFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTRegularPolygonToData(QTRegularPolygon *regularPolygon, NSError **error)
-{
-    @try {
-        id json = [regularPolygon JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTRegularPolygonToJSON(QTRegularPolygon *regularPolygon, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTRegularPolygonToData(regularPolygon, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTEllipse *_Nullable QTEllipseFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTEllipse fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTEllipse *_Nullable QTEllipseFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTEllipseFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTEllipseToData(QTEllipse *ellipse, NSError **error)
-{
-    @try {
-        id json = [ellipse JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTEllipseToJSON(QTEllipse *ellipse, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTEllipseToData(ellipse, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-QTGroup *_Nullable QTGroupFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [QTGroup fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-QTGroup *_Nullable QTGroupFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return QTGroupFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable QTGroupToData(QTGroup *group, NSError **error)
-{
-    @try {
-        id json = [group JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = QTGroupToData(group, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-@implementation QTVector
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTVectorFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTVectorFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTVector alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTVector.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTVector.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTVector.properties) {
-        id propertyName = QTVector.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTVectorToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTVectorToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTAbsoluteBoundingBox
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"cornerRadius": @"cornerRadius",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTAbsoluteBoundingBox alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTAbsoluteBoundingBox.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTAbsoluteBoundingBox.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTAbsoluteBoundingBox.properties) {
-        id propertyName = QTAbsoluteBoundingBox.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTConstraints
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"horizontal": @"horizontal",
-        @"vertical": @"vertical",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTConstraints alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _horizontal = [QTHorizontal withValue:(id)_horizontal];
-        _vertical = [QTVertical withValue:(id)_vertical];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTConstraints.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"horizontal": NSNullify([_horizontal value]),
-        @"vertical": NSNullify([_vertical value]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTEffectElement
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"blendMode": @"blendMode",
-        @"color": @"color",
-        @"offset": @"offset",
-        @"radius": @"radius",
-        @"type": @"type",
-        @"visible": @"visible",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTEffectElement alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _color = [QTOlor fromJSONDictionary:(id)_color];
-        _offset = [QTOffset fromJSONDictionary:(id)_offset];
-        _type = [QTEffectType withValue:(id)_type];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTEffectElement.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"blendMode": NSNullify([_blendMode value]),
-        @"color": NSNullify([_color JSONDictionary]),
-        @"offset": NSNullify([_offset JSONDictionary]),
-        @"type": NSNullify([_type value]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTOlor
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"a": @"a",
-        @"b": @"b",
-        @"g": @"g",
-        @"r": @"r",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTOlor alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:QTOlor.properties.allValues];
-}
-@end
-
-@implementation QTOffset
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"x": @"x",
-        @"y": @"y",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTOffset alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:QTOffset.properties.allValues];
-}
-@end
-
-@implementation QTExportSettingElement
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"constraint": @"constraint",
-        @"format": @"format",
-        @"suffix": @"suffix",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTExportSettingElement alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _constraint = [QTExportSettingConstraint fromJSONDictionary:(id)_constraint];
-        _format = [QTFormat withValue:(id)_format];
-        _suffix = [QTSuffix withValue:(id)_suffix];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTExportSettingElement.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"constraint": NSNullify([_constraint JSONDictionary]),
-        @"format": NSNullify([_format value]),
-        @"suffix": NSNullify([_suffix value]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTExportSettingConstraint
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"type": @"type",
-        @"value": @"value",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTExportSettingConstraint alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _type = [QTConstraintType withValue:(id)_type];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTExportSettingConstraint.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTPaintElement
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"color": @"color",
-        @"gradientHandlePositions": @"gradientHandlePositions",
-        @"gradientStops": @"gradientStops",
-        @"opacity": @"opacity",
-        @"scaleMode": @"scaleMode",
-        @"type": @"type",
-        @"visible": @"visible",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTPaintElement alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _color = [QTOlor fromJSONDictionary:(id)_color];
-        _gradientHandlePositions = map(_gradientHandlePositions, λ(id x, [QTOffset fromJSONDictionary:x]));
-        _gradientStops = map(_gradientStops, λ(id x, [QTColorStopElement fromJSONDictionary:x]));
-        _type = [QTPaintType withValue:(id)_type];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTPaintElement.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"color": NSNullify([_color JSONDictionary]),
-        @"gradientHandlePositions": NSNullify(map(_gradientHandlePositions, λ(id x, [x JSONDictionary]))),
-        @"gradientStops": NSNullify(map(_gradientStops, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTColorStopElement
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"color": @"color",
-        @"position": @"position",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTColorStopElement alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _color = [QTOlor fromJSONDictionary:(id)_color];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTColorStopElement.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"color": NSNullify([_color JSONDictionary]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTColor
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"a": @"a",
-        @"b": @"b",
-        @"g": @"g",
-        @"r": @"r",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTColorFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTColorFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTColor alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:QTColor.properties.allValues];
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTColorToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTColorToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTColorStop
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"color": @"color",
-        @"position": @"position",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTColorStopFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTColorStopFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTColorStop alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _color = [QTOlor fromJSONDictionary:(id)_color];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTColorStop.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"color": NSNullify([_color JSONDictionary]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTColorStopToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTColorStopToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTLayoutConstraint
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"horizontal": @"horizontal",
-        @"vertical": @"vertical",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTLayoutConstraintFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTLayoutConstraintFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTLayoutConstraint alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _horizontal = [QTHorizontal withValue:(id)_horizontal];
-        _vertical = [QTVertical withValue:(id)_vertical];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTLayoutConstraint.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"horizontal": NSNullify([_horizontal value]),
-        @"vertical": NSNullify([_vertical value]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTLayoutConstraintToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTLayoutConstraintToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTText
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"characters": @"characters",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"styleOverrideTable": @"styleOverrideTable",
-        @"style": @"style",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
-        @"characterStyleOverrides": @"characterStyleOverrides",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTTextFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTTextFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTText alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _styleOverrideTable = map(_styleOverrideTable, λ(id x, [QTTyle fromJSONDictionary:x]));
-        _style = [QTTyle fromJSONDictionary:(id)_style];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTText.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTText.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTText.properties) {
-        id propertyName = QTText.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"styleOverrideTable": NSNullify(map(_styleOverrideTable, λ(id x, [x JSONDictionary]))),
-        @"style": NSNullify([_style JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTTextToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTTextToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTTyle
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"lineHeightPx": @"lineHeightPx",
-        @"fontPostScriptName": @"fontPostScriptName",
-        @"fontWeight": @"fontWeight",
-        @"lineHeightPercent": @"lineHeightPercent",
-        @"textAlignVertical": @"textAlignVertical",
-        @"fontSize": @"fontSize",
-        @"italic": @"italic",
-        @"fills": @"fills",
-        @"fontFamily": @"fontFamily",
-        @"textAlignHorizontal": @"textAlignHorizontal",
-        @"letterSpacing": @"letterSpacing",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTTyle alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _textAlignVertical = [QTTextAlignVertical withValue:(id)_textAlignVertical];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _textAlignHorizontal = [QTTextAlignHorizontal withValue:(id)_textAlignHorizontal];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTTyle.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"textAlignVertical": NSNullify([_textAlignVertical value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"textAlignHorizontal": NSNullify([_textAlignHorizontal value]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTFrame
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"layoutGrids": @"layoutGrids",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"backgroundColor": @"backgroundColor",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"clipsContent": @"clipsContent",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"preserveRatio": @"preserveRatio",
-        @"children": @"children",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTFrameFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTFrameFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTFrame alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGridElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _backgroundColor = [QTOlor fromJSONDictionary:(id)_backgroundColor];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTFrame.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTFrame.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTFrame.properties) {
-        id propertyName = QTFrame.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTFrameToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTFrameToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTDocumentElement
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"children": @"children",
-        @"id": @"identifier",
-        @"name": @"name",
-        @"type": @"type",
-        @"visible": @"visible",
-        @"backgroundColor": @"backgroundColor",
-        @"exportSettings": @"exportSettings",
-        @"effects": @"effects",
-        @"layoutGrids": @"layoutGrids",
-        @"opacity": @"opacity",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"clipsContent": @"clipsContent",
-        @"preserveRatio": @"preserveRatio",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"strokes": @"strokes",
-        @"cornerRadius": @"cornerRadius",
-        @"characters": @"characters",
-        @"styleOverrideTable": @"styleOverrideTable",
-        @"style": @"style",
-        @"characterStyleOverrides": @"characterStyleOverrides",
-        @"componentId": @"componentID",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTDocumentElement alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _backgroundColor = [QTOlor fromJSONDictionary:(id)_backgroundColor];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGridElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _styleOverrideTable = map(_styleOverrideTable, λ(id x, [QTTyle fromJSONDictionary:x]));
-        _style = [QTTyle fromJSONDictionary:(id)_style];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTDocumentElement.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTDocumentElement.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTDocumentElement.properties) {
-        id propertyName = QTDocumentElement.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-        @"styleOverrideTable": NSNullify(map(_styleOverrideTable, λ(id x, [x JSONDictionary]))),
-        @"style": NSNullify([_style JSONDictionary]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTLayoutGridElement
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"alignment": @"alignment",
-        @"color": @"color",
-        @"count": @"count",
-        @"gutterSize": @"gutterSize",
-        @"offset": @"offset",
-        @"pattern": @"pattern",
-        @"sectionSize": @"sectionSize",
-        @"visible": @"visible",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTLayoutGridElement alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _alignment = [QTAlignment withValue:(id)_alignment];
-        _color = [QTOlor fromJSONDictionary:(id)_color];
-        _pattern = [QTPattern withValue:(id)_pattern];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTLayoutGridElement.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"alignment": NSNullify([_alignment value]),
-        @"color": NSNullify([_color JSONDictionary]),
-        @"pattern": NSNullify([_pattern value]),
-    }];
-
-    return dict;
-}
-@end
-
-@implementation QTRectangle
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"cornerRadius": @"cornerRadius",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTRectangleFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTRectangleFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTRectangle alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTRectangle.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTRectangle.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTRectangle.properties) {
-        id propertyName = QTRectangle.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTRectangleToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTRectangleToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTLayoutGrid
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"alignment": @"alignment",
-        @"color": @"color",
-        @"count": @"count",
-        @"gutterSize": @"gutterSize",
-        @"offset": @"offset",
-        @"pattern": @"pattern",
-        @"sectionSize": @"sectionSize",
-        @"visible": @"visible",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTLayoutGridFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTLayoutGridFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTLayoutGrid alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _alignment = [QTAlignment withValue:(id)_alignment];
-        _color = [QTOlor fromJSONDictionary:(id)_color];
-        _pattern = [QTPattern withValue:(id)_pattern];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTLayoutGrid.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"alignment": NSNullify([_alignment value]),
-        @"color": NSNullify([_color JSONDictionary]),
-        @"pattern": NSNullify([_pattern value]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTLayoutGridToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTLayoutGridToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTEffect
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"blendMode": @"blendMode",
-        @"color": @"color",
-        @"offset": @"offset",
-        @"radius": @"radius",
-        @"type": @"type",
-        @"visible": @"visible",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTEffectFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTEffectFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTEffect alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _color = [QTOlor fromJSONDictionary:(id)_color];
-        _offset = [QTOffset fromJSONDictionary:(id)_offset];
-        _type = [QTEffectType withValue:(id)_type];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTEffect.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"blendMode": NSNullify([_blendMode value]),
-        @"color": NSNullify([_color JSONDictionary]),
-        @"offset": NSNullify([_offset JSONDictionary]),
-        @"type": NSNullify([_type value]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTEffectToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTEffectToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTSlice
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"exportSettings": @"exportSettings",
-        @"id": @"identifier",
-        @"name": @"name",
-        @"type": @"type",
-        @"visible": @"visible",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTSliceFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTSliceFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTSlice alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTSlice.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTSlice.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTSlice.properties) {
-        id propertyName = QTSlice.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTSliceToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTSliceToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTStar
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTStarFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTStarFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTStar alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTStar.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTStar.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTStar.properties) {
-        id propertyName = QTStar.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTStarToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTStarToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTLine
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTLineFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTLineFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTLine alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTLine.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTLine.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTLine.properties) {
-        id propertyName = QTLine.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTLineToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTLineToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTInstance
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"layoutGrids": @"layoutGrids",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"backgroundColor": @"backgroundColor",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"clipsContent": @"clipsContent",
-        @"exportSettings": @"exportSettings",
-        @"componentId": @"componentID",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"preserveRatio": @"preserveRatio",
-        @"children": @"children",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTInstanceFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTInstanceFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTInstance alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGridElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _backgroundColor = [QTOlor fromJSONDictionary:(id)_backgroundColor];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTInstance.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTInstance.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTInstance.properties) {
-        id propertyName = QTInstance.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTInstanceToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTInstanceToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTVector2D
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"x": @"x",
-        @"y": @"y",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTVector2DFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTVector2DFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTVector2D alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:QTVector2D.properties.allValues];
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTVector2DToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTVector2DToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTTypeStyle
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"lineHeightPx": @"lineHeightPx",
-        @"fontPostScriptName": @"fontPostScriptName",
-        @"fontWeight": @"fontWeight",
-        @"lineHeightPercent": @"lineHeightPercent",
-        @"textAlignVertical": @"textAlignVertical",
-        @"fontSize": @"fontSize",
-        @"italic": @"italic",
-        @"fills": @"fills",
-        @"fontFamily": @"fontFamily",
-        @"textAlignHorizontal": @"textAlignHorizontal",
-        @"letterSpacing": @"letterSpacing",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTTypeStyleFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTTypeStyleFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTTypeStyle alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _textAlignVertical = [QTTextAlignVertical withValue:(id)_textAlignVertical];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _textAlignHorizontal = [QTTextAlignHorizontal withValue:(id)_textAlignHorizontal];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTTypeStyle.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"textAlignVertical": NSNullify([_textAlignVertical value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"textAlignHorizontal": NSNullify([_textAlignHorizontal value]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTTypeStyleToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTTypeStyleToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTBooleanGroup
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
-        @"children": @"children",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTBooleanGroupFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTBooleanGroupFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTBooleanGroup alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTBooleanGroup.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTBooleanGroup.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTBooleanGroup.properties) {
-        id propertyName = QTBooleanGroup.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTBooleanGroupToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTBooleanGroupToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTCanvas
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"backgroundColor": @"backgroundColor",
-        @"children": @"children",
-        @"exportSettings": @"exportSettings",
-        @"id": @"identifier",
-        @"name": @"name",
-        @"type": @"type",
-        @"visible": @"visible",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTCanvasFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTCanvasFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTCanvas alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _backgroundColor = [QTOlor fromJSONDictionary:(id)_backgroundColor];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTCanvas.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTCanvas.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTCanvas.properties) {
-        id propertyName = QTCanvas.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTCanvasToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTCanvasToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTDocument
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"children": @"children",
-        @"id": @"identifier",
-        @"name": @"name",
-        @"type": @"type",
-        @"visible": @"visible",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTDocumentFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTDocumentFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTDocument alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTDocument.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTDocument.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTDocument.properties) {
-        id propertyName = QTDocument.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTDocumentToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTDocumentToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTExportSetting
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"constraint": @"constraint",
-        @"format": @"format",
-        @"suffix": @"suffix",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTExportSettingFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTExportSettingFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTExportSetting alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _constraint = [QTExportSettingConstraint fromJSONDictionary:(id)_constraint];
-        _format = [QTFormat withValue:(id)_format];
-        _suffix = [QTSuffix withValue:(id)_suffix];
-    }
-    return self;
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTExportSetting.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"constraint": NSNullify([_constraint JSONDictionary]),
-        @"format": NSNullify([_format value]),
-        @"suffix": NSNullify([_suffix value]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTExportSettingToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTExportSettingToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTComponent
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"layoutGrids": @"layoutGrids",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"backgroundColor": @"backgroundColor",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"clipsContent": @"clipsContent",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"preserveRatio": @"preserveRatio",
-        @"children": @"children",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTComponentFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTComponentFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTComponent alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGridElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _backgroundColor = [QTOlor fromJSONDictionary:(id)_backgroundColor];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTComponent.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTComponent.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTComponent.properties) {
-        id propertyName = QTComponent.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTComponentToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTComponentToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTFileResponse
+@implementation FGFileResponse
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -3865,36 +690,36 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
 
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
 {
-    return QTFileResponseFromData(data, error);
+    return FGFileResponseFromData(data, error);
 }
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
 {
-    return QTFileResponseFromJSON(json, encoding, error);
+    return FGFileResponseFromJSON(json, encoding, error);
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTFileResponse alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGFileResponse alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _components = map(_components, λ(id x, [QTComponentValue fromJSONDictionary:x]));
-        _document = [QTOcument fromJSONDictionary:(id)_document];
+        _components = map(_components, λ(id x, [FGComponent fromJSONDictionary:x]));
+        _document = [FGOcument fromJSONDictionary:(id)_document];
     }
     return self;
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTFileResponse.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGFileResponse.properties.allValues] mutableCopy];
 
     [dict addEntriesFromDictionary:@{
-        @"components": NSNullify(map(_components, λ(id x, [x JSONDictionary]))),
-        @"document": NSNullify([_document JSONDictionary]),
+        @"components": map(_components, λ(id x, [x JSONDictionary])),
+        @"document": [_document JSONDictionary],
     }];
 
     return dict;
@@ -3902,16 +727,16 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
 
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error
 {
-    return QTFileResponseToData(self, error);
+    return FGFileResponseToData(self, error);
 }
 
 - (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
 {
-    return QTFileResponseToJSON(self, encoding, error);
+    return FGFileResponseToJSON(self, encoding, error);
 }
 @end
 
-@implementation QTComponentValue
+@implementation FGComponent
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -3922,53 +747,53 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
         @"name": @"name",
         @"absoluteBoundingBox": @"absoluteBoundingBox",
         @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
         @"blendMode": @"blendMode",
         @"backgroundColor": @"backgroundColor",
         @"constraints": @"constraints",
         @"isMask": @"isMask",
-        @"clipsContent": @"clipsContent",
+        @"clipsContent": @"isClipsContent",
         @"exportSettings": @"exportSettings",
         @"type": @"type",
         @"id": @"identifier",
-        @"preserveRatio": @"preserveRatio",
+        @"preserveRatio": @"isPreserveRatio",
         @"children": @"children",
     };
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTComponentValue alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGComponent alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGridElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _backgroundColor = [QTOlor fromJSONDictionary:(id)_backgroundColor];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
+        _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
+        _layoutGrids = map(_layoutGrids, λ(id x, [FGLayoutGrid fromJSONDictionary:x]));
+        _absoluteBoundingBox = [FGAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
+        _backgroundColor = [FGOlor fromJSONDictionary:(id)_backgroundColor];
+        _constraints = [FGConstraints fromJSONDictionary:(id)_constraints];
+        _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
+        _type = [FGAbsoluteBoundingBoxType withValue:(id)_type];
+        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
     }
     return self;
 }
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:QTComponentValue.properties[key]];
+    [super setValue:value forKey:FGComponent.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTComponentValue.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGComponent.properties.allValues] mutableCopy];
 
-    for (id jsonName in QTComponentValue.properties) {
-        id propertyName = QTComponentValue.properties[jsonName];
+    for (id jsonName in FGComponent.properties) {
+        id propertyName = FGComponent.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -3976,60 +801,84 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
     }
 
     [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
+        @"effects": map(_effects, λ(id x, [x JSONDictionary])),
+        @"layoutGrids": map(_layoutGrids, λ(id x, [x JSONDictionary])),
+        @"absoluteBoundingBox": [_absoluteBoundingBox JSONDictionary],
+        @"visible": _isVisible ? @YES : @NO,
+        @"blendMode": [_blendMode value],
+        @"backgroundColor": [_backgroundColor JSONDictionary],
+        @"constraints": [_constraints JSONDictionary],
+        @"isMask": _isMask ? @YES : @NO,
+        @"clipsContent": _isClipsContent ? @YES : @NO,
+        @"exportSettings": map(_exportSettings, λ(id x, [x JSONDictionary])),
+        @"type": [_type value],
+        @"preserveRatio": _isPreserveRatio ? @YES : @NO,
+        @"children": map(_children, λ(id x, [x JSONDictionary])),
     }];
 
     return dict;
 }
 @end
 
-@implementation QTOcument
+@implementation FGAbsoluteBoundingBox
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"children": @"children",
-        @"id": @"identifier",
+        @"effects": @"effects",
+        @"cornerRadius": @"cornerRadius",
+        @"opacity": @"opacity",
         @"name": @"name",
+        @"strokeAlign": @"strokeAlign",
+        @"strokeWeight": @"strokeWeight",
+        @"fills": @"fills",
+        @"absoluteBoundingBox": @"absoluteBoundingBox",
+        @"transitionNodeID": @"transitionNodeID",
+        @"visible": @"isVisible",
+        @"blendMode": @"blendMode",
+        @"constraints": @"constraints",
+        @"isMask": @"isMask",
+        @"exportSettings": @"exportSettings",
         @"type": @"type",
-        @"visible": @"visible",
+        @"id": @"identifier",
+        @"strokes": @"strokes",
+        @"preserveRatio": @"isPreserveRatio",
     };
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTOcument alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGAbsoluteBoundingBox alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
+        _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
+        _strokeAlign = [FGStrokeAlign withValue:(id)_strokeAlign];
+        _fills = map(_fills, λ(id x, [FGPaint fromJSONDictionary:x]));
+        _absoluteBoundingBox = [FGAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
+        _constraints = [FGConstraints fromJSONDictionary:(id)_constraints];
+        _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
+        _type = [FGAbsoluteBoundingBoxType withValue:(id)_type];
+        _strokes = map(_strokes, λ(id x, [FGPaint fromJSONDictionary:x]));
     }
     return self;
 }
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:QTOcument.properties[key]];
+    [super setValue:value forKey:FGAbsoluteBoundingBox.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTOcument.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGAbsoluteBoundingBox.properties.allValues] mutableCopy];
 
-    for (id jsonName in QTOcument.properties) {
-        id propertyName = QTOcument.properties[jsonName];
+    for (id jsonName in FGAbsoluteBoundingBox.properties) {
+        id propertyName = FGAbsoluteBoundingBox.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -4037,15 +886,222 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
     }
 
     [dict addEntriesFromDictionary:@{
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
+        @"effects": map(_effects, λ(id x, [x JSONDictionary])),
+        @"strokeAlign": [_strokeAlign value],
+        @"fills": map(_fills, λ(id x, [x JSONDictionary])),
+        @"absoluteBoundingBox": [_absoluteBoundingBox JSONDictionary],
+        @"visible": _isVisible ? @YES : @NO,
+        @"blendMode": [_blendMode value],
+        @"constraints": [_constraints JSONDictionary],
+        @"isMask": _isMask ? @YES : @NO,
+        @"exportSettings": map(_exportSettings, λ(id x, [x JSONDictionary])),
+        @"type": [_type value],
+        @"strokes": map(_strokes, λ(id x, [x JSONDictionary])),
+        @"preserveRatio": _isPreserveRatio ? @YES : @NO,
     }];
 
     return dict;
 }
 @end
 
-@implementation QTConstraint
+@implementation FGConstraints
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"horizontal": @"horizontal",
+        @"vertical": @"vertical",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGConstraints alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _horizontal = [FGHorizontal withValue:(id)_horizontal];
+        _vertical = [FGVertical withValue:(id)_vertical];
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGConstraints.properties.allValues] mutableCopy];
+
+    [dict addEntriesFromDictionary:@{
+        @"horizontal": [_horizontal value],
+        @"vertical": [_vertical value],
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGEffect
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"blendMode": @"blendMode",
+        @"color": @"color",
+        @"offset": @"offset",
+        @"radius": @"radius",
+        @"type": @"type",
+        @"visible": @"isVisible",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGEffect alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
+        _color = [FGOlor fromJSONDictionary:(id)_color];
+        _offset = [FGOffset fromJSONDictionary:(id)_offset];
+        _type = [FGEffectType withValue:(id)_type];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGEffect.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGEffect.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGEffect.properties) {
+        id propertyName = FGEffect.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"blendMode": NSNullify([_blendMode value]),
+        @"color": NSNullify([_color JSONDictionary]),
+        @"offset": NSNullify([_offset JSONDictionary]),
+        @"type": [_type value],
+        @"visible": _isVisible ? @YES : @NO,
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGOlor
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"a": @"a",
+        @"b": @"b",
+        @"g": @"g",
+        @"r": @"r",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGOlor alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    return [self dictionaryWithValuesForKeys:FGOlor.properties.allValues];
+}
+@end
+
+@implementation FGOffset
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"x": @"x",
+        @"y": @"y",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGOffset alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    return [self dictionaryWithValuesForKeys:FGOffset.properties.allValues];
+}
+@end
+
+@implementation FGExportSetting
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"constraint": @"constraint",
+        @"format": @"format",
+        @"suffix": @"suffix",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGExportSetting alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _constraint = [FGConstraint fromJSONDictionary:(id)_constraint];
+        _format = [FGFormat withValue:(id)_format];
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGExportSetting.properties.allValues] mutableCopy];
+
+    [dict addEntriesFromDictionary:@{
+        @"constraint": [_constraint JSONDictionary],
+        @"format": [_format value],
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGConstraint
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -4055,53 +1111,33 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
     };
 }
 
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTConstraintFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTConstraintFromJSON(json, encoding, error);
-}
-
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTConstraint alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGConstraint alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _type = [QTConstraintType withValue:(id)_type];
+        _type = [FGConstraintType withValue:(id)_type];
     }
     return self;
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTConstraint.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGConstraint.properties.allValues] mutableCopy];
 
     [dict addEntriesFromDictionary:@{
-        @"type": NSNullify([_type value]),
+        @"type": [_type value],
     }];
 
     return dict;
 }
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTConstraintToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTConstraintToJSON(self, encoding, error);
-}
 @end
 
-@implementation QTPaint
+@implementation FGPaint
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -4112,330 +1148,165 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
         @"opacity": @"opacity",
         @"scaleMode": @"scaleMode",
         @"type": @"type",
-        @"visible": @"visible",
+        @"visible": @"isVisible",
     };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTPaintFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTPaintFromJSON(json, encoding, error);
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTPaint alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGPaint alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _color = [QTOlor fromJSONDictionary:(id)_color];
-        _gradientHandlePositions = map(_gradientHandlePositions, λ(id x, [QTOffset fromJSONDictionary:x]));
-        _gradientStops = map(_gradientStops, λ(id x, [QTColorStopElement fromJSONDictionary:x]));
-        _type = [QTPaintType withValue:(id)_type];
+        _color = [FGOlor fromJSONDictionary:(id)_color];
+        _gradientHandlePositions = map(_gradientHandlePositions, λ(id x, [FGOffset fromJSONDictionary:x]));
+        _gradientStops = map(_gradientStops, λ(id x, [FGColorStop fromJSONDictionary:x]));
+        _type = [FGPaintType withValue:(id)_type];
     }
     return self;
 }
 
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGPaint.properties[key]];
+}
+
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTPaint.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGPaint.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGPaint.properties) {
+        id propertyName = FGPaint.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
 
     [dict addEntriesFromDictionary:@{
         @"color": NSNullify([_color JSONDictionary]),
         @"gradientHandlePositions": NSNullify(map(_gradientHandlePositions, λ(id x, [x JSONDictionary]))),
         @"gradientStops": NSNullify(map(_gradientStops, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
+        @"type": [_type value],
+        @"visible": _isVisible ? @YES : @NO,
     }];
 
     return dict;
 }
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTPaintToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTPaintToJSON(self, encoding, error);
-}
 @end
 
-@implementation QTRegularPolygon
+@implementation FGColorStop
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
+        @"color": @"color",
+        @"position": @"position",
     };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTRegularPolygonFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTRegularPolygonFromJSON(json, encoding, error);
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTRegularPolygon alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGColorStop alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
+        _color = [FGOlor fromJSONDictionary:(id)_color];
     }
     return self;
 }
 
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTRegularPolygon.properties[key]];
-}
-
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTRegularPolygon.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTRegularPolygon.properties) {
-        id propertyName = QTRegularPolygon.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
+    id dict = [[self dictionaryWithValuesForKeys:FGColorStop.properties.allValues] mutableCopy];
 
     [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
+        @"color": [_color JSONDictionary],
     }];
 
     return dict;
 }
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTRegularPolygonToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTRegularPolygonToJSON(self, encoding, error);
-}
 @end
 
-@implementation QTEllipse
+@implementation FGDocument
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"effects": @"effects",
-        @"opacity": @"opacity",
-        @"name": @"name",
-        @"strokeAlign": @"strokeAlign",
-        @"strokeWeight": @"strokeWeight",
-        @"fills": @"fills",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
+        @"children": @"children",
         @"id": @"identifier",
-        @"strokes": @"strokes",
-        @"preserveRatio": @"preserveRatio",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTEllipseFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTEllipseFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[QTEllipse alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _strokeAlign = [QTStrokeAlign withValue:(id)_strokeAlign];
-        _fills = map(_fills, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _strokes = map(_strokes, λ(id x, [QTPaintElement fromJSONDictionary:x]));
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    [super setValue:value forKey:QTEllipse.properties[key]];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:QTEllipse.properties.allValues] mutableCopy];
-
-    for (id jsonName in QTEllipse.properties) {
-        id propertyName = QTEllipse.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
-        @"strokeAlign": NSNullify([_strokeAlign value]),
-        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return QTEllipseToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTEllipseToJSON(self, encoding, error);
-}
-@end
-
-@implementation QTGroup
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
+        @"name": @"name",
+        @"type": @"type",
+        @"visible": @"isVisible",
+        @"backgroundColor": @"backgroundColor",
+        @"exportSettings": @"exportSettings",
         @"effects": @"effects",
         @"layoutGrids": @"layoutGrids",
         @"opacity": @"opacity",
-        @"name": @"name",
         @"absoluteBoundingBox": @"absoluteBoundingBox",
         @"transitionNodeID": @"transitionNodeID",
-        @"visible": @"visible",
         @"blendMode": @"blendMode",
-        @"backgroundColor": @"backgroundColor",
         @"constraints": @"constraints",
         @"isMask": @"isMask",
         @"clipsContent": @"clipsContent",
-        @"exportSettings": @"exportSettings",
-        @"type": @"type",
-        @"id": @"identifier",
         @"preserveRatio": @"preserveRatio",
-        @"children": @"children",
+        @"strokeAlign": @"strokeAlign",
+        @"strokeWeight": @"strokeWeight",
+        @"fills": @"fills",
+        @"strokes": @"strokes",
+        @"cornerRadius": @"cornerRadius",
+        @"characters": @"characters",
+        @"styleOverrideTable": @"styleOverrideTable",
+        @"style": @"style",
+        @"characterStyleOverrides": @"characterStyleOverrides",
+        @"componentId": @"componentID",
     };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return QTGroupFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return QTGroupFromJSON(json, encoding, error);
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[QTGroup alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGDocument alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _effects = map(_effects, λ(id x, [QTEffectElement fromJSONDictionary:x]));
-        _layoutGrids = map(_layoutGrids, λ(id x, [QTLayoutGridElement fromJSONDictionary:x]));
-        _absoluteBoundingBox = [QTAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [QTBlendMode withValue:(id)_blendMode];
-        _backgroundColor = [QTOlor fromJSONDictionary:(id)_backgroundColor];
-        _constraints = [QTConstraints fromJSONDictionary:(id)_constraints];
-        _exportSettings = map(_exportSettings, λ(id x, [QTExportSettingElement fromJSONDictionary:x]));
-        _type = [QTNodeType withValue:(id)_type];
-        _children = map(_children, λ(id x, [QTDocumentElement fromJSONDictionary:x]));
+        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
+        _type = [FGAbsoluteBoundingBoxType withValue:(id)_type];
+        _backgroundColor = [FGOlor fromJSONDictionary:(id)_backgroundColor];
+        _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
+        _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
+        _layoutGrids = map(_layoutGrids, λ(id x, [FGLayoutGrid fromJSONDictionary:x]));
+        _absoluteBoundingBox = [FGAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
+        _constraints = [FGConstraints fromJSONDictionary:(id)_constraints];
+        _strokeAlign = [FGStrokeAlign withValue:(id)_strokeAlign];
+        _fills = map(_fills, λ(id x, [FGPaint fromJSONDictionary:x]));
+        _strokes = map(_strokes, λ(id x, [FGPaint fromJSONDictionary:x]));
+        _styleOverrideTable = map(_styleOverrideTable, λ(id x, [FGTyle fromJSONDictionary:x]));
+        _style = [FGTyle fromJSONDictionary:(id)_style];
     }
     return self;
 }
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:QTGroup.properties[key]];
+    [super setValue:value forKey:FGDocument.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:QTGroup.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGDocument.properties.allValues] mutableCopy];
 
-    for (id jsonName in QTGroup.properties) {
-        id propertyName = QTGroup.properties[jsonName];
+    for (id jsonName in FGDocument.properties) {
+        id propertyName = FGDocument.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -4443,15 +1314,244 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
     }
 
     [dict addEntriesFromDictionary:@{
+        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
+        @"type": [_type value],
+        @"visible": _isVisible ? @YES : @NO,
+        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
+        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
         @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
         @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
         @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
         @"blendMode": NSNullify([_blendMode value]),
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
         @"constraints": NSNullify([_constraints JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
-        @"type": NSNullify([_type value]),
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
+        @"strokeAlign": NSNullify([_strokeAlign value]),
+        @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
+        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
+        @"styleOverrideTable": NSNullify(map(_styleOverrideTable, λ(id x, [x JSONDictionary]))),
+        @"style": NSNullify([_style JSONDictionary]),
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGLayoutGrid
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"alignment": @"alignment",
+        @"color": @"color",
+        @"count": @"count",
+        @"gutterSize": @"gutterSize",
+        @"offset": @"offset",
+        @"pattern": @"pattern",
+        @"sectionSize": @"sectionSize",
+        @"visible": @"isVisible",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGLayoutGrid alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _alignment = [FGAlignment withValue:(id)_alignment];
+        _color = [FGOlor fromJSONDictionary:(id)_color];
+        _pattern = [FGPattern withValue:(id)_pattern];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGLayoutGrid.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGLayoutGrid.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGLayoutGrid.properties) {
+        id propertyName = FGLayoutGrid.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"alignment": [_alignment value],
+        @"color": [_color JSONDictionary],
+        @"pattern": [_pattern value],
+        @"visible": _isVisible ? @YES : @NO,
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGTyle
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"lineHeightPx": @"lineHeightPx",
+        @"fontPostScriptName": @"fontPostScriptName",
+        @"fontWeight": @"fontWeight",
+        @"lineHeightPercent": @"lineHeightPercent",
+        @"textAlignVertical": @"textAlignVertical",
+        @"fontSize": @"fontSize",
+        @"italic": @"isItalic",
+        @"fills": @"fills",
+        @"fontFamily": @"fontFamily",
+        @"textAlignHorizontal": @"textAlignHorizontal",
+        @"letterSpacing": @"letterSpacing",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGTyle alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _textAlignVertical = [FGTextAlignVertical withValue:(id)_textAlignVertical];
+        _fills = map(_fills, λ(id x, [FGPaint fromJSONDictionary:x]));
+        _textAlignHorizontal = [FGTextAlignHorizontal withValue:(id)_textAlignHorizontal];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGTyle.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGTyle.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGTyle.properties) {
+        id propertyName = FGTyle.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"textAlignVertical": [_textAlignVertical value],
+        @"italic": _isItalic ? @YES : @NO,
+        @"fills": map(_fills, λ(id x, [x JSONDictionary])),
+        @"textAlignHorizontal": [_textAlignHorizontal value],
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGOcument
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"children": @"children",
+        @"id": @"identifier",
+        @"name": @"name",
+        @"type": @"type",
+        @"visible": @"isVisible",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGOcument alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
+        _type = [FGAbsoluteBoundingBoxType withValue:(id)_type];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGOcument.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGOcument.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGOcument.properties) {
+        id propertyName = FGOcument.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"children": map(_children, λ(id x, [x JSONDictionary])),
+        @"type": [_type value],
+        @"visible": _isVisible ? @YES : @NO,
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGCommentsResponse
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"comments": @"comments",
+    };
+}
+
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
+{
+    return FGCommentsResponseFromData(data, error);
+}
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return FGCommentsResponseFromJSON(json, encoding, error);
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGCommentsResponse alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _comments = map(_comments, λ(id x, [FGComment fromJSONDictionary:x]));
+    }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGCommentsResponse.properties.allValues] mutableCopy];
+
+    [dict addEntriesFromDictionary:@{
+        @"comments": map(_comments, λ(id x, [x JSONDictionary])),
     }];
 
     return dict;
@@ -4459,12 +1559,234 @@ NSString *_Nullable QTGroupToJSON(QTGroup *group, NSStringEncoding encoding, NSE
 
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error
 {
-    return QTGroupToData(self, error);
+    return FGCommentsResponseToData(self, error);
 }
 
 - (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
 {
-    return QTGroupToJSON(self, encoding, error);
+    return FGCommentsResponseToJSON(self, encoding, error);
+}
+@end
+
+@implementation FGComment
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"message": @"message",
+        @"created_at": @"createdAt",
+        @"user": @"user",
+        @"order_id": @"orderID",
+        @"parent_id": @"parentID",
+        @"client_meta": @"clientMeta",
+        @"resolved_at": @"resolvedAt",
+        @"id": @"identifier",
+        @"file_key": @"fileKey",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGComment alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _user = [FGUser fromJSONDictionary:(id)_user];
+        _clientMeta = [FGClientMeta fromJSONDictionary:(id)_clientMeta];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGComment.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGComment.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGComment.properties) {
+        id propertyName = FGComment.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"user": [_user JSONDictionary],
+        @"client_meta": [_clientMeta JSONDictionary],
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGClientMeta
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"x": @"x",
+        @"y": @"y",
+        @"node_id": @"nodeID",
+        @"node_offset": @"nodeOffset",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGClientMeta alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _nodeOffset = [FGOffset fromJSONDictionary:(id)_nodeOffset];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGClientMeta.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGClientMeta.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGClientMeta.properties) {
+        id propertyName = FGClientMeta.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"node_offset": NSNullify([_nodeOffset JSONDictionary]),
+    }];
+
+    return dict;
+}
+@end
+
+@implementation FGUser
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"handle": @"handle",
+        @"img_url": @"imgURL",
+    };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGUser alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGUser.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGUser.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGUser.properties) {
+        id propertyName = FGUser.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    return dict;
+}
+@end
+
+@implementation FGCommentRequest
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{
+        @"client_meta": @"clientMeta",
+        @"message": @"message",
+    };
+}
+
++ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
+{
+    return FGCommentRequestFromData(data, error);
+}
+
++ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return FGCommentRequestFromJSON(json, encoding, error);
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGCommentRequest alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+        _clientMeta = [FGClientMeta fromJSONDictionary:(id)_clientMeta];
+    }
+    return self;
+}
+
+- (void)setValue:(nullable id)value forKey:(NSString *)key
+{
+    [super setValue:value forKey:FGCommentRequest.properties[key]];
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    id dict = [[self dictionaryWithValuesForKeys:FGCommentRequest.properties.allValues] mutableCopy];
+
+    for (id jsonName in FGCommentRequest.properties) {
+        id propertyName = FGCommentRequest.properties[jsonName];
+        if (![jsonName isEqualToString:propertyName]) {
+            dict[jsonName] = dict[propertyName];
+            [dict removeObjectForKey:propertyName];
+        }
+    }
+
+    [dict addEntriesFromDictionary:@{
+        @"client_meta": [_clientMeta JSONDictionary],
+    }];
+
+    return dict;
+}
+
+- (NSData *_Nullable)toData:(NSError *_Nullable *)error
+{
+    return FGCommentRequestToData(self, error);
+}
+
+- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
+{
+    return FGCommentRequestToJSON(self, encoding, error);
 }
 @end
 
