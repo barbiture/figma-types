@@ -16,6 +16,14 @@
           "$ref": "schema.json#/definitions/CommentsResponse"
         }
       ]
+    },
+    "CommentRequest": {
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "schema.json#/definitions/CommentRequest"
+        }
+      ]
     }
   }
 }

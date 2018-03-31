@@ -7,9 +7,10 @@
 //
 //     FileResponse data = nlohmann::json::parse(jsonString);
 //     CommentsResponse data = nlohmann::json::parse(jsonString);
+//     CommentRequest data = nlohmann::json::parse(jsonString);
 
-#ifndef __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_HPP__
-#define __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_HPP__
+#ifndef __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_HPP__
+#define __QUICKTYPE_FILERESPONSE_COMMENTSRESPONSE_COMMENTREQUEST_HPP__
 
 #include "json.hpp"
 
@@ -930,6 +931,35 @@ namespace quicktype {
     struct CommentsResponse {
         std::vector<struct Comment> comments;
     };
+
+    /**
+     * POST /v1/files/:key/comments
+     *
+     * > Description
+     * Posts a new comment on the file.
+     *
+     * > Path parameters
+     * key String
+     * File to get comments from
+     *
+     * > Body parameters
+     * message String
+     * The text contents of the comment to post
+     *
+     * client_meta Vector2 | FrameOffset
+     * The position of where to place the comment. This can either be an absolute canvas
+     * position or the relative position within a frame.
+     *
+     * > Return value
+     * The Comment that was successfully posted
+     *
+     * > Error codes
+     * 404 The specified file was not found
+     */
+    struct CommentRequest {
+        struct ClientMeta client_meta;
+        std::string message;
+    };
     
     inline json get_untyped(const json &j, const char *property) {
         if (j.find(property) != j.end()) {
@@ -1361,6 +1391,17 @@ namespace nlohmann {
     inline void to_json(json& _j, const struct quicktype::CommentsResponse& _x) {
         _j = json::object();
         _j["comments"] = _x.comments;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::CommentRequest& _x) {
+        _x.client_meta = _j.at("client_meta").get<struct quicktype::ClientMeta>();
+        _x.message = _j.at("message").get<std::string>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::CommentRequest& _x) {
+        _j = json::object();
+        _j["client_meta"] = _x.client_meta;
+        _j["message"] = _x.message;
     }
 
     inline void from_json(const json& _j, quicktype::BlendMode& _x) {

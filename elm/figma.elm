@@ -5,12 +5,13 @@
 -- add these imports
 --
 --     import Json.Decode exposing (decodeString)`);
---     import QuickType exposing (fileResponse, commentsResponse)
+--     import QuickType exposing (fileResponse, commentsResponse, commentRequest)
 --
 -- and you're off to the races with
 --
 --     decodeString fileResponse myJsonString
 --     decodeString commentsResponse myJsonString
+--     decodeString commentRequest myJsonString
 
 module QuickType exposing
     ( FileResponse
@@ -19,6 +20,9 @@ module QuickType exposing
     , CommentsResponse
     , commentsResponseToString
     , commentsResponse
+    , CommentRequest
+    , commentRequestToString
+    , commentRequest
     , Component
     , AbsoluteBoundingBox
     , Constraints
@@ -1011,6 +1015,34 @@ type alias User =
     , imgURL : String
     }
 
+{-| POST /v1/files/:key/comments
+
+> Description
+Posts a new comment on the file.
+
+> Path parameters
+key String
+File to get comments from
+
+> Body parameters
+message String
+The text contents of the comment to post
+
+client_meta Vector2 | FrameOffset
+The position of where to place the comment. This can either be an absolute canvas
+position or the relative position within a frame.
+
+> Return value
+The Comment that was successfully posted
+
+> Error codes
+404 The specified file was not found
+-}
+type alias CommentRequest =
+    { clientMeta : ClientMeta
+    , message : String
+    }
+
 -- decoders and encoders
 
 fileResponseToString : FileResponse -> String
@@ -1018,6 +1050,9 @@ fileResponseToString r = Jenc.encode 0 (encodeFileResponse r)
 
 commentsResponseToString : CommentsResponse -> String
 commentsResponseToString r = Jenc.encode 0 (encodeCommentsResponse r)
+
+commentRequestToString : CommentRequest -> String
+commentRequestToString r = Jenc.encode 0 (encodeCommentRequest r)
 
 fileResponse : Jdec.Decoder FileResponse
 fileResponse =
@@ -1751,6 +1786,19 @@ encodeUser x =
     Jenc.object
         [ ("handle", Jenc.string x.handle)
         , ("img_url", Jenc.string x.imgURL)
+        ]
+
+commentRequest : Jdec.Decoder CommentRequest
+commentRequest =
+    Jpipe.decode CommentRequest
+        |> Jpipe.required "client_meta" clientMeta
+        |> Jpipe.required "message" Jdec.string
+
+encodeCommentRequest : CommentRequest -> Jenc.Value
+encodeCommentRequest x =
+    Jenc.object
+        [ ("client_meta", encodeClientMeta x.clientMeta)
+        , ("message", Jenc.string x.message)
         ]
 
 --- encoder helpers

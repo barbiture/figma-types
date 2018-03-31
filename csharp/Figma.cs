@@ -4,6 +4,7 @@
 //
 //    var fileResponse = FileResponse.FromJson(jsonString);
 //    var commentsResponse = CommentsResponse.FromJson(jsonString);
+//    var commentRequest = CommentRequest.FromJson(jsonString);
 
 namespace QuickType
 {
@@ -1107,6 +1108,39 @@ namespace QuickType
     }
 
     /// <summary>
+    /// POST /v1/files/:key/comments
+    ///
+    /// > Description
+    /// Posts a new comment on the file.
+    ///
+    /// > Path parameters
+    /// key String
+    /// File to get comments from
+    ///
+    /// > Body parameters
+    /// message String
+    /// The text contents of the comment to post
+    ///
+    /// client_meta Vector2 | FrameOffset
+    /// The position of where to place the comment. This can either be an absolute canvas
+    /// position or the relative position within a frame.
+    ///
+    /// > Return value
+    /// The Comment that was successfully posted
+    ///
+    /// > Error codes
+    /// 404 The specified file was not found
+    /// </summary>
+    public partial class CommentRequest
+    {
+        [JsonProperty("client_meta")]
+        public ClientMeta ClientMeta { get; set; }
+
+        [JsonProperty("message")]
+        public string Message { get; set; }
+    }
+
+    /// <summary>
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
     /// </summary>
@@ -1204,6 +1238,11 @@ namespace QuickType
     public partial class CommentsResponse
     {
         public static CommentsResponse FromJson(string json) => JsonConvert.DeserializeObject<CommentsResponse>(json, QuickType.Converter.Settings);
+    }
+
+    public partial class CommentRequest
+    {
+        public static CommentRequest FromJson(string json) => JsonConvert.DeserializeObject<CommentRequest>(json, QuickType.Converter.Settings);
     }
 
     static class BlendModeExtensions
@@ -1702,6 +1741,7 @@ namespace QuickType
     {
         public static string ToJson(this FileResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
         public static string ToJson(this CommentsResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this CommentRequest self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
     }
 
     internal class Converter: JsonConverter

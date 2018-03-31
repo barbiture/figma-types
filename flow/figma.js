@@ -6,6 +6,7 @@
 //
 //   const fileResponse = Convert.toFileResponse(json);
 //   const commentsResponse = Convert.toCommentsResponse(json);
+//   const commentRequest = Convert.toCommentRequest(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -1002,6 +1003,35 @@ export type User = {
     img_url: string;
 };
 
+/**
+ * POST /v1/files/:key/comments
+ *
+ * > Description
+ * Posts a new comment on the file.
+ *
+ * > Path parameters
+ * key String
+ * File to get comments from
+ *
+ * > Body parameters
+ * message String
+ * The text contents of the comment to post
+ *
+ * client_meta Vector2 | FrameOffset
+ * The position of where to place the comment. This can either be an absolute canvas
+ * position or the relative position within a frame.
+ *
+ * > Return value
+ * The Comment that was successfully posted
+ *
+ * > Error codes
+ * 404 The specified file was not found
+ */
+export type CommentRequest = {
+    client_meta: ClientMeta;
+    message:     string;
+};
+
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 function toFileResponse(json: string): FileResponse {
@@ -1017,6 +1047,14 @@ function toCommentsResponse(json: string): CommentsResponse {
 }
 
 function commentsResponseToJson(value: CommentsResponse): string {
+    return JSON.stringify(value, null, 2);
+}
+
+function toCommentRequest(json: string): CommentRequest {
+    return cast(JSON.parse(json), o("CommentRequest"));
+}
+
+function commentRequestToJson(value: CommentRequest): string {
     return JSON.stringify(value, null, 2);
 }
 
@@ -1269,6 +1307,10 @@ const typeMap: any = {
         handle: "",
         img_url: "",
     },
+    "CommentRequest": {
+        client_meta: o("ClientMeta"),
+        message: "",
+    },
     "BlendMode": [
         "COLOR",
         "COLOR_BURN",
@@ -1379,4 +1421,6 @@ module.exports = {
     "toFileResponse": toFileResponse,
     "commentsResponseToJson": commentsResponseToJson,
     "toCommentsResponse": toCommentsResponse,
+    "commentRequestToJson": commentRequestToJson,
+    "toCommentRequest": toCommentRequest,
 };

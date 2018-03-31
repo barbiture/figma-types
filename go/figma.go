@@ -5,6 +5,9 @@
 //
 //    commentsResponse, err := UnmarshalCommentsResponse(bytes)
 //    bytes, err = commentsResponse.Marshal()
+//
+//    commentRequest, err := UnmarshalCommentRequest(bytes)
+//    bytes, err = commentRequest.Marshal()
 
 package main
 
@@ -27,6 +30,16 @@ func UnmarshalCommentsResponse(data []byte) (CommentsResponse, error) {
 }
 
 func (r *CommentsResponse) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+func UnmarshalCommentRequest(data []byte) (CommentRequest, error) {
+	var r CommentRequest
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *CommentRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -374,6 +387,33 @@ type ClientMeta struct {
 type User struct {
 	Handle string `json:"handle"` 
 	ImgURL string `json:"img_url"`
+}
+
+// POST /v1/files/:key/comments
+//
+// > Description
+// Posts a new comment on the file.
+//
+// > Path parameters
+// key String
+// File to get comments from
+//
+// > Body parameters
+// message String
+// The text contents of the comment to post
+//
+// client_meta Vector2 | FrameOffset
+// The position of where to place the comment. This can either be an absolute canvas
+// position or the relative position within a frame.
+//
+// > Return value
+// The Comment that was successfully posted
+//
+// > Error codes
+// 404 The specified file was not found
+type CommentRequest struct {
+	ClientMeta ClientMeta `json:"client_meta"`
+	Message    string     `json:"message"`    
 }
 
 // How this node blends with nodes behind it in the scene

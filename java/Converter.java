@@ -10,6 +10,7 @@
 //
 //     FileResponse data = Converter.FileResponseFromJsonString(jsonString);
 //     CommentsResponse data = Converter.CommentsResponseFromJsonString(jsonString);
+//     CommentRequest data = Converter.CommentRequestFromJsonString(jsonString);
 
 package io.quicktype;
 
@@ -35,6 +36,14 @@ public class Converter {
 
     public static String CommentsResponseToJsonString(CommentsResponse obj) throws JsonProcessingException {
         return getCommentsResponseObjectWriter().writeValueAsString(obj);
+    }
+
+    public static CommentRequest CommentRequestFromJsonString(String json) throws IOException {
+        return getCommentRequestObjectReader().readValue(json);
+    }
+
+    public static String CommentRequestToJsonString(CommentRequest obj) throws JsonProcessingException {
+        return getCommentRequestObjectWriter().writeValueAsString(obj);
     }
 
     private static ObjectReader FileResponseReader;
@@ -73,5 +82,24 @@ public class Converter {
     private static ObjectWriter getCommentsResponseObjectWriter() {
         if (CommentsResponseWriter == null) instantiateMapper();
         return CommentsResponseWriter;
+    }
+
+    private static ObjectReader CommentRequestReader;
+    private static ObjectWriter CommentRequestWriter;
+
+    private static void instantiateCommentRequestMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        CommentRequestReader = mapper.reader(CommentRequest.class);
+        CommentRequestWriter = mapper.writerFor(CommentRequest.class);
+    }
+
+    private static ObjectReader getCommentRequestObjectReader() {
+        if (CommentRequestReader == null) instantiateMapper();
+        return CommentRequestReader;
+    }
+
+    private static ObjectWriter getCommentRequestObjectWriter() {
+        if (CommentRequestWriter == null) instantiateMapper();
+        return CommentRequestWriter;
     }
 }

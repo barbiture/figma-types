@@ -2,6 +2,7 @@
 //
 //   let fileResponse = try FileResponse(json)
 //   let commentsResponse = try CommentsResponse(json)
+//   let commentRequest = try CommentRequest(json)
 //
 // To parse values from Alamofire responses:
 //
@@ -13,6 +14,12 @@
 //
 //   Alamofire.request(url).responseCommentsResponse { response in
 //     if let commentsResponse = response.result.value {
+//       ...
+//     }
+//   }
+//
+//   Alamofire.request(url).responseCommentRequest { response in
+//     if let commentRequest = response.result.value {
 //       ...
 //     }
 //   }
@@ -759,6 +766,38 @@ struct User: Codable {
     }
 }
 
+/// POST /v1/files/:key/comments
+///
+/// > Description
+/// Posts a new comment on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
+///
+/// > Body parameters
+/// message String
+/// The text contents of the comment to post
+///
+/// client_meta Vector2 | FrameOffset
+/// The position of where to place the comment. This can either be an absolute canvas
+/// position or the relative position within a frame.
+///
+/// > Return value
+/// The Comment that was successfully posted
+///
+/// > Error codes
+/// 404 The specified file was not found
+struct CommentRequest: Codable {
+    let clientMeta: ClientMeta
+    let message: String
+
+    enum CodingKeys: String, CodingKey {
+        case clientMeta = "client_meta"
+        case message
+    }
+}
+
 // MARK: - Alamofire response handlers
 
 extension DataRequest {
@@ -786,6 +825,11 @@ extension DataRequest {
 
     @discardableResult
     func responseCommentsResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<CommentsResponse>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    func responseCommentRequest(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<CommentRequest>) -> Void) -> Self {
         return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }
@@ -1246,6 +1290,31 @@ extension ClientMeta {
 extension User {
     init(data: Data) throws {
         self = try JSONDecoder().decode(User.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension CommentRequest {
+    init(data: Data) throws {
+        self = try JSONDecoder().decode(CommentRequest.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
