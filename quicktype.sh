@@ -2,6 +2,11 @@
 
 set -xe
 
+# Generate a JSON schema from TypeScript
+quicktype types/*.ts -l schema -o types/schema.json
+
+# Generate types from the generated schema
+# (We have to break this into separate steps to limit which types are top-level)
 QUICKTYPE="quicktype --src-lang schema types/toplevels.json --add-schema-top-level /definitions/"
 
 $QUICKTYPE -o swift/Figma.swift

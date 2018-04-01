@@ -4,10 +4,9 @@
   "description": "Typed client code for Figma Platform",
   "main": "index.js",
   "scripts": {
-    "prepare": "npm upgrade quicktype && npm run generate:types",
-    "generate:types": "npm run generate:schema && ./quicktype.sh",
-    "generate:schema": "typescript-json-schema 'types/*.ts' '*' -o types/schema.json --required --titles --topRef",
-    "start": "watch \"npm run generate:types\" types"
+    "prepare": "npm upgrade quicktype && npm run quicktype",
+    "quicktype": "./quicktype.sh",
+    "start": "watch \"npm run quicktype\" types"
   },
   "repository": {
     "type": "git",
@@ -20,8 +19,7 @@
   },
   "homepage": "https://github.com/quicktype/figma-types#readme",
   "dependencies": {
-    "quicktype": "^9.0.35",
-    "typescript-json-schema": "^0.21.0",
+    "quicktype": "^10.0.0",
     "watch": "^1.0.2"
   }
 }
