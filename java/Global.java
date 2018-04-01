@@ -3,17 +3,14 @@ package io.quicktype;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
-/**
- * Properties are shared across all nodes
- */
 public class Global {
     private String id;
     private String name;
     private boolean visible;
-    private RegularPolygonNodeType type;
+    private NodeType type;
 
     /**
-     * A string uniquely identifying this node within the document
+     * a string uniquely identifying this node within the document
      */
     @JsonProperty("id")
     public String getID() { return id; }
@@ -21,7 +18,7 @@ public class Global {
     public void setID(String value) { this.id = value; }
 
     /**
-     * The name given to the node by the user in the tool
+     * the name given to the node by the user in the tool.
      */
     @JsonProperty("name")
     public String getName() { return name; }
@@ -29,7 +26,7 @@ public class Global {
     public void setName(String value) { this.name = value; }
 
     /**
-     * Whether or not the node is visible on the canvas
+     * whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
     public boolean getVisible() { return visible; }
@@ -37,10 +34,10 @@ public class Global {
     public void setVisible(boolean value) { this.visible = value; }
 
     /**
-     * The type of the node
+     * the type of the node, refer to table below for details
      */
     @JsonProperty("type")
-    public RegularPolygonNodeType getType() { return type; }
+    public NodeType getType() { return type; }
     @JsonProperty("type")
-    public void setType(RegularPolygonNodeType value) { this.type = value; }
+    public void setType(NodeType value) { this.type = value; }
 }

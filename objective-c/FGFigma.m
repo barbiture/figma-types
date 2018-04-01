@@ -18,12 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGAbsoluteBoundingBox (JSONConversion)
+@interface FGRectangle (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGConstraints (JSONConversion)
+@interface FGLayoutConstraint (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -33,12 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGOlor (JSONConversion)
+@interface FGColor (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGOffset (JSONConversion)
+@interface FGVector2 (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGDocument (JSONConversion)
+@interface FGNode (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -73,12 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGTyle (JSONConversion)
+@interface FGTypeStyle (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGOcument (JSONConversion)
+@interface FGDocument (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -410,48 +410,48 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation FGAbsoluteBoundingBoxType
-+ (NSDictionary<NSString *, FGAbsoluteBoundingBoxType *> *)values
+@implementation FGNodeType
++ (NSDictionary<NSString *, FGNodeType *> *)values
 {
-    static NSDictionary<NSString *, FGAbsoluteBoundingBoxType *> *values;
+    static NSDictionary<NSString *, FGNodeType *> *values;
     return values = values ? values : @{
-        @"BOOLEAN": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"BOOLEAN"],
-        @"CANVAS": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"CANVAS"],
-        @"COMPONENT": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"COMPONENT"],
-        @"DOCUMENT": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"DOCUMENT"],
-        @"ELLIPSE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"ELLIPSE"],
-        @"FRAME": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"FRAME"],
-        @"GROUP": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"GROUP"],
-        @"INSTANCE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"INSTANCE"],
-        @"LINE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"LINE"],
-        @"RECTANGLE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"RECTANGLE"],
-        @"REGULAR_POLYGON": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"REGULAR_POLYGON"],
-        @"SLICE": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"SLICE"],
-        @"STAR": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"STAR"],
-        @"TEXT": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"TEXT"],
-        @"VECTOR": [[FGAbsoluteBoundingBoxType alloc] initWithValue:@"VECTOR"],
+        @"BOOLEAN": [[FGNodeType alloc] initWithValue:@"BOOLEAN"],
+        @"CANVAS": [[FGNodeType alloc] initWithValue:@"CANVAS"],
+        @"COMPONENT": [[FGNodeType alloc] initWithValue:@"COMPONENT"],
+        @"DOCUMENT": [[FGNodeType alloc] initWithValue:@"DOCUMENT"],
+        @"ELLIPSE": [[FGNodeType alloc] initWithValue:@"ELLIPSE"],
+        @"FRAME": [[FGNodeType alloc] initWithValue:@"FRAME"],
+        @"GROUP": [[FGNodeType alloc] initWithValue:@"GROUP"],
+        @"INSTANCE": [[FGNodeType alloc] initWithValue:@"INSTANCE"],
+        @"LINE": [[FGNodeType alloc] initWithValue:@"LINE"],
+        @"RECTANGLE": [[FGNodeType alloc] initWithValue:@"RECTANGLE"],
+        @"REGULAR_POLYGON": [[FGNodeType alloc] initWithValue:@"REGULAR_POLYGON"],
+        @"SLICE": [[FGNodeType alloc] initWithValue:@"SLICE"],
+        @"STAR": [[FGNodeType alloc] initWithValue:@"STAR"],
+        @"TEXT": [[FGNodeType alloc] initWithValue:@"TEXT"],
+        @"VECTOR": [[FGNodeType alloc] initWithValue:@"VECTOR"],
     };
 }
 
-+ (FGAbsoluteBoundingBoxType *)boolean { return FGAbsoluteBoundingBoxType.values[@"BOOLEAN"]; }
-+ (FGAbsoluteBoundingBoxType *)canvas { return FGAbsoluteBoundingBoxType.values[@"CANVAS"]; }
-+ (FGAbsoluteBoundingBoxType *)component { return FGAbsoluteBoundingBoxType.values[@"COMPONENT"]; }
-+ (FGAbsoluteBoundingBoxType *)document { return FGAbsoluteBoundingBoxType.values[@"DOCUMENT"]; }
-+ (FGAbsoluteBoundingBoxType *)ellipse { return FGAbsoluteBoundingBoxType.values[@"ELLIPSE"]; }
-+ (FGAbsoluteBoundingBoxType *)frame { return FGAbsoluteBoundingBoxType.values[@"FRAME"]; }
-+ (FGAbsoluteBoundingBoxType *)group { return FGAbsoluteBoundingBoxType.values[@"GROUP"]; }
-+ (FGAbsoluteBoundingBoxType *)instance { return FGAbsoluteBoundingBoxType.values[@"INSTANCE"]; }
-+ (FGAbsoluteBoundingBoxType *)line { return FGAbsoluteBoundingBoxType.values[@"LINE"]; }
-+ (FGAbsoluteBoundingBoxType *)rectangle { return FGAbsoluteBoundingBoxType.values[@"RECTANGLE"]; }
-+ (FGAbsoluteBoundingBoxType *)regularPolygon { return FGAbsoluteBoundingBoxType.values[@"REGULAR_POLYGON"]; }
-+ (FGAbsoluteBoundingBoxType *)slice { return FGAbsoluteBoundingBoxType.values[@"SLICE"]; }
-+ (FGAbsoluteBoundingBoxType *)star { return FGAbsoluteBoundingBoxType.values[@"STAR"]; }
-+ (FGAbsoluteBoundingBoxType *)text { return FGAbsoluteBoundingBoxType.values[@"TEXT"]; }
-+ (FGAbsoluteBoundingBoxType *)vector { return FGAbsoluteBoundingBoxType.values[@"VECTOR"]; }
++ (FGNodeType *)boolean { return FGNodeType.values[@"BOOLEAN"]; }
++ (FGNodeType *)canvas { return FGNodeType.values[@"CANVAS"]; }
++ (FGNodeType *)component { return FGNodeType.values[@"COMPONENT"]; }
++ (FGNodeType *)document { return FGNodeType.values[@"DOCUMENT"]; }
++ (FGNodeType *)ellipse { return FGNodeType.values[@"ELLIPSE"]; }
++ (FGNodeType *)frame { return FGNodeType.values[@"FRAME"]; }
++ (FGNodeType *)group { return FGNodeType.values[@"GROUP"]; }
++ (FGNodeType *)instance { return FGNodeType.values[@"INSTANCE"]; }
++ (FGNodeType *)line { return FGNodeType.values[@"LINE"]; }
++ (FGNodeType *)rectangle { return FGNodeType.values[@"RECTANGLE"]; }
++ (FGNodeType *)regularPolygon { return FGNodeType.values[@"REGULAR_POLYGON"]; }
++ (FGNodeType *)slice { return FGNodeType.values[@"SLICE"]; }
++ (FGNodeType *)star { return FGNodeType.values[@"STAR"]; }
++ (FGNodeType *)text { return FGNodeType.values[@"TEXT"]; }
++ (FGNodeType *)vector { return FGNodeType.values[@"VECTOR"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return FGAbsoluteBoundingBoxType.values[value];
+    return FGNodeType.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -770,8 +770,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"components": @"components",
         @"document": @"document",
+        @"components": @"components",
         @"schemaVersion": @"schemaVersion",
     };
 }
@@ -795,8 +795,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
+        _document = [FGDocument fromJSONDictionary:(id)_document];
         _components = map(_components, λ(id x, [FGComponent fromJSONDictionary:x]));
-        _document = [FGOcument fromJSONDictionary:(id)_document];
     }
     return self;
 }
@@ -806,8 +806,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     id dict = [[self dictionaryWithValuesForKeys:FGFileResponse.properties.allValues] mutableCopy];
 
     [dict addEntriesFromDictionary:@{
-        @"components": map(_components, λ(id x, [x JSONDictionary])),
         @"document": [_document JSONDictionary],
+        @"components": map(_components, λ(id x, [x JSONDictionary])),
     }];
 
     return dict;
@@ -860,13 +860,13 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
         [self setValuesForKeysWithDictionary:dict];
         _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
         _layoutGrids = map(_layoutGrids, λ(id x, [FGLayoutGrid fromJSONDictionary:x]));
-        _absoluteBoundingBox = [FGAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
+        _absoluteBoundingBox = [FGRectangle fromJSONDictionary:(id)_absoluteBoundingBox];
         _blendMode = [FGBlendMode withValue:(id)_blendMode];
-        _backgroundColor = [FGOlor fromJSONDictionary:(id)_backgroundColor];
-        _constraints = [FGConstraints fromJSONDictionary:(id)_constraints];
+        _backgroundColor = [FGColor fromJSONDictionary:(id)_backgroundColor];
+        _constraints = [FGLayoutConstraint fromJSONDictionary:(id)_constraints];
         _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
-        _type = [FGAbsoluteBoundingBoxType withValue:(id)_type];
-        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
+        _type = [FGNodeType withValue:(id)_type];
+        _children = map(_children, λ(id x, [FGNode fromJSONDictionary:x]));
     }
     return self;
 }
@@ -908,7 +908,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 }
 @end
 
-@implementation FGAbsoluteBoundingBox
+@implementation FGRectangle
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -936,7 +936,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGAbsoluteBoundingBox alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGRectangle alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -946,11 +946,11 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
         _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
         _strokeAlign = [FGStrokeAlign withValue:(id)_strokeAlign];
         _fills = map(_fills, λ(id x, [FGPaint fromJSONDictionary:x]));
-        _absoluteBoundingBox = [FGAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
+        _absoluteBoundingBox = [FGRectangle fromJSONDictionary:(id)_absoluteBoundingBox];
         _blendMode = [FGBlendMode withValue:(id)_blendMode];
-        _constraints = [FGConstraints fromJSONDictionary:(id)_constraints];
+        _constraints = [FGLayoutConstraint fromJSONDictionary:(id)_constraints];
         _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
-        _type = [FGAbsoluteBoundingBoxType withValue:(id)_type];
+        _type = [FGNodeType withValue:(id)_type];
         _strokes = map(_strokes, λ(id x, [FGPaint fromJSONDictionary:x]));
     }
     return self;
@@ -958,15 +958,15 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGAbsoluteBoundingBox.properties[key]];
+    [super setValue:value forKey:FGRectangle.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGAbsoluteBoundingBox.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGRectangle.properties.allValues] mutableCopy];
 
-    for (id jsonName in FGAbsoluteBoundingBox.properties) {
-        id propertyName = FGAbsoluteBoundingBox.properties[jsonName];
+    for (id jsonName in FGRectangle.properties) {
+        id propertyName = FGRectangle.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -992,38 +992,38 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 }
 @end
 
-@implementation FGConstraints
+@implementation FGLayoutConstraint
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"horizontal": @"horizontal",
         @"vertical": @"vertical",
+        @"horizontal": @"horizontal",
     };
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGConstraints alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGLayoutConstraint alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _horizontal = [FGHorizontal withValue:(id)_horizontal];
         _vertical = [FGVertical withValue:(id)_vertical];
+        _horizontal = [FGHorizontal withValue:(id)_horizontal];
     }
     return self;
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGConstraints.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGLayoutConstraint.properties.allValues] mutableCopy];
 
     [dict addEntriesFromDictionary:@{
-        @"horizontal": [_horizontal value],
         @"vertical": [_vertical value],
+        @"horizontal": [_horizontal value],
     }];
 
     return dict;
@@ -1035,12 +1035,12 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"blendMode": @"blendMode",
-        @"color": @"color",
-        @"offset": @"offset",
-        @"radius": @"radius",
         @"type": @"type",
         @"visible": @"isVisible",
+        @"radius": @"radius",
+        @"color": @"color",
+        @"blendMode": @"blendMode",
+        @"offset": @"offset",
     };
 }
 
@@ -1053,10 +1053,10 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _blendMode = [FGBlendMode withValue:(id)_blendMode];
-        _color = [FGOlor fromJSONDictionary:(id)_color];
-        _offset = [FGOffset fromJSONDictionary:(id)_offset];
         _type = [FGEffectType withValue:(id)_type];
+        _color = [FGColor fromJSONDictionary:(id)_color];
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
+        _offset = [FGVector2 fromJSONDictionary:(id)_offset];
     }
     return self;
 }
@@ -1079,32 +1079,32 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     }
 
     [dict addEntriesFromDictionary:@{
-        @"blendMode": NSNullify([_blendMode value]),
-        @"color": NSNullify([_color JSONDictionary]),
-        @"offset": NSNullify([_offset JSONDictionary]),
         @"type": [_type value],
         @"visible": _isVisible ? @YES : @NO,
+        @"color": NSNullify([_color JSONDictionary]),
+        @"blendMode": NSNullify([_blendMode value]),
+        @"offset": NSNullify([_offset JSONDictionary]),
     }];
 
     return dict;
 }
 @end
 
-@implementation FGOlor
+@implementation FGColor
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"a": @"a",
-        @"b": @"b",
-        @"g": @"g",
         @"r": @"r",
+        @"g": @"g",
+        @"b": @"b",
+        @"a": @"a",
     };
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGOlor alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGColor alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -1117,11 +1117,11 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (NSDictionary *)JSONDictionary
 {
-    return [self dictionaryWithValuesForKeys:FGOlor.properties.allValues];
+    return [self dictionaryWithValuesForKeys:FGColor.properties.allValues];
 }
 @end
 
-@implementation FGOffset
+@implementation FGVector2
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1133,7 +1133,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGOffset alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGVector2 alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -1146,7 +1146,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (NSDictionary *)JSONDictionary
 {
-    return [self dictionaryWithValuesForKeys:FGOffset.properties.allValues];
+    return [self dictionaryWithValuesForKeys:FGVector2.properties.allValues];
 }
 @end
 
@@ -1155,9 +1155,9 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"constraint": @"constraint",
-        @"format": @"format",
         @"suffix": @"suffix",
+        @"format": @"format",
+        @"constraint": @"constraint",
     };
 }
 
@@ -1170,8 +1170,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _constraint = [FGConstraint fromJSONDictionary:(id)_constraint];
         _format = [FGFormat withValue:(id)_format];
+        _constraint = [FGConstraint fromJSONDictionary:(id)_constraint];
     }
     return self;
 }
@@ -1181,8 +1181,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     id dict = [[self dictionaryWithValuesForKeys:FGExportSetting.properties.allValues] mutableCopy];
 
     [dict addEntriesFromDictionary:@{
-        @"constraint": [_constraint JSONDictionary],
         @"format": [_format value],
+        @"constraint": [_constraint JSONDictionary],
     }];
 
     return dict;
@@ -1230,13 +1230,13 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
+        @"type": @"type",
+        @"visible": @"isVisible",
+        @"opacity": @"opacity",
         @"color": @"color",
         @"gradientHandlePositions": @"gradientHandlePositions",
         @"gradientStops": @"gradientStops",
-        @"opacity": @"opacity",
         @"scaleMode": @"scaleMode",
-        @"type": @"type",
-        @"visible": @"isVisible",
     };
 }
 
@@ -1249,10 +1249,10 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _color = [FGOlor fromJSONDictionary:(id)_color];
-        _gradientHandlePositions = map(_gradientHandlePositions, λ(id x, [FGOffset fromJSONDictionary:x]));
-        _gradientStops = map(_gradientStops, λ(id x, [FGColorStop fromJSONDictionary:x]));
         _type = [FGPaintType withValue:(id)_type];
+        _color = [FGColor fromJSONDictionary:(id)_color];
+        _gradientHandlePositions = map(_gradientHandlePositions, λ(id x, [FGVector2 fromJSONDictionary:x]));
+        _gradientStops = map(_gradientStops, λ(id x, [FGColorStop fromJSONDictionary:x]));
     }
     return self;
 }
@@ -1275,11 +1275,11 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     }
 
     [dict addEntriesFromDictionary:@{
+        @"type": [_type value],
+        @"visible": _isVisible ? @YES : @NO,
         @"color": NSNullify([_color JSONDictionary]),
         @"gradientHandlePositions": NSNullify(map(_gradientHandlePositions, λ(id x, [x JSONDictionary]))),
         @"gradientStops": NSNullify(map(_gradientStops, λ(id x, [x JSONDictionary]))),
-        @"type": [_type value],
-        @"visible": _isVisible ? @YES : @NO,
     }];
 
     return dict;
@@ -1291,8 +1291,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"color": @"color",
         @"position": @"position",
+        @"color": @"color",
     };
 }
 
@@ -1305,7 +1305,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _color = [FGOlor fromJSONDictionary:(id)_color];
+        _color = [FGColor fromJSONDictionary:(id)_color];
     }
     return self;
 }
@@ -1322,79 +1322,79 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 }
 @end
 
-@implementation FGDocument
+@implementation FGNode
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"children": @"children",
-        @"id": @"identifier",
-        @"name": @"name",
-        @"type": @"type",
-        @"visible": @"isVisible",
-        @"backgroundColor": @"backgroundColor",
-        @"exportSettings": @"exportSettings",
         @"effects": @"effects",
         @"layoutGrids": @"layoutGrids",
+        @"cornerRadius": @"cornerRadius",
+        @"characters": @"characters",
         @"opacity": @"opacity",
-        @"absoluteBoundingBox": @"absoluteBoundingBox",
-        @"transitionNodeID": @"transitionNodeID",
-        @"blendMode": @"blendMode",
-        @"constraints": @"constraints",
-        @"isMask": @"isMask",
-        @"clipsContent": @"clipsContent",
-        @"preserveRatio": @"preserveRatio",
+        @"name": @"name",
         @"strokeAlign": @"strokeAlign",
         @"strokeWeight": @"strokeWeight",
         @"fills": @"fills",
-        @"strokes": @"strokes",
-        @"cornerRadius": @"cornerRadius",
-        @"characters": @"characters",
+        @"absoluteBoundingBox": @"absoluteBoundingBox",
         @"styleOverrideTable": @"styleOverrideTable",
         @"style": @"style",
-        @"characterStyleOverrides": @"characterStyleOverrides",
+        @"transitionNodeID": @"transitionNodeID",
+        @"visible": @"isVisible",
+        @"blendMode": @"blendMode",
+        @"backgroundColor": @"backgroundColor",
+        @"constraints": @"constraints",
+        @"isMask": @"isMask",
+        @"clipsContent": @"clipsContent",
+        @"exportSettings": @"exportSettings",
         @"componentId": @"componentID",
+        @"type": @"type",
+        @"id": @"identifier",
+        @"strokes": @"strokes",
+        @"preserveRatio": @"preserveRatio",
+        @"children": @"children",
+        @"characterStyleOverrides": @"characterStyleOverrides",
     };
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGDocument alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGNode alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
-        _type = [FGAbsoluteBoundingBoxType withValue:(id)_type];
-        _backgroundColor = [FGOlor fromJSONDictionary:(id)_backgroundColor];
-        _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
         _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
         _layoutGrids = map(_layoutGrids, λ(id x, [FGLayoutGrid fromJSONDictionary:x]));
-        _absoluteBoundingBox = [FGAbsoluteBoundingBox fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [FGBlendMode withValue:(id)_blendMode];
-        _constraints = [FGConstraints fromJSONDictionary:(id)_constraints];
         _strokeAlign = [FGStrokeAlign withValue:(id)_strokeAlign];
         _fills = map(_fills, λ(id x, [FGPaint fromJSONDictionary:x]));
+        _absoluteBoundingBox = [FGRectangle fromJSONDictionary:(id)_absoluteBoundingBox];
+        _styleOverrideTable = map(_styleOverrideTable, λ(id x, [FGTypeStyle fromJSONDictionary:x]));
+        _style = [FGTypeStyle fromJSONDictionary:(id)_style];
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
+        _backgroundColor = [FGColor fromJSONDictionary:(id)_backgroundColor];
+        _constraints = [FGLayoutConstraint fromJSONDictionary:(id)_constraints];
+        _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
+        _type = [FGNodeType withValue:(id)_type];
         _strokes = map(_strokes, λ(id x, [FGPaint fromJSONDictionary:x]));
-        _styleOverrideTable = map(_styleOverrideTable, λ(id x, [FGTyle fromJSONDictionary:x]));
-        _style = [FGTyle fromJSONDictionary:(id)_style];
+        _children = map(_children, λ(id x, [FGNode fromJSONDictionary:x]));
     }
     return self;
 }
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGDocument.properties[key]];
+    [super setValue:value forKey:FGNode.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGDocument.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGNode.properties.allValues] mutableCopy];
 
-    for (id jsonName in FGDocument.properties) {
-        id propertyName = FGDocument.properties[jsonName];
+    for (id jsonName in FGNode.properties) {
+        id propertyName = FGNode.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -1402,21 +1402,21 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     }
 
     [dict addEntriesFromDictionary:@{
-        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
-        @"type": [_type value],
-        @"visible": _isVisible ? @YES : @NO,
-        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
-        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
         @"effects": NSNullify(map(_effects, λ(id x, [x JSONDictionary]))),
         @"layoutGrids": NSNullify(map(_layoutGrids, λ(id x, [x JSONDictionary]))),
-        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
-        @"blendMode": NSNullify([_blendMode value]),
-        @"constraints": NSNullify([_constraints JSONDictionary]),
         @"strokeAlign": NSNullify([_strokeAlign value]),
         @"fills": NSNullify(map(_fills, λ(id x, [x JSONDictionary]))),
-        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
+        @"absoluteBoundingBox": NSNullify([_absoluteBoundingBox JSONDictionary]),
         @"styleOverrideTable": NSNullify(map(_styleOverrideTable, λ(id x, [x JSONDictionary]))),
         @"style": NSNullify([_style JSONDictionary]),
+        @"visible": _isVisible ? @YES : @NO,
+        @"blendMode": NSNullify([_blendMode value]),
+        @"backgroundColor": NSNullify([_backgroundColor JSONDictionary]),
+        @"constraints": NSNullify([_constraints JSONDictionary]),
+        @"exportSettings": NSNullify(map(_exportSettings, λ(id x, [x JSONDictionary]))),
+        @"type": [_type value],
+        @"strokes": NSNullify(map(_strokes, λ(id x, [x JSONDictionary]))),
+        @"children": NSNullify(map(_children, λ(id x, [x JSONDictionary]))),
     }];
 
     return dict;
@@ -1428,14 +1428,14 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"alignment": @"alignment",
-        @"color": @"color",
-        @"count": @"count",
-        @"gutterSize": @"gutterSize",
-        @"offset": @"offset",
         @"pattern": @"pattern",
         @"sectionSize": @"sectionSize",
         @"visible": @"isVisible",
+        @"color": @"color",
+        @"alignment": @"alignment",
+        @"gutterSize": @"gutterSize",
+        @"offset": @"offset",
+        @"count": @"count",
     };
 }
 
@@ -1448,9 +1448,9 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _alignment = [FGAlignment withValue:(id)_alignment];
-        _color = [FGOlor fromJSONDictionary:(id)_color];
         _pattern = [FGPattern withValue:(id)_pattern];
+        _color = [FGColor fromJSONDictionary:(id)_color];
+        _alignment = [FGAlignment withValue:(id)_alignment];
     }
     return self;
 }
@@ -1473,17 +1473,17 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     }
 
     [dict addEntriesFromDictionary:@{
-        @"alignment": [_alignment value],
-        @"color": [_color JSONDictionary],
         @"pattern": [_pattern value],
         @"visible": _isVisible ? @YES : @NO,
+        @"color": [_color JSONDictionary],
+        @"alignment": [_alignment value],
     }];
 
     return dict;
 }
 @end
 
-@implementation FGTyle
+@implementation FGTypeStyle
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1504,7 +1504,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGTyle alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGTypeStyle alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
@@ -1520,15 +1520,15 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGTyle.properties[key]];
+    [super setValue:value forKey:FGTypeStyle.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGTyle.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGTypeStyle.properties.allValues] mutableCopy];
 
-    for (id jsonName in FGTyle.properties) {
-        id propertyName = FGTyle.properties[jsonName];
+    for (id jsonName in FGTypeStyle.properties) {
+        id propertyName = FGTypeStyle.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -1546,7 +1546,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 }
 @end
 
-@implementation FGOcument
+@implementation FGDocument
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1554,37 +1554,37 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
         @"children": @"children",
         @"id": @"identifier",
         @"name": @"name",
-        @"type": @"type",
         @"visible": @"isVisible",
+        @"type": @"type",
     };
 }
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGOcument alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGDocument alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
-        _type = [FGAbsoluteBoundingBoxType withValue:(id)_type];
+        _children = map(_children, λ(id x, [FGNode fromJSONDictionary:x]));
+        _type = [FGNodeType withValue:(id)_type];
     }
     return self;
 }
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGOcument.properties[key]];
+    [super setValue:value forKey:FGDocument.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGOcument.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGDocument.properties.allValues] mutableCopy];
 
-    for (id jsonName in FGOcument.properties) {
-        id propertyName = FGOcument.properties[jsonName];
+    for (id jsonName in FGDocument.properties) {
+        id propertyName = FGDocument.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -1593,8 +1593,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
     [dict addEntriesFromDictionary:@{
         @"children": map(_children, λ(id x, [x JSONDictionary])),
-        @"type": [_type value],
         @"visible": _isVisible ? @YES : @NO,
+        @"type": [_type value],
     }];
 
     return dict;
@@ -1735,7 +1735,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _nodeOffset = [FGOffset fromJSONDictionary:(id)_nodeOffset];
+        _nodeOffset = [FGVector2 fromJSONDictionary:(id)_nodeOffset];
     }
     return self;
 }
@@ -1814,8 +1814,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
-        @"client_meta": @"clientMeta",
         @"message": @"message",
+        @"client_meta": @"clientMeta",
     };
 }
 
@@ -2038,9 +2038,9 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     static NSDictionary<NSString *, NSString *> *properties;
     return properties = properties ? properties : @{
         @"key": @"key",
-        @"last_modified": @"lastModified",
         @"name": @"name",
         @"thumbnail_url": @"thumbnailURL",
+        @"last_modified": @"lastModified",
     };
 }
 

@@ -13,26 +13,13 @@
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
-/**
- * GET /v1/files/:key
- *
- * > Description
- *
- * Returns the document refered to by :key as a JSON object. The file key can be parsed from
- * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
- * contains a Node of type DOCUMENT.
- *
- * The "components" key contains a mapping from node IDs to component metadata. This is to
- * help you determine which components each instance comes from. Currently the only piece of
- * metadata available on components is the name of the component, but more properties will
- * be forthcoming.
- *
- * > Path parameters
- *
- * key String
- * File to export JSON from
- */
 export type FileResponse = {
+    /**
+     * Node Properties
+     * The root node
+     * The root node within the document
+     */
+    document: Document;
     /**
      * A mapping from node IDs to component metadata. This is to help you determine which
      * components each instance comes from. Currently the only piece of metadata available on
@@ -40,9 +27,36 @@ export type FileResponse = {
      */
     components: { [key: string]: Component };
     /**
-     * The root node within the document
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
-    document:      Ocument;
     schemaVersion: number;
 };
 
@@ -61,89 +75,262 @@ export type Component = {
      */
     layoutGrids: LayoutGrid[];
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
      * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     opacity: number;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
      * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     name: string;
     /**
      * Bounding box of the node in absolute space coordinates
+     * A rectangle
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID: string;
+    transitionNodeID?: string;
     /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
      * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     visible: boolean;
     /**
+     * Enum describing how layer blends with layers below
+     * This type is a string enum with the following possible values
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
     blendMode: BlendMode;
     /**
      * Background color of the node
+     * An RGBA color
+     * Solid color of the paint
+     * Color attached to corresponding position
+     * Color of the grid
+     * Background color of the canvas
      */
-    backgroundColor: Olor;
+    backgroundColor: Color;
     /**
      * Horizontal and vertical layout constraints for node
+     * Layout constraint relative to containing Frame
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
      * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     isMask: boolean;
     /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
      * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     clipsContent: boolean;
     /**
      * An array of export settings representing images to export from node
+     * An array of export settings representing images to export from this node
+     * An array of export settings representing images to export from the canvas
      */
     exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
-    type: AbsoluteBoundingBoxType;
+    type: NodeType;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
      * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     id: string;
     /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
      * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     preserveRatio: boolean;
     /**
      * An array of nodes that are direct children of this node
+     * An array of nodes that are being boolean operated on
+     * An array of top level layers on the canvas
+     * An array of canvases attached to the document
      */
-    children: Document[];
+    children: Node[];
 };
 
 /**
  * Bounding box of the node in absolute space coordinates
- *
  * A rectangle
  */
-export type AbsoluteBoundingBox = {
+export type Rectangle = {
     /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
     effects: Effect[];
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
      * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     cornerRadius: number;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
      * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     opacity: number;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
      * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     name: string;
     /**
@@ -154,61 +341,138 @@ export type AbsoluteBoundingBox = {
      */
     strokeAlign: StrokeAlign;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
      * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     strokeWeight: number;
     /**
      * An array of fill paints applied to the node
+     * An array of stroke paints applied to the node
+     * Paints applied to characters
      */
     fills: Paint[];
     /**
      * Bounding box of the node in absolute space coordinates
+     * A rectangle
      */
-    absoluteBoundingBox: AbsoluteBoundingBox;
+    absoluteBoundingBox: Rectangle;
     /**
      * Node ID of node to transition to in prototyping
      */
-    transitionNodeID: string;
+    transitionNodeID?: string;
     /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
      * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     visible: boolean;
     /**
+     * Enum describing how layer blends with layers below
+     * This type is a string enum with the following possible values
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
     blendMode: BlendMode;
     /**
      * Horizontal and vertical layout constraints for node
+     * Layout constraint relative to containing Frame
      */
-    constraints: Constraints;
+    constraints: LayoutConstraint;
     /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
      * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     isMask: boolean;
     /**
      * An array of export settings representing images to export from node
+     * An array of export settings representing images to export from this node
+     * An array of export settings representing images to export from the canvas
      */
     exportSettings: ExportSetting[];
     /**
      * the type of the node, refer to table below for details
      */
-    type: AbsoluteBoundingBoxType;
+    type: NodeType;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
      * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     id: string;
     /**
+     * An array of fill paints applied to the node
      * An array of stroke paints applied to the node
+     * Paints applied to characters
      */
     strokes: Paint[];
     /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
      * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     preserveRatio: boolean;
 };
 
 /**
+ * Enum describing how layer blends with layers below
+ * This type is a string enum with the following possible values
  * How this node blends with nodes behind it in the scene
  * (see blend mode section for more details)
  */
@@ -235,20 +499,9 @@ export type BlendMode =
 
 /**
  * Horizontal and vertical layout constraints for node
- *
  * Layout constraint relative to containing Frame
  */
-export type Constraints = {
-    /**
-     * Horizontal constraint as an enum
-     * "LEFT": Node is laid out relative to left of the containing frame
-     * "RIGHT": Node is laid out relative to right of the containing frame
-     * "CENTER": Node is horizontally centered relative to containing frame
-     * "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
-     * (node stretches with frame)
-     * "SCALE": Node scales horizontally with containing frame
-     */
-    horizontal: Horizontal;
+export type LayoutConstraint = {
     /**
      * Vertical constraint as an enum
      * "TOP": Node is laid out relative to top of the containing frame
@@ -259,6 +512,16 @@ export type Constraints = {
      * "SCALE": Node scales vertically with containing frame
      */
     vertical: Vertical;
+    /**
+     * Horizontal constraint as an enum
+     * "LEFT": Node is laid out relative to left of the containing frame
+     * "RIGHT": Node is laid out relative to right of the containing frame
+     * "CENTER": Node is horizontally centered relative to containing frame
+     * "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
+     * (node stretches with frame)
+     * "SCALE": Node scales horizontally with containing frame
+     */
+    horizontal: Horizontal;
 };
 
 /**
@@ -296,60 +559,229 @@ export type Vertical =
 /**
  * An array of effects attached to this node
  * (see effects sectionfor more details)
- *
  * A visual effect such as a shadow or blur
  */
 export type Effect = {
-    blendMode?: BlendMode;
-    color?:     Olor;
-    offset?:    Offset;
-    /**
-     * Radius of the blur effect (applies to shadows as well)
-     */
-    radius: number;
     /**
      * Type of effect as a string enum
      */
     type: EffectType;
     /**
      * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     visible: boolean;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    radius: number;
+    /**
+     * Background color of the node
+     * An RGBA color
+     * Solid color of the paint
+     * Color attached to corresponding position
+     * Color of the grid
+     * Background color of the canvas
+     */
+    color?: Color;
+    /**
+     * Enum describing how layer blends with layers below
+     * This type is a string enum with the following possible values
+     * How this node blends with nodes behind it in the scene
+     * (see blend mode section for more details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * 2d vector offset within the frame.
+     * A 2d vector
+     * This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left
+     * corner of the bounding box of the object is (0, 0) and the bottom
+     * right is (1,1)). The first position corresponds to the start of the
+     * gradient (value 0 for the purposes of calculating gradient stops),
+     * the second position is the end of the gradient (value 1), and the
+     * third handle position determines the width of the gradient (only
+     * relevant for non-linear gradients).
+     */
+    offset?: Vector2;
 };
 
 /**
- * Solid color of the paint
- *
- * An RGBA color
- *
  * Background color of the node
- *
+ * An RGBA color
+ * Solid color of the paint
  * Color attached to corresponding position
- *
- * Background color of the canvas
- *
  * Color of the grid
+ * Background color of the canvas
  */
-export type Olor = {
+export type Color = {
     /**
-     * Alpha channel value, between 0 and 1
-     */
-    a: number;
-    /**
-     * Blue channel value, between 0 and 1
-     */
-    b: number;
-    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
      * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    r: number;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     g: number;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
      * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
-    r: number;
+    b: number;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    a: number;
 };
 
 /**
+ * 2d vector offset within the frame.
+ * A 2d vector
  * This field contains three vectors, each of which are a position in
  * normalized object space (normalized object space is if the top left
  * corner of the bounding box of the object is (0, 0) and the bottom
@@ -358,18 +790,70 @@ export type Olor = {
  * the second position is the end of the gradient (value 1), and the
  * third handle position determines the width of the gradient (only
  * relevant for non-linear gradients).
- *
- * A 2d vector
- *
- * 2d vector offset within the frame.
  */
-export type Offset = {
+export type Vector2 = {
     /**
      * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     x: number;
     /**
+     * X coordinate of the vector
      * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     y: number;
 };
@@ -385,31 +869,44 @@ export type EffectType =
 
 /**
  * An array of export settings representing images to export from node
- *
  * Format and size to export an asset at
- *
- * An array of export settings representing images to export from this node
- *
  * An array of export settings representing images to export from the canvas
+ * An array of export settings representing images to export from this node
  */
 export type ExportSetting = {
     /**
-     * Constraint that determines sizing of exported asset
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
-    constraint: Constraint;
+    suffix: string;
     /**
      * Image type, string enum
      */
     format: Format;
     /**
-     * File suffix to append to all filenames
+     * Constraint that determines sizing of exported asset
+     * Sizing constraint for exports
      */
-    suffix: string;
+    constraint: Constraint;
 };
 
 /**
  * Constraint that determines sizing of exported asset
- *
  * Sizing constraint for exports
  */
 export type Constraint = {
@@ -421,7 +918,35 @@ export type Constraint = {
      */
     type: ConstraintType;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
      * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     value: number;
 };
@@ -447,18 +972,67 @@ export type Format =
 
 /**
  * An array of fill paints applied to the node
- *
  * A solid color, gradient, or image texture that can be applied as fills or strokes
- *
  * An array of stroke paints applied to the node
- *
  * Paints applied to characters
  */
 export type Paint = {
     /**
-     * Solid color of the paint
+     * Type of paint as a string enum
      */
-    color?: Olor;
+    type: PaintType;
+    /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
+     */
+    visible: boolean;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    opacity: number;
+    /**
+     * Background color of the node
+     * An RGBA color
+     * Solid color of the paint
+     * Color attached to corresponding position
+     * Color of the grid
+     * Background color of the canvas
+     */
+    color?: Color;
     /**
      * This field contains three vectors, each of which are a position in
      * normalized object space (normalized object space is if the top left
@@ -469,7 +1043,7 @@ export type Paint = {
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
      */
-    gradientHandlePositions?: Offset[];
+    gradientHandlePositions?: Vector2[];
     /**
      * Positions of key points along the gradient axis with the colors
      * anchored there. Colors along the gradient are interpolated smoothly
@@ -477,40 +1051,75 @@ export type Paint = {
      */
     gradientStops?: ColorStop[];
     /**
-     * Overall opacity of paint (colors within the paint can also have opacity
-     * values which would blend with this)
-     */
-    opacity: number;
-    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
      * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     scaleMode?: string;
-    /**
-     * Type of paint as a string enum
-     */
-    type: PaintType;
-    /**
-     * Is the paint enabled?
-     */
-    visible: boolean;
 };
 
 /**
  * Positions of key points along the gradient axis with the colors
  * anchored there. Colors along the gradient are interpolated smoothly
  * between neighboring gradient stops.
- *
  * A position color pair representing a gradient stop
  */
 export type ColorStop = {
     /**
-     * Color attached to corresponding position
-     */
-    color: Olor;
-    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
      * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     position: number;
+    /**
+     * Background color of the node
+     * An RGBA color
+     * Solid color of the paint
+     * Color attached to corresponding position
+     * Color of the grid
+     * Background color of the canvas
+     */
+    color: Color;
 };
 
 /**
@@ -539,7 +1148,7 @@ export type StrokeAlign =
 /**
  * the type of the node, refer to table below for details
  */
-export type AbsoluteBoundingBoxType =
+export type NodeType =
       "BOOLEAN"
     | "CANVAS"
     | "COMPONENT"
@@ -558,90 +1167,30 @@ export type AbsoluteBoundingBoxType =
 
 /**
  * An array of nodes that are direct children of this node
- *
  * An array of nodes that are being boolean operated on
- *
  * An array of top level layers on the canvas
- *
  * An array of canvases attached to the document
- *
  * Node Properties
  * The root node
- *
  * The root node within the document
- *
  * Represents a single page
- *
  * A node of fixed size containing other nodes
- *
  * A logical grouping of nodes
- *
  * A vector network, consisting of vertices and edges
- *
  * A group that has a boolean operation applied to it
- *
  * A regular star shape
- *
  * A straight line
- *
  * An ellipse
- *
  * A regular n-sided polygon
- *
  * Bounding box of the node in absolute space coordinates
- *
  * A rectangle
- *
  * A text box
- *
  * A rectangular region of the canvas that can be exported
- *
  * A node that can have instances created of it that share the same properties
- *
  * An instance of a component, changes to the component result in the same
  * changes applied to the instance
  */
-export type Document = {
-    /**
-     * An array of canvases attached to the document
-     *
-     * An array of top level layers on the canvas
-     *
-     * An array of nodes that are direct children of this node
-     *
-     * An array of nodes that are being boolean operated on
-     */
-    children?: Document[];
-    /**
-     * a string uniquely identifying this node within the document
-     */
-    id: string;
-    /**
-     * the name given to the node by the user in the tool.
-     */
-    name: string;
-    /**
-     * the type of the node, refer to table below for details
-     */
-    type: AbsoluteBoundingBoxType;
-    /**
-     * whether or not the node is visible on the canvas
-     */
-    visible: boolean;
-    /**
-     * Background color of the canvas
-     *
-     * Background color of the node
-     */
-    backgroundColor?: Olor;
-    /**
-     * An array of export settings representing images to export from the canvas
-     *
-     * An array of export settings representing images to export from node
-     *
-     * An array of export settings representing images to export from this node
-     */
-    exportSettings?: ExportSetting[];
+export type Node = {
     /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
@@ -653,38 +1202,109 @@ export type Document = {
      */
     layoutGrids?: LayoutGrid[];
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
      * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    cornerRadius?: number;
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
+    characters?: string;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     opacity?: number;
     /**
-     * Bounding box of the node in absolute space coordinates
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
-    absoluteBoundingBox?: AbsoluteBoundingBox;
-    /**
-     * Node ID of node to transition to in prototyping
-     */
-    transitionNodeID?: string;
-    /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
-     */
-    blendMode?: BlendMode;
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    constraints?: Constraints;
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    isMask?: boolean;
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    clipsContent?: boolean;
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    preserveRatio?: boolean;
+    name: string;
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
      * "INSIDE": draw stroke inside the shape boundary
@@ -693,34 +1313,191 @@ export type Document = {
      */
     strokeAlign?: StrokeAlign;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
      * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     strokeWeight?: number;
     /**
      * An array of fill paints applied to the node
+     * An array of stroke paints applied to the node
+     * Paints applied to characters
      */
     fills?: Paint[];
     /**
-     * An array of stroke paints applied to the node
+     * Bounding box of the node in absolute space coordinates
+     * A rectangle
      */
-    strokes?: Paint[];
-    /**
-     * Radius of each corner of the rectangle
-     */
-    cornerRadius?: number;
-    /**
-     * Text contained within text box
-     */
-    characters?: string;
+    absoluteBoundingBox?: Rectangle;
     /**
      * Map from ID to TypeStyle for looking up style overrides
      */
-    styleOverrideTable?: Tyle[];
+    styleOverrideTable?: TypeStyle[];
     /**
+     * Map from ID to TypeStyle for looking up style overrides
+     * Metadata for character formatting
      * Style of text including font family and weight (see type style
      * section for more information)
      */
-    style?: Tyle;
+    style?: TypeStyle;
+    /**
+     * Node ID of node to transition to in prototyping
+     */
+    transitionNodeID?: string;
+    /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
+     */
+    visible: boolean;
+    /**
+     * Enum describing how layer blends with layers below
+     * This type is a string enum with the following possible values
+     * How this node blends with nodes behind it in the scene
+     * (see blend mode section for more details)
+     */
+    blendMode?: BlendMode;
+    /**
+     * Background color of the node
+     * An RGBA color
+     * Solid color of the paint
+     * Color attached to corresponding position
+     * Color of the grid
+     * Background color of the canvas
+     */
+    backgroundColor?: Color;
+    /**
+     * Horizontal and vertical layout constraints for node
+     * Layout constraint relative to containing Frame
+     */
+    constraints?: LayoutConstraint;
+    /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
+     */
+    isMask?: boolean;
+    /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
+     */
+    clipsContent?: boolean;
+    /**
+     * An array of export settings representing images to export from node
+     * An array of export settings representing images to export from this node
+     * An array of export settings representing images to export from the canvas
+     */
+    exportSettings?: ExportSetting[];
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
+    componentId?: string;
+    /**
+     * the type of the node, refer to table below for details
+     */
+    type: NodeType;
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
+    id: string;
+    /**
+     * An array of fill paints applied to the node
+     * An array of stroke paints applied to the node
+     * Paints applied to characters
+     */
+    strokes?: Paint[];
+    /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
+     */
+    preserveRatio?: boolean;
+    /**
+     * An array of nodes that are direct children of this node
+     * An array of nodes that are being boolean operated on
+     * An array of top level layers on the canvas
+     * An array of canvases attached to the document
+     */
+    children?: Node[];
     /**
      * Array with same number of elements as characeters in text box,
      * each element is a reference to the styleOverrideTable defined
@@ -728,43 +1505,14 @@ export type Document = {
      * field. Elements with value 0 have the default type style
      */
     characterStyleOverrides?: number[];
-    /**
-     * ID of component that this instance came from, refers to components
-     * table (see endpoints section below)
-     */
-    componentId?: string;
 };
 
 /**
  * An array of layout grids attached to this node (see layout grids section
  * for more details). GROUP nodes do not have this attribute
- *
  * Guides to align and place objects within a frame
  */
 export type LayoutGrid = {
-    /**
-     * Positioning of grid as a string enum
-     * "MIN": Grid starts at the left or top of the frame
-     * "MAX": Grid starts at the right or bottom of the frame
-     * "CENTER": Grid is center aligned
-     */
-    alignment: Alignment;
-    /**
-     * Color of the grid
-     */
-    color: Olor;
-    /**
-     * Number of columns or rows
-     */
-    count: number;
-    /**
-     * Spacing in between columns and rows
-     */
-    gutterSize: number;
-    /**
-     * Spacing before the first column or row
-     */
-    offset: number;
     /**
      * Orientation of the grid as a string enum
      * "COLUMNS": Vertical grid
@@ -773,13 +1521,160 @@ export type LayoutGrid = {
      */
     pattern: Pattern;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
      * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     sectionSize: number;
     /**
+     * Is the effect active?
      * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     visible: boolean;
+    /**
+     * Background color of the node
+     * An RGBA color
+     * Solid color of the paint
+     * Color attached to corresponding position
+     * Color of the grid
+     * Background color of the canvas
+     */
+    color: Color;
+    /**
+     * Positioning of grid as a string enum
+     * "MIN": Grid starts at the left or top of the frame
+     * "MAX": Grid starts at the right or bottom of the frame
+     * "CENTER": Grid is center aligned
+     */
+    alignment: Alignment;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    gutterSize: number;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    offset: number;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    count: number;
 };
 
 /**
@@ -806,27 +1701,125 @@ export type Pattern =
 
 /**
  * Map from ID to TypeStyle for looking up style overrides
- *
  * Metadata for character formatting
- *
  * Style of text including font family and weight (see type style
  * section for more information)
  */
-export type Tyle = {
+export type TypeStyle = {
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
      * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     lineHeightPx: number;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
      * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     fontPostScriptName: string;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
      * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     fontWeight: number;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
      * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     lineHeightPercent: number;
     /**
@@ -834,19 +1827,72 @@ export type Tyle = {
      */
     textAlignVertical: TextAlignVertical;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
      * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     fontSize: number;
     /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
+     * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
      * Is text italicized?
      */
     italic: boolean;
     /**
+     * An array of fill paints applied to the node
+     * An array of stroke paints applied to the node
      * Paints applied to characters
      */
     fills: Paint[];
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
      * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     fontFamily: string;
     /**
@@ -854,7 +1900,35 @@ export type Tyle = {
      */
     textAlignHorizontal: TextAlignHorizontal;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
      * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     letterSpacing: number;
 };
@@ -879,42 +1953,73 @@ export type TextAlignVertical =
 /**
  * Node Properties
  * The root node
- *
  * The root node within the document
  */
-export type Ocument = {
+export type Document = {
     /**
+     * An array of nodes that are direct children of this node
+     * An array of nodes that are being boolean operated on
+     * An array of top level layers on the canvas
      * An array of canvases attached to the document
      */
-    children: Document[];
+    children: Node[];
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
      * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     id: string;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
      * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     name: string;
     /**
-     * the type of the node, refer to table below for details
-     */
-    type: AbsoluteBoundingBoxType;
-    /**
+     * Is the effect active?
+     * Is the grid currently visible?
+     * Is the paint enabled?
      * whether or not the node is visible on the canvas
+     * Does this node mask sibling nodes in front of it?
+     * Keep height and width constrained to same ratio
+     * Does this node clip content outside of its bounds?
+     * Is text italicized?
      */
     visible: boolean;
+    /**
+     * the type of the node, refer to table below for details
+     */
+    type: NodeType;
 };
 
-/**
- * GET /v1/files/:key/comments
- *
- * > Description
- * A list of comments left on the file.
- *
- * > Path parameters
- * key String
- * File to get comments from
- */
 export type CommentsResponse = {
     comments: Comment[];
 };
@@ -924,8 +2029,23 @@ export type CommentsResponse = {
  */
 export type Comment = {
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
      * (MISSING IN DOCS)
      * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     message: string;
     /**
@@ -933,34 +2053,125 @@ export type Comment = {
      */
     created_at: string;
     /**
+     * A description of a user
      * The user who left the comment
      */
     user: User;
     /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
      * Only set for top level comments. The number displayed with the
      * comment in the UI
      */
     order_id: number;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
      * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
-    parent_id:   string;
+    parent_id: string;
+    /**
+     * 2d vector offset within the frame.
+     * A 2d vector
+     * This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left
+     * corner of the bounding box of the object is (0, 0) and the bottom
+     * right is (1,1)). The first position corresponds to the start of the
+     * gradient (value 0 for the purposes of calculating gradient stops),
+     * the second position is the end of the gradient (value 1), and the
+     * third handle position determines the width of the gradient (only
+     * relevant for non-linear gradients).
+     * A relative offset within a frame
+     */
     client_meta: ClientMeta;
     /**
-     * Enables basic storage and retrieval of dates and times.
+     * If set, when the comment was resolved
      */
-    resolved_at: string;
+    resolved_at?: string;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
      * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
      */
     id: string;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
      * The file in which the comment lives
+     * utc date in iso8601
      */
     file_key: string;
 };
 
 /**
+ * 2d vector offset within the frame.
+ * A 2d vector
  * This field contains three vectors, each of which are a position in
  * normalized object space (normalized object space is if the top left
  * corner of the bounding box of the object is (0, 0) and the bottom
@@ -969,113 +2180,322 @@ export type Comment = {
  * the second position is the end of the gradient (value 1), and the
  * third handle position determines the width of the gradient (only
  * relevant for non-linear gradients).
- *
- * A 2d vector
- *
- * 2d vector offset within the frame.
- *
  * A relative offset within a frame
  */
 export type ClientMeta = {
     /**
      * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     x?: number;
     /**
+     * X coordinate of the vector
      * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
      */
     y?: number;
     /**
      * Unique id specifying the frame.
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
      */
     node_id?: string[];
     /**
      * 2d vector offset within the frame.
+     * A 2d vector
+     * This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left
+     * corner of the bounding box of the object is (0, 0) and the bottom
+     * right is (1,1)). The first position corresponds to the start of the
+     * gradient (value 0 for the purposes of calculating gradient stops),
+     * the second position is the end of the gradient (value 1), and the
+     * third handle position determines the width of the gradient (only
+     * relevant for non-linear gradients).
      */
-    node_offset?: Offset;
+    node_offset?: Vector2;
 };
 
 /**
- * The user who left the comment
- *
  * A description of a user
+ * The user who left the comment
  */
 export type User = {
-    handle:  string;
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
+    handle: string;
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
     img_url: string;
 };
 
-/**
- * POST /v1/files/:key/comments
- *
- * > Description
- * Posts a new comment on the file.
- *
- * > Path parameters
- * key String
- * File to get comments from
- *
- * > Body parameters
- * message String
- * The text contents of the comment to post
- *
- * client_meta Vector2 | FrameOffset
- * The position of where to place the comment. This can either be an absolute canvas
- * position or the relative position within a frame.
- *
- * > Return value
- * The Comment that was successfully posted
- *
- * > Error codes
- * 404 The specified file was not found
- */
 export type CommentRequest = {
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
+    message: string;
+    /**
+     * 2d vector offset within the frame.
+     * A 2d vector
+     * This field contains three vectors, each of which are a position in
+     * normalized object space (normalized object space is if the top left
+     * corner of the bounding box of the object is (0, 0) and the bottom
+     * right is (1,1)). The first position corresponds to the start of the
+     * gradient (value 0 for the purposes of calculating gradient stops),
+     * the second position is the end of the gradient (value 1), and the
+     * third handle position determines the width of the gradient (only
+     * relevant for non-linear gradients).
+     * A relative offset within a frame
+     */
     client_meta: ClientMeta;
-    message:     string;
 };
 
-/**
- * GET /v1/teams/:team_id/projects
- *
- * > Description
- * Lists the projects for a specified team. Note that this will only return projects visible
- * to the authenticated user or owner of the developer token.
- *
- * > Path parameters
- * team_id String
- * Id of the team to list projects from
- */
 export type ProjectsResponse = {
     projects: Project[];
 };
 
 export type Project = {
-    id:   number;
+    /**
+     * X coordinate of the vector
+     * Y coordinate of the vector
+     * Radius of the blur effect (applies to shadows as well)
+     * Red channel value, between 0 and 1
+     * Green channel value, between 0 and 1
+     * Blue channel value, between 0 and 1
+     * Alpha channel value, between 0 and 1
+     * Width of column grid or height of row grid or square grid spacing
+     * Spacing in between columns and rows
+     * Spacing before the first column or row
+     * Number of columns or rows
+     * Opacity of the node
+     * Radius of each corner of the rectangle
+     * The weight of strokes on the node
+     * Overall opacity of paint (colors within the paint can also have opacity
+     * values which would blend with this)
+     * Value between 0 and 1 representing position along gradient axis
+     * See type property for effect of this field
+     * Line height in px
+     * Numeric font weight
+     * Line height as a percentage of normal line height
+     * Font size in px
+     * Space between characters in px
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
+     * Only set for top level comments. The number displayed with the
+     * comment in the UI
+     */
+    id: number;
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
     name: string;
 };
 
-/**
- * GET /v1/projects/:project_id/files
- *
- * > Description
- * List the files in a given project.
- *
- * > Path parameters
- * project_id String
- * Id of the project to list files from
- */
 export type ProjectFilesResponse = {
     files: File[];
 };
 
 export type File = {
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
     key: string;
     /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
+    name: string;
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
+     * utc date in iso8601
+     */
+    thumbnail_url: string;
+    /**
+     * Allows manipulation and formatting of text strings and determination and location of
+     * substrings within strings.
+     * the name given to the node by the user in the tool.
+     * Image scaling mode
+     * File suffix to append to all filenames
+     * a string uniquely identifying this node within the document
+     * Text contained within text box
+     * PostScript font name
+     * Font family of text (standard name)
+     * ID of component that this instance came from, refers to components
+     * table (see endpoints section below)
+     * (MISSING IN DOCS)
+     * The content of the comment
+     * If present, the id of the comment to which this is the reply
+     * Unique identifier for comment
+     * The file in which the comment lives
      * utc date in iso8601
      */
     last_modified: string;
-    name:          string;
-    thumbnail_url: string;
 };
 
 // Converts JSON strings to/from your types
@@ -1199,8 +2619,8 @@ function o(className: string) {
 
 const typeMap: any = {
     "FileResponse": {
+        document: o("Document"),
         components: m(o("Component")),
-        document: o("Ocument"),
         schemaVersion: 3.14,
     },
     "Component": {
@@ -1208,21 +2628,21 @@ const typeMap: any = {
         layoutGrids: a(o("LayoutGrid")),
         opacity: 3.14,
         name: "",
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
-        transitionNodeID: "",
+        absoluteBoundingBox: o("Rectangle"),
+        transitionNodeID: u(null, ""),
         visible: false,
         blendMode: e("BlendMode"),
-        backgroundColor: o("Olor"),
-        constraints: o("Constraints"),
+        backgroundColor: o("Color"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
         clipsContent: false,
         exportSettings: a(o("ExportSetting")),
-        type: e("AbsoluteBoundingBoxType"),
+        type: e("NodeType"),
         id: "",
         preserveRatio: false,
-        children: a(o("Document")),
+        children: a(o("Node")),
     },
-    "AbsoluteBoundingBox": {
+    "Rectangle": {
         effects: a(o("Effect")),
         cornerRadius: 3.14,
         opacity: 3.14,
@@ -1230,102 +2650,102 @@ const typeMap: any = {
         strokeAlign: e("StrokeAlign"),
         strokeWeight: 3.14,
         fills: a(o("Paint")),
-        absoluteBoundingBox: o("AbsoluteBoundingBox"),
-        transitionNodeID: "",
+        absoluteBoundingBox: o("Rectangle"),
+        transitionNodeID: u(null, ""),
         visible: false,
         blendMode: e("BlendMode"),
-        constraints: o("Constraints"),
+        constraints: o("LayoutConstraint"),
         isMask: false,
         exportSettings: a(o("ExportSetting")),
-        type: e("AbsoluteBoundingBoxType"),
+        type: e("NodeType"),
         id: "",
         strokes: a(o("Paint")),
         preserveRatio: false,
     },
-    "Constraints": {
-        horizontal: e("Horizontal"),
+    "LayoutConstraint": {
         vertical: e("Vertical"),
+        horizontal: e("Horizontal"),
     },
     "Effect": {
-        blendMode: u(null, e("BlendMode")),
-        color: u(null, o("Olor")),
-        offset: u(null, o("Offset")),
-        radius: 3.14,
         type: e("EffectType"),
         visible: false,
+        radius: 3.14,
+        color: u(null, o("Color")),
+        blendMode: u(null, e("BlendMode")),
+        offset: u(null, o("Vector2")),
     },
-    "Olor": {
-        a: 3.14,
-        b: 3.14,
-        g: 3.14,
+    "Color": {
         r: 3.14,
+        g: 3.14,
+        b: 3.14,
+        a: 3.14,
     },
-    "Offset": {
+    "Vector2": {
         x: 3.14,
         y: 3.14,
     },
     "ExportSetting": {
-        constraint: o("Constraint"),
-        format: e("Format"),
         suffix: "",
+        format: e("Format"),
+        constraint: o("Constraint"),
     },
     "Constraint": {
         type: e("ConstraintType"),
         value: 3.14,
     },
     "Paint": {
-        color: u(null, o("Olor")),
-        gradientHandlePositions: u(null, a(o("Offset"))),
-        gradientStops: u(null, a(o("ColorStop"))),
-        opacity: 3.14,
-        scaleMode: u(null, ""),
         type: e("PaintType"),
         visible: false,
+        opacity: 3.14,
+        color: u(null, o("Color")),
+        gradientHandlePositions: u(null, a(o("Vector2"))),
+        gradientStops: u(null, a(o("ColorStop"))),
+        scaleMode: u(null, ""),
     },
     "ColorStop": {
-        color: o("Olor"),
         position: 3.14,
+        color: o("Color"),
     },
-    "Document": {
-        children: u(null, a(o("Document"))),
-        id: "",
-        name: "",
-        type: e("AbsoluteBoundingBoxType"),
-        visible: false,
-        backgroundColor: u(null, o("Olor")),
-        exportSettings: u(null, a(o("ExportSetting"))),
+    "Node": {
         effects: u(null, a(o("Effect"))),
         layoutGrids: u(null, a(o("LayoutGrid"))),
+        cornerRadius: u(null, 3.14),
+        characters: u(null, ""),
         opacity: u(null, 3.14),
-        absoluteBoundingBox: u(null, o("AbsoluteBoundingBox")),
-        transitionNodeID: u(null, ""),
-        blendMode: u(null, e("BlendMode")),
-        constraints: u(null, o("Constraints")),
-        isMask: u(null, false),
-        clipsContent: u(null, false),
-        preserveRatio: u(null, false),
+        name: "",
         strokeAlign: u(null, e("StrokeAlign")),
         strokeWeight: u(null, 3.14),
         fills: u(null, a(o("Paint"))),
-        strokes: u(null, a(o("Paint"))),
-        cornerRadius: u(null, 3.14),
-        characters: u(null, ""),
-        styleOverrideTable: u(null, a(o("Tyle"))),
-        style: u(null, o("Tyle")),
-        characterStyleOverrides: u(null, a(3.14)),
+        absoluteBoundingBox: u(null, o("Rectangle")),
+        styleOverrideTable: u(null, a(o("TypeStyle"))),
+        style: u(null, o("TypeStyle")),
+        transitionNodeID: u(null, ""),
+        visible: false,
+        blendMode: u(null, e("BlendMode")),
+        backgroundColor: u(null, o("Color")),
+        constraints: u(null, o("LayoutConstraint")),
+        isMask: u(null, false),
+        clipsContent: u(null, false),
+        exportSettings: u(null, a(o("ExportSetting"))),
         componentId: u(null, ""),
+        type: e("NodeType"),
+        id: "",
+        strokes: u(null, a(o("Paint"))),
+        preserveRatio: u(null, false),
+        children: u(null, a(o("Node"))),
+        characterStyleOverrides: u(null, a(3.14)),
     },
     "LayoutGrid": {
-        alignment: e("Alignment"),
-        color: o("Olor"),
-        count: 3.14,
-        gutterSize: 3.14,
-        offset: 3.14,
         pattern: e("Pattern"),
         sectionSize: 3.14,
         visible: false,
+        color: o("Color"),
+        alignment: e("Alignment"),
+        gutterSize: 3.14,
+        offset: 3.14,
+        count: 3.14,
     },
-    "Tyle": {
+    "TypeStyle": {
         lineHeightPx: 3.14,
         fontPostScriptName: "",
         fontWeight: 3.14,
@@ -1338,12 +2758,12 @@ const typeMap: any = {
         textAlignHorizontal: e("TextAlignHorizontal"),
         letterSpacing: 3.14,
     },
-    "Ocument": {
-        children: a(o("Document")),
+    "Document": {
+        children: a(o("Node")),
         id: "",
         name: "",
-        type: e("AbsoluteBoundingBoxType"),
         visible: false,
+        type: e("NodeType"),
     },
     "CommentsResponse": {
         comments: a(o("Comment")),
@@ -1355,7 +2775,7 @@ const typeMap: any = {
         order_id: 3.14,
         parent_id: "",
         client_meta: o("ClientMeta"),
-        resolved_at: "",
+        resolved_at: u(null, ""),
         id: "",
         file_key: "",
     },
@@ -1363,15 +2783,15 @@ const typeMap: any = {
         x: u(null, 3.14),
         y: u(null, 3.14),
         node_id: u(null, a("")),
-        node_offset: u(null, o("Offset")),
+        node_offset: u(null, o("Vector2")),
     },
     "User": {
         handle: "",
         img_url: "",
     },
     "CommentRequest": {
-        client_meta: o("ClientMeta"),
         message: "",
+        client_meta: o("ClientMeta"),
     },
     "ProjectsResponse": {
         projects: a(o("Project")),
@@ -1385,9 +2805,9 @@ const typeMap: any = {
     },
     "File": {
         key: "",
-        last_modified: "",
         name: "",
         thumbnail_url: "",
+        last_modified: "",
     },
     "BlendMode": [
         "COLOR",
@@ -1454,7 +2874,7 @@ const typeMap: any = {
         "INSIDE",
         "OUTSIDE",
     ],
-    "AbsoluteBoundingBoxType": [
+    "NodeType": [
         "BOOLEAN",
         "CANVAS",
         "COMPONENT",

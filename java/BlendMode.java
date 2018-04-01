@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.*;
 
 /**
+ * Enum describing how layer blends with layers below
+ * This type is a string enum with the following possible values
  * How this node blends with nodes behind it in the scene
  * (see blend mode section for more details)
  */

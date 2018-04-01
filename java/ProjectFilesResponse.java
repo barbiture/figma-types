@@ -3,16 +3,6 @@ package io.quicktype;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
-/**
- * GET /v1/projects/:project_id/files
- *
- * > Description
- * List the files in a given project.
- *
- * > Path parameters
- * project_id String
- * Id of the project to list files from
- */
 public class ProjectFilesResponse {
     private File[] files;
 

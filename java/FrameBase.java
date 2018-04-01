@@ -3,26 +3,22 @@ package io.quicktype;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
-/**
- * A group that has a boolean operation applied to it
- */
-public class BooleanGroup {
+public class FrameBase {
     private Effect[] effects;
+    private LayoutGrid[] layoutGrids;
     private double opacity;
     private String name;
-    private StrokeAlign strokeAlign;
-    private double strokeWeight;
-    private Paint[] fills;
     private Rectangle absoluteBoundingBox;
     private String transitionNodeID;
     private boolean visible;
     private BlendMode blendMode;
+    private Color backgroundColor;
     private LayoutConstraint constraints;
     private boolean isMask;
+    private boolean clipsContent;
     private ExportSetting[] exportSettings;
     private NodeType type;
     private String id;
-    private Paint[] strokes;
     private boolean preserveRatio;
     private Node[] children;
 
@@ -34,6 +30,15 @@ public class BooleanGroup {
     public Effect[] getEffects() { return effects; }
     @JsonProperty("effects")
     public void setEffects(Effect[] value) { this.effects = value; }
+
+    /**
+     * An array of layout grids attached to this node (see layout grids section
+     * for more details). GROUP nodes do not have this attribute
+     */
+    @JsonProperty("layoutGrids")
+    public LayoutGrid[] getLayoutGrids() { return layoutGrids; }
+    @JsonProperty("layoutGrids")
+    public void setLayoutGrids(LayoutGrid[] value) { this.layoutGrids = value; }
 
     /**
      * Opacity of the node
@@ -50,33 +55,6 @@ public class BooleanGroup {
     public String getName() { return name; }
     @JsonProperty("name")
     public void setName(String value) { this.name = value; }
-
-    /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    @JsonProperty("strokeAlign")
-    public StrokeAlign getStrokeAlign() { return strokeAlign; }
-    @JsonProperty("strokeAlign")
-    public void setStrokeAlign(StrokeAlign value) { this.strokeAlign = value; }
-
-    /**
-     * The weight of strokes on the node
-     */
-    @JsonProperty("strokeWeight")
-    public double getStrokeWeight() { return strokeWeight; }
-    @JsonProperty("strokeWeight")
-    public void setStrokeWeight(double value) { this.strokeWeight = value; }
-
-    /**
-     * An array of fill paints applied to the node
-     */
-    @JsonProperty("fills")
-    public Paint[] getFills() { return fills; }
-    @JsonProperty("fills")
-    public void setFills(Paint[] value) { this.fills = value; }
 
     /**
      * Bounding box of the node in absolute space coordinates
@@ -112,6 +90,14 @@ public class BooleanGroup {
     public void setBlendMode(BlendMode value) { this.blendMode = value; }
 
     /**
+     * Background color of the node
+     */
+    @JsonProperty("backgroundColor")
+    public Color getBackgroundColor() { return backgroundColor; }
+    @JsonProperty("backgroundColor")
+    public void setBackgroundColor(Color value) { this.backgroundColor = value; }
+
+    /**
      * Horizontal and vertical layout constraints for node
      */
     @JsonProperty("constraints")
@@ -126,6 +112,14 @@ public class BooleanGroup {
     public boolean getIsMask() { return isMask; }
     @JsonProperty("isMask")
     public void setIsMask(boolean value) { this.isMask = value; }
+
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    @JsonProperty("clipsContent")
+    public boolean getClipsContent() { return clipsContent; }
+    @JsonProperty("clipsContent")
+    public void setClipsContent(boolean value) { this.clipsContent = value; }
 
     /**
      * An array of export settings representing images to export from node
@@ -152,14 +146,6 @@ public class BooleanGroup {
     public void setID(String value) { this.id = value; }
 
     /**
-     * An array of stroke paints applied to the node
-     */
-    @JsonProperty("strokes")
-    public Paint[] getStrokes() { return strokes; }
-    @JsonProperty("strokes")
-    public void setStrokes(Paint[] value) { this.strokes = value; }
-
-    /**
      * Keep height and width constrained to same ratio
      */
     @JsonProperty("preserveRatio")
@@ -168,7 +154,7 @@ public class BooleanGroup {
     public void setPreserveRatio(boolean value) { this.preserveRatio = value; }
 
     /**
-     * An array of nodes that are being boolean operated on
+     * An array of nodes that are direct children of this node
      */
     @JsonProperty("children")
     public Node[] getChildren() { return children; }

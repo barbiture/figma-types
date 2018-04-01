@@ -5,26 +5,11 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * Horizontal and vertical layout constraints for node
- *
  * Layout constraint relative to containing Frame
  */
 public class LayoutConstraint {
-    private Horizontal horizontal;
     private Vertical vertical;
-
-    /**
-     * Horizontal constraint as an enum
-     * "LEFT": Node is laid out relative to left of the containing frame
-     * "RIGHT": Node is laid out relative to right of the containing frame
-     * "CENTER": Node is horizontally centered relative to containing frame
-     * "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
-     * (node stretches with frame)
-     * "SCALE": Node scales horizontally with containing frame
-     */
-    @JsonProperty("horizontal")
-    public Horizontal getHorizontal() { return horizontal; }
-    @JsonProperty("horizontal")
-    public void setHorizontal(Horizontal value) { this.horizontal = value; }
+    private Horizontal horizontal;
 
     /**
      * Vertical constraint as an enum
@@ -39,4 +24,18 @@ public class LayoutConstraint {
     public Vertical getVertical() { return vertical; }
     @JsonProperty("vertical")
     public void setVertical(Vertical value) { this.vertical = value; }
+
+    /**
+     * Horizontal constraint as an enum
+     * "LEFT": Node is laid out relative to left of the containing frame
+     * "RIGHT": Node is laid out relative to right of the containing frame
+     * "CENTER": Node is horizontally centered relative to containing frame
+     * "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
+     * (node stretches with frame)
+     * "SCALE": Node scales horizontally with containing frame
+     */
+    @JsonProperty("horizontal")
+    public Horizontal getHorizontal() { return horizontal; }
+    @JsonProperty("horizontal")
+    public void setHorizontal(Horizontal value) { this.horizontal = value; }
 }

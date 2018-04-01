@@ -18,27 +18,16 @@ namespace QuickType
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    /// <summary>
-    /// GET /v1/files/:key
-    ///
-    /// > Description
-    ///
-    /// Returns the document refered to by :key as a JSON object. The file key can be parsed from
-    /// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
-    /// contains a Node of type DOCUMENT.
-    ///
-    /// The "components" key contains a mapping from node IDs to component metadata. This is to
-    /// help you determine which components each instance comes from. Currently the only piece of
-    /// metadata available on components is the name of the component, but more properties will
-    /// be forthcoming.
-    ///
-    /// > Path parameters
-    ///
-    /// key String
-    /// File to export JSON from
-    /// </summary>
     public partial class FileResponse
     {
+        /// <summary>
+        /// Node Properties
+        /// The root node
+        /// The root node within the document
+        /// </summary>
+        [JsonProperty("document")]
+        public Document Document { get; set; }
+
         /// <summary>
         /// A mapping from node IDs to component metadata. This is to help you determine which
         /// components each instance comes from. Currently the only piece of metadata available on
@@ -48,11 +37,36 @@ namespace QuickType
         public Dictionary<string, Component> Components { get; set; }
 
         /// <summary>
-        /// The root node within the document
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
-        [JsonProperty("document")]
-        public Ocument Document { get; set; }
-
         [JsonProperty("schemaVersion")]
         public double SchemaVersion { get; set; }
     }
@@ -77,22 +91,67 @@ namespace QuickType
         public LayoutGrid[] LayoutGrids { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
         /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("opacity")]
         public double Opacity { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
         /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Bounding box of the node in absolute space coordinates
+        /// A rectangle
         /// </summary>
         [JsonProperty("absoluteBoundingBox")]
-        public AbsoluteBoundingBox AbsoluteBoundingBox { get; set; }
+        public Rectangle AbsoluteBoundingBox { get; set; }
 
         /// <summary>
         /// Node ID of node to transition to in prototyping
@@ -101,12 +160,21 @@ namespace QuickType
         public string TransitionNodeId { get; set; }
 
         /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
         /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("visible")]
         public bool Visible { get; set; }
 
         /// <summary>
+        /// Enum describing how layer blends with layers below
+        /// This type is a string enum with the following possible values
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
@@ -115,30 +183,52 @@ namespace QuickType
 
         /// <summary>
         /// Background color of the node
+        /// An RGBA color
+        /// Solid color of the paint
+        /// Color attached to corresponding position
+        /// Color of the grid
+        /// Background color of the canvas
         /// </summary>
         [JsonProperty("backgroundColor")]
-        public Olor BackgroundColor { get; set; }
+        public Color BackgroundColor { get; set; }
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
+        /// Layout constraint relative to containing Frame
         /// </summary>
         [JsonProperty("constraints")]
-        public Constraints Constraints { get; set; }
+        public LayoutConstraint Constraints { get; set; }
 
         /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
         /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("isMask")]
         public bool IsMask { get; set; }
 
         /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
         /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("clipsContent")]
         public bool ClipsContent { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
+        /// An array of export settings representing images to export from this node
+        /// An array of export settings representing images to export from the canvas
         /// </summary>
         [JsonProperty("exportSettings")]
         public ExportSetting[] ExportSettings { get; set; }
@@ -147,33 +237,58 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public AbsoluteBoundingBoxType Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
         /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
         /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("preserveRatio")]
         public bool PreserveRatio { get; set; }
 
         /// <summary>
         /// An array of nodes that are direct children of this node
+        /// An array of nodes that are being boolean operated on
+        /// An array of top level layers on the canvas
+        /// An array of canvases attached to the document
         /// </summary>
         [JsonProperty("children")]
-        public Document[] Children { get; set; }
+        public Node[] Children { get; set; }
     }
 
     /// <summary>
     /// Bounding box of the node in absolute space coordinates
-    ///
     /// A rectangle
     /// </summary>
-    public partial class AbsoluteBoundingBox
+    public partial class Rectangle
     {
         /// <summary>
         /// An array of effects attached to this node
@@ -183,19 +298,91 @@ namespace QuickType
         public Effect[] Effects { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
         /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("cornerRadius")]
         public double CornerRadius { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
         /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("opacity")]
         public double Opacity { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
         /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -210,22 +397,53 @@ namespace QuickType
         public StrokeAlign StrokeAlign { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
         /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("strokeWeight")]
         public double StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
+        /// An array of stroke paints applied to the node
+        /// Paints applied to characters
         /// </summary>
         [JsonProperty("fills")]
         public Paint[] Fills { get; set; }
 
         /// <summary>
         /// Bounding box of the node in absolute space coordinates
+        /// A rectangle
         /// </summary>
         [JsonProperty("absoluteBoundingBox")]
-        public AbsoluteBoundingBox AbsoluteBoundingBoxAbsoluteBoundingBox { get; set; }
+        public Rectangle AbsoluteBoundingBox { get; set; }
 
         /// <summary>
         /// Node ID of node to transition to in prototyping
@@ -234,12 +452,21 @@ namespace QuickType
         public string TransitionNodeId { get; set; }
 
         /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
         /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("visible")]
         public bool Visible { get; set; }
 
         /// <summary>
+        /// Enum describing how layer blends with layers below
+        /// This type is a string enum with the following possible values
         /// How this node blends with nodes behind it in the scene
         /// (see blend mode section for more details)
         /// </summary>
@@ -248,18 +475,28 @@ namespace QuickType
 
         /// <summary>
         /// Horizontal and vertical layout constraints for node
+        /// Layout constraint relative to containing Frame
         /// </summary>
         [JsonProperty("constraints")]
-        public Constraints Constraints { get; set; }
+        public LayoutConstraint Constraints { get; set; }
 
         /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
         /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("isMask")]
         public bool IsMask { get; set; }
 
         /// <summary>
         /// An array of export settings representing images to export from node
+        /// An array of export settings representing images to export from this node
+        /// An array of export settings representing images to export from the canvas
         /// </summary>
         [JsonProperty("exportSettings")]
         public ExportSetting[] ExportSettings { get; set; }
@@ -268,22 +505,47 @@ namespace QuickType
         /// the type of the node, refer to table below for details
         /// </summary>
         [JsonProperty("type")]
-        public AbsoluteBoundingBoxType Type { get; set; }
+        public NodeType Type { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
         /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>
+        /// An array of fill paints applied to the node
         /// An array of stroke paints applied to the node
+        /// Paints applied to characters
         /// </summary>
         [JsonProperty("strokes")]
         public Paint[] Strokes { get; set; }
 
         /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
         /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("preserveRatio")]
         public bool PreserveRatio { get; set; }
@@ -291,23 +553,10 @@ namespace QuickType
 
     /// <summary>
     /// Horizontal and vertical layout constraints for node
-    ///
     /// Layout constraint relative to containing Frame
     /// </summary>
-    public partial class Constraints
+    public partial class LayoutConstraint
     {
-        /// <summary>
-        /// Horizontal constraint as an enum
-        /// "LEFT": Node is laid out relative to left of the containing frame
-        /// "RIGHT": Node is laid out relative to right of the containing frame
-        /// "CENTER": Node is horizontally centered relative to containing frame
-        /// "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
-        /// (node stretches with frame)
-        /// "SCALE": Node scales horizontally with containing frame
-        /// </summary>
-        [JsonProperty("horizontal")]
-        public Horizontal Horizontal { get; set; }
-
         /// <summary>
         /// Vertical constraint as an enum
         /// "TOP": Node is laid out relative to top of the containing frame
@@ -319,31 +568,27 @@ namespace QuickType
         /// </summary>
         [JsonProperty("vertical")]
         public Vertical Vertical { get; set; }
+
+        /// <summary>
+        /// Horizontal constraint as an enum
+        /// "LEFT": Node is laid out relative to left of the containing frame
+        /// "RIGHT": Node is laid out relative to right of the containing frame
+        /// "CENTER": Node is horizontally centered relative to containing frame
+        /// "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
+        /// (node stretches with frame)
+        /// "SCALE": Node scales horizontally with containing frame
+        /// </summary>
+        [JsonProperty("horizontal")]
+        public Horizontal Horizontal { get; set; }
     }
 
     /// <summary>
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    ///
     /// A visual effect such as a shadow or blur
     /// </summary>
     public partial class Effect
     {
-        [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
-
-        [JsonProperty("color")]
-        public Olor Color { get; set; }
-
-        [JsonProperty("offset")]
-        public Offset Offset { get; set; }
-
-        /// <summary>
-        /// Radius of the blur effect (applies to shadows as well)
-        /// </summary>
-        [JsonProperty("radius")]
-        public double Radius { get; set; }
-
         /// <summary>
         /// Type of effect as a string enum
         /// </summary>
@@ -352,56 +597,237 @@ namespace QuickType
 
         /// <summary>
         /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("visible")]
         public bool Visible { get; set; }
+
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("radius")]
+        public double Radius { get; set; }
+
+        /// <summary>
+        /// Background color of the node
+        /// An RGBA color
+        /// Solid color of the paint
+        /// Color attached to corresponding position
+        /// Color of the grid
+        /// Background color of the canvas
+        /// </summary>
+        [JsonProperty("color")]
+        public Color Color { get; set; }
+
+        /// <summary>
+        /// Enum describing how layer blends with layers below
+        /// This type is a string enum with the following possible values
+        /// How this node blends with nodes behind it in the scene
+        /// (see blend mode section for more details)
+        /// </summary>
+        [JsonProperty("blendMode")]
+        public BlendMode? BlendMode { get; set; }
+
+        /// <summary>
+        /// 2d vector offset within the frame.
+        /// A 2d vector
+        /// This field contains three vectors, each of which are a position in
+        /// normalized object space (normalized object space is if the top left
+        /// corner of the bounding box of the object is (0, 0) and the bottom
+        /// right is (1,1)). The first position corresponds to the start of the
+        /// gradient (value 0 for the purposes of calculating gradient stops),
+        /// the second position is the end of the gradient (value 1), and the
+        /// third handle position determines the width of the gradient (only
+        /// relevant for non-linear gradients).
+        /// </summary>
+        [JsonProperty("offset")]
+        public Vector2 Offset { get; set; }
     }
 
     /// <summary>
-    /// Solid color of the paint
-    ///
-    /// An RGBA color
-    ///
     /// Background color of the node
-    ///
+    /// An RGBA color
+    /// Solid color of the paint
     /// Color attached to corresponding position
-    ///
-    /// Background color of the canvas
-    ///
     /// Color of the grid
+    /// Background color of the canvas
     /// </summary>
-    public partial class Olor
+    public partial class Color
     {
         /// <summary>
-        /// Alpha channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("a")]
-        public double A { get; set; }
-
-        /// <summary>
-        /// Blue channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("b")]
-        public double B { get; set; }
-
-        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
         /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("r")]
+        public double R { get; set; }
+
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("g")]
         public double G { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
         /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
-        [JsonProperty("r")]
-        public double R { get; set; }
+        [JsonProperty("b")]
+        public double B { get; set; }
+
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("a")]
+        public double A { get; set; }
     }
 
     /// <summary>
     /// 2d vector offset within the frame.
-    ///
     /// A 2d vector
-    ///
     /// This field contains three vectors, each of which are a position in
     /// normalized object space (normalized object space is if the top left
     /// corner of the bounding box of the object is (0, 0) and the bottom
@@ -411,16 +837,72 @@ namespace QuickType
     /// third handle position determines the width of the gradient (only
     /// relevant for non-linear gradients).
     /// </summary>
-    public partial class Offset
+    public partial class Vector2
     {
         /// <summary>
         /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("x")]
         public double X { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
         /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("y")]
         public double Y { get; set; }
@@ -428,20 +910,33 @@ namespace QuickType
 
     /// <summary>
     /// An array of export settings representing images to export from node
-    ///
     /// Format and size to export an asset at
-    ///
-    /// An array of export settings representing images to export from this node
-    ///
     /// An array of export settings representing images to export from the canvas
+    /// An array of export settings representing images to export from this node
     /// </summary>
     public partial class ExportSetting
     {
         /// <summary>
-        /// Constraint that determines sizing of exported asset
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
-        [JsonProperty("constraint")]
-        public Constraint Constraint { get; set; }
+        [JsonProperty("suffix")]
+        public string Suffix { get; set; }
 
         /// <summary>
         /// Image type, string enum
@@ -450,15 +945,15 @@ namespace QuickType
         public Format Format { get; set; }
 
         /// <summary>
-        /// File suffix to append to all filenames
+        /// Constraint that determines sizing of exported asset
+        /// Sizing constraint for exports
         /// </summary>
-        [JsonProperty("suffix")]
-        public string Suffix { get; set; }
+        [JsonProperty("constraint")]
+        public Constraint Constraint { get; set; }
     }
 
     /// <summary>
     /// Constraint that determines sizing of exported asset
-    ///
     /// Sizing constraint for exports
     /// </summary>
     public partial class Constraint
@@ -473,7 +968,35 @@ namespace QuickType
         public ConstraintType Type { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
         /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("value")]
         public double Value { get; set; }
@@ -481,20 +1004,75 @@ namespace QuickType
 
     /// <summary>
     /// An array of fill paints applied to the node
-    ///
     /// A solid color, gradient, or image texture that can be applied as fills or strokes
-    ///
     /// An array of stroke paints applied to the node
-    ///
     /// Paints applied to characters
     /// </summary>
     public partial class Paint
     {
         /// <summary>
+        /// Type of paint as a string enum
+        /// </summary>
+        [JsonProperty("type")]
+        public PaintType Type { get; set; }
+
+        /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
+        /// </summary>
+        [JsonProperty("visible")]
+        public bool Visible { get; set; }
+
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("opacity")]
+        public double Opacity { get; set; }
+
+        /// <summary>
+        /// Background color of the node
+        /// An RGBA color
         /// Solid color of the paint
+        /// Color attached to corresponding position
+        /// Color of the grid
+        /// Background color of the canvas
         /// </summary>
         [JsonProperty("color")]
-        public Olor Color { get; set; }
+        public Color Color { get; set; }
 
         /// <summary>
         /// This field contains three vectors, each of which are a position in
@@ -507,7 +1085,7 @@ namespace QuickType
         /// relevant for non-linear gradients).
         /// </summary>
         [JsonProperty("gradientHandlePositions")]
-        public Offset[] GradientHandlePositions { get; set; }
+        public Vector2[] GradientHandlePositions { get; set; }
 
         /// <summary>
         /// Positions of key points along the gradient axis with the colors
@@ -518,154 +1096,109 @@ namespace QuickType
         public ColorStop[] GradientStops { get; set; }
 
         /// <summary>
-        /// Overall opacity of paint (colors within the paint can also have opacity
-        /// values which would blend with this)
-        /// </summary>
-        [JsonProperty("opacity")]
-        public double Opacity { get; set; }
-
-        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
         /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("scaleMode")]
         public string ScaleMode { get; set; }
-
-        /// <summary>
-        /// Type of paint as a string enum
-        /// </summary>
-        [JsonProperty("type")]
-        public PaintType Type { get; set; }
-
-        /// <summary>
-        /// Is the paint enabled?
-        /// </summary>
-        [JsonProperty("visible")]
-        public bool Visible { get; set; }
     }
 
     /// <summary>
     /// Positions of key points along the gradient axis with the colors
     /// anchored there. Colors along the gradient are interpolated smoothly
     /// between neighboring gradient stops.
-    ///
     /// A position color pair representing a gradient stop
     /// </summary>
     public partial class ColorStop
     {
         /// <summary>
-        /// Color attached to corresponding position
-        /// </summary>
-        [JsonProperty("color")]
-        public Olor Color { get; set; }
-
-        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
         /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("position")]
         public double Position { get; set; }
+
+        /// <summary>
+        /// Background color of the node
+        /// An RGBA color
+        /// Solid color of the paint
+        /// Color attached to corresponding position
+        /// Color of the grid
+        /// Background color of the canvas
+        /// </summary>
+        [JsonProperty("color")]
+        public Color Color { get; set; }
     }
 
     /// <summary>
     /// An array of nodes that are direct children of this node
-    ///
     /// An array of nodes that are being boolean operated on
-    ///
     /// An array of top level layers on the canvas
-    ///
     /// An array of canvases attached to the document
-    ///
     /// Node Properties
     /// The root node
-    ///
     /// The root node within the document
-    ///
     /// Represents a single page
-    ///
     /// A node of fixed size containing other nodes
-    ///
     /// A logical grouping of nodes
-    ///
     /// A vector network, consisting of vertices and edges
-    ///
     /// A group that has a boolean operation applied to it
-    ///
     /// A regular star shape
-    ///
     /// A straight line
-    ///
     /// An ellipse
-    ///
     /// A regular n-sided polygon
-    ///
     /// Bounding box of the node in absolute space coordinates
-    ///
     /// A rectangle
-    ///
     /// A text box
-    ///
     /// A rectangular region of the canvas that can be exported
-    ///
     /// A node that can have instances created of it that share the same properties
-    ///
     /// An instance of a component, changes to the component result in the same
     /// changes applied to the instance
     /// </summary>
-    public partial class Document
+    public partial class Node
     {
-        /// <summary>
-        /// An array of canvases attached to the document
-        ///
-        /// An array of top level layers on the canvas
-        ///
-        /// An array of nodes that are direct children of this node
-        ///
-        /// An array of nodes that are being boolean operated on
-        /// </summary>
-        [JsonProperty("children")]
-        public Document[] Children { get; set; }
-
-        /// <summary>
-        /// a string uniquely identifying this node within the document
-        /// </summary>
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        /// <summary>
-        /// the name given to the node by the user in the tool.
-        /// </summary>
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// the type of the node, refer to table below for details
-        /// </summary>
-        [JsonProperty("type")]
-        public AbsoluteBoundingBoxType Type { get; set; }
-
-        /// <summary>
-        /// whether or not the node is visible on the canvas
-        /// </summary>
-        [JsonProperty("visible")]
-        public bool Visible { get; set; }
-
-        /// <summary>
-        /// Background color of the canvas
-        ///
-        /// Background color of the node
-        /// </summary>
-        [JsonProperty("backgroundColor")]
-        public Olor BackgroundColor { get; set; }
-
-        /// <summary>
-        /// An array of export settings representing images to export from the canvas
-        ///
-        /// An array of export settings representing images to export from node
-        ///
-        /// An array of export settings representing images to export from this node
-        /// </summary>
-        [JsonProperty("exportSettings")]
-        public ExportSetting[] ExportSettings { get; set; }
-
         /// <summary>
         /// An array of effects attached to this node
         /// (see effects sectionfor more details)
@@ -681,53 +1214,116 @@ namespace QuickType
         public LayoutGrid[] LayoutGrids { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
         /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("cornerRadius")]
+        public double? CornerRadius { get; set; }
+
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
+        [JsonProperty("characters")]
+        public string Characters { get; set; }
+
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("opacity")]
         public double? Opacity { get; set; }
 
         /// <summary>
-        /// Bounding box of the node in absolute space coordinates
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
-        [JsonProperty("absoluteBoundingBox")]
-        public AbsoluteBoundingBox AbsoluteBoundingBox { get; set; }
-
-        /// <summary>
-        /// Node ID of node to transition to in prototyping
-        /// </summary>
-        [JsonProperty("transitionNodeID")]
-        public string TransitionNodeId { get; set; }
-
-        /// <summary>
-        /// How this node blends with nodes behind it in the scene
-        /// (see blend mode section for more details)
-        /// </summary>
-        [JsonProperty("blendMode")]
-        public BlendMode? BlendMode { get; set; }
-
-        /// <summary>
-        /// Horizontal and vertical layout constraints for node
-        /// </summary>
-        [JsonProperty("constraints")]
-        public Constraints Constraints { get; set; }
-
-        /// <summary>
-        /// Does this node mask sibling nodes in front of it?
-        /// </summary>
-        [JsonProperty("isMask")]
-        public bool? IsMask { get; set; }
-
-        /// <summary>
-        /// Does this node clip content outside of its bounds?
-        /// </summary>
-        [JsonProperty("clipsContent")]
-        public bool? ClipsContent { get; set; }
-
-        /// <summary>
-        /// Keep height and width constrained to same ratio
-        /// </summary>
-        [JsonProperty("preserveRatio")]
-        public bool? PreserveRatio { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// Where stroke is drawn relative to the vector outline as a string enum
@@ -739,47 +1335,228 @@ namespace QuickType
         public StrokeAlign? StrokeAlign { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
         /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("strokeWeight")]
         public double? StrokeWeight { get; set; }
 
         /// <summary>
         /// An array of fill paints applied to the node
+        /// An array of stroke paints applied to the node
+        /// Paints applied to characters
         /// </summary>
         [JsonProperty("fills")]
         public Paint[] Fills { get; set; }
 
         /// <summary>
-        /// An array of stroke paints applied to the node
+        /// Bounding box of the node in absolute space coordinates
+        /// A rectangle
         /// </summary>
-        [JsonProperty("strokes")]
-        public Paint[] Strokes { get; set; }
-
-        /// <summary>
-        /// Radius of each corner of the rectangle
-        /// </summary>
-        [JsonProperty("cornerRadius")]
-        public double? CornerRadius { get; set; }
-
-        /// <summary>
-        /// Text contained within text box
-        /// </summary>
-        [JsonProperty("characters")]
-        public string Characters { get; set; }
+        [JsonProperty("absoluteBoundingBox")]
+        public Rectangle AbsoluteBoundingBox { get; set; }
 
         /// <summary>
         /// Map from ID to TypeStyle for looking up style overrides
         /// </summary>
         [JsonProperty("styleOverrideTable")]
-        public Tyle[] StyleOverrideTable { get; set; }
+        public TypeStyle[] StyleOverrideTable { get; set; }
 
         /// <summary>
+        /// Map from ID to TypeStyle for looking up style overrides
+        /// Metadata for character formatting
         /// Style of text including font family and weight (see type style
         /// section for more information)
         /// </summary>
         [JsonProperty("style")]
-        public Tyle Style { get; set; }
+        public TypeStyle Style { get; set; }
+
+        /// <summary>
+        /// Node ID of node to transition to in prototyping
+        /// </summary>
+        [JsonProperty("transitionNodeID")]
+        public string TransitionNodeId { get; set; }
+
+        /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
+        /// </summary>
+        [JsonProperty("visible")]
+        public bool Visible { get; set; }
+
+        /// <summary>
+        /// Enum describing how layer blends with layers below
+        /// This type is a string enum with the following possible values
+        /// How this node blends with nodes behind it in the scene
+        /// (see blend mode section for more details)
+        /// </summary>
+        [JsonProperty("blendMode")]
+        public BlendMode? BlendMode { get; set; }
+
+        /// <summary>
+        /// Background color of the node
+        /// An RGBA color
+        /// Solid color of the paint
+        /// Color attached to corresponding position
+        /// Color of the grid
+        /// Background color of the canvas
+        /// </summary>
+        [JsonProperty("backgroundColor")]
+        public Color BackgroundColor { get; set; }
+
+        /// <summary>
+        /// Horizontal and vertical layout constraints for node
+        /// Layout constraint relative to containing Frame
+        /// </summary>
+        [JsonProperty("constraints")]
+        public LayoutConstraint Constraints { get; set; }
+
+        /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
+        /// </summary>
+        [JsonProperty("isMask")]
+        public bool? IsMask { get; set; }
+
+        /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
+        /// </summary>
+        [JsonProperty("clipsContent")]
+        public bool? ClipsContent { get; set; }
+
+        /// <summary>
+        /// An array of export settings representing images to export from node
+        /// An array of export settings representing images to export from this node
+        /// An array of export settings representing images to export from the canvas
+        /// </summary>
+        [JsonProperty("exportSettings")]
+        public ExportSetting[] ExportSettings { get; set; }
+
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
+        [JsonProperty("componentId")]
+        public string ComponentId { get; set; }
+
+        /// <summary>
+        /// the type of the node, refer to table below for details
+        /// </summary>
+        [JsonProperty("type")]
+        public NodeType Type { get; set; }
+
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
+        /// An array of fill paints applied to the node
+        /// An array of stroke paints applied to the node
+        /// Paints applied to characters
+        /// </summary>
+        [JsonProperty("strokes")]
+        public Paint[] Strokes { get; set; }
+
+        /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
+        /// </summary>
+        [JsonProperty("preserveRatio")]
+        public bool? PreserveRatio { get; set; }
+
+        /// <summary>
+        /// An array of nodes that are direct children of this node
+        /// An array of nodes that are being boolean operated on
+        /// An array of top level layers on the canvas
+        /// An array of canvases attached to the document
+        /// </summary>
+        [JsonProperty("children")]
+        public Node[] Children { get; set; }
 
         /// <summary>
         /// Array with same number of elements as characeters in text box,
@@ -789,56 +1566,15 @@ namespace QuickType
         /// </summary>
         [JsonProperty("characterStyleOverrides")]
         public double[] CharacterStyleOverrides { get; set; }
-
-        /// <summary>
-        /// ID of component that this instance came from, refers to components
-        /// table (see endpoints section below)
-        /// </summary>
-        [JsonProperty("componentId")]
-        public string ComponentId { get; set; }
     }
 
     /// <summary>
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
-    ///
     /// Guides to align and place objects within a frame
     /// </summary>
     public partial class LayoutGrid
     {
-        /// <summary>
-        /// Positioning of grid as a string enum
-        /// "MIN": Grid starts at the left or top of the frame
-        /// "MAX": Grid starts at the right or bottom of the frame
-        /// "CENTER": Grid is center aligned
-        /// </summary>
-        [JsonProperty("alignment")]
-        public Alignment Alignment { get; set; }
-
-        /// <summary>
-        /// Color of the grid
-        /// </summary>
-        [JsonProperty("color")]
-        public Olor Color { get; set; }
-
-        /// <summary>
-        /// Number of columns or rows
-        /// </summary>
-        [JsonProperty("count")]
-        public double Count { get; set; }
-
-        /// <summary>
-        /// Spacing in between columns and rows
-        /// </summary>
-        [JsonProperty("gutterSize")]
-        public double GutterSize { get; set; }
-
-        /// <summary>
-        /// Spacing before the first column or row
-        /// </summary>
-        [JsonProperty("offset")]
-        public double Offset { get; set; }
-
         /// <summary>
         /// Orientation of the grid as a string enum
         /// "COLUMNS": Vertical grid
@@ -849,48 +1585,303 @@ namespace QuickType
         public Pattern Pattern { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
         /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("sectionSize")]
         public double SectionSize { get; set; }
 
         /// <summary>
+        /// Is the effect active?
         /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("visible")]
         public bool Visible { get; set; }
+
+        /// <summary>
+        /// Background color of the node
+        /// An RGBA color
+        /// Solid color of the paint
+        /// Color attached to corresponding position
+        /// Color of the grid
+        /// Background color of the canvas
+        /// </summary>
+        [JsonProperty("color")]
+        public Color Color { get; set; }
+
+        /// <summary>
+        /// Positioning of grid as a string enum
+        /// "MIN": Grid starts at the left or top of the frame
+        /// "MAX": Grid starts at the right or bottom of the frame
+        /// "CENTER": Grid is center aligned
+        /// </summary>
+        [JsonProperty("alignment")]
+        public Alignment Alignment { get; set; }
+
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("gutterSize")]
+        public double GutterSize { get; set; }
+
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("offset")]
+        public double Offset { get; set; }
+
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
+        [JsonProperty("count")]
+        public double Count { get; set; }
     }
 
     /// <summary>
     /// Map from ID to TypeStyle for looking up style overrides
-    ///
     /// Metadata for character formatting
-    ///
     /// Style of text including font family and weight (see type style
     /// section for more information)
     /// </summary>
-    public partial class Tyle
+    public partial class TypeStyle
     {
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
         /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("lineHeightPx")]
         public double LineHeightPx { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
         /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("fontPostScriptName")]
         public string FontPostScriptName { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
         /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("fontWeight")]
         public double FontWeight { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
         /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("lineHeightPercent")]
         public double LineHeightPercent { get; set; }
@@ -902,25 +1893,78 @@ namespace QuickType
         public TextAlignVertical TextAlignVertical { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
         /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("fontSize")]
         public double FontSize { get; set; }
 
         /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
+        /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
         /// Is text italicized?
         /// </summary>
         [JsonProperty("italic")]
         public bool Italic { get; set; }
 
         /// <summary>
+        /// An array of fill paints applied to the node
+        /// An array of stroke paints applied to the node
         /// Paints applied to characters
         /// </summary>
         [JsonProperty("fills")]
         public Paint[] Fills { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
         /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("fontFamily")]
         public string FontFamily { get; set; }
@@ -932,7 +1976,35 @@ namespace QuickType
         public TextAlignHorizontal TextAlignHorizontal { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
         /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("letterSpacing")]
         public double LetterSpacing { get; set; }
@@ -941,52 +2013,83 @@ namespace QuickType
     /// <summary>
     /// Node Properties
     /// The root node
-    ///
     /// The root node within the document
     /// </summary>
-    public partial class Ocument
+    public partial class Document
     {
         /// <summary>
+        /// An array of nodes that are direct children of this node
+        /// An array of nodes that are being boolean operated on
+        /// An array of top level layers on the canvas
         /// An array of canvases attached to the document
         /// </summary>
         [JsonProperty("children")]
-        public Document[] Children { get; set; }
+        public Node[] Children { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
         /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
         /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
-        /// the type of the node, refer to table below for details
-        /// </summary>
-        [JsonProperty("type")]
-        public AbsoluteBoundingBoxType Type { get; set; }
-
-        /// <summary>
+        /// Is the effect active?
+        /// Is the grid currently visible?
+        /// Is the paint enabled?
         /// whether or not the node is visible on the canvas
+        /// Does this node mask sibling nodes in front of it?
+        /// Keep height and width constrained to same ratio
+        /// Does this node clip content outside of its bounds?
+        /// Is text italicized?
         /// </summary>
         [JsonProperty("visible")]
         public bool Visible { get; set; }
+
+        /// <summary>
+        /// the type of the node, refer to table below for details
+        /// </summary>
+        [JsonProperty("type")]
+        public NodeType Type { get; set; }
     }
 
-    /// <summary>
-    /// GET /v1/files/:key/comments
-    ///
-    /// > Description
-    /// A list of comments left on the file.
-    ///
-    /// > Path parameters
-    /// key String
-    /// File to get comments from
-    /// </summary>
     public partial class CommentsResponse
     {
         [JsonProperty("comments")]
@@ -999,8 +2102,23 @@ namespace QuickType
     public partial class Comment
     {
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
         /// (MISSING IN DOCS)
         /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("message")]
         public string Message { get; set; }
@@ -1012,12 +2130,40 @@ namespace QuickType
         public System.DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
+        /// A description of a user
         /// The user who left the comment
         /// </summary>
         [JsonProperty("user")]
         public User User { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
         /// Only set for top level comments. The number displayed with the
         /// comment in the UI
         /// </summary>
@@ -1025,28 +2171,89 @@ namespace QuickType
         public double OrderId { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
         /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("parent_id")]
         public string ParentId { get; set; }
 
+        /// <summary>
+        /// 2d vector offset within the frame.
+        /// A 2d vector
+        /// This field contains three vectors, each of which are a position in
+        /// normalized object space (normalized object space is if the top left
+        /// corner of the bounding box of the object is (0, 0) and the bottom
+        /// right is (1,1)). The first position corresponds to the start of the
+        /// gradient (value 0 for the purposes of calculating gradient stops),
+        /// the second position is the end of the gradient (value 1), and the
+        /// third handle position determines the width of the gradient (only
+        /// relevant for non-linear gradients).
+        /// A relative offset within a frame
+        /// </summary>
         [JsonProperty("client_meta")]
         public ClientMeta ClientMeta { get; set; }
 
         /// <summary>
-        /// Enables basic storage and retrieval of dates and times.
+        /// If set, when the comment was resolved
         /// </summary>
         [JsonProperty("resolved_at")]
-        public System.DateTimeOffset ResolvedAt { get; set; }
+        public System.DateTimeOffset? ResolvedAt { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
         /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
         /// The file in which the comment lives
+        /// utc date in iso8601
         /// </summary>
         [JsonProperty("file_key")]
         public string FileKey { get; set; }
@@ -1054,9 +2261,7 @@ namespace QuickType
 
     /// <summary>
     /// 2d vector offset within the frame.
-    ///
     /// A 2d vector
-    ///
     /// This field contains three vectors, each of which are a position in
     /// normalized object space (normalized object space is if the top left
     /// corner of the bounding box of the object is (0, 0) and the bottom
@@ -1065,94 +2270,194 @@ namespace QuickType
     /// the second position is the end of the gradient (value 1), and the
     /// third handle position determines the width of the gradient (only
     /// relevant for non-linear gradients).
-    ///
     /// A relative offset within a frame
     /// </summary>
     public partial class ClientMeta
     {
         /// <summary>
         /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("x")]
         public double? X { get; set; }
 
         /// <summary>
+        /// X coordinate of the vector
         /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
         /// </summary>
         [JsonProperty("y")]
         public double? Y { get; set; }
 
         /// <summary>
         /// Unique id specifying the frame.
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
         /// </summary>
         [JsonProperty("node_id")]
         public string[] NodeId { get; set; }
 
         /// <summary>
         /// 2d vector offset within the frame.
+        /// A 2d vector
+        /// This field contains three vectors, each of which are a position in
+        /// normalized object space (normalized object space is if the top left
+        /// corner of the bounding box of the object is (0, 0) and the bottom
+        /// right is (1,1)). The first position corresponds to the start of the
+        /// gradient (value 0 for the purposes of calculating gradient stops),
+        /// the second position is the end of the gradient (value 1), and the
+        /// third handle position determines the width of the gradient (only
+        /// relevant for non-linear gradients).
         /// </summary>
         [JsonProperty("node_offset")]
-        public Offset NodeOffset { get; set; }
+        public Vector2 NodeOffset { get; set; }
     }
 
     /// <summary>
-    /// The user who left the comment
-    ///
     /// A description of a user
+    /// The user who left the comment
     /// </summary>
     public partial class User
     {
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
         [JsonProperty("handle")]
         public string Handle { get; set; }
 
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
         [JsonProperty("img_url")]
         public string ImgUrl { get; set; }
     }
 
-    /// <summary>
-    /// POST /v1/files/:key/comments
-    ///
-    /// > Description
-    /// Posts a new comment on the file.
-    ///
-    /// > Path parameters
-    /// key String
-    /// File to get comments from
-    ///
-    /// > Body parameters
-    /// message String
-    /// The text contents of the comment to post
-    ///
-    /// client_meta Vector2 | FrameOffset
-    /// The position of where to place the comment. This can either be an absolute canvas
-    /// position or the relative position within a frame.
-    ///
-    /// > Return value
-    /// The Comment that was successfully posted
-    ///
-    /// > Error codes
-    /// 404 The specified file was not found
-    /// </summary>
     public partial class CommentRequest
     {
-        [JsonProperty("client_meta")]
-        public ClientMeta ClientMeta { get; set; }
-
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
         [JsonProperty("message")]
         public string Message { get; set; }
+
+        /// <summary>
+        /// 2d vector offset within the frame.
+        /// A 2d vector
+        /// This field contains three vectors, each of which are a position in
+        /// normalized object space (normalized object space is if the top left
+        /// corner of the bounding box of the object is (0, 0) and the bottom
+        /// right is (1,1)). The first position corresponds to the start of the
+        /// gradient (value 0 for the purposes of calculating gradient stops),
+        /// the second position is the end of the gradient (value 1), and the
+        /// third handle position determines the width of the gradient (only
+        /// relevant for non-linear gradients).
+        /// A relative offset within a frame
+        /// </summary>
+        [JsonProperty("client_meta")]
+        public ClientMeta ClientMeta { get; set; }
     }
 
-    /// <summary>
-    /// GET /v1/teams/:team_id/projects
-    ///
-    /// > Description
-    /// Lists the projects for a specified team. Note that this will only return projects visible
-    /// to the authenticated user or owner of the developer token.
-    ///
-    /// > Path parameters
-    /// team_id String
-    /// Id of the team to list projects from
-    /// </summary>
     public partial class ProjectsResponse
     {
         [JsonProperty("projects")]
@@ -1161,23 +2466,63 @@ namespace QuickType
 
     public partial class Project
     {
+        /// <summary>
+        /// X coordinate of the vector
+        /// Y coordinate of the vector
+        /// Radius of the blur effect (applies to shadows as well)
+        /// Red channel value, between 0 and 1
+        /// Green channel value, between 0 and 1
+        /// Blue channel value, between 0 and 1
+        /// Alpha channel value, between 0 and 1
+        /// Width of column grid or height of row grid or square grid spacing
+        /// Spacing in between columns and rows
+        /// Spacing before the first column or row
+        /// Number of columns or rows
+        /// Opacity of the node
+        /// Radius of each corner of the rectangle
+        /// The weight of strokes on the node
+        /// Overall opacity of paint (colors within the paint can also have opacity
+        /// values which would blend with this)
+        /// Value between 0 and 1 representing position along gradient axis
+        /// See type property for effect of this field
+        /// Line height in px
+        /// Numeric font weight
+        /// Line height as a percentage of normal line height
+        /// Font size in px
+        /// Space between characters in px
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// Only set for top level comments. The number displayed with the
+        /// comment in the UI
+        /// </summary>
         [JsonProperty("id")]
         public double Id { get; set; }
 
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
     }
 
-    /// <summary>
-    /// GET /v1/projects/:project_id/files
-    ///
-    /// > Description
-    /// List the files in a given project.
-    ///
-    /// > Path parameters
-    /// project_id String
-    /// Id of the project to list files from
-    /// </summary>
     public partial class ProjectFilesResponse
     {
         [JsonProperty("files")]
@@ -1186,23 +2531,98 @@ namespace QuickType
 
     public partial class File
     {
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
         [JsonProperty("key")]
         public string Key { get; set; }
 
         /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
+        /// utc date in iso8601
+        /// </summary>
+        [JsonProperty("thumbnail_url")]
+        public string ThumbnailUrl { get; set; }
+
+        /// <summary>
+        /// Allows manipulation and formatting of text strings and determination and location of
+        /// substrings within strings.
+        /// the name given to the node by the user in the tool.
+        /// Image scaling mode
+        /// File suffix to append to all filenames
+        /// a string uniquely identifying this node within the document
+        /// Text contained within text box
+        /// PostScript font name
+        /// Font family of text (standard name)
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// (MISSING IN DOCS)
+        /// The content of the comment
+        /// If present, the id of the comment to which this is the reply
+        /// Unique identifier for comment
+        /// The file in which the comment lives
         /// utc date in iso8601
         /// </summary>
         [JsonProperty("last_modified")]
         public string LastModified { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("thumbnail_url")]
-        public string ThumbnailUrl { get; set; }
     }
 
     /// <summary>
+    /// Enum describing how layer blends with layers below
+    /// This type is a string enum with the following possible values
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
     /// </summary>
@@ -1264,7 +2684,7 @@ namespace QuickType
     /// <summary>
     /// the type of the node, refer to table below for details
     /// </summary>
-    public enum AbsoluteBoundingBoxType { Boolean, Canvas, Component, Document, Ellipse, Frame, Group, Instance, Line, Rectangle, RegularPolygon, Slice, Star, Text, Vector };
+    public enum NodeType { Boolean, Canvas, Component, Document, Ellipse, Frame, Group, Instance, Line, Rectangle, RegularPolygon, Slice, Star, Text, Vector };
 
     /// <summary>
     /// Positioning of grid as a string enum
@@ -1623,32 +3043,32 @@ namespace QuickType
         }
     }
 
-    static class AbsoluteBoundingBoxTypeExtensions
+    static class NodeTypeExtensions
     {
-        public static AbsoluteBoundingBoxType? ValueForString(string str)
+        public static NodeType? ValueForString(string str)
         {
             switch (str)
             {
-                case "BOOLEAN": return AbsoluteBoundingBoxType.Boolean;
-                case "CANVAS": return AbsoluteBoundingBoxType.Canvas;
-                case "COMPONENT": return AbsoluteBoundingBoxType.Component;
-                case "DOCUMENT": return AbsoluteBoundingBoxType.Document;
-                case "ELLIPSE": return AbsoluteBoundingBoxType.Ellipse;
-                case "FRAME": return AbsoluteBoundingBoxType.Frame;
-                case "GROUP": return AbsoluteBoundingBoxType.Group;
-                case "INSTANCE": return AbsoluteBoundingBoxType.Instance;
-                case "LINE": return AbsoluteBoundingBoxType.Line;
-                case "RECTANGLE": return AbsoluteBoundingBoxType.Rectangle;
-                case "REGULAR_POLYGON": return AbsoluteBoundingBoxType.RegularPolygon;
-                case "SLICE": return AbsoluteBoundingBoxType.Slice;
-                case "STAR": return AbsoluteBoundingBoxType.Star;
-                case "TEXT": return AbsoluteBoundingBoxType.Text;
-                case "VECTOR": return AbsoluteBoundingBoxType.Vector;
+                case "BOOLEAN": return NodeType.Boolean;
+                case "CANVAS": return NodeType.Canvas;
+                case "COMPONENT": return NodeType.Component;
+                case "DOCUMENT": return NodeType.Document;
+                case "ELLIPSE": return NodeType.Ellipse;
+                case "FRAME": return NodeType.Frame;
+                case "GROUP": return NodeType.Group;
+                case "INSTANCE": return NodeType.Instance;
+                case "LINE": return NodeType.Line;
+                case "RECTANGLE": return NodeType.Rectangle;
+                case "REGULAR_POLYGON": return NodeType.RegularPolygon;
+                case "SLICE": return NodeType.Slice;
+                case "STAR": return NodeType.Star;
+                case "TEXT": return NodeType.Text;
+                case "VECTOR": return NodeType.Vector;
                 default: return null;
             }
         }
 
-        public static AbsoluteBoundingBoxType ReadJson(JsonReader reader, JsonSerializer serializer)
+        public static NodeType ReadJson(JsonReader reader, JsonSerializer serializer)
         {
             var str = serializer.Deserialize<string>(reader);
             var maybeValue = ValueForString(str);
@@ -1656,25 +3076,25 @@ namespace QuickType
             throw new Exception("Unknown enum case " + str);
         }
 
-        public static void WriteJson(this AbsoluteBoundingBoxType value, JsonWriter writer, JsonSerializer serializer)
+        public static void WriteJson(this NodeType value, JsonWriter writer, JsonSerializer serializer)
         {
             switch (value)
             {
-                case AbsoluteBoundingBoxType.Boolean: serializer.Serialize(writer, "BOOLEAN"); break;
-                case AbsoluteBoundingBoxType.Canvas: serializer.Serialize(writer, "CANVAS"); break;
-                case AbsoluteBoundingBoxType.Component: serializer.Serialize(writer, "COMPONENT"); break;
-                case AbsoluteBoundingBoxType.Document: serializer.Serialize(writer, "DOCUMENT"); break;
-                case AbsoluteBoundingBoxType.Ellipse: serializer.Serialize(writer, "ELLIPSE"); break;
-                case AbsoluteBoundingBoxType.Frame: serializer.Serialize(writer, "FRAME"); break;
-                case AbsoluteBoundingBoxType.Group: serializer.Serialize(writer, "GROUP"); break;
-                case AbsoluteBoundingBoxType.Instance: serializer.Serialize(writer, "INSTANCE"); break;
-                case AbsoluteBoundingBoxType.Line: serializer.Serialize(writer, "LINE"); break;
-                case AbsoluteBoundingBoxType.Rectangle: serializer.Serialize(writer, "RECTANGLE"); break;
-                case AbsoluteBoundingBoxType.RegularPolygon: serializer.Serialize(writer, "REGULAR_POLYGON"); break;
-                case AbsoluteBoundingBoxType.Slice: serializer.Serialize(writer, "SLICE"); break;
-                case AbsoluteBoundingBoxType.Star: serializer.Serialize(writer, "STAR"); break;
-                case AbsoluteBoundingBoxType.Text: serializer.Serialize(writer, "TEXT"); break;
-                case AbsoluteBoundingBoxType.Vector: serializer.Serialize(writer, "VECTOR"); break;
+                case NodeType.Boolean: serializer.Serialize(writer, "BOOLEAN"); break;
+                case NodeType.Canvas: serializer.Serialize(writer, "CANVAS"); break;
+                case NodeType.Component: serializer.Serialize(writer, "COMPONENT"); break;
+                case NodeType.Document: serializer.Serialize(writer, "DOCUMENT"); break;
+                case NodeType.Ellipse: serializer.Serialize(writer, "ELLIPSE"); break;
+                case NodeType.Frame: serializer.Serialize(writer, "FRAME"); break;
+                case NodeType.Group: serializer.Serialize(writer, "GROUP"); break;
+                case NodeType.Instance: serializer.Serialize(writer, "INSTANCE"); break;
+                case NodeType.Line: serializer.Serialize(writer, "LINE"); break;
+                case NodeType.Rectangle: serializer.Serialize(writer, "RECTANGLE"); break;
+                case NodeType.RegularPolygon: serializer.Serialize(writer, "REGULAR_POLYGON"); break;
+                case NodeType.Slice: serializer.Serialize(writer, "SLICE"); break;
+                case NodeType.Star: serializer.Serialize(writer, "STAR"); break;
+                case NodeType.Text: serializer.Serialize(writer, "TEXT"); break;
+                case NodeType.Vector: serializer.Serialize(writer, "VECTOR"); break;
             }
         }
     }
@@ -1820,7 +3240,7 @@ namespace QuickType
 
     internal class Converter: JsonConverter
     {
-        public override bool CanConvert(Type t) => t == typeof(BlendMode) || t == typeof(Horizontal) || t == typeof(Vertical) || t == typeof(EffectType) || t == typeof(ConstraintType) || t == typeof(Format) || t == typeof(PaintType) || t == typeof(StrokeAlign) || t == typeof(AbsoluteBoundingBoxType) || t == typeof(Alignment) || t == typeof(Pattern) || t == typeof(TextAlignHorizontal) || t == typeof(TextAlignVertical) || t == typeof(BlendMode?) || t == typeof(Horizontal?) || t == typeof(Vertical?) || t == typeof(EffectType?) || t == typeof(ConstraintType?) || t == typeof(Format?) || t == typeof(PaintType?) || t == typeof(StrokeAlign?) || t == typeof(AbsoluteBoundingBoxType?) || t == typeof(Alignment?) || t == typeof(Pattern?) || t == typeof(TextAlignHorizontal?) || t == typeof(TextAlignVertical?);
+        public override bool CanConvert(Type t) => t == typeof(BlendMode) || t == typeof(Horizontal) || t == typeof(Vertical) || t == typeof(EffectType) || t == typeof(ConstraintType) || t == typeof(Format) || t == typeof(PaintType) || t == typeof(StrokeAlign) || t == typeof(NodeType) || t == typeof(Alignment) || t == typeof(Pattern) || t == typeof(TextAlignHorizontal) || t == typeof(TextAlignVertical) || t == typeof(BlendMode?) || t == typeof(Horizontal?) || t == typeof(Vertical?) || t == typeof(EffectType?) || t == typeof(ConstraintType?) || t == typeof(Format?) || t == typeof(PaintType?) || t == typeof(StrokeAlign?) || t == typeof(NodeType?) || t == typeof(Alignment?) || t == typeof(Pattern?) || t == typeof(TextAlignHorizontal?) || t == typeof(TextAlignVertical?);
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
         {
@@ -1840,8 +3260,8 @@ namespace QuickType
                 return PaintTypeExtensions.ReadJson(reader, serializer);
             if (t == typeof(StrokeAlign))
                 return StrokeAlignExtensions.ReadJson(reader, serializer);
-            if (t == typeof(AbsoluteBoundingBoxType))
-                return AbsoluteBoundingBoxTypeExtensions.ReadJson(reader, serializer);
+            if (t == typeof(NodeType))
+                return NodeTypeExtensions.ReadJson(reader, serializer);
             if (t == typeof(Alignment))
                 return AlignmentExtensions.ReadJson(reader, serializer);
             if (t == typeof(Pattern))
@@ -1890,10 +3310,10 @@ namespace QuickType
                 if (reader.TokenType == JsonToken.Null) return null;
                 return StrokeAlignExtensions.ReadJson(reader, serializer);
             }
-            if (t == typeof(AbsoluteBoundingBoxType?))
+            if (t == typeof(NodeType?))
             {
                 if (reader.TokenType == JsonToken.Null) return null;
-                return AbsoluteBoundingBoxTypeExtensions.ReadJson(reader, serializer);
+                return NodeTypeExtensions.ReadJson(reader, serializer);
             }
             if (t == typeof(Alignment?))
             {
@@ -1961,9 +3381,9 @@ namespace QuickType
                 ((StrokeAlign)value).WriteJson(writer, serializer);
                 return;
             }
-            if (t == typeof(AbsoluteBoundingBoxType))
+            if (t == typeof(NodeType))
             {
-                ((AbsoluteBoundingBoxType)value).WriteJson(writer, serializer);
+                ((NodeType)value).WriteJson(writer, serializer);
                 return;
             }
             if (t == typeof(Alignment))

@@ -7,13 +7,21 @@ import com.fasterxml.jackson.annotation.*;
  * Represents a single page
  */
 public class Canvas {
+    private Node[] children;
     private Color backgroundColor;
-    private DocumentElement[] children;
     private ExportSetting[] exportSettings;
     private String id;
     private String name;
-    private NodeType type;
     private boolean visible;
+    private NodeType type;
+
+    /**
+     * An array of top level layers on the canvas
+     */
+    @JsonProperty("children")
+    public Node[] getChildren() { return children; }
+    @JsonProperty("children")
+    public void setChildren(Node[] value) { this.children = value; }
 
     /**
      * Background color of the canvas
@@ -22,14 +30,6 @@ public class Canvas {
     public Color getBackgroundColor() { return backgroundColor; }
     @JsonProperty("backgroundColor")
     public void setBackgroundColor(Color value) { this.backgroundColor = value; }
-
-    /**
-     * An array of top level layers on the canvas
-     */
-    @JsonProperty("children")
-    public DocumentElement[] getChildren() { return children; }
-    @JsonProperty("children")
-    public void setChildren(DocumentElement[] value) { this.children = value; }
 
     /**
      * An array of export settings representing images to export from the canvas
@@ -56,18 +56,18 @@ public class Canvas {
     public void setName(String value) { this.name = value; }
 
     /**
-     * the type of the node, refer to table below for details
-     */
-    @JsonProperty("type")
-    public NodeType getType() { return type; }
-    @JsonProperty("type")
-    public void setType(NodeType value) { this.type = value; }
-
-    /**
      * whether or not the node is visible on the canvas
      */
     @JsonProperty("visible")
     public boolean getVisible() { return visible; }
     @JsonProperty("visible")
     public void setVisible(boolean value) { this.visible = value; }
+
+    /**
+     * the type of the node, refer to table below for details
+     */
+    @JsonProperty("type")
+    public NodeType getType() { return type; }
+    @JsonProperty("type")
+    public void setType(NodeType value) { this.type = value; }
 }

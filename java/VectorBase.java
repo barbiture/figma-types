@@ -3,10 +3,7 @@ package io.quicktype;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
-/**
- * A group that has a boolean operation applied to it
- */
-public class BooleanGroup {
+public class VectorBase {
     private Effect[] effects;
     private double opacity;
     private String name;
@@ -24,7 +21,6 @@ public class BooleanGroup {
     private String id;
     private Paint[] strokes;
     private boolean preserveRatio;
-    private Node[] children;
 
     /**
      * An array of effects attached to this node
@@ -166,12 +162,4 @@ public class BooleanGroup {
     public boolean getPreserveRatio() { return preserveRatio; }
     @JsonProperty("preserveRatio")
     public void setPreserveRatio(boolean value) { this.preserveRatio = value; }
-
-    /**
-     * An array of nodes that are being boolean operated on
-     */
-    @JsonProperty("children")
-    public Node[] getChildren() { return children; }
-    @JsonProperty("children")
-    public void setChildren(Node[] value) { this.children = value; }
 }

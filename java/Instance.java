@@ -25,7 +25,7 @@ public class Instance {
     private NodeType type;
     private String id;
     private boolean preserveRatio;
-    private DocumentElement[] children;
+    private Node[] children;
 
     /**
      * An array of effects attached to this node
@@ -171,7 +171,7 @@ public class Instance {
      * An array of nodes that are direct children of this node
      */
     @JsonProperty("children")
-    public DocumentElement[] getChildren() { return children; }
+    public Node[] getChildren() { return children; }
     @JsonProperty("children")
-    public void setChildren(DocumentElement[] value) { this.children = value; }
+    public void setChildren(Node[] value) { this.children = value; }
 }
