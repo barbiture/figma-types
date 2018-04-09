@@ -25,104 +25,104 @@ import Foundation
 ///
 /// key String
 /// File to export JSON from
-struct FileResponse: Codable {
+public struct FileResponse: Codable {
     /// A mapping from node IDs to component metadata. This is to help you determine which
     /// components each instance comes from. Currently the only piece of metadata available on
     /// components is the name of the component, but more properties will be forthcoming.
-    let components: [String: Component]
+    public let components: [String: Component]
     /// The root node within the document
-    let document: FileResponseDocument
-    let schemaVersion: Double
+    public let document: FileResponseDocument
+    public let schemaVersion: Double
 }
 
 /// A node that can have instances created of it that share the same properties
-struct Component: Codable {
+public struct Component: Codable {
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: Rectangle
+    public let absoluteBoundingBox: Rectangle
     /// Background color of the node
-    let backgroundColor: Color
+    public let backgroundColor: Color
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
-    let blendMode: LendMode
+    public let blendMode: LendMode
     /// An array of nodes that are direct children of this node
-    let children: [DocumentElement]
+    public let children: [DocumentElement]
     /// Does this node clip content outside of its bounds?
-    let clipsContent: Bool
+    public let clipsContent: Bool
     /// Horizontal and vertical layout constraints for node
-    let constraints: LayoutConstraint
+    public let constraints: LayoutConstraint
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [Effect]
+    public let effects: [Effect]
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSetting]
+    public let exportSettings: [ExportSetting]
     /// a string uniquely identifying this node within the document
-    let id: String
+    public let id: String
     /// Does this node mask sibling nodes in front of it?
-    let isMask: Bool
+    public let isMask: Bool
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
-    let layoutGrids: [LayoutGrid]
+    public let layoutGrids: [LayoutGrid]
     /// the name given to the node by the user in the tool.
-    let name: String
+    public let name: String
     /// Opacity of the node
-    let opacity: Double
+    public let opacity: Double
     /// Keep height and width constrained to same ratio
-    let preserveRatio: Bool
+    public let preserveRatio: Bool
     /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String?
+    public let transitionNodeID: String?
     /// the type of the node, refer to table below for details
-    let type: NodeType
+    public let type: NodeType
     /// whether or not the node is visible on the canvas
-    let visible: Bool
+    public let visible: Bool
 }
 
 /// Bounding box of the node in absolute space coordinates
 ///
 /// A rectangle
-class Rectangle: Codable {
+public class Rectangle: Codable {
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: Rectangle
+    public let absoluteBoundingBox: Rectangle
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
-    let blendMode: LendMode
+    public let blendMode: LendMode
     /// Horizontal and vertical layout constraints for node
-    let constraints: LayoutConstraint
+    public let constraints: LayoutConstraint
     /// Radius of each corner of the rectangle
-    let cornerRadius: Double
+    public let cornerRadius: Double
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [Effect]
+    public let effects: [Effect]
     /// An array of export settings representing images to export from node
-    let exportSettings: [ExportSetting]
+    public let exportSettings: [ExportSetting]
     /// An array of fill paints applied to the node
-    let fills: [Paint]
+    public let fills: [Paint]
     /// a string uniquely identifying this node within the document
-    let id: String
+    public let id: String
     /// Does this node mask sibling nodes in front of it?
-    let isMask: Bool
+    public let isMask: Bool
     /// the name given to the node by the user in the tool.
-    let name: String
+    public let name: String
     /// Opacity of the node
-    let opacity: Double
+    public let opacity: Double
     /// Keep height and width constrained to same ratio
-    let preserveRatio: Bool
+    public let preserveRatio: Bool
     /// Where stroke is drawn relative to the vector outline as a string enum
     /// "INSIDE": draw stroke inside the shape boundary
     /// "OUTSIDE": draw stroke outside the shape boundary
     /// "CENTER": draw stroke centered along the shape boundary
-    let strokeAlign: StrokeAlign
+    public let strokeAlign: StrokeAlign
     /// An array of stroke paints applied to the node
-    let strokes: [Paint]
+    public let strokes: [Paint]
     /// The weight of strokes on the node
-    let strokeWeight: Double
+    public let strokeWeight: Double
     /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String?
+    public let transitionNodeID: String?
     /// the type of the node, refer to table below for details
-    let type: NodeType
+    public let type: NodeType
     /// whether or not the node is visible on the canvas
-    let visible: Bool
+    public let visible: Bool
 
-    init(absoluteBoundingBox: Rectangle, blendMode: LendMode, constraints: LayoutConstraint, cornerRadius: Double, effects: [Effect], exportSettings: [ExportSetting], fills: [Paint], id: String, isMask: Bool, name: String, opacity: Double, preserveRatio: Bool, strokeAlign: StrokeAlign, strokes: [Paint], strokeWeight: Double, transitionNodeID: String?, type: NodeType, visible: Bool) {
+    public init(absoluteBoundingBox: Rectangle, blendMode: LendMode, constraints: LayoutConstraint, cornerRadius: Double, effects: [Effect], exportSettings: [ExportSetting], fills: [Paint], id: String, isMask: Bool, name: String, opacity: Double, preserveRatio: Bool, strokeAlign: StrokeAlign, strokes: [Paint], strokeWeight: Double, transitionNodeID: String?, type: NodeType, visible: Bool) {
         self.absoluteBoundingBox = absoluteBoundingBox
         self.blendMode = blendMode
         self.constraints = constraints
@@ -149,7 +149,7 @@ class Rectangle: Codable {
 ///
 /// Enum describing how layer blends with layers below
 /// This type is a string enum with the following possible values
-enum LendMode: String, Codable {
+public enum LendMode: String, Codable {
     case color = "COLOR"
     case colorBurn = "COLOR_BURN"
     case colorDodge = "COLOR_DODGE"
@@ -174,7 +174,7 @@ enum LendMode: String, Codable {
 /// Horizontal and vertical layout constraints for node
 ///
 /// Layout constraint relative to containing Frame
-struct LayoutConstraint: Codable {
+public struct LayoutConstraint: Codable {
     /// Horizontal constraint as an enum
     /// "LEFT": Node is laid out relative to left of the containing frame
     /// "RIGHT": Node is laid out relative to right of the containing frame
@@ -182,7 +182,7 @@ struct LayoutConstraint: Codable {
     /// "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
     /// (node stretches with frame)
     /// "SCALE": Node scales horizontally with containing frame
-    let horizontal: Horizontal
+    public let horizontal: Horizontal
     /// Vertical constraint as an enum
     /// "TOP": Node is laid out relative to top of the containing frame
     /// "BOTTOM": Node is laid out relative to bottom of the containing frame
@@ -190,7 +190,7 @@ struct LayoutConstraint: Codable {
     /// "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
     /// (node stretches with frame)
     /// "SCALE": Node scales vertically with containing frame
-    let vertical: Vertical
+    public let vertical: Vertical
 }
 
 /// Horizontal constraint as an enum
@@ -200,7 +200,7 @@ struct LayoutConstraint: Codable {
 /// "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
 /// (node stretches with frame)
 /// "SCALE": Node scales horizontally with containing frame
-enum Horizontal: String, Codable {
+public enum Horizontal: String, Codable {
     case center = "CENTER"
     case horizontalLEFT = "LEFT"
     case horizontalRIGHT = "RIGHT"
@@ -215,7 +215,7 @@ enum Horizontal: String, Codable {
 /// "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
 /// (node stretches with frame)
 /// "SCALE": Node scales vertically with containing frame
-enum Vertical: String, Codable {
+public enum Vertical: String, Codable {
     case bottom = "BOTTOM"
     case center = "CENTER"
     case scale = "SCALE"
@@ -227,20 +227,20 @@ enum Vertical: String, Codable {
 /// (see effects sectionfor more details)
 ///
 /// A visual effect such as a shadow or blur
-struct Effect: Codable {
+public struct Effect: Codable {
     /// Enum describing how layer blends with layers below
     /// This type is a string enum with the following possible values
-    let blendMode: LendMode?
+    public let blendMode: LendMode?
     /// An RGBA color
-    let color: Color?
+    public let color: Color?
     /// A 2d vector
-    let offset: Vector2?
+    public let offset: Vector2?
     /// Radius of the blur effect (applies to shadows as well)
-    let radius: Double
+    public let radius: Double
     /// Type of effect as a string enum
-    let type: EffectType
+    public let type: EffectType
     /// Is the effect active?
-    let visible: Bool
+    public let visible: Bool
 }
 
 /// Background color of the node
@@ -254,15 +254,15 @@ struct Effect: Codable {
 /// Background color of the canvas
 ///
 /// Color attached to corresponding position
-struct Color: Codable {
+public struct Color: Codable {
     /// Alpha channel value, between 0 and 1
-    let a: Double
+    public let a: Double
     /// Blue channel value, between 0 and 1
-    let b: Double
+    public let b: Double
     /// Green channel value, between 0 and 1
-    let g: Double
+    public let g: Double
     /// Red channel value, between 0 and 1
-    let r: Double
+    public let r: Double
 }
 
 /// 2d vector offset within the frame.
@@ -277,15 +277,15 @@ struct Color: Codable {
 /// the second position is the end of the gradient (value 1), and the
 /// third handle position determines the width of the gradient (only
 /// relevant for non-linear gradients).
-struct Vector2: Codable {
+public struct Vector2: Codable {
     /// X coordinate of the vector
-    let x: Double
+    public let x: Double
     /// Y coordinate of the vector
-    let y: Double
+    public let y: Double
 }
 
 /// Type of effect as a string enum
-enum EffectType: String, Codable {
+public enum EffectType: String, Codable {
     case backgroundBlur = "BACKGROUND_BLUR"
     case dropShadow = "DROP_SHADOW"
     case innerShadow = "INNER_SHADOW"
@@ -299,40 +299,40 @@ enum EffectType: String, Codable {
 /// An array of export settings representing images to export from this node
 ///
 /// An array of export settings representing images to export from the canvas
-struct ExportSetting: Codable {
+public struct ExportSetting: Codable {
     /// Constraint that determines sizing of exported asset
-    let constraint: Constraint
+    public let constraint: Constraint
     /// Image type, string enum
-    let format: Format
+    public let format: Format
     /// File suffix to append to all filenames
-    let suffix: String
+    public let suffix: String
 }
 
 /// Constraint that determines sizing of exported asset
 ///
 /// Sizing constraint for exports
-struct Constraint: Codable {
+public struct Constraint: Codable {
     /// Type of constraint to apply; string enum with potential values below
     /// "SCALE": Scale by value
     /// "WIDTH": Scale proportionally and set width to value
     /// "HEIGHT": Scale proportionally and set height to value
-    let type: ConstraintType
+    public let type: ConstraintType
     /// See type property for effect of this field
-    let value: Double
+    public let value: Double
 }
 
 /// Type of constraint to apply; string enum with potential values below
 /// "SCALE": Scale by value
 /// "WIDTH": Scale proportionally and set width to value
 /// "HEIGHT": Scale proportionally and set height to value
-enum ConstraintType: String, Codable {
+public enum ConstraintType: String, Codable {
     case height = "HEIGHT"
     case scale = "SCALE"
     case width = "WIDTH"
 }
 
 /// Image type, string enum
-enum Format: String, Codable {
+public enum Format: String, Codable {
     case jpg = "JPG"
     case png = "PNG"
     case svg = "SVG"
@@ -345,9 +345,9 @@ enum Format: String, Codable {
 /// An array of stroke paints applied to the node
 ///
 /// Paints applied to characters
-struct Paint: Codable {
+public struct Paint: Codable {
     /// Solid color of the paint
-    let color: Color?
+    public let color: Color?
     /// This field contains three vectors, each of which are a position in
     /// normalized object space (normalized object space is if the top left
     /// corner of the bounding box of the object is (0, 0) and the bottom
@@ -356,20 +356,20 @@ struct Paint: Codable {
     /// the second position is the end of the gradient (value 1), and the
     /// third handle position determines the width of the gradient (only
     /// relevant for non-linear gradients).
-    let gradientHandlePositions: [Vector2]?
+    public let gradientHandlePositions: [Vector2]?
     /// Positions of key points along the gradient axis with the colors
     /// anchored there. Colors along the gradient are interpolated smoothly
     /// between neighboring gradient stops.
-    let gradientStops: [ColorStop]?
+    public let gradientStops: [ColorStop]?
     /// Overall opacity of paint (colors within the paint can also have opacity
     /// values which would blend with this)
-    let opacity: Double
+    public let opacity: Double
     /// Image scaling mode
-    let scaleMode: String?
+    public let scaleMode: String?
     /// Type of paint as a string enum
-    let type: PaintType
+    public let type: PaintType
     /// Is the paint enabled?
-    let visible: Bool
+    public let visible: Bool
 }
 
 /// Positions of key points along the gradient axis with the colors
@@ -377,15 +377,15 @@ struct Paint: Codable {
 /// between neighboring gradient stops.
 ///
 /// A position color pair representing a gradient stop
-struct ColorStop: Codable {
+public struct ColorStop: Codable {
     /// Color attached to corresponding position
-    let color: Color
+    public let color: Color
     /// Value between 0 and 1 representing position along gradient axis
-    let position: Double
+    public let position: Double
 }
 
 /// Type of paint as a string enum
-enum PaintType: String, Codable {
+public enum PaintType: String, Codable {
     case emoji = "EMOJI"
     case gradientAngular = "GRADIENT_ANGULAR"
     case gradientDiamond = "GRADIENT_DIAMOND"
@@ -399,14 +399,14 @@ enum PaintType: String, Codable {
 /// "INSIDE": draw stroke inside the shape boundary
 /// "OUTSIDE": draw stroke outside the shape boundary
 /// "CENTER": draw stroke centered along the shape boundary
-enum StrokeAlign: String, Codable {
+public enum StrokeAlign: String, Codable {
     case center = "CENTER"
     case inside = "INSIDE"
     case outside = "OUTSIDE"
 }
 
 /// the type of the node, refer to table below for details
-enum NodeType: String, Codable {
+public enum NodeType: String, Codable {
     case boolean = "BOOLEAN"
     case canvas = "CANVAS"
     case component = "COMPONENT"
@@ -467,7 +467,7 @@ enum NodeType: String, Codable {
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
-struct DocumentElement: Codable {
+public struct DocumentElement: Codable {
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -475,76 +475,76 @@ struct DocumentElement: Codable {
     /// An array of nodes that are direct children of this node
     ///
     /// An array of nodes that are being boolean operated on
-    let children: [DocumentElement]?
+    public let children: [DocumentElement]?
     /// a string uniquely identifying this node within the document
-    let id: String
+    public let id: String
     /// the name given to the node by the user in the tool.
-    let name: String
+    public let name: String
     /// the type of the node, refer to table below for details
-    let type: NodeType
+    public let type: NodeType
     /// whether or not the node is visible on the canvas
-    let visible: Bool
+    public let visible: Bool
     /// Background color of the canvas
     ///
     /// Background color of the node
-    let backgroundColor: Color?
+    public let backgroundColor: Color?
     /// An array of export settings representing images to export from the canvas
     ///
     /// An array of export settings representing images to export from node
     ///
     /// An array of export settings representing images to export from this node
-    let exportSettings: [ExportSetting]?
+    public let exportSettings: [ExportSetting]?
     /// Bounding box of the node in absolute space coordinates
-    let absoluteBoundingBox: Rectangle?
+    public let absoluteBoundingBox: Rectangle?
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
-    let blendMode: LendMode?
+    public let blendMode: LendMode?
     /// Does this node clip content outside of its bounds?
-    let clipsContent: Bool?
+    public let clipsContent: Bool?
     /// Horizontal and vertical layout constraints for node
-    let constraints: LayoutConstraint?
+    public let constraints: LayoutConstraint?
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
-    let effects: [Effect]?
+    public let effects: [Effect]?
     /// Does this node mask sibling nodes in front of it?
-    let isMask: Bool?
+    public let isMask: Bool?
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
-    let layoutGrids: [LayoutGrid]?
+    public let layoutGrids: [LayoutGrid]?
     /// Opacity of the node
-    let opacity: Double?
+    public let opacity: Double?
     /// Keep height and width constrained to same ratio
-    let preserveRatio: Bool?
+    public let preserveRatio: Bool?
     /// Node ID of node to transition to in prototyping
-    let transitionNodeID: String?
+    public let transitionNodeID: String?
     /// An array of fill paints applied to the node
-    let fills: [Paint]?
+    public let fills: [Paint]?
     /// Where stroke is drawn relative to the vector outline as a string enum
     /// "INSIDE": draw stroke inside the shape boundary
     /// "OUTSIDE": draw stroke outside the shape boundary
     /// "CENTER": draw stroke centered along the shape boundary
-    let strokeAlign: StrokeAlign?
+    public let strokeAlign: StrokeAlign?
     /// An array of stroke paints applied to the node
-    let strokes: [Paint]?
+    public let strokes: [Paint]?
     /// The weight of strokes on the node
-    let strokeWeight: Double?
+    public let strokeWeight: Double?
     /// Radius of each corner of the rectangle
-    let cornerRadius: Double?
+    public let cornerRadius: Double?
     /// Text contained within text box
-    let characters: String?
+    public let characters: String?
     /// Array with same number of elements as characeters in text box,
     /// each element is a reference to the styleOverrideTable defined
     /// below and maps to the corresponding character in the characters
     /// field. Elements with value 0 have the default type style
-    let characterStyleOverrides: [Double]?
+    public let characterStyleOverrides: [Double]?
     /// Style of text including font family and weight (see type style
     /// section for more information)
-    let style: TypeStyle?
+    public let style: TypeStyle?
     /// Map from ID to TypeStyle for looking up style overrides
-    let styleOverrideTable: [TypeStyle]?
+    public let styleOverrideTable: [TypeStyle]?
     /// ID of component that this instance came from, refers to components
     /// table (see endpoints section below)
-    let componentID: String?
+    public let componentID: String?
 
     enum CodingKeys: String, CodingKey {
         case children, id, name, type, visible, backgroundColor, exportSettings, absoluteBoundingBox, blendMode, clipsContent, constraints, effects, isMask, layoutGrids, opacity, preserveRatio, transitionNodeID, fills, strokeAlign, strokes, strokeWeight, cornerRadius, characters, characterStyleOverrides, style, styleOverrideTable
@@ -556,36 +556,36 @@ struct DocumentElement: Codable {
 /// for more details). GROUP nodes do not have this attribute
 ///
 /// Guides to align and place objects within a frame
-struct LayoutGrid: Codable {
+public struct LayoutGrid: Codable {
     /// Positioning of grid as a string enum
     /// "MIN": Grid starts at the left or top of the frame
     /// "MAX": Grid starts at the right or bottom of the frame
     /// "CENTER": Grid is center aligned
-    let alignment: Alignment
+    public let alignment: Alignment
     /// Color of the grid
-    let color: Color
+    public let color: Color
     /// Number of columns or rows
-    let count: Double
+    public let count: Double
     /// Spacing in between columns and rows
-    let gutterSize: Double
+    public let gutterSize: Double
     /// Spacing before the first column or row
-    let offset: Double
+    public let offset: Double
     /// Orientation of the grid as a string enum
     /// "COLUMNS": Vertical grid
     /// "ROWS": Horizontal grid
     /// "GRID": Square grid
-    let pattern: Pattern
+    public let pattern: Pattern
     /// Width of column grid or height of row grid or square grid spacing
-    let sectionSize: Double
+    public let sectionSize: Double
     /// Is the grid currently visible?
-    let visible: Bool
+    public let visible: Bool
 }
 
 /// Positioning of grid as a string enum
 /// "MIN": Grid starts at the left or top of the frame
 /// "MAX": Grid starts at the right or bottom of the frame
 /// "CENTER": Grid is center aligned
-enum Alignment: String, Codable {
+public enum Alignment: String, Codable {
     case center = "CENTER"
     case max = "MAX"
     case min = "MIN"
@@ -595,7 +595,7 @@ enum Alignment: String, Codable {
 /// "COLUMNS": Vertical grid
 /// "ROWS": Horizontal grid
 /// "GRID": Square grid
-enum Pattern: String, Codable {
+public enum Pattern: String, Codable {
     case columns = "COLUMNS"
     case grid = "GRID"
     case rows = "ROWS"
@@ -607,33 +607,33 @@ enum Pattern: String, Codable {
 ///
 /// Style of text including font family and weight (see type style
 /// section for more information)
-struct TypeStyle: Codable {
+public struct TypeStyle: Codable {
     /// Paints applied to characters
-    let fills: [Paint]
+    public let fills: [Paint]
     /// Font family of text (standard name)
-    let fontFamily: String
+    public let fontFamily: String
     /// PostScript font name
-    let fontPostScriptName: String
+    public let fontPostScriptName: String
     /// Font size in px
-    let fontSize: Double
+    public let fontSize: Double
     /// Numeric font weight
-    let fontWeight: Double
+    public let fontWeight: Double
     /// Is text italicized?
-    let italic: Bool
+    public let italic: Bool
     /// Space between characters in px
-    let letterSpacing: Double
+    public let letterSpacing: Double
     /// Line height as a percentage of normal line height
-    let lineHeightPercent: Double
+    public let lineHeightPercent: Double
     /// Line height in px
-    let lineHeightPx: Double
+    public let lineHeightPx: Double
     /// Horizontal text alignment as string enum
-    let textAlignHorizontal: TextAlignHorizontal
+    public let textAlignHorizontal: TextAlignHorizontal
     /// Vertical text alignment as string enum
-    let textAlignVertical: TextAlignVertical
+    public let textAlignVertical: TextAlignVertical
 }
 
 /// Horizontal text alignment as string enum
-enum TextAlignHorizontal: String, Codable {
+public enum TextAlignHorizontal: String, Codable {
     case center = "CENTER"
     case justified = "JUSTIFIED"
     case textAlignHorizontalLEFT = "LEFT"
@@ -641,7 +641,7 @@ enum TextAlignHorizontal: String, Codable {
 }
 
 /// Vertical text alignment as string enum
-enum TextAlignVertical: String, Codable {
+public enum TextAlignVertical: String, Codable {
     case bottom = "BOTTOM"
     case center = "CENTER"
     case top = "TOP"
@@ -651,17 +651,17 @@ enum TextAlignVertical: String, Codable {
 /// The root node
 ///
 /// The root node within the document
-struct FileResponseDocument: Codable {
+public struct FileResponseDocument: Codable {
     /// An array of canvases attached to the document
-    let children: [DocumentElement]
+    public let children: [DocumentElement]
     /// a string uniquely identifying this node within the document
-    let id: String
+    public let id: String
     /// the name given to the node by the user in the tool.
-    let name: String
+    public let name: String
     /// the type of the node, refer to table below for details
-    let type: NodeType
+    public let type: NodeType
     /// whether or not the node is visible on the canvas
-    let visible: Bool
+    public let visible: Bool
 }
 
 /// GET /v1/files/:key/comments
@@ -672,31 +672,31 @@ struct FileResponseDocument: Codable {
 /// > Path parameters
 /// key String
 /// File to get comments from
-struct CommentsResponse: Codable {
-    let comments: [Comment]
+public struct CommentsResponse: Codable {
+    public let comments: [Comment]
 }
 
 /// A comment or reply left by a user
-struct Comment: Codable {
-    let clientMeta: ClientMeta
+public struct Comment: Codable {
+    public let clientMeta: ClientMeta
     /// The time at which the comment was left
-    let createdAt: String
+    public let createdAt: String
     /// The file in which the comment lives
-    let fileKey: String
+    public let fileKey: String
     /// Unique identifier for comment
-    let id: String
+    public let id: String
     /// (MISSING IN DOCS)
     /// The content of the comment
-    let message: String
+    public let message: String
     /// Only set for top level comments. The number displayed with the
     /// comment in the UI
-    let orderID: Double
+    public let orderID: Double
     /// If present, the id of the comment to which this is the reply
-    let parentID: String
+    public let parentID: String
     /// If set, when the comment was resolved
-    let resolvedAt: String?
+    public let resolvedAt: String?
     /// The user who left the comment
-    let user: User
+    public let user: User
 
     enum CodingKeys: String, CodingKey {
         case clientMeta = "client_meta"
@@ -724,15 +724,15 @@ struct Comment: Codable {
 /// relevant for non-linear gradients).
 ///
 /// A relative offset within a frame
-struct ClientMeta: Codable {
+public struct ClientMeta: Codable {
     /// X coordinate of the vector
-    let x: Double?
+    public let x: Double?
     /// Y coordinate of the vector
-    let y: Double?
+    public let y: Double?
     /// Unique id specifying the frame.
-    let nodeID: [String]?
+    public let nodeID: [String]?
     /// 2d vector offset within the frame.
-    let nodeOffset: Vector2?
+    public let nodeOffset: Vector2?
 
     enum CodingKeys: String, CodingKey {
         case x, y
@@ -744,8 +744,8 @@ struct ClientMeta: Codable {
 /// The user who left the comment
 ///
 /// A description of a user
-struct User: Codable {
-    let handle, imgURL: String
+public struct User: Codable {
+    public let handle, imgURL: String
 
     enum CodingKeys: String, CodingKey {
         case handle
@@ -775,9 +775,9 @@ struct User: Codable {
 ///
 /// > Error codes
 /// 404 The specified file was not found
-struct CommentRequest: Codable {
-    let clientMeta: ClientMeta
-    let message: String
+public struct CommentRequest: Codable {
+    public let clientMeta: ClientMeta
+    public let message: String
 
     enum CodingKeys: String, CodingKey {
         case clientMeta = "client_meta"
@@ -794,13 +794,13 @@ struct CommentRequest: Codable {
 /// > Path parameters
 /// team_id String
 /// Id of the team to list projects from
-struct ProjectsResponse: Codable {
-    let projects: [Project]
+public struct ProjectsResponse: Codable {
+    public let projects: [Project]
 }
 
-struct Project: Codable {
-    let id: Double
-    let name: String
+public struct Project: Codable {
+    public let id: Double
+    public let name: String
 }
 
 /// GET /v1/projects/:project_id/files
@@ -811,15 +811,15 @@ struct Project: Codable {
 /// > Path parameters
 /// project_id String
 /// Id of the project to list files from
-struct ProjectFilesResponse: Codable {
-    let files: [File]
+public struct ProjectFilesResponse: Codable {
+    public let files: [File]
 }
 
-struct File: Codable {
-    let key: String
+public struct File: Codable {
+    public let key: String
     /// utc date in iso8601
-    let lastModified: String
-    let name, thumbnailURL: String
+    public let lastModified: String
+    public let name, thumbnailURL: String
 
     enum CodingKeys: String, CodingKey {
         case key
@@ -831,603 +831,603 @@ struct File: Codable {
 
 // MARK: Convenience initializers
 
-extension FileResponse {
-    init(data: Data) throws {
+public extension FileResponse {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(FileResponse.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Component {
-    init(data: Data) throws {
+public extension Component {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(Component.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Rectangle {
-    convenience init(data: Data) throws {
+public extension Rectangle {
+    public convenience init(data: Data) throws {
         let me = try JSONDecoder().decode(Rectangle.self, from: data)
         self.init(absoluteBoundingBox: me.absoluteBoundingBox, blendMode: me.blendMode, constraints: me.constraints, cornerRadius: me.cornerRadius, effects: me.effects, exportSettings: me.exportSettings, fills: me.fills, id: me.id, isMask: me.isMask, name: me.name, opacity: me.opacity, preserveRatio: me.preserveRatio, strokeAlign: me.strokeAlign, strokes: me.strokes, strokeWeight: me.strokeWeight, transitionNodeID: me.transitionNodeID, type: me.type, visible: me.visible)
     }
 
-    convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    convenience init(fromURL url: URL) throws {
+    public convenience init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension LayoutConstraint {
-    init(data: Data) throws {
+public extension LayoutConstraint {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(LayoutConstraint.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Effect {
-    init(data: Data) throws {
+public extension Effect {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(Effect.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Color {
-    init(data: Data) throws {
+public extension Color {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(Color.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Vector2 {
-    init(data: Data) throws {
+public extension Vector2 {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(Vector2.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension ExportSetting {
-    init(data: Data) throws {
+public extension ExportSetting {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(ExportSetting.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Constraint {
-    init(data: Data) throws {
+public extension Constraint {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(Constraint.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Paint {
-    init(data: Data) throws {
+public extension Paint {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(Paint.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension ColorStop {
-    init(data: Data) throws {
+public extension ColorStop {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(ColorStop.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension DocumentElement {
-    init(data: Data) throws {
+public extension DocumentElement {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(DocumentElement.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension LayoutGrid {
-    init(data: Data) throws {
+public extension LayoutGrid {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(LayoutGrid.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension TypeStyle {
-    init(data: Data) throws {
+public extension TypeStyle {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(TypeStyle.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension FileResponseDocument {
-    init(data: Data) throws {
+public extension FileResponseDocument {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(FileResponseDocument.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension CommentsResponse {
-    init(data: Data) throws {
+public extension CommentsResponse {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(CommentsResponse.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Comment {
-    init(data: Data) throws {
+public extension Comment {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(Comment.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension ClientMeta {
-    init(data: Data) throws {
+public extension ClientMeta {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(ClientMeta.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension User {
-    init(data: Data) throws {
+public extension User {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(User.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension CommentRequest {
-    init(data: Data) throws {
+public extension CommentRequest {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(CommentRequest.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension ProjectsResponse {
-    init(data: Data) throws {
+public extension ProjectsResponse {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(ProjectsResponse.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension Project {
-    init(data: Data) throws {
+public extension Project {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(Project.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension ProjectFilesResponse {
-    init(data: Data) throws {
+public extension ProjectFilesResponse {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(ProjectFilesResponse.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
 
-extension File {
-    init(data: Data) throws {
+public extension File {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(File.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func jsonData() throws -> Data {
+    public func jsonData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }

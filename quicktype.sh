@@ -2,8 +2,8 @@
 
 set -xe
 
-quicktype types/*.ts -o swift/Figma.swift
-quicktype types/*.ts -o swift-alamofire/Figma.swift --alamofire
+quicktype types/*.ts -o swift/Figma.swift --access-level public
+quicktype types/*.ts -o swift-alamofire/Figma.swift --alamofire --access-level public
 quicktype types/*.ts -o csharp/Figma.cs
 quicktype types/*.ts -o go/figma.go
 quicktype types/*.ts -o rust/figma.rs
