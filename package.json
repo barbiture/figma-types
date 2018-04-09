@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "prepare": "npm upgrade quicktype && npm run quicktype",
-    "quicktype": "./quicktype.sh",
-    "start": "watch \"npm run quicktype\" types"
+    "quicktype": "script/quicktype",
+    "start": "watch \"npm run quicktype\" types",
+    "test": "npm run quicktype and script/test"
   },
   "repository": {
     "type": "git",
