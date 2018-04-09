@@ -3,3 +3,5 @@
 dotnet build csharp/Figma.csproj
 
 pushd swift && swiftc Figma.swift && popd
+
+clang -framework Foundation objective-c/*.m -o objective-c/figma
