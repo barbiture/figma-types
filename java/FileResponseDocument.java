@@ -4,40 +4,25 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * Represents a single page
+ * Node Properties
+ * The root node
+ *
+ * The root node within the document
  */
-public class Canvas {
-    private Color backgroundColor;
-    private Node[] children;
-    private ExportSetting[] exportSettings;
+public class FileResponseDocument {
+    private DocumentElement[] children;
     private String id;
     private String name;
     private NodeType type;
     private boolean visible;
 
     /**
-     * Background color of the canvas
-     */
-    @JsonProperty("backgroundColor")
-    public Color getBackgroundColor() { return backgroundColor; }
-    @JsonProperty("backgroundColor")
-    public void setBackgroundColor(Color value) { this.backgroundColor = value; }
-
-    /**
-     * An array of top level layers on the canvas
+     * An array of canvases attached to the document
      */
     @JsonProperty("children")
-    public Node[] getChildren() { return children; }
+    public DocumentElement[] getChildren() { return children; }
     @JsonProperty("children")
-    public void setChildren(Node[] value) { this.children = value; }
-
-    /**
-     * An array of export settings representing images to export from the canvas
-     */
-    @JsonProperty("exportSettings")
-    public ExportSetting[] getExportSettings() { return exportSettings; }
-    @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
+    public void setChildren(DocumentElement[] value) { this.children = value; }
 
     /**
      * a string uniquely identifying this node within the document

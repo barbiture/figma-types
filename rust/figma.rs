@@ -14,49 +14,35 @@
 extern crate serde_json;
 use std::collections::HashMap;
 
+/// GET /v1/files/:key
+///
+/// > Description
+///
+/// Returns the document refered to by :key as a JSON object. The file key can be parsed from
+/// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
+/// contains a Node of type DOCUMENT.
+///
+/// The "components" key contains a mapping from node IDs to component metadata. This is to
+/// help you determine which components each instance comes from. Currently the only piece of
+/// metadata available on components is the name of the component, but more properties will
+/// be forthcoming.
+///
+/// > Path parameters
+///
+/// key String
+/// File to export JSON from
 #[derive(Serialize, Deserialize)]
 pub struct FileResponse {
-    /// Node Properties
-    /// The root node
-    /// The root node within the document
-    #[serde(rename = "document")]
-    document: Document,
-
     /// A mapping from node IDs to component metadata. This is to help you determine which
     /// components each instance comes from. Currently the only piece of metadata available on
     /// components is the name of the component, but more properties will be forthcoming.
     #[serde(rename = "components")]
     components: HashMap<String, Component>,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
+    /// The root node within the document
+    #[serde(rename = "document")]
+    document: FileResponseDocument,
+
     #[serde(rename = "schemaVersion")]
     schema_version: f64,
 }
@@ -64,272 +50,132 @@ pub struct FileResponse {
 /// A node that can have instances created of it that share the same properties
 #[derive(Serialize, Deserialize)]
 pub struct Component {
+    /// Bounding box of the node in absolute space coordinates
+    #[serde(rename = "absoluteBoundingBox")]
+    absolute_bounding_box: Box<Rectangle>,
+
+    /// Background color of the node
+    #[serde(rename = "backgroundColor")]
+    background_color: Color,
+
+    /// How this node blends with nodes behind it in the scene
+    /// (see blend mode section for more details)
+    #[serde(rename = "blendMode")]
+    blend_mode: LendMode,
+
+    /// An array of nodes that are direct children of this node
+    #[serde(rename = "children")]
+    children: Vec<DocumentElement>,
+
+    /// Does this node clip content outside of its bounds?
+    #[serde(rename = "clipsContent")]
+    clips_content: bool,
+
+    /// Horizontal and vertical layout constraints for node
+    #[serde(rename = "constraints")]
+    constraints: LayoutConstraint,
+
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
     #[serde(rename = "effects")]
     effects: Vec<Effect>,
+
+    /// An array of export settings representing images to export from node
+    #[serde(rename = "exportSettings")]
+    export_settings: Vec<ExportSetting>,
+
+    /// a string uniquely identifying this node within the document
+    #[serde(rename = "id")]
+    id: String,
+
+    /// Does this node mask sibling nodes in front of it?
+    #[serde(rename = "isMask")]
+    is_mask: bool,
 
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
     #[serde(rename = "layoutGrids")]
     layout_grids: Vec<LayoutGrid>,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "opacity")]
-    opacity: f64,
-
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
     /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "name")]
     name: String,
 
-    /// Bounding box of the node in absolute space coordinates
-    /// A rectangle
-    #[serde(rename = "absoluteBoundingBox")]
-    absolute_bounding_box: Box<Rectangle>,
+    /// Opacity of the node
+    #[serde(rename = "opacity")]
+    opacity: f64,
+
+    /// Keep height and width constrained to same ratio
+    #[serde(rename = "preserveRatio")]
+    preserve_ratio: bool,
 
     /// Node ID of node to transition to in prototyping
     #[serde(rename = "transitionNodeID")]
     transition_node_id: Option<String>,
 
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "visible")]
-    visible: bool,
-
-    /// Enum describing how layer blends with layers below
-    /// This type is a string enum with the following possible values
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    #[serde(rename = "blendMode")]
-    blend_mode: BlendMode,
-
-    /// Background color of the node
-    /// An RGBA color
-    /// Solid color of the paint
-    /// Color attached to corresponding position
-    /// Color of the grid
-    /// Background color of the canvas
-    #[serde(rename = "backgroundColor")]
-    background_color: Color,
-
-    /// Horizontal and vertical layout constraints for node
-    /// Layout constraint relative to containing Frame
-    #[serde(rename = "constraints")]
-    constraints: LayoutConstraint,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "isMask")]
-    is_mask: bool,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "clipsContent")]
-    clips_content: bool,
-
-    /// An array of export settings representing images to export from node
-    /// An array of export settings representing images to export from this node
-    /// An array of export settings representing images to export from the canvas
-    #[serde(rename = "exportSettings")]
-    export_settings: Vec<ExportSetting>,
-
     /// the type of the node, refer to table below for details
     #[serde(rename = "type")]
     component_type: NodeType,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "id")]
-    id: String,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
     /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "preserveRatio")]
-    preserve_ratio: bool,
-
-    /// An array of nodes that are direct children of this node
-    /// An array of nodes that are being boolean operated on
-    /// An array of top level layers on the canvas
-    /// An array of canvases attached to the document
-    #[serde(rename = "children")]
-    children: Vec<Node>,
+    #[serde(rename = "visible")]
+    visible: bool,
 }
 
 /// Bounding box of the node in absolute space coordinates
+///
 /// A rectangle
 #[derive(Serialize, Deserialize)]
 pub struct Rectangle {
+    /// Bounding box of the node in absolute space coordinates
+    #[serde(rename = "absoluteBoundingBox")]
+    absolute_bounding_box: Box<Rectangle>,
+
+    /// How this node blends with nodes behind it in the scene
+    /// (see blend mode section for more details)
+    #[serde(rename = "blendMode")]
+    blend_mode: LendMode,
+
+    /// Horizontal and vertical layout constraints for node
+    #[serde(rename = "constraints")]
+    constraints: LayoutConstraint,
+
+    /// Radius of each corner of the rectangle
+    #[serde(rename = "cornerRadius")]
+    corner_radius: f64,
+
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
     #[serde(rename = "effects")]
     effects: Vec<Effect>,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "cornerRadius")]
-    corner_radius: f64,
+    /// An array of export settings representing images to export from node
+    #[serde(rename = "exportSettings")]
+    export_settings: Vec<ExportSetting>,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
+    /// An array of fill paints applied to the node
+    #[serde(rename = "fills")]
+    fills: Vec<Paint>,
+
+    /// a string uniquely identifying this node within the document
+    #[serde(rename = "id")]
+    id: String,
+
+    /// Does this node mask sibling nodes in front of it?
+    #[serde(rename = "isMask")]
+    is_mask: bool,
+
+    /// the name given to the node by the user in the tool.
+    #[serde(rename = "name")]
+    name: String,
+
     /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "opacity")]
     opacity: f64,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "name")]
-    name: String,
+    /// Keep height and width constrained to same ratio
+    #[serde(rename = "preserveRatio")]
+    preserve_ratio: bool,
 
     /// Where stroke is drawn relative to the vector outline as a string enum
     /// "INSIDE": draw stroke inside the shape boundary
@@ -338,149 +184,32 @@ pub struct Rectangle {
     #[serde(rename = "strokeAlign")]
     stroke_align: StrokeAlign,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
+    /// An array of stroke paints applied to the node
+    #[serde(rename = "strokes")]
+    strokes: Vec<Paint>,
+
     /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "strokeWeight")]
     stroke_weight: f64,
-
-    /// An array of fill paints applied to the node
-    /// An array of stroke paints applied to the node
-    /// Paints applied to characters
-    #[serde(rename = "fills")]
-    fills: Vec<Paint>,
-
-    /// Bounding box of the node in absolute space coordinates
-    /// A rectangle
-    #[serde(rename = "absoluteBoundingBox")]
-    absolute_bounding_box: Box<Rectangle>,
 
     /// Node ID of node to transition to in prototyping
     #[serde(rename = "transitionNodeID")]
     transition_node_id: Option<String>,
 
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "visible")]
-    visible: bool,
-
-    /// Enum describing how layer blends with layers below
-    /// This type is a string enum with the following possible values
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    #[serde(rename = "blendMode")]
-    blend_mode: BlendMode,
-
-    /// Horizontal and vertical layout constraints for node
-    /// Layout constraint relative to containing Frame
-    #[serde(rename = "constraints")]
-    constraints: LayoutConstraint,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "isMask")]
-    is_mask: bool,
-
-    /// An array of export settings representing images to export from node
-    /// An array of export settings representing images to export from this node
-    /// An array of export settings representing images to export from the canvas
-    #[serde(rename = "exportSettings")]
-    export_settings: Vec<ExportSetting>,
-
     /// the type of the node, refer to table below for details
     #[serde(rename = "type")]
     rectangle_type: NodeType,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "id")]
-    id: String,
-
-    /// An array of fill paints applied to the node
-    /// An array of stroke paints applied to the node
-    /// Paints applied to characters
-    #[serde(rename = "strokes")]
-    strokes: Vec<Paint>,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
     /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "preserveRatio")]
-    preserve_ratio: bool,
+    #[serde(rename = "visible")]
+    visible: bool,
 }
 
 /// Horizontal and vertical layout constraints for node
+///
 /// Layout constraint relative to containing Frame
 #[derive(Serialize, Deserialize)]
 pub struct LayoutConstraint {
-    /// Vertical constraint as an enum
-    /// "TOP": Node is laid out relative to top of the containing frame
-    /// "BOTTOM": Node is laid out relative to bottom of the containing frame
-    /// "CENTER": Node is vertically centered relative to containing frame
-    /// "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
-    /// (node stretches with frame)
-    /// "SCALE": Node scales vertically with containing frame
-    #[serde(rename = "vertical")]
-    vertical: Vertical,
-
     /// Horizontal constraint as an enum
     /// "LEFT": Node is laid out relative to left of the containing frame
     /// "RIGHT": Node is laid out relative to right of the containing frame
@@ -490,229 +219,84 @@ pub struct LayoutConstraint {
     /// "SCALE": Node scales horizontally with containing frame
     #[serde(rename = "horizontal")]
     horizontal: Horizontal,
+
+    /// Vertical constraint as an enum
+    /// "TOP": Node is laid out relative to top of the containing frame
+    /// "BOTTOM": Node is laid out relative to bottom of the containing frame
+    /// "CENTER": Node is vertically centered relative to containing frame
+    /// "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
+    /// (node stretches with frame)
+    /// "SCALE": Node scales vertically with containing frame
+    #[serde(rename = "vertical")]
+    vertical: Vertical,
 }
 
 /// An array of effects attached to this node
 /// (see effects sectionfor more details)
+///
 /// A visual effect such as a shadow or blur
 #[derive(Serialize, Deserialize)]
 pub struct Effect {
+    /// Enum describing how layer blends with layers below
+    /// This type is a string enum with the following possible values
+    #[serde(rename = "blendMode")]
+    blend_mode: Option<LendMode>,
+
+    /// An RGBA color
+    #[serde(rename = "color")]
+    color: Option<Color>,
+
+    /// A 2d vector
+    #[serde(rename = "offset")]
+    offset: Option<Vector2>,
+
+    /// Radius of the blur effect (applies to shadows as well)
+    #[serde(rename = "radius")]
+    radius: f64,
+
     /// Type of effect as a string enum
     #[serde(rename = "type")]
     effect_type: EffectType,
 
     /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
     #[serde(rename = "visible")]
     visible: bool,
-
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "radius")]
-    radius: f64,
-
-    /// Background color of the node
-    /// An RGBA color
-    /// Solid color of the paint
-    /// Color attached to corresponding position
-    /// Color of the grid
-    /// Background color of the canvas
-    #[serde(rename = "color")]
-    color: Option<Color>,
-
-    /// Enum describing how layer blends with layers below
-    /// This type is a string enum with the following possible values
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    #[serde(rename = "blendMode")]
-    blend_mode: Option<BlendMode>,
-
-    /// 2d vector offset within the frame.
-    /// A 2d vector
-    /// This field contains three vectors, each of which are a position in
-    /// normalized object space (normalized object space is if the top left
-    /// corner of the bounding box of the object is (0, 0) and the bottom
-    /// right is (1,1)). The first position corresponds to the start of the
-    /// gradient (value 0 for the purposes of calculating gradient stops),
-    /// the second position is the end of the gradient (value 1), and the
-    /// third handle position determines the width of the gradient (only
-    /// relevant for non-linear gradients).
-    #[serde(rename = "offset")]
-    offset: Option<Vector2>,
 }
 
 /// Background color of the node
+///
 /// An RGBA color
-/// Solid color of the paint
-/// Color attached to corresponding position
+///
 /// Color of the grid
+///
+/// Solid color of the paint
+///
 /// Background color of the canvas
+///
+/// Color attached to corresponding position
 #[derive(Serialize, Deserialize)]
 pub struct Color {
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
     /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "r")]
-    r: f64,
+    #[serde(rename = "a")]
+    a: f64,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
     /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "g")]
-    g: f64,
-
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "b")]
     b: f64,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
     /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "a")]
-    a: f64,
+    #[serde(rename = "g")]
+    g: f64,
+
+    /// Red channel value, between 0 and 1
+    #[serde(rename = "r")]
+    r: f64,
 }
 
 /// 2d vector offset within the frame.
+///
 /// A 2d vector
+///
 /// This field contains three vectors, each of which are a position in
 /// normalized object space (normalized object space is if the top left
 /// corner of the bounding box of the object is (0, 0) and the bottom
@@ -724,107 +308,38 @@ pub struct Color {
 #[derive(Serialize, Deserialize)]
 pub struct Vector2 {
     /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "x")]
     x: f64,
 
-    /// X coordinate of the vector
     /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "y")]
     y: f64,
 }
 
-/// An array of export settings representing images to export from node
 /// Format and size to export an asset at
-/// An array of export settings representing images to export from the canvas
+///
+/// An array of export settings representing images to export from node
+///
 /// An array of export settings representing images to export from this node
+///
+/// An array of export settings representing images to export from the canvas
 #[derive(Serialize, Deserialize)]
 pub struct ExportSetting {
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "suffix")]
-    suffix: String,
+    /// Constraint that determines sizing of exported asset
+    #[serde(rename = "constraint")]
+    constraint: Constraint,
 
     /// Image type, string enum
     #[serde(rename = "format")]
     format: Format,
 
-    /// Constraint that determines sizing of exported asset
-    /// Sizing constraint for exports
-    #[serde(rename = "constraint")]
-    constraint: Constraint,
+    /// File suffix to append to all filenames
+    #[serde(rename = "suffix")]
+    suffix: String,
 }
 
 /// Constraint that determines sizing of exported asset
+///
 /// Sizing constraint for exports
 #[derive(Serialize, Deserialize)]
 pub struct Constraint {
@@ -835,98 +350,21 @@ pub struct Constraint {
     #[serde(rename = "type")]
     constraint_type: ConstraintType,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
     /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "value")]
     value: f64,
 }
 
 /// An array of fill paints applied to the node
+///
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
+///
 /// An array of stroke paints applied to the node
+///
 /// Paints applied to characters
 #[derive(Serialize, Deserialize)]
 pub struct Paint {
-    /// Type of paint as a string enum
-    #[serde(rename = "type")]
-    paint_type: PaintType,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "visible")]
-    visible: bool,
-
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "opacity")]
-    opacity: f64,
-
-    /// Background color of the node
-    /// An RGBA color
     /// Solid color of the paint
-    /// Color attached to corresponding position
-    /// Color of the grid
-    /// Background color of the canvas
     #[serde(rename = "color")]
     color: Option<Color>,
 
@@ -947,213 +385,171 @@ pub struct Paint {
     #[serde(rename = "gradientStops")]
     gradient_stops: Option<Vec<ColorStop>>,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
+    /// Overall opacity of paint (colors within the paint can also have opacity
+    /// values which would blend with this)
+    #[serde(rename = "opacity")]
+    opacity: f64,
+
     /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "scaleMode")]
     scale_mode: Option<String>,
+
+    /// Type of paint as a string enum
+    #[serde(rename = "type")]
+    paint_type: PaintType,
+
+    /// Is the paint enabled?
+    #[serde(rename = "visible")]
+    visible: bool,
 }
 
 /// Positions of key points along the gradient axis with the colors
 /// anchored there. Colors along the gradient are interpolated smoothly
 /// between neighboring gradient stops.
+///
 /// A position color pair representing a gradient stop
 #[derive(Serialize, Deserialize)]
 pub struct ColorStop {
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "position")]
-    position: f64,
-
-    /// Background color of the node
-    /// An RGBA color
-    /// Solid color of the paint
     /// Color attached to corresponding position
-    /// Color of the grid
-    /// Background color of the canvas
     #[serde(rename = "color")]
     color: Color,
+
+    /// Value between 0 and 1 representing position along gradient axis
+    #[serde(rename = "position")]
+    position: f64,
 }
 
 /// An array of nodes that are direct children of this node
+///
 /// An array of nodes that are being boolean operated on
+///
 /// An array of top level layers on the canvas
+///
 /// An array of canvases attached to the document
+///
 /// Node Properties
 /// The root node
+///
 /// The root node within the document
+///
 /// Represents a single page
+///
 /// A node of fixed size containing other nodes
+///
 /// A logical grouping of nodes
+///
 /// A vector network, consisting of vertices and edges
+///
 /// A group that has a boolean operation applied to it
+///
 /// A regular star shape
+///
 /// A straight line
+///
 /// An ellipse
+///
 /// A regular n-sided polygon
+///
 /// Bounding box of the node in absolute space coordinates
+///
 /// A rectangle
+///
 /// A text box
+///
 /// A rectangular region of the canvas that can be exported
+///
 /// A node that can have instances created of it that share the same properties
+///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
 #[derive(Serialize, Deserialize)]
-pub struct Node {
+pub struct DocumentElement {
+    /// An array of canvases attached to the document
+    ///
+    /// An array of top level layers on the canvas
+    ///
+    /// An array of nodes that are direct children of this node
+    ///
+    /// An array of nodes that are being boolean operated on
+    #[serde(rename = "children")]
+    children: Option<Vec<DocumentElement>>,
+
+    /// a string uniquely identifying this node within the document
+    #[serde(rename = "id")]
+    id: String,
+
+    /// the name given to the node by the user in the tool.
+    #[serde(rename = "name")]
+    name: String,
+
+    /// the type of the node, refer to table below for details
+    #[serde(rename = "type")]
+    document_type: NodeType,
+
+    /// whether or not the node is visible on the canvas
+    #[serde(rename = "visible")]
+    visible: bool,
+
+    /// Background color of the canvas
+    ///
+    /// Background color of the node
+    #[serde(rename = "backgroundColor")]
+    background_color: Option<Color>,
+
+    /// An array of export settings representing images to export from the canvas
+    ///
+    /// An array of export settings representing images to export from node
+    ///
+    /// An array of export settings representing images to export from this node
+    #[serde(rename = "exportSettings")]
+    export_settings: Option<Vec<ExportSetting>>,
+
+    /// Bounding box of the node in absolute space coordinates
+    #[serde(rename = "absoluteBoundingBox")]
+    absolute_bounding_box: Option<Box<Rectangle>>,
+
+    /// How this node blends with nodes behind it in the scene
+    /// (see blend mode section for more details)
+    #[serde(rename = "blendMode")]
+    blend_mode: Option<LendMode>,
+
+    /// Does this node clip content outside of its bounds?
+    #[serde(rename = "clipsContent")]
+    clips_content: Option<bool>,
+
+    /// Horizontal and vertical layout constraints for node
+    #[serde(rename = "constraints")]
+    constraints: Option<LayoutConstraint>,
+
     /// An array of effects attached to this node
     /// (see effects sectionfor more details)
     #[serde(rename = "effects")]
     effects: Option<Vec<Effect>>,
+
+    /// Does this node mask sibling nodes in front of it?
+    #[serde(rename = "isMask")]
+    is_mask: Option<bool>,
 
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
     #[serde(rename = "layoutGrids")]
     layout_grids: Option<Vec<LayoutGrid>>,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
     /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "cornerRadius")]
-    corner_radius: Option<f64>,
-
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "characters")]
-    characters: Option<String>,
-
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "opacity")]
     opacity: Option<f64>,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "name")]
-    name: String,
+    /// Keep height and width constrained to same ratio
+    #[serde(rename = "preserveRatio")]
+    preserve_ratio: Option<bool>,
+
+    /// Node ID of node to transition to in prototyping
+    #[serde(rename = "transitionNodeID")]
+    transition_node_id: Option<String>,
+
+    /// An array of fill paints applied to the node
+    #[serde(rename = "fills")]
+    fills: Option<Vec<Paint>>,
 
     /// Where stroke is drawn relative to the vector outline as a string enum
     /// "INSIDE": draw stroke inside the shape boundary
@@ -1162,191 +558,21 @@ pub struct Node {
     #[serde(rename = "strokeAlign")]
     stroke_align: Option<StrokeAlign>,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "strokeWeight")]
-    stroke_weight: Option<f64>,
-
-    /// An array of fill paints applied to the node
     /// An array of stroke paints applied to the node
-    /// Paints applied to characters
-    #[serde(rename = "fills")]
-    fills: Option<Vec<Paint>>,
-
-    /// Bounding box of the node in absolute space coordinates
-    /// A rectangle
-    #[serde(rename = "absoluteBoundingBox")]
-    absolute_bounding_box: Option<Box<Rectangle>>,
-
-    /// Map from ID to TypeStyle for looking up style overrides
-    #[serde(rename = "styleOverrideTable")]
-    style_override_table: Option<Vec<TypeStyle>>,
-
-    /// Map from ID to TypeStyle for looking up style overrides
-    /// Metadata for character formatting
-    /// Style of text including font family and weight (see type style
-    /// section for more information)
-    #[serde(rename = "style")]
-    style: Option<TypeStyle>,
-
-    /// Node ID of node to transition to in prototyping
-    #[serde(rename = "transitionNodeID")]
-    transition_node_id: Option<String>,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "visible")]
-    visible: bool,
-
-    /// Enum describing how layer blends with layers below
-    /// This type is a string enum with the following possible values
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    #[serde(rename = "blendMode")]
-    blend_mode: Option<BlendMode>,
-
-    /// Background color of the node
-    /// An RGBA color
-    /// Solid color of the paint
-    /// Color attached to corresponding position
-    /// Color of the grid
-    /// Background color of the canvas
-    #[serde(rename = "backgroundColor")]
-    background_color: Option<Color>,
-
-    /// Horizontal and vertical layout constraints for node
-    /// Layout constraint relative to containing Frame
-    #[serde(rename = "constraints")]
-    constraints: Option<LayoutConstraint>,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "isMask")]
-    is_mask: Option<bool>,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "clipsContent")]
-    clips_content: Option<bool>,
-
-    /// An array of export settings representing images to export from node
-    /// An array of export settings representing images to export from this node
-    /// An array of export settings representing images to export from the canvas
-    #[serde(rename = "exportSettings")]
-    export_settings: Option<Vec<ExportSetting>>,
-
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "componentId")]
-    component_id: Option<String>,
-
-    /// the type of the node, refer to table below for details
-    #[serde(rename = "type")]
-    node_type: NodeType,
-
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "id")]
-    id: String,
-
-    /// An array of fill paints applied to the node
-    /// An array of stroke paints applied to the node
-    /// Paints applied to characters
     #[serde(rename = "strokes")]
     strokes: Option<Vec<Paint>>,
 
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "preserveRatio")]
-    preserve_ratio: Option<bool>,
+    /// The weight of strokes on the node
+    #[serde(rename = "strokeWeight")]
+    stroke_weight: Option<f64>,
 
-    /// An array of nodes that are direct children of this node
-    /// An array of nodes that are being boolean operated on
-    /// An array of top level layers on the canvas
-    /// An array of canvases attached to the document
-    #[serde(rename = "children")]
-    children: Option<Vec<Node>>,
+    /// Radius of each corner of the rectangle
+    #[serde(rename = "cornerRadius")]
+    corner_radius: Option<f64>,
+
+    /// Text contained within text box
+    #[serde(rename = "characters")]
+    characters: Option<String>,
 
     /// Array with same number of elements as characeters in text box,
     /// each element is a reference to the styleOverrideTable defined
@@ -1354,72 +580,28 @@ pub struct Node {
     /// field. Elements with value 0 have the default type style
     #[serde(rename = "characterStyleOverrides")]
     character_style_overrides: Option<Vec<f64>>,
+
+    /// Style of text including font family and weight (see type style
+    /// section for more information)
+    #[serde(rename = "style")]
+    style: Option<TypeStyle>,
+
+    /// Map from ID to TypeStyle for looking up style overrides
+    #[serde(rename = "styleOverrideTable")]
+    style_override_table: Option<Vec<TypeStyle>>,
+
+    /// ID of component that this instance came from, refers to components
+    /// table (see endpoints section below)
+    #[serde(rename = "componentId")]
+    component_id: Option<String>,
 }
 
 /// An array of layout grids attached to this node (see layout grids section
 /// for more details). GROUP nodes do not have this attribute
+///
 /// Guides to align and place objects within a frame
 #[derive(Serialize, Deserialize)]
 pub struct LayoutGrid {
-    /// Orientation of the grid as a string enum
-    /// "COLUMNS": Vertical grid
-    /// "ROWS": Horizontal grid
-    /// "GRID": Square grid
-    #[serde(rename = "pattern")]
-    pattern: Pattern,
-
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "sectionSize")]
-    section_size: f64,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "visible")]
-    visible: bool,
-
-    /// Background color of the node
-    /// An RGBA color
-    /// Solid color of the paint
-    /// Color attached to corresponding position
-    /// Color of the grid
-    /// Background color of the canvas
-    #[serde(rename = "color")]
-    color: Color,
-
     /// Positioning of grid as a string enum
     /// "MIN": Grid starts at the left or top of the frame
     /// "MAX": Grid starts at the right or bottom of the frame
@@ -1427,403 +609,126 @@ pub struct LayoutGrid {
     #[serde(rename = "alignment")]
     alignment: Alignment,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
+    /// Color of the grid
+    #[serde(rename = "color")]
+    color: Color,
+
     /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
+    #[serde(rename = "count")]
+    count: f64,
+
+    /// Spacing in between columns and rows
     #[serde(rename = "gutterSize")]
     gutter_size: f64,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
     /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "offset")]
     offset: f64,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
+    /// Orientation of the grid as a string enum
+    /// "COLUMNS": Vertical grid
+    /// "ROWS": Horizontal grid
+    /// "GRID": Square grid
+    #[serde(rename = "pattern")]
+    pattern: Pattern,
+
     /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "count")]
-    count: f64,
+    #[serde(rename = "sectionSize")]
+    section_size: f64,
+
+    /// Is the grid currently visible?
+    #[serde(rename = "visible")]
+    visible: bool,
 }
 
 /// Map from ID to TypeStyle for looking up style overrides
+///
 /// Metadata for character formatting
+///
 /// Style of text including font family and weight (see type style
 /// section for more information)
 #[derive(Serialize, Deserialize)]
 pub struct TypeStyle {
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "lineHeightPx")]
-    line_height_px: f64,
-
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "fontPostScriptName")]
-    font_post_script_name: String,
-
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "fontWeight")]
-    font_weight: f64,
-
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "lineHeightPercent")]
-    line_height_percent: f64,
-
-    /// Vertical text alignment as string enum
-    #[serde(rename = "textAlignVertical")]
-    text_align_vertical: TextAlignVertical,
-
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "fontSize")]
-    font_size: f64,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "italic")]
-    italic: bool,
-
-    /// An array of fill paints applied to the node
-    /// An array of stroke paints applied to the node
     /// Paints applied to characters
     #[serde(rename = "fills")]
     fills: Vec<Paint>,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
     /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "fontFamily")]
     font_family: String,
+
+    /// PostScript font name
+    #[serde(rename = "fontPostScriptName")]
+    font_post_script_name: String,
+
+    /// Font size in px
+    #[serde(rename = "fontSize")]
+    font_size: f64,
+
+    /// Numeric font weight
+    #[serde(rename = "fontWeight")]
+    font_weight: f64,
+
+    /// Is text italicized?
+    #[serde(rename = "italic")]
+    italic: bool,
+
+    /// Space between characters in px
+    #[serde(rename = "letterSpacing")]
+    letter_spacing: f64,
+
+    /// Line height as a percentage of normal line height
+    #[serde(rename = "lineHeightPercent")]
+    line_height_percent: f64,
+
+    /// Line height in px
+    #[serde(rename = "lineHeightPx")]
+    line_height_px: f64,
 
     /// Horizontal text alignment as string enum
     #[serde(rename = "textAlignHorizontal")]
     text_align_horizontal: TextAlignHorizontal,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
-    #[serde(rename = "letterSpacing")]
-    letter_spacing: f64,
+    /// Vertical text alignment as string enum
+    #[serde(rename = "textAlignVertical")]
+    text_align_vertical: TextAlignVertical,
 }
 
 /// Node Properties
 /// The root node
+///
 /// The root node within the document
 #[derive(Serialize, Deserialize)]
-pub struct Document {
-    /// An array of nodes that are direct children of this node
-    /// An array of nodes that are being boolean operated on
-    /// An array of top level layers on the canvas
+pub struct FileResponseDocument {
     /// An array of canvases attached to the document
     #[serde(rename = "children")]
-    children: Vec<Node>,
+    children: Vec<DocumentElement>,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
     /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "id")]
     id: String,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
     /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "name")]
     name: String,
-
-    /// Is the effect active?
-    /// Is the grid currently visible?
-    /// Is the paint enabled?
-    /// whether or not the node is visible on the canvas
-    /// Does this node mask sibling nodes in front of it?
-    /// Keep height and width constrained to same ratio
-    /// Does this node clip content outside of its bounds?
-    /// Is text italicized?
-    #[serde(rename = "visible")]
-    visible: bool,
 
     /// the type of the node, refer to table below for details
     #[serde(rename = "type")]
     document_type: NodeType,
+
+    /// whether or not the node is visible on the canvas
+    #[serde(rename = "visible")]
+    visible: bool,
 }
 
+/// GET /v1/files/:key/comments
+///
+/// > Description
+/// A list of comments left on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
 #[derive(Serialize, Deserialize)]
 pub struct CommentsResponse {
     #[serde(rename = "comments")]
@@ -1833,148 +738,48 @@ pub struct CommentsResponse {
 /// A comment or reply left by a user
 #[derive(Serialize, Deserialize)]
 pub struct Comment {
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "message")]
-    message: String,
+    #[serde(rename = "client_meta")]
+    client_meta: ClientMeta,
 
-    /// Enables basic storage and retrieval of dates and times.
+    /// The time at which the comment was left
     #[serde(rename = "created_at")]
     created_at: String,
 
-    /// A description of a user
-    /// The user who left the comment
-    #[serde(rename = "user")]
-    user: User,
+    /// The file in which the comment lives
+    #[serde(rename = "file_key")]
+    file_key: String,
 
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
+    /// Unique identifier for comment
+    #[serde(rename = "id")]
+    id: String,
+
+    /// (MISSING IN DOCS)
+    /// The content of the comment
+    #[serde(rename = "message")]
+    message: String,
+
     /// Only set for top level comments. The number displayed with the
     /// comment in the UI
     #[serde(rename = "order_id")]
     order_id: f64,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
     /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "parent_id")]
     parent_id: String,
-
-    /// 2d vector offset within the frame.
-    /// A 2d vector
-    /// This field contains three vectors, each of which are a position in
-    /// normalized object space (normalized object space is if the top left
-    /// corner of the bounding box of the object is (0, 0) and the bottom
-    /// right is (1,1)). The first position corresponds to the start of the
-    /// gradient (value 0 for the purposes of calculating gradient stops),
-    /// the second position is the end of the gradient (value 1), and the
-    /// third handle position determines the width of the gradient (only
-    /// relevant for non-linear gradients).
-    /// A relative offset within a frame
-    #[serde(rename = "client_meta")]
-    client_meta: ClientMeta,
 
     /// If set, when the comment was resolved
     #[serde(rename = "resolved_at")]
     resolved_at: Option<String>,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "id")]
-    id: String,
-
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "file_key")]
-    file_key: String,
+    /// The user who left the comment
+    #[serde(rename = "user")]
+    user: User,
 }
 
 /// 2d vector offset within the frame.
+///
 /// A 2d vector
+///
 /// This field contains three vectors, each of which are a position in
 /// normalized object space (normalized object space is if the top left
 /// corner of the bounding box of the object is (0, 0) and the bottom
@@ -1983,175 +788,79 @@ pub struct Comment {
 /// the second position is the end of the gradient (value 1), and the
 /// third handle position determines the width of the gradient (only
 /// relevant for non-linear gradients).
+///
 /// A relative offset within a frame
 #[derive(Serialize, Deserialize)]
 pub struct ClientMeta {
     /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "x")]
     x: Option<f64>,
 
-    /// X coordinate of the vector
     /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "y")]
     y: Option<f64>,
 
     /// Unique id specifying the frame.
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
     #[serde(rename = "node_id")]
     node_id: Option<Vec<String>>,
 
     /// 2d vector offset within the frame.
-    /// A 2d vector
-    /// This field contains three vectors, each of which are a position in
-    /// normalized object space (normalized object space is if the top left
-    /// corner of the bounding box of the object is (0, 0) and the bottom
-    /// right is (1,1)). The first position corresponds to the start of the
-    /// gradient (value 0 for the purposes of calculating gradient stops),
-    /// the second position is the end of the gradient (value 1), and the
-    /// third handle position determines the width of the gradient (only
-    /// relevant for non-linear gradients).
     #[serde(rename = "node_offset")]
     node_offset: Option<Vector2>,
 }
 
-/// A description of a user
 /// The user who left the comment
+///
+/// A description of a user
 #[derive(Serialize, Deserialize)]
 pub struct User {
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "handle")]
     handle: String,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "img_url")]
     img_url: String,
 }
 
+/// POST /v1/files/:key/comments
+///
+/// > Description
+/// Posts a new comment on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
+///
+/// > Body parameters
+/// message String
+/// The text contents of the comment to post
+///
+/// client_meta Vector2 | FrameOffset
+/// The position of where to place the comment. This can either be an absolute canvas
+/// position or the relative position within a frame.
+///
+/// > Return value
+/// The Comment that was successfully posted
+///
+/// > Error codes
+/// 404 The specified file was not found
 #[derive(Serialize, Deserialize)]
 pub struct CommentRequest {
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "message")]
-    message: String,
-
-    /// 2d vector offset within the frame.
-    /// A 2d vector
-    /// This field contains three vectors, each of which are a position in
-    /// normalized object space (normalized object space is if the top left
-    /// corner of the bounding box of the object is (0, 0) and the bottom
-    /// right is (1,1)). The first position corresponds to the start of the
-    /// gradient (value 0 for the purposes of calculating gradient stops),
-    /// the second position is the end of the gradient (value 1), and the
-    /// third handle position determines the width of the gradient (only
-    /// relevant for non-linear gradients).
-    /// A relative offset within a frame
     #[serde(rename = "client_meta")]
     client_meta: ClientMeta,
+
+    #[serde(rename = "message")]
+    message: String,
 }
 
+/// GET /v1/teams/:team_id/projects
+///
+/// > Description
+/// Lists the projects for a specified team. Note that this will only return projects visible
+/// to the authenticated user or owner of the developer token.
+///
+/// > Path parameters
+/// team_id String
+/// Id of the team to list projects from
 #[derive(Serialize, Deserialize)]
 pub struct ProjectsResponse {
     #[serde(rename = "projects")]
@@ -2160,59 +869,21 @@ pub struct ProjectsResponse {
 
 #[derive(Serialize, Deserialize)]
 pub struct Project {
-    /// X coordinate of the vector
-    /// Y coordinate of the vector
-    /// Radius of the blur effect (applies to shadows as well)
-    /// Red channel value, between 0 and 1
-    /// Green channel value, between 0 and 1
-    /// Blue channel value, between 0 and 1
-    /// Alpha channel value, between 0 and 1
-    /// Width of column grid or height of row grid or square grid spacing
-    /// Spacing in between columns and rows
-    /// Spacing before the first column or row
-    /// Number of columns or rows
-    /// Opacity of the node
-    /// Radius of each corner of the rectangle
-    /// The weight of strokes on the node
-    /// Overall opacity of paint (colors within the paint can also have opacity
-    /// values which would blend with this)
-    /// Value between 0 and 1 representing position along gradient axis
-    /// See type property for effect of this field
-    /// Line height in px
-    /// Numeric font weight
-    /// Line height as a percentage of normal line height
-    /// Font size in px
-    /// Space between characters in px
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    /// Only set for top level comments. The number displayed with the
-    /// comment in the UI
     #[serde(rename = "id")]
     id: f64,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "name")]
     name: String,
 }
 
+/// GET /v1/projects/:project_id/files
+///
+/// > Description
+/// List the files in a given project.
+///
+/// > Path parameters
+/// project_id String
+/// Id of the project to list files from
 #[derive(Serialize, Deserialize)]
 pub struct ProjectFilesResponse {
     #[serde(rename = "files")]
@@ -2221,93 +892,27 @@ pub struct ProjectFilesResponse {
 
 #[derive(Serialize, Deserialize)]
 pub struct File {
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
     #[serde(rename = "key")]
     key: String,
 
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "name")]
-    name: String,
-
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
-    /// utc date in iso8601
-    #[serde(rename = "thumbnail_url")]
-    thumbnail_url: String,
-
-    /// Allows manipulation and formatting of text strings and determination and location of
-    /// substrings within strings.
-    /// the name given to the node by the user in the tool.
-    /// Image scaling mode
-    /// File suffix to append to all filenames
-    /// a string uniquely identifying this node within the document
-    /// Text contained within text box
-    /// PostScript font name
-    /// Font family of text (standard name)
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    /// (MISSING IN DOCS)
-    /// The content of the comment
-    /// If present, the id of the comment to which this is the reply
-    /// Unique identifier for comment
-    /// The file in which the comment lives
     /// utc date in iso8601
     #[serde(rename = "last_modified")]
     last_modified: String,
+
+    #[serde(rename = "name")]
+    name: String,
+
+    #[serde(rename = "thumbnail_url")]
+    thumbnail_url: String,
 }
 
-/// Enum describing how layer blends with layers below
-/// This type is a string enum with the following possible values
 /// How this node blends with nodes behind it in the scene
 /// (see blend mode section for more details)
+///
+/// Enum describing how layer blends with layers below
+/// This type is a string enum with the following possible values
 #[derive(Serialize, Deserialize)]
-pub enum BlendMode {
+pub enum LendMode {
     #[serde(rename = "COLOR")]
     Color,
 

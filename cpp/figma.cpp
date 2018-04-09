@@ -20,12 +20,13 @@ namespace quicktype {
     using nlohmann::json;
 
     /**
-     * Enum describing how layer blends with layers below
-     * This type is a string enum with the following possible values
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
+     *
+     * Enum describing how layer blends with layers below
+     * This type is a string enum with the following possible values
      */
-    enum class BlendMode { COLOR, COLOR_BURN, COLOR_DODGE, DARKEN, DIFFERENCE, EXCLUSION, HARD_LIGHT, HUE, LIGHTEN, LINEAR_BURN, LINEAR_DODGE, LUMINOSITY, MULTIPLY, NORMAL, OVERLAY, PASS_THROUGH, SATURATION, SCREEN, SOFT_LIGHT };
+    enum class LendMode { COLOR, COLOR_BURN, COLOR_DODGE, DARKEN, DIFFERENCE, EXCLUSION, HARD_LIGHT, HUE, LIGHTEN, LINEAR_BURN, LINEAR_DODGE, LUMINOSITY, MULTIPLY, NORMAL, OVERLAY, PASS_THROUGH, SATURATION, SCREEN, SOFT_LIGHT };
 
     /**
      * Horizontal constraint as an enum
@@ -51,19 +52,10 @@ namespace quicktype {
 
     /**
      * Horizontal and vertical layout constraints for node
+     *
      * Layout constraint relative to containing Frame
      */
     struct LayoutConstraint {
-        /**
-         * Vertical constraint as an enum
-         * "TOP": Node is laid out relative to top of the containing frame
-         * "BOTTOM": Node is laid out relative to bottom of the containing frame
-         * "CENTER": Node is vertically centered relative to containing frame
-         * "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
-         * (node stretches with frame)
-         * "SCALE": Node scales vertically with containing frame
-         */
-        Vertical vertical;
         /**
          * Horizontal constraint as an enum
          * "LEFT": Node is laid out relative to left of the containing frame
@@ -74,150 +66,55 @@ namespace quicktype {
          * "SCALE": Node scales horizontally with containing frame
          */
         Horizontal horizontal;
+        /**
+         * Vertical constraint as an enum
+         * "TOP": Node is laid out relative to top of the containing frame
+         * "BOTTOM": Node is laid out relative to bottom of the containing frame
+         * "CENTER": Node is vertically centered relative to containing frame
+         * "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
+         * (node stretches with frame)
+         * "SCALE": Node scales vertically with containing frame
+         */
+        Vertical vertical;
     };
 
     /**
      * Background color of the node
+     *
      * An RGBA color
-     * Solid color of the paint
-     * Color attached to corresponding position
+     *
      * Color of the grid
+     *
+     * Solid color of the paint
+     *
      * Background color of the canvas
+     *
+     * Color attached to corresponding position
      */
     struct Color {
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
          * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
-        double r;
+        double a;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
          * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double g;
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         double b;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
          * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
-        double a;
+        double g;
+        /**
+         * Red channel value, between 0 and 1
+         */
+        double r;
     };
 
     /**
      * 2d vector offset within the frame.
+     *
      * A 2d vector
+     *
      * This field contains three vectors, each of which are a position in
      * normalized object space (normalized object space is if the top left
      * corner of the bounding box of the object is (0, 0) and the bottom
@@ -230,66 +127,10 @@ namespace quicktype {
     struct Vector2 {
         /**
          * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         double x;
         /**
-         * X coordinate of the vector
          * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         double y;
     };
@@ -302,85 +143,35 @@ namespace quicktype {
     /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
+     *
      * A visual effect such as a shadow or blur
      */
     struct Effect {
+        /**
+         * Enum describing how layer blends with layers below
+         * This type is a string enum with the following possible values
+         */
+        std::unique_ptr<LendMode> blend_mode;
+        /**
+         * An RGBA color
+         */
+        std::unique_ptr<struct Color> color;
+        /**
+         * A 2d vector
+         */
+        std::unique_ptr<struct Vector2> offset;
+        /**
+         * Radius of the blur effect (applies to shadows as well)
+         */
+        double radius;
         /**
          * Type of effect as a string enum
          */
         EffectType type;
         /**
          * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
          */
         bool visible;
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double radius;
-        /**
-         * Background color of the node
-         * An RGBA color
-         * Solid color of the paint
-         * Color attached to corresponding position
-         * Color of the grid
-         * Background color of the canvas
-         */
-        std::unique_ptr<struct Color> color;
-        /**
-         * Enum describing how layer blends with layers below
-         * This type is a string enum with the following possible values
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        std::unique_ptr<BlendMode> blend_mode;
-        /**
-         * 2d vector offset within the frame.
-         * A 2d vector
-         * This field contains three vectors, each of which are a position in
-         * normalized object space (normalized object space is if the top left
-         * corner of the bounding box of the object is (0, 0) and the bottom
-         * right is (1,1)). The first position corresponds to the start of the
-         * gradient (value 0 for the purposes of calculating gradient stops),
-         * the second position is the end of the gradient (value 1), and the
-         * third handle position determines the width of the gradient (only
-         * relevant for non-linear gradients).
-         */
-        std::unique_ptr<struct Vector2> offset;
     };
 
     /**
@@ -393,6 +184,7 @@ namespace quicktype {
 
     /**
      * Constraint that determines sizing of exported asset
+     *
      * Sizing constraint for exports
      */
     struct Constraint {
@@ -404,35 +196,7 @@ namespace quicktype {
          */
         ConstraintType type;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
          * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         double value;
     };
@@ -443,91 +207,45 @@ namespace quicktype {
     enum class Format { JPG, PNG, SVG };
 
     /**
-     * An array of export settings representing images to export from node
      * Format and size to export an asset at
-     * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from node
+     *
      * An array of export settings representing images to export from this node
+     *
+     * An array of export settings representing images to export from the canvas
      */
     struct ExportSetting {
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
+         * Constraint that determines sizing of exported asset
          */
-        std::string suffix;
+        struct Constraint constraint;
         /**
          * Image type, string enum
          */
         Format format;
         /**
-         * Constraint that determines sizing of exported asset
-         * Sizing constraint for exports
+         * File suffix to append to all filenames
          */
-        struct Constraint constraint;
+        std::string suffix;
     };
 
     /**
      * Positions of key points along the gradient axis with the colors
      * anchored there. Colors along the gradient are interpolated smoothly
      * between neighboring gradient stops.
+     *
      * A position color pair representing a gradient stop
      */
     struct ColorStop {
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double position;
-        /**
-         * Background color of the node
-         * An RGBA color
-         * Solid color of the paint
          * Color attached to corresponding position
-         * Color of the grid
-         * Background color of the canvas
          */
         struct Color color;
+        /**
+         * Value between 0 and 1 representing position along gradient axis
+         */
+        double position;
     };
 
     /**
@@ -537,65 +255,16 @@ namespace quicktype {
 
     /**
      * An array of fill paints applied to the node
+     *
      * A solid color, gradient, or image texture that can be applied as fills or strokes
+     *
      * An array of stroke paints applied to the node
+     *
      * Paints applied to characters
      */
     struct Paint {
         /**
-         * Type of paint as a string enum
-         */
-        PaintType type;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool visible;
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double opacity;
-        /**
-         * Background color of the node
-         * An RGBA color
          * Solid color of the paint
-         * Color attached to corresponding position
-         * Color of the grid
-         * Background color of the canvas
          */
         std::unique_ptr<struct Color> color;
         /**
@@ -616,25 +285,22 @@ namespace quicktype {
          */
         std::unique_ptr<std::vector<struct ColorStop>> gradient_stops;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
+         * Overall opacity of paint (colors within the paint can also have opacity
+         * values which would blend with this)
+         */
+        double opacity;
+        /**
          * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
          */
         std::unique_ptr<std::string> scale_mode;
+        /**
+         * Type of paint as a string enum
+         */
+        PaintType type;
+        /**
+         * Is the paint enabled?
+         */
+        bool visible;
     };
 
     /**
@@ -652,98 +318,60 @@ namespace quicktype {
 
     /**
      * Bounding box of the node in absolute space coordinates
+     *
      * A rectangle
      */
     struct Rectangle {
+        /**
+         * Bounding box of the node in absolute space coordinates
+         */
+        struct Rectangle absolute_bounding_box;
+        /**
+         * How this node blends with nodes behind it in the scene
+         * (see blend mode section for more details)
+         */
+        LendMode blend_mode;
+        /**
+         * Horizontal and vertical layout constraints for node
+         */
+        struct LayoutConstraint constraints;
+        /**
+         * Radius of each corner of the rectangle
+         */
+        double corner_radius;
         /**
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
         std::vector<struct Effect> effects;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
+         * An array of export settings representing images to export from node
          */
-        double corner_radius;
+        std::vector<struct ExportSetting> export_settings;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
+         * An array of fill paints applied to the node
+         */
+        std::vector<struct Paint> fills;
+        /**
+         * a string uniquely identifying this node within the document
+         */
+        std::string id;
+        /**
+         * Does this node mask sibling nodes in front of it?
+         */
+        bool is_mask;
+        /**
+         * the name given to the node by the user in the tool.
+         */
+        std::string name;
+        /**
          * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         double opacity;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
+         * Keep height and width constrained to same ratio
          */
-        std::string name;
+        bool preserve_ratio;
         /**
          * Where stroke is drawn relative to the vector outline as a string enum
          * "INSIDE": draw stroke inside the shape boundary
@@ -752,133 +380,25 @@ namespace quicktype {
          */
         StrokeAlign stroke_align;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
+         * An array of stroke paints applied to the node
+         */
+        std::vector<struct Paint> strokes;
+        /**
          * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         double stroke_weight;
-        /**
-         * An array of fill paints applied to the node
-         * An array of stroke paints applied to the node
-         * Paints applied to characters
-         */
-        std::vector<struct Paint> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         * A rectangle
-         */
-        struct Rectangle absolute_bounding_box;
         /**
          * Node ID of node to transition to in prototyping
          */
         std::unique_ptr<std::string> transition_node_id;
         /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool visible;
-        /**
-         * Enum describing how layer blends with layers below
-         * This type is a string enum with the following possible values
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         * Layout constraint relative to containing Frame
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool is_mask;
-        /**
-         * An array of export settings representing images to export from node
-         * An array of export settings representing images to export from this node
-         * An array of export settings representing images to export from the canvas
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
          * the type of the node, refer to table below for details
          */
         NodeType type;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string id;
-        /**
-         * An array of fill paints applied to the node
-         * An array of stroke paints applied to the node
-         * Paints applied to characters
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
          * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
          */
-        bool preserve_ratio;
+        bool visible;
     };
 
     /**
@@ -900,68 +420,10 @@ namespace quicktype {
     /**
      * An array of layout grids attached to this node (see layout grids section
      * for more details). GROUP nodes do not have this attribute
+     *
      * Guides to align and place objects within a frame
      */
     struct LayoutGrid {
-        /**
-         * Orientation of the grid as a string enum
-         * "COLUMNS": Vertical grid
-         * "ROWS": Horizontal grid
-         * "GRID": Square grid
-         */
-        Pattern pattern;
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double section_size;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool visible;
-        /**
-         * Background color of the node
-         * An RGBA color
-         * Solid color of the paint
-         * Color attached to corresponding position
-         * Color of the grid
-         * Background color of the canvas
-         */
-        struct Color color;
         /**
          * Positioning of grid as a string enum
          * "MIN": Grid starts at the left or top of the frame
@@ -970,101 +432,36 @@ namespace quicktype {
          */
         Alignment alignment;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
+         * Color of the grid
+         */
+        struct Color color;
+        /**
          * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
+         */
+        double count;
+        /**
+         * Spacing in between columns and rows
          */
         double gutter_size;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
          * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         double offset;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
+         * Orientation of the grid as a string enum
+         * "COLUMNS": Vertical grid
+         * "ROWS": Horizontal grid
+         * "GRID": Square grid
          */
-        double count;
+        Pattern pattern;
+        /**
+         * Width of column grid or height of row grid or square grid spacing
+         */
+        double section_size;
+        /**
+         * Is the grid currently visible?
+         */
+        bool visible;
     };
 
     /**
@@ -1079,378 +476,192 @@ namespace quicktype {
 
     /**
      * Map from ID to TypeStyle for looking up style overrides
+     *
      * Metadata for character formatting
+     *
      * Style of text including font family and weight (see type style
      * section for more information)
      */
     struct TypeStyle {
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double line_height_px;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string font_post_script_name;
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double font_weight;
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double line_height_percent;
-        /**
-         * Vertical text alignment as string enum
-         */
-        TextAlignVertical text_align_vertical;
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double font_size;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool italic;
-        /**
-         * An array of fill paints applied to the node
-         * An array of stroke paints applied to the node
          * Paints applied to characters
          */
         std::vector<struct Paint> fills;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
          * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
          */
         std::string font_family;
+        /**
+         * PostScript font name
+         */
+        std::string font_post_script_name;
+        /**
+         * Font size in px
+         */
+        double font_size;
+        /**
+         * Numeric font weight
+         */
+        double font_weight;
+        /**
+         * Is text italicized?
+         */
+        bool italic;
+        /**
+         * Space between characters in px
+         */
+        double letter_spacing;
+        /**
+         * Line height as a percentage of normal line height
+         */
+        double line_height_percent;
+        /**
+         * Line height in px
+         */
+        double line_height_px;
         /**
          * Horizontal text alignment as string enum
          */
         TextAlignHorizontal text_align_horizontal;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
+         * Vertical text alignment as string enum
          */
-        double letter_spacing;
+        TextAlignVertical text_align_vertical;
     };
 
     /**
      * An array of nodes that are direct children of this node
+     *
      * An array of nodes that are being boolean operated on
+     *
      * An array of top level layers on the canvas
+     *
      * An array of canvases attached to the document
+     *
      * Node Properties
      * The root node
+     *
      * The root node within the document
+     *
      * Represents a single page
+     *
      * A node of fixed size containing other nodes
+     *
      * A logical grouping of nodes
+     *
      * A vector network, consisting of vertices and edges
+     *
      * A group that has a boolean operation applied to it
+     *
      * A regular star shape
+     *
      * A straight line
+     *
      * An ellipse
+     *
      * A regular n-sided polygon
+     *
      * Bounding box of the node in absolute space coordinates
+     *
      * A rectangle
+     *
      * A text box
+     *
      * A rectangular region of the canvas that can be exported
+     *
      * A node that can have instances created of it that share the same properties
+     *
      * An instance of a component, changes to the component result in the same
      * changes applied to the instance
      */
-    struct Node {
+    struct DocumentElement {
+        /**
+         * An array of canvases attached to the document
+         *
+         * An array of top level layers on the canvas
+         *
+         * An array of nodes that are direct children of this node
+         *
+         * An array of nodes that are being boolean operated on
+         */
+        std::unique_ptr<std::vector<struct DocumentElement>> children;
+        /**
+         * a string uniquely identifying this node within the document
+         */
+        std::string id;
+        /**
+         * the name given to the node by the user in the tool.
+         */
+        std::string name;
+        /**
+         * the type of the node, refer to table below for details
+         */
+        NodeType type;
+        /**
+         * whether or not the node is visible on the canvas
+         */
+        bool visible;
+        /**
+         * Background color of the canvas
+         *
+         * Background color of the node
+         */
+        std::unique_ptr<struct Color> background_color;
+        /**
+         * An array of export settings representing images to export from the canvas
+         *
+         * An array of export settings representing images to export from node
+         *
+         * An array of export settings representing images to export from this node
+         */
+        std::unique_ptr<std::vector<struct ExportSetting>> export_settings;
+        /**
+         * Bounding box of the node in absolute space coordinates
+         */
+        std::unique_ptr<struct Rectangle> absolute_bounding_box;
+        /**
+         * How this node blends with nodes behind it in the scene
+         * (see blend mode section for more details)
+         */
+        std::unique_ptr<LendMode> blend_mode;
+        /**
+         * Does this node clip content outside of its bounds?
+         */
+        std::unique_ptr<bool> clips_content;
+        /**
+         * Horizontal and vertical layout constraints for node
+         */
+        std::unique_ptr<struct LayoutConstraint> constraints;
         /**
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
         std::unique_ptr<std::vector<struct Effect>> effects;
         /**
+         * Does this node mask sibling nodes in front of it?
+         */
+        std::unique_ptr<bool> is_mask;
+        /**
          * An array of layout grids attached to this node (see layout grids section
          * for more details). GROUP nodes do not have this attribute
          */
         std::unique_ptr<std::vector<struct LayoutGrid>> layout_grids;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
          * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        std::unique_ptr<double> corner_radius;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::unique_ptr<std::string> characters;
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         std::unique_ptr<double> opacity;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
+         * Keep height and width constrained to same ratio
          */
-        std::string name;
+        std::unique_ptr<bool> preserve_ratio;
+        /**
+         * Node ID of node to transition to in prototyping
+         */
+        std::unique_ptr<std::string> transition_node_id;
+        /**
+         * An array of fill paints applied to the node
+         */
+        std::unique_ptr<std::vector<struct Paint>> fills;
         /**
          * Where stroke is drawn relative to the vector outline as a string enum
          * "INSIDE": draw stroke inside the shape boundary
@@ -1459,191 +670,21 @@ namespace quicktype {
          */
         std::unique_ptr<StrokeAlign> stroke_align;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        std::unique_ptr<double> stroke_weight;
-        /**
-         * An array of fill paints applied to the node
          * An array of stroke paints applied to the node
-         * Paints applied to characters
-         */
-        std::unique_ptr<std::vector<struct Paint>> fills;
-        /**
-         * Bounding box of the node in absolute space coordinates
-         * A rectangle
-         */
-        std::unique_ptr<struct Rectangle> absolute_bounding_box;
-        /**
-         * Map from ID to TypeStyle for looking up style overrides
-         */
-        std::unique_ptr<std::vector<struct TypeStyle>> style_override_table;
-        /**
-         * Map from ID to TypeStyle for looking up style overrides
-         * Metadata for character formatting
-         * Style of text including font family and weight (see type style
-         * section for more information)
-         */
-        std::unique_ptr<struct TypeStyle> style;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::unique_ptr<std::string> transition_node_id;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool visible;
-        /**
-         * Enum describing how layer blends with layers below
-         * This type is a string enum with the following possible values
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        std::unique_ptr<BlendMode> blend_mode;
-        /**
-         * Background color of the node
-         * An RGBA color
-         * Solid color of the paint
-         * Color attached to corresponding position
-         * Color of the grid
-         * Background color of the canvas
-         */
-        std::unique_ptr<struct Color> background_color;
-        /**
-         * Horizontal and vertical layout constraints for node
-         * Layout constraint relative to containing Frame
-         */
-        std::unique_ptr<struct LayoutConstraint> constraints;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        std::unique_ptr<bool> is_mask;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        std::unique_ptr<bool> clips_content;
-        /**
-         * An array of export settings representing images to export from node
-         * An array of export settings representing images to export from this node
-         * An array of export settings representing images to export from the canvas
-         */
-        std::unique_ptr<std::vector<struct ExportSetting>> export_settings;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::unique_ptr<std::string> component_id;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string id;
-        /**
-         * An array of fill paints applied to the node
-         * An array of stroke paints applied to the node
-         * Paints applied to characters
          */
         std::unique_ptr<std::vector<struct Paint>> strokes;
         /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
+         * The weight of strokes on the node
          */
-        std::unique_ptr<bool> preserve_ratio;
+        std::unique_ptr<double> stroke_weight;
         /**
-         * An array of nodes that are direct children of this node
-         * An array of nodes that are being boolean operated on
-         * An array of top level layers on the canvas
-         * An array of canvases attached to the document
+         * Radius of each corner of the rectangle
          */
-        std::unique_ptr<std::vector<struct Node>> children;
+        std::unique_ptr<double> corner_radius;
+        /**
+         * Text contained within text box
+         */
+        std::unique_ptr<std::string> characters;
         /**
          * Array with same number of elements as characeters in text box,
          * each element is a reference to the styleOverrideTable defined
@@ -1651,6 +692,20 @@ namespace quicktype {
          * field. Elements with value 0 have the default type style
          */
         std::unique_ptr<std::vector<double>> character_style_overrides;
+        /**
+         * Style of text including font family and weight (see type style
+         * section for more information)
+         */
+        std::unique_ptr<struct TypeStyle> style;
+        /**
+         * Map from ID to TypeStyle for looking up style overrides
+         */
+        std::unique_ptr<std::vector<struct TypeStyle>> style_override_table;
+        /**
+         * ID of component that this instance came from, refers to components
+         * table (see endpoints section below)
+         */
+        std::unique_ptr<std::string> component_id;
     };
 
     /**
@@ -1658,257 +713,127 @@ namespace quicktype {
      */
     struct Component {
         /**
+         * Bounding box of the node in absolute space coordinates
+         */
+        struct Rectangle absolute_bounding_box;
+        /**
+         * Background color of the node
+         */
+        struct Color background_color;
+        /**
+         * How this node blends with nodes behind it in the scene
+         * (see blend mode section for more details)
+         */
+        LendMode blend_mode;
+        /**
+         * An array of nodes that are direct children of this node
+         */
+        std::vector<struct DocumentElement> children;
+        /**
+         * Does this node clip content outside of its bounds?
+         */
+        bool clips_content;
+        /**
+         * Horizontal and vertical layout constraints for node
+         */
+        struct LayoutConstraint constraints;
+        /**
          * An array of effects attached to this node
          * (see effects sectionfor more details)
          */
         std::vector<struct Effect> effects;
+        /**
+         * An array of export settings representing images to export from node
+         */
+        std::vector<struct ExportSetting> export_settings;
+        /**
+         * a string uniquely identifying this node within the document
+         */
+        std::string id;
+        /**
+         * Does this node mask sibling nodes in front of it?
+         */
+        bool is_mask;
         /**
          * An array of layout grids attached to this node (see layout grids section
          * for more details). GROUP nodes do not have this attribute
          */
         std::vector<struct LayoutGrid> layout_grids;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
-        double opacity;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
          * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
          */
         std::string name;
         /**
-         * Bounding box of the node in absolute space coordinates
-         * A rectangle
+         * Opacity of the node
          */
-        struct Rectangle absolute_bounding_box;
+        double opacity;
+        /**
+         * Keep height and width constrained to same ratio
+         */
+        bool preserve_ratio;
         /**
          * Node ID of node to transition to in prototyping
          */
         std::unique_ptr<std::string> transition_node_id;
         /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool visible;
-        /**
-         * Enum describing how layer blends with layers below
-         * This type is a string enum with the following possible values
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        BlendMode blend_mode;
-        /**
-         * Background color of the node
-         * An RGBA color
-         * Solid color of the paint
-         * Color attached to corresponding position
-         * Color of the grid
-         * Background color of the canvas
-         */
-        struct Color background_color;
-        /**
-         * Horizontal and vertical layout constraints for node
-         * Layout constraint relative to containing Frame
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool is_mask;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool clips_content;
-        /**
-         * An array of export settings representing images to export from node
-         * An array of export settings representing images to export from this node
-         * An array of export settings representing images to export from the canvas
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
          * the type of the node, refer to table below for details
          */
         NodeType type;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string id;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
          * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
          */
-        bool preserve_ratio;
-        /**
-         * An array of nodes that are direct children of this node
-         * An array of nodes that are being boolean operated on
-         * An array of top level layers on the canvas
-         * An array of canvases attached to the document
-         */
-        std::vector<struct Node> children;
+        bool visible;
     };
 
     /**
      * Node Properties
      * The root node
+     *
      * The root node within the document
      */
-    struct Document {
+    struct FileResponseDocument {
         /**
-         * An array of nodes that are direct children of this node
-         * An array of nodes that are being boolean operated on
-         * An array of top level layers on the canvas
          * An array of canvases attached to the document
          */
-        std::vector<struct Node> children;
+        std::vector<struct DocumentElement> children;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
          * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
          */
         std::string id;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
          * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
          */
         std::string name;
-        /**
-         * Is the effect active?
-         * Is the grid currently visible?
-         * Is the paint enabled?
-         * whether or not the node is visible on the canvas
-         * Does this node mask sibling nodes in front of it?
-         * Keep height and width constrained to same ratio
-         * Does this node clip content outside of its bounds?
-         * Is text italicized?
-         */
-        bool visible;
         /**
          * the type of the node, refer to table below for details
          */
         NodeType type;
+        /**
+         * whether or not the node is visible on the canvas
+         */
+        bool visible;
     };
 
+    /**
+     * GET /v1/files/:key
+     *
+     * > Description
+     *
+     * Returns the document refered to by :key as a JSON object. The file key can be parsed from
+     * any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
+     * contains a Node of type DOCUMENT.
+     *
+     * The "components" key contains a mapping from node IDs to component metadata. This is to
+     * help you determine which components each instance comes from. Currently the only piece of
+     * metadata available on components is the name of the component, but more properties will
+     * be forthcoming.
+     *
+     * > Path parameters
+     *
+     * key String
+     * File to export JSON from
+     */
     struct FileResponse {
-        /**
-         * Node Properties
-         * The root node
-         * The root node within the document
-         */
-        struct Document document;
         /**
          * A mapping from node IDs to component metadata. This is to help you determine which
          * components each instance comes from. Currently the only piece of metadata available on
@@ -1916,42 +841,17 @@ namespace quicktype {
          */
         std::map<std::string, struct Component> components;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
+         * The root node within the document
          */
+        struct FileResponseDocument document;
         double schema_version;
     };
 
     /**
      * 2d vector offset within the frame.
+     *
      * A 2d vector
+     *
      * This field contains three vectors, each of which are a position in
      * normalized object space (normalized object space is if the top left
      * corner of the bounding box of the object is (0, 0) and the bottom
@@ -1960,138 +860,35 @@ namespace quicktype {
      * the second position is the end of the gradient (value 1), and the
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
+     *
      * A relative offset within a frame
      */
     struct ClientMeta {
         /**
          * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         std::unique_ptr<double> x;
         /**
-         * X coordinate of the vector
          * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
          */
         std::unique_ptr<double> y;
         /**
          * Unique id specifying the frame.
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
          */
         std::unique_ptr<std::vector<std::string>> node_id;
         /**
          * 2d vector offset within the frame.
-         * A 2d vector
-         * This field contains three vectors, each of which are a position in
-         * normalized object space (normalized object space is if the top left
-         * corner of the bounding box of the object is (0, 0) and the bottom
-         * right is (1,1)). The first position corresponds to the start of the
-         * gradient (value 0 for the purposes of calculating gradient stops),
-         * the second position is the end of the gradient (value 1), and the
-         * third handle position determines the width of the gradient (only
-         * relevant for non-linear gradients).
          */
         std::unique_ptr<struct Vector2> node_offset;
     };
 
     /**
-     * A description of a user
      * The user who left the comment
+     *
+     * A description of a user
      */
     struct User {
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
         std::string handle;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
         std::string img_url;
     };
 
@@ -2099,330 +896,126 @@ namespace quicktype {
      * A comment or reply left by a user
      */
     struct Comment {
+        struct ClientMeta client_meta;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string message;
-        /**
-         * Enables basic storage and retrieval of dates and times.
+         * The time at which the comment was left
          */
         std::string created_at;
         /**
-         * A description of a user
-         * The user who left the comment
+         * The file in which the comment lives
          */
-        struct User user;
+        std::string file_key;
         /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
+         * Unique identifier for comment
+         */
+        std::string id;
+        /**
+         * (MISSING IN DOCS)
+         * The content of the comment
+         */
+        std::string message;
+        /**
          * Only set for top level comments. The number displayed with the
          * comment in the UI
          */
         double order_id;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
          * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
          */
         std::string parent_id;
-        /**
-         * 2d vector offset within the frame.
-         * A 2d vector
-         * This field contains three vectors, each of which are a position in
-         * normalized object space (normalized object space is if the top left
-         * corner of the bounding box of the object is (0, 0) and the bottom
-         * right is (1,1)). The first position corresponds to the start of the
-         * gradient (value 0 for the purposes of calculating gradient stops),
-         * the second position is the end of the gradient (value 1), and the
-         * third handle position determines the width of the gradient (only
-         * relevant for non-linear gradients).
-         * A relative offset within a frame
-         */
-        struct ClientMeta client_meta;
         /**
          * If set, when the comment was resolved
          */
         std::unique_ptr<std::string> resolved_at;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
+         * The user who left the comment
          */
-        std::string id;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string file_key;
+        struct User user;
     };
 
+    /**
+     * GET /v1/files/:key/comments
+     *
+     * > Description
+     * A list of comments left on the file.
+     *
+     * > Path parameters
+     * key String
+     * File to get comments from
+     */
     struct CommentsResponse {
         std::vector<struct Comment> comments;
     };
 
+    /**
+     * POST /v1/files/:key/comments
+     *
+     * > Description
+     * Posts a new comment on the file.
+     *
+     * > Path parameters
+     * key String
+     * File to get comments from
+     *
+     * > Body parameters
+     * message String
+     * The text contents of the comment to post
+     *
+     * client_meta Vector2 | FrameOffset
+     * The position of where to place the comment. This can either be an absolute canvas
+     * position or the relative position within a frame.
+     *
+     * > Return value
+     * The Comment that was successfully posted
+     *
+     * > Error codes
+     * 404 The specified file was not found
+     */
     struct CommentRequest {
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string message;
-        /**
-         * 2d vector offset within the frame.
-         * A 2d vector
-         * This field contains three vectors, each of which are a position in
-         * normalized object space (normalized object space is if the top left
-         * corner of the bounding box of the object is (0, 0) and the bottom
-         * right is (1,1)). The first position corresponds to the start of the
-         * gradient (value 0 for the purposes of calculating gradient stops),
-         * the second position is the end of the gradient (value 1), and the
-         * third handle position determines the width of the gradient (only
-         * relevant for non-linear gradients).
-         * A relative offset within a frame
-         */
         struct ClientMeta client_meta;
+        std::string message;
     };
 
     struct Project {
-        /**
-         * X coordinate of the vector
-         * Y coordinate of the vector
-         * Radius of the blur effect (applies to shadows as well)
-         * Red channel value, between 0 and 1
-         * Green channel value, between 0 and 1
-         * Blue channel value, between 0 and 1
-         * Alpha channel value, between 0 and 1
-         * Width of column grid or height of row grid or square grid spacing
-         * Spacing in between columns and rows
-         * Spacing before the first column or row
-         * Number of columns or rows
-         * Opacity of the node
-         * Radius of each corner of the rectangle
-         * The weight of strokes on the node
-         * Overall opacity of paint (colors within the paint can also have opacity
-         * values which would blend with this)
-         * Value between 0 and 1 representing position along gradient axis
-         * See type property for effect of this field
-         * Line height in px
-         * Numeric font weight
-         * Line height as a percentage of normal line height
-         * Font size in px
-         * Space between characters in px
-         * Array with same number of elements as characeters in text box,
-         * each element is a reference to the styleOverrideTable defined
-         * below and maps to the corresponding character in the characters
-         * field. Elements with value 0 have the default type style
-         * Only set for top level comments. The number displayed with the
-         * comment in the UI
-         */
         double id;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
         std::string name;
     };
 
+    /**
+     * GET /v1/teams/:team_id/projects
+     *
+     * > Description
+     * Lists the projects for a specified team. Note that this will only return projects visible
+     * to the authenticated user or owner of the developer token.
+     *
+     * > Path parameters
+     * team_id String
+     * Id of the team to list projects from
+     */
     struct ProjectsResponse {
         std::vector<struct Project> projects;
     };
 
     struct File {
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
         std::string key;
         /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string name;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
-         * utc date in iso8601
-         */
-        std::string thumbnail_url;
-        /**
-         * Allows manipulation and formatting of text strings and determination and location of
-         * substrings within strings.
-         * the name given to the node by the user in the tool.
-         * Image scaling mode
-         * File suffix to append to all filenames
-         * a string uniquely identifying this node within the document
-         * Text contained within text box
-         * PostScript font name
-         * Font family of text (standard name)
-         * ID of component that this instance came from, refers to components
-         * table (see endpoints section below)
-         * (MISSING IN DOCS)
-         * The content of the comment
-         * If present, the id of the comment to which this is the reply
-         * Unique identifier for comment
-         * The file in which the comment lives
          * utc date in iso8601
          */
         std::string last_modified;
+        std::string name;
+        std::string thumbnail_url;
     };
 
+    /**
+     * GET /v1/projects/:project_id/files
+     *
+     * > Description
+     * List the files in a given project.
+     *
+     * > Path parameters
+     * project_id String
+     * Id of the project to list files from
+     */
     struct ProjectFilesResponse {
         std::vector<struct File> files;
     };
@@ -2461,29 +1054,29 @@ namespace nlohmann {
     };
 
     inline void from_json(const json& _j, struct quicktype::LayoutConstraint& _x) {
-        _x.vertical = _j.at("vertical").get<quicktype::Vertical>();
         _x.horizontal = _j.at("horizontal").get<quicktype::Horizontal>();
+        _x.vertical = _j.at("vertical").get<quicktype::Vertical>();
     }
 
     inline void to_json(json& _j, const struct quicktype::LayoutConstraint& _x) {
         _j = json::object();
-        _j["vertical"] = _x.vertical;
         _j["horizontal"] = _x.horizontal;
+        _j["vertical"] = _x.vertical;
     }
 
     inline void from_json(const json& _j, struct quicktype::Color& _x) {
-        _x.r = _j.at("r").get<double>();
-        _x.g = _j.at("g").get<double>();
-        _x.b = _j.at("b").get<double>();
         _x.a = _j.at("a").get<double>();
+        _x.b = _j.at("b").get<double>();
+        _x.g = _j.at("g").get<double>();
+        _x.r = _j.at("r").get<double>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Color& _x) {
         _j = json::object();
-        _j["r"] = _x.r;
-        _j["g"] = _x.g;
-        _j["b"] = _x.b;
         _j["a"] = _x.a;
+        _j["b"] = _x.b;
+        _j["g"] = _x.g;
+        _j["r"] = _x.r;
     }
 
     inline void from_json(const json& _j, struct quicktype::Vector2& _x) {
@@ -2498,22 +1091,22 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Effect& _x) {
+        _x.blend_mode = quicktype::get_optional<quicktype::LendMode>(_j, "blendMode");
+        _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
+        _x.offset = quicktype::get_optional<struct quicktype::Vector2>(_j, "offset");
+        _x.radius = _j.at("radius").get<double>();
         _x.type = _j.at("type").get<quicktype::EffectType>();
         _x.visible = _j.at("visible").get<bool>();
-        _x.radius = _j.at("radius").get<double>();
-        _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
-        _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
-        _x.offset = quicktype::get_optional<struct quicktype::Vector2>(_j, "offset");
     }
 
     inline void to_json(json& _j, const struct quicktype::Effect& _x) {
         _j = json::object();
+        _j["blendMode"] = _x.blend_mode;
+        _j["color"] = _x.color;
+        _j["offset"] = _x.offset;
+        _j["radius"] = _x.radius;
         _j["type"] = _x.type;
         _j["visible"] = _x.visible;
-        _j["radius"] = _x.radius;
-        _j["color"] = _x.color;
-        _j["blendMode"] = _x.blend_mode;
-        _j["offset"] = _x.offset;
     }
 
     inline void from_json(const json& _j, struct quicktype::Constraint& _x) {
@@ -2528,274 +1121,274 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::ExportSetting& _x) {
-        _x.suffix = _j.at("suffix").get<std::string>();
-        _x.format = _j.at("format").get<quicktype::Format>();
         _x.constraint = _j.at("constraint").get<struct quicktype::Constraint>();
+        _x.format = _j.at("format").get<quicktype::Format>();
+        _x.suffix = _j.at("suffix").get<std::string>();
     }
 
     inline void to_json(json& _j, const struct quicktype::ExportSetting& _x) {
         _j = json::object();
-        _j["suffix"] = _x.suffix;
-        _j["format"] = _x.format;
         _j["constraint"] = _x.constraint;
+        _j["format"] = _x.format;
+        _j["suffix"] = _x.suffix;
     }
 
     inline void from_json(const json& _j, struct quicktype::ColorStop& _x) {
-        _x.position = _j.at("position").get<double>();
         _x.color = _j.at("color").get<struct quicktype::Color>();
+        _x.position = _j.at("position").get<double>();
     }
 
     inline void to_json(json& _j, const struct quicktype::ColorStop& _x) {
         _j = json::object();
-        _j["position"] = _x.position;
         _j["color"] = _x.color;
+        _j["position"] = _x.position;
     }
 
     inline void from_json(const json& _j, struct quicktype::Paint& _x) {
-        _x.type = _j.at("type").get<quicktype::PaintType>();
-        _x.visible = _j.at("visible").get<bool>();
-        _x.opacity = _j.at("opacity").get<double>();
         _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
         _x.gradient_handle_positions = quicktype::get_optional<std::vector<struct quicktype::Vector2>>(_j, "gradientHandlePositions");
         _x.gradient_stops = quicktype::get_optional<std::vector<struct quicktype::ColorStop>>(_j, "gradientStops");
+        _x.opacity = _j.at("opacity").get<double>();
         _x.scale_mode = quicktype::get_optional<std::string>(_j, "scaleMode");
+        _x.type = _j.at("type").get<quicktype::PaintType>();
+        _x.visible = _j.at("visible").get<bool>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Paint& _x) {
         _j = json::object();
-        _j["type"] = _x.type;
-        _j["visible"] = _x.visible;
-        _j["opacity"] = _x.opacity;
         _j["color"] = _x.color;
         _j["gradientHandlePositions"] = _x.gradient_handle_positions;
         _j["gradientStops"] = _x.gradient_stops;
+        _j["opacity"] = _x.opacity;
         _j["scaleMode"] = _x.scale_mode;
+        _j["type"] = _x.type;
+        _j["visible"] = _x.visible;
     }
 
     inline void from_json(const json& _j, struct quicktype::Rectangle& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.corner_radius = _j.at("cornerRadius").get<double>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
         _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
+        _x.blend_mode = _j.at("blendMode").get<quicktype::LendMode>();
         _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
+        _x.corner_radius = _j.at("cornerRadius").get<double>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
         _x.id = _j.at("id").get<std::string>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
+        _x.is_mask = _j.at("isMask").get<bool>();
+        _x.name = _j.at("name").get<std::string>();
+        _x.opacity = _j.at("opacity").get<double>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
+        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
+        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
+        _x.stroke_weight = _j.at("strokeWeight").get<double>();
+        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
+        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.visible = _j.at("visible").get<bool>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Rectangle& _x) {
         _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["cornerRadius"] = _x.corner_radius;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
         _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
         _j["blendMode"] = _x.blend_mode;
         _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
+        _j["cornerRadius"] = _x.corner_radius;
+        _j["effects"] = _x.effects;
         _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
+        _j["fills"] = _x.fills;
         _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
+        _j["isMask"] = _x.is_mask;
+        _j["name"] = _x.name;
+        _j["opacity"] = _x.opacity;
         _j["preserveRatio"] = _x.preserve_ratio;
+        _j["strokeAlign"] = _x.stroke_align;
+        _j["strokes"] = _x.strokes;
+        _j["strokeWeight"] = _x.stroke_weight;
+        _j["transitionNodeID"] = _x.transition_node_id;
+        _j["type"] = _x.type;
+        _j["visible"] = _x.visible;
     }
 
     inline void from_json(const json& _j, struct quicktype::LayoutGrid& _x) {
+        _x.alignment = _j.at("alignment").get<quicktype::Alignment>();
+        _x.color = _j.at("color").get<struct quicktype::Color>();
+        _x.count = _j.at("count").get<double>();
+        _x.gutter_size = _j.at("gutterSize").get<double>();
+        _x.offset = _j.at("offset").get<double>();
         _x.pattern = _j.at("pattern").get<quicktype::Pattern>();
         _x.section_size = _j.at("sectionSize").get<double>();
         _x.visible = _j.at("visible").get<bool>();
-        _x.color = _j.at("color").get<struct quicktype::Color>();
-        _x.alignment = _j.at("alignment").get<quicktype::Alignment>();
-        _x.gutter_size = _j.at("gutterSize").get<double>();
-        _x.offset = _j.at("offset").get<double>();
-        _x.count = _j.at("count").get<double>();
     }
 
     inline void to_json(json& _j, const struct quicktype::LayoutGrid& _x) {
         _j = json::object();
+        _j["alignment"] = _x.alignment;
+        _j["color"] = _x.color;
+        _j["count"] = _x.count;
+        _j["gutterSize"] = _x.gutter_size;
+        _j["offset"] = _x.offset;
         _j["pattern"] = _x.pattern;
         _j["sectionSize"] = _x.section_size;
         _j["visible"] = _x.visible;
-        _j["color"] = _x.color;
-        _j["alignment"] = _x.alignment;
-        _j["gutterSize"] = _x.gutter_size;
-        _j["offset"] = _x.offset;
-        _j["count"] = _x.count;
     }
 
     inline void from_json(const json& _j, struct quicktype::TypeStyle& _x) {
-        _x.line_height_px = _j.at("lineHeightPx").get<double>();
-        _x.font_post_script_name = _j.at("fontPostScriptName").get<std::string>();
-        _x.font_weight = _j.at("fontWeight").get<double>();
-        _x.line_height_percent = _j.at("lineHeightPercent").get<double>();
-        _x.text_align_vertical = _j.at("textAlignVertical").get<quicktype::TextAlignVertical>();
-        _x.font_size = _j.at("fontSize").get<double>();
-        _x.italic = _j.at("italic").get<bool>();
         _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
         _x.font_family = _j.at("fontFamily").get<std::string>();
-        _x.text_align_horizontal = _j.at("textAlignHorizontal").get<quicktype::TextAlignHorizontal>();
+        _x.font_post_script_name = _j.at("fontPostScriptName").get<std::string>();
+        _x.font_size = _j.at("fontSize").get<double>();
+        _x.font_weight = _j.at("fontWeight").get<double>();
+        _x.italic = _j.at("italic").get<bool>();
         _x.letter_spacing = _j.at("letterSpacing").get<double>();
+        _x.line_height_percent = _j.at("lineHeightPercent").get<double>();
+        _x.line_height_px = _j.at("lineHeightPx").get<double>();
+        _x.text_align_horizontal = _j.at("textAlignHorizontal").get<quicktype::TextAlignHorizontal>();
+        _x.text_align_vertical = _j.at("textAlignVertical").get<quicktype::TextAlignVertical>();
     }
 
     inline void to_json(json& _j, const struct quicktype::TypeStyle& _x) {
         _j = json::object();
-        _j["lineHeightPx"] = _x.line_height_px;
-        _j["fontPostScriptName"] = _x.font_post_script_name;
-        _j["fontWeight"] = _x.font_weight;
-        _j["lineHeightPercent"] = _x.line_height_percent;
-        _j["textAlignVertical"] = _x.text_align_vertical;
-        _j["fontSize"] = _x.font_size;
-        _j["italic"] = _x.italic;
         _j["fills"] = _x.fills;
         _j["fontFamily"] = _x.font_family;
-        _j["textAlignHorizontal"] = _x.text_align_horizontal;
+        _j["fontPostScriptName"] = _x.font_post_script_name;
+        _j["fontSize"] = _x.font_size;
+        _j["fontWeight"] = _x.font_weight;
+        _j["italic"] = _x.italic;
         _j["letterSpacing"] = _x.letter_spacing;
+        _j["lineHeightPercent"] = _x.line_height_percent;
+        _j["lineHeightPx"] = _x.line_height_px;
+        _j["textAlignHorizontal"] = _x.text_align_horizontal;
+        _j["textAlignVertical"] = _x.text_align_vertical;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Node& _x) {
+    inline void from_json(const json& _j, struct quicktype::DocumentElement& _x) {
+        _x.children = quicktype::get_optional<std::vector<struct quicktype::DocumentElement>>(_j, "children");
+        _x.id = _j.at("id").get<std::string>();
+        _x.name = _j.at("name").get<std::string>();
+        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.visible = _j.at("visible").get<bool>();
+        _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
+        _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
+        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
+        _x.blend_mode = quicktype::get_optional<quicktype::LendMode>(_j, "blendMode");
+        _x.clips_content = quicktype::get_optional<bool>(_j, "clipsContent");
+        _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
         _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
+        _x.is_mask = quicktype::get_optional<bool>(_j, "isMask");
         _x.layout_grids = quicktype::get_optional<std::vector<struct quicktype::LayoutGrid>>(_j, "layoutGrids");
+        _x.opacity = quicktype::get_optional<double>(_j, "opacity");
+        _x.preserve_ratio = quicktype::get_optional<bool>(_j, "preserveRatio");
+        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
+        _x.fills = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "fills");
+        _x.stroke_align = quicktype::get_optional<quicktype::StrokeAlign>(_j, "strokeAlign");
+        _x.strokes = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "strokes");
+        _x.stroke_weight = quicktype::get_optional<double>(_j, "strokeWeight");
         _x.corner_radius = quicktype::get_optional<double>(_j, "cornerRadius");
         _x.characters = quicktype::get_optional<std::string>(_j, "characters");
-        _x.opacity = quicktype::get_optional<double>(_j, "opacity");
-        _x.name = _j.at("name").get<std::string>();
-        _x.stroke_align = quicktype::get_optional<quicktype::StrokeAlign>(_j, "strokeAlign");
-        _x.stroke_weight = quicktype::get_optional<double>(_j, "strokeWeight");
-        _x.fills = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "fills");
-        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
-        _x.style_override_table = quicktype::get_optional<std::vector<struct quicktype::TypeStyle>>(_j, "styleOverrideTable");
-        _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
-        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
-        _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
-        _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
-        _x.is_mask = quicktype::get_optional<bool>(_j, "isMask");
-        _x.clips_content = quicktype::get_optional<bool>(_j, "clipsContent");
-        _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
-        _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.strokes = quicktype::get_optional<std::vector<struct quicktype::Paint>>(_j, "strokes");
-        _x.preserve_ratio = quicktype::get_optional<bool>(_j, "preserveRatio");
-        _x.children = quicktype::get_optional<std::vector<struct quicktype::Node>>(_j, "children");
         _x.character_style_overrides = quicktype::get_optional<std::vector<double>>(_j, "characterStyleOverrides");
+        _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
+        _x.style_override_table = quicktype::get_optional<std::vector<struct quicktype::TypeStyle>>(_j, "styleOverrideTable");
+        _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
     }
 
-    inline void to_json(json& _j, const struct quicktype::Node& _x) {
+    inline void to_json(json& _j, const struct quicktype::DocumentElement& _x) {
         _j = json::object();
+        _j["children"] = _x.children;
+        _j["id"] = _x.id;
+        _j["name"] = _x.name;
+        _j["type"] = _x.type;
+        _j["visible"] = _x.visible;
+        _j["backgroundColor"] = _x.background_color;
+        _j["exportSettings"] = _x.export_settings;
+        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
+        _j["blendMode"] = _x.blend_mode;
+        _j["clipsContent"] = _x.clips_content;
+        _j["constraints"] = _x.constraints;
         _j["effects"] = _x.effects;
+        _j["isMask"] = _x.is_mask;
         _j["layoutGrids"] = _x.layout_grids;
+        _j["opacity"] = _x.opacity;
+        _j["preserveRatio"] = _x.preserve_ratio;
+        _j["transitionNodeID"] = _x.transition_node_id;
+        _j["fills"] = _x.fills;
+        _j["strokeAlign"] = _x.stroke_align;
+        _j["strokes"] = _x.strokes;
+        _j["strokeWeight"] = _x.stroke_weight;
         _j["cornerRadius"] = _x.corner_radius;
         _j["characters"] = _x.characters;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["fills"] = _x.fills;
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["styleOverrideTable"] = _x.style_override_table;
-        _j["style"] = _x.style;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
-        _j["backgroundColor"] = _x.background_color;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["clipsContent"] = _x.clips_content;
-        _j["exportSettings"] = _x.export_settings;
-        _j["componentId"] = _x.component_id;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["strokes"] = _x.strokes;
-        _j["preserveRatio"] = _x.preserve_ratio;
-        _j["children"] = _x.children;
         _j["characterStyleOverrides"] = _x.character_style_overrides;
+        _j["style"] = _x.style;
+        _j["styleOverrideTable"] = _x.style_override_table;
+        _j["componentId"] = _x.component_id;
     }
 
     inline void from_json(const json& _j, struct quicktype::Component& _x) {
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.name = _j.at("name").get<std::string>();
         _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
-        _x.visible = _j.at("visible").get<bool>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
         _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.is_mask = _j.at("isMask").get<bool>();
+        _x.blend_mode = _j.at("blendMode").get<quicktype::LendMode>();
+        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
+        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
+        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.id = _j.at("id").get<std::string>();
+        _x.is_mask = _j.at("isMask").get<bool>();
+        _x.layout_grids = _j.at("layoutGrids").get<std::vector<struct quicktype::LayoutGrid>>();
+        _x.name = _j.at("name").get<std::string>();
+        _x.opacity = _j.at("opacity").get<double>();
         _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::Node>>();
+        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
+        _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.visible = _j.at("visible").get<bool>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Component& _x) {
         _j = json::object();
-        _j["effects"] = _x.effects;
-        _j["layoutGrids"] = _x.layout_grids;
-        _j["opacity"] = _x.opacity;
-        _j["name"] = _x.name;
         _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["visible"] = _x.visible;
-        _j["blendMode"] = _x.blend_mode;
         _j["backgroundColor"] = _x.background_color;
-        _j["constraints"] = _x.constraints;
-        _j["isMask"] = _x.is_mask;
-        _j["clipsContent"] = _x.clips_content;
-        _j["exportSettings"] = _x.export_settings;
-        _j["type"] = _x.type;
-        _j["id"] = _x.id;
-        _j["preserveRatio"] = _x.preserve_ratio;
+        _j["blendMode"] = _x.blend_mode;
         _j["children"] = _x.children;
+        _j["clipsContent"] = _x.clips_content;
+        _j["constraints"] = _x.constraints;
+        _j["effects"] = _x.effects;
+        _j["exportSettings"] = _x.export_settings;
+        _j["id"] = _x.id;
+        _j["isMask"] = _x.is_mask;
+        _j["layoutGrids"] = _x.layout_grids;
+        _j["name"] = _x.name;
+        _j["opacity"] = _x.opacity;
+        _j["preserveRatio"] = _x.preserve_ratio;
+        _j["transitionNodeID"] = _x.transition_node_id;
+        _j["type"] = _x.type;
+        _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Document& _x) {
-        _x.children = _j.at("children").get<std::vector<struct quicktype::Node>>();
+    inline void from_json(const json& _j, struct quicktype::FileResponseDocument& _x) {
+        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
-        _x.visible = _j.at("visible").get<bool>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
+        _x.visible = _j.at("visible").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Document& _x) {
+    inline void to_json(json& _j, const struct quicktype::FileResponseDocument& _x) {
         _j = json::object();
         _j["children"] = _x.children;
         _j["id"] = _x.id;
         _j["name"] = _x.name;
-        _j["visible"] = _x.visible;
         _j["type"] = _x.type;
+        _j["visible"] = _x.visible;
     }
 
     inline void from_json(const json& _j, struct quicktype::FileResponse& _x) {
-        _x.document = _j.at("document").get<struct quicktype::Document>();
         _x.components = _j.at("components").get<std::map<std::string, struct quicktype::Component>>();
+        _x.document = _j.at("document").get<struct quicktype::FileResponseDocument>();
         _x.schema_version = _j.at("schemaVersion").get<double>();
     }
 
     inline void to_json(json& _j, const struct quicktype::FileResponse& _x) {
         _j = json::object();
-        _j["document"] = _x.document;
         _j["components"] = _x.components;
+        _j["document"] = _x.document;
         _j["schemaVersion"] = _x.schema_version;
     }
 
@@ -2826,28 +1419,28 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Comment& _x) {
-        _x.message = _j.at("message").get<std::string>();
+        _x.client_meta = _j.at("client_meta").get<struct quicktype::ClientMeta>();
         _x.created_at = _j.at("created_at").get<std::string>();
-        _x.user = _j.at("user").get<struct quicktype::User>();
+        _x.file_key = _j.at("file_key").get<std::string>();
+        _x.id = _j.at("id").get<std::string>();
+        _x.message = _j.at("message").get<std::string>();
         _x.order_id = _j.at("order_id").get<double>();
         _x.parent_id = _j.at("parent_id").get<std::string>();
-        _x.client_meta = _j.at("client_meta").get<struct quicktype::ClientMeta>();
         _x.resolved_at = quicktype::get_optional<std::string>(_j, "resolved_at");
-        _x.id = _j.at("id").get<std::string>();
-        _x.file_key = _j.at("file_key").get<std::string>();
+        _x.user = _j.at("user").get<struct quicktype::User>();
     }
 
     inline void to_json(json& _j, const struct quicktype::Comment& _x) {
         _j = json::object();
-        _j["message"] = _x.message;
+        _j["client_meta"] = _x.client_meta;
         _j["created_at"] = _x.created_at;
-        _j["user"] = _x.user;
+        _j["file_key"] = _x.file_key;
+        _j["id"] = _x.id;
+        _j["message"] = _x.message;
         _j["order_id"] = _x.order_id;
         _j["parent_id"] = _x.parent_id;
-        _j["client_meta"] = _x.client_meta;
         _j["resolved_at"] = _x.resolved_at;
-        _j["id"] = _x.id;
-        _j["file_key"] = _x.file_key;
+        _j["user"] = _x.user;
     }
 
     inline void from_json(const json& _j, struct quicktype::CommentsResponse& _x) {
@@ -2860,14 +1453,14 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::CommentRequest& _x) {
-        _x.message = _j.at("message").get<std::string>();
         _x.client_meta = _j.at("client_meta").get<struct quicktype::ClientMeta>();
+        _x.message = _j.at("message").get<std::string>();
     }
 
     inline void to_json(json& _j, const struct quicktype::CommentRequest& _x) {
         _j = json::object();
-        _j["message"] = _x.message;
         _j["client_meta"] = _x.client_meta;
+        _j["message"] = _x.message;
     }
 
     inline void from_json(const json& _j, struct quicktype::Project& _x) {
@@ -2892,17 +1485,17 @@ namespace nlohmann {
 
     inline void from_json(const json& _j, struct quicktype::File& _x) {
         _x.key = _j.at("key").get<std::string>();
+        _x.last_modified = _j.at("last_modified").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.thumbnail_url = _j.at("thumbnail_url").get<std::string>();
-        _x.last_modified = _j.at("last_modified").get<std::string>();
     }
 
     inline void to_json(json& _j, const struct quicktype::File& _x) {
         _j = json::object();
         _j["key"] = _x.key;
+        _j["last_modified"] = _x.last_modified;
         _j["name"] = _x.name;
         _j["thumbnail_url"] = _x.thumbnail_url;
-        _j["last_modified"] = _x.last_modified;
     }
 
     inline void from_json(const json& _j, struct quicktype::ProjectFilesResponse& _x) {
@@ -2914,50 +1507,50 @@ namespace nlohmann {
         _j["files"] = _x.files;
     }
 
-    inline void from_json(const json& _j, quicktype::BlendMode& _x) {
-        if (_j == "COLOR") _x = quicktype::BlendMode::COLOR;
-        else if (_j == "COLOR_BURN") _x = quicktype::BlendMode::COLOR_BURN;
-        else if (_j == "COLOR_DODGE") _x = quicktype::BlendMode::COLOR_DODGE;
-        else if (_j == "DARKEN") _x = quicktype::BlendMode::DARKEN;
-        else if (_j == "DIFFERENCE") _x = quicktype::BlendMode::DIFFERENCE;
-        else if (_j == "EXCLUSION") _x = quicktype::BlendMode::EXCLUSION;
-        else if (_j == "HARD_LIGHT") _x = quicktype::BlendMode::HARD_LIGHT;
-        else if (_j == "HUE") _x = quicktype::BlendMode::HUE;
-        else if (_j == "LIGHTEN") _x = quicktype::BlendMode::LIGHTEN;
-        else if (_j == "LINEAR_BURN") _x = quicktype::BlendMode::LINEAR_BURN;
-        else if (_j == "LINEAR_DODGE") _x = quicktype::BlendMode::LINEAR_DODGE;
-        else if (_j == "LUMINOSITY") _x = quicktype::BlendMode::LUMINOSITY;
-        else if (_j == "MULTIPLY") _x = quicktype::BlendMode::MULTIPLY;
-        else if (_j == "NORMAL") _x = quicktype::BlendMode::NORMAL;
-        else if (_j == "OVERLAY") _x = quicktype::BlendMode::OVERLAY;
-        else if (_j == "PASS_THROUGH") _x = quicktype::BlendMode::PASS_THROUGH;
-        else if (_j == "SATURATION") _x = quicktype::BlendMode::SATURATION;
-        else if (_j == "SCREEN") _x = quicktype::BlendMode::SCREEN;
-        else if (_j == "SOFT_LIGHT") _x = quicktype::BlendMode::SOFT_LIGHT;
+    inline void from_json(const json& _j, quicktype::LendMode& _x) {
+        if (_j == "COLOR") _x = quicktype::LendMode::COLOR;
+        else if (_j == "COLOR_BURN") _x = quicktype::LendMode::COLOR_BURN;
+        else if (_j == "COLOR_DODGE") _x = quicktype::LendMode::COLOR_DODGE;
+        else if (_j == "DARKEN") _x = quicktype::LendMode::DARKEN;
+        else if (_j == "DIFFERENCE") _x = quicktype::LendMode::DIFFERENCE;
+        else if (_j == "EXCLUSION") _x = quicktype::LendMode::EXCLUSION;
+        else if (_j == "HARD_LIGHT") _x = quicktype::LendMode::HARD_LIGHT;
+        else if (_j == "HUE") _x = quicktype::LendMode::HUE;
+        else if (_j == "LIGHTEN") _x = quicktype::LendMode::LIGHTEN;
+        else if (_j == "LINEAR_BURN") _x = quicktype::LendMode::LINEAR_BURN;
+        else if (_j == "LINEAR_DODGE") _x = quicktype::LendMode::LINEAR_DODGE;
+        else if (_j == "LUMINOSITY") _x = quicktype::LendMode::LUMINOSITY;
+        else if (_j == "MULTIPLY") _x = quicktype::LendMode::MULTIPLY;
+        else if (_j == "NORMAL") _x = quicktype::LendMode::NORMAL;
+        else if (_j == "OVERLAY") _x = quicktype::LendMode::OVERLAY;
+        else if (_j == "PASS_THROUGH") _x = quicktype::LendMode::PASS_THROUGH;
+        else if (_j == "SATURATION") _x = quicktype::LendMode::SATURATION;
+        else if (_j == "SCREEN") _x = quicktype::LendMode::SCREEN;
+        else if (_j == "SOFT_LIGHT") _x = quicktype::LendMode::SOFT_LIGHT;
         else throw "Input JSON does not conform to schema";
     }
 
-    inline void to_json(json& _j, const quicktype::BlendMode& _x) {
+    inline void to_json(json& _j, const quicktype::LendMode& _x) {
         switch (_x) {
-            case quicktype::BlendMode::COLOR: _j = "COLOR"; break;
-            case quicktype::BlendMode::COLOR_BURN: _j = "COLOR_BURN"; break;
-            case quicktype::BlendMode::COLOR_DODGE: _j = "COLOR_DODGE"; break;
-            case quicktype::BlendMode::DARKEN: _j = "DARKEN"; break;
-            case quicktype::BlendMode::DIFFERENCE: _j = "DIFFERENCE"; break;
-            case quicktype::BlendMode::EXCLUSION: _j = "EXCLUSION"; break;
-            case quicktype::BlendMode::HARD_LIGHT: _j = "HARD_LIGHT"; break;
-            case quicktype::BlendMode::HUE: _j = "HUE"; break;
-            case quicktype::BlendMode::LIGHTEN: _j = "LIGHTEN"; break;
-            case quicktype::BlendMode::LINEAR_BURN: _j = "LINEAR_BURN"; break;
-            case quicktype::BlendMode::LINEAR_DODGE: _j = "LINEAR_DODGE"; break;
-            case quicktype::BlendMode::LUMINOSITY: _j = "LUMINOSITY"; break;
-            case quicktype::BlendMode::MULTIPLY: _j = "MULTIPLY"; break;
-            case quicktype::BlendMode::NORMAL: _j = "NORMAL"; break;
-            case quicktype::BlendMode::OVERLAY: _j = "OVERLAY"; break;
-            case quicktype::BlendMode::PASS_THROUGH: _j = "PASS_THROUGH"; break;
-            case quicktype::BlendMode::SATURATION: _j = "SATURATION"; break;
-            case quicktype::BlendMode::SCREEN: _j = "SCREEN"; break;
-            case quicktype::BlendMode::SOFT_LIGHT: _j = "SOFT_LIGHT"; break;
+            case quicktype::LendMode::COLOR: _j = "COLOR"; break;
+            case quicktype::LendMode::COLOR_BURN: _j = "COLOR_BURN"; break;
+            case quicktype::LendMode::COLOR_DODGE: _j = "COLOR_DODGE"; break;
+            case quicktype::LendMode::DARKEN: _j = "DARKEN"; break;
+            case quicktype::LendMode::DIFFERENCE: _j = "DIFFERENCE"; break;
+            case quicktype::LendMode::EXCLUSION: _j = "EXCLUSION"; break;
+            case quicktype::LendMode::HARD_LIGHT: _j = "HARD_LIGHT"; break;
+            case quicktype::LendMode::HUE: _j = "HUE"; break;
+            case quicktype::LendMode::LIGHTEN: _j = "LIGHTEN"; break;
+            case quicktype::LendMode::LINEAR_BURN: _j = "LINEAR_BURN"; break;
+            case quicktype::LendMode::LINEAR_DODGE: _j = "LINEAR_DODGE"; break;
+            case quicktype::LendMode::LUMINOSITY: _j = "LUMINOSITY"; break;
+            case quicktype::LendMode::MULTIPLY: _j = "MULTIPLY"; break;
+            case quicktype::LendMode::NORMAL: _j = "NORMAL"; break;
+            case quicktype::LendMode::OVERLAY: _j = "OVERLAY"; break;
+            case quicktype::LendMode::PASS_THROUGH: _j = "PASS_THROUGH"; break;
+            case quicktype::LendMode::SATURATION: _j = "SATURATION"; break;
+            case quicktype::LendMode::SCREEN: _j = "SCREEN"; break;
+            case quicktype::LendMode::SOFT_LIGHT: _j = "SOFT_LIGHT"; break;
             default: throw "This should not happen";
         }
     }

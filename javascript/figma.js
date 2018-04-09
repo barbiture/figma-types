@@ -14,7 +14,7 @@
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 function toFileResponse(json) {
-    return cast(JSON.parse(json), o("FileResponse"));
+    return cast(JSON.parse(json), r("FileResponse"));
 }
 
 function fileResponseToJson(value) {
@@ -22,7 +22,7 @@ function fileResponseToJson(value) {
 }
 
 function toCommentsResponse(json) {
-    return cast(JSON.parse(json), o("CommentsResponse"));
+    return cast(JSON.parse(json), r("CommentsResponse"));
 }
 
 function commentsResponseToJson(value) {
@@ -30,7 +30,7 @@ function commentsResponseToJson(value) {
 }
 
 function toCommentRequest(json) {
-    return cast(JSON.parse(json), o("CommentRequest"));
+    return cast(JSON.parse(json), r("CommentRequest"));
 }
 
 function commentRequestToJson(value) {
@@ -38,7 +38,7 @@ function commentRequestToJson(value) {
 }
 
 function toProjectsResponse(json) {
-    return cast(JSON.parse(json), o("ProjectsResponse"));
+    return cast(JSON.parse(json), r("ProjectsResponse"));
 }
 
 function projectsResponseToJson(value) {
@@ -46,7 +46,7 @@ function projectsResponseToJson(value) {
 }
 
 function toProjectFilesResponse(json) {
-    return cast(JSON.parse(json), o("ProjectFilesResponse"));
+    return cast(JSON.parse(json), r("ProjectFilesResponse"));
 }
 
 function projectFilesResponseToJson(value) {
@@ -55,20 +55,26 @@ function projectFilesResponseToJson(value) {
 
 function cast(obj, typ) {
     if (!isValid(typ, obj)) {
-        throw `Invalid value`;
+        throw Error(`Invalid value`);
     }
     return obj;
 }
 
 function isValid(typ, val) {
-    if (typ === undefined) return true;
-    if (typ === null) return val === null || val === undefined;
-    return typ.isUnion  ? isValidUnion(typ.typs, val)
-            : typ.isArray  ? isValidArray(typ.typ, val)
-            : typ.isMap    ? isValidMap(typ.typ, val)
-            : typ.isEnum   ? isValidEnum(typ.name, val)
-            : typ.isObject ? isValidObject(typ.cls, val)
-            :                isValidPrimitive(typ, val);
+    if (typ === "any") { return true; }
+    if (typ === null) { return val === null; }
+    if (typ === false) { return false; }
+    while (typeof typ === "object" && typ.ref !== undefined) {
+        typ = typeMap[typ.ref];
+    }
+    if (Array.isArray(typ)) { return isValidEnum(typ, val); }
+    if (typeof typ === "object") {
+        return typ.hasOwnProperty("unionMembers") ? isValidUnion(typ.unionMembers, val)
+            : typ.hasOwnProperty("arrayItems")    ? isValidArray(typ.arrayItems, val)
+            : typ.hasOwnProperty("props")         ? isValidObject(typ.props, typ.additional, val)
+            : false;
+    }
+    return isValidPrimitive(typ, val);
 }
 
 function isValidPrimitive(typ, val) {
@@ -77,252 +83,246 @@ function isValidPrimitive(typ, val) {
 
 function isValidUnion(typs, val) {
     // val must validate against one typ in typs
-    return typs.find(typ => isValid(typ, val)) !== undefined;
+    return typs.some((typ) => isValid(typ, val));
 }
 
-function isValidEnum(enumName, val) {
-    const cases = typeMap[enumName];
+function isValidEnum(cases, val) {
     return cases.indexOf(val) !== -1;
 }
 
 function isValidArray(typ, val) {
     // val must be an array with no invalid elements
-    return Array.isArray(val) && val.every(element => {
+    return Array.isArray(val) && val.every((element) => {
         return isValid(typ, element);
     });
 }
 
-function isValidMap(typ, val) {
-    if (val === null || typeof val !== "object" || Array.isArray(val)) return false;
-    // all values in the map must be typ
-    return Object.keys(val).every(prop => {
-        if (!Object.prototype.hasOwnProperty.call(val, prop)) return true;
-        return isValid(typ, val[prop]);
-    });
-}
-
-function isValidObject(className, val) {
-    if (val === null || typeof val !== "object" || Array.isArray(val)) return false;
-    let typeRep = typeMap[className];
-    return Object.keys(typeRep).every(prop => {
-        if (!Object.prototype.hasOwnProperty.call(typeRep, prop)) return true;
-        return isValid(typeRep[prop], val[prop]);
+function isValidObject(props, additional, val) {
+    if (val === null || typeof val !== "object" || Array.isArray(val)) {
+        return false;
+    }
+    return Object.getOwnPropertyNames(val).every((key) => {
+        const prop = val[key];
+        if (Object.prototype.hasOwnProperty.call(props, key)) {
+            return isValid(props[key], prop);
+        }
+        return isValid(additional, prop);
     });
 }
 
 function a(typ) {
-    return { typ, isArray: true };
-}
-
-function e(name) {
-    return { name, isEnum: true };
+    return { arrayItems: typ };
 }
 
 function u(...typs) {
-    return { typs, isUnion: true };
+    return { unionMembers: typs };
 }
 
-function m(typ) {
-    return { typ, isMap: true };
+function o(props, additional) {
+    return { props, additional };
 }
 
-function o(className) {
-    return { cls: className, isObject: true };
+function m(additional) {
+    return { props: {}, additional };
+}
+
+function r(name) {
+    return { ref: name };
 }
 
 const typeMap = {
-    "FileResponse": {
-        document: o("Document"),
-        components: m(o("Component")),
+    "FileResponse": o({
+        components: m(r("Component")),
+        document: r("FileResponseDocument"),
         schemaVersion: 3.14,
-    },
-    "Component": {
-        effects: a(o("Effect")),
-        layoutGrids: a(o("LayoutGrid")),
-        opacity: 3.14,
-        name: "",
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: u(null, ""),
-        visible: false,
-        blendMode: e("BlendMode"),
-        backgroundColor: o("Color"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        clipsContent: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
+    }, "any"),
+    "Component": o({
+        absoluteBoundingBox: r("Rectangle"),
+        backgroundColor: r("Color"),
+        blendMode: r("LendMode"),
+        children: a(r("DocumentElement")),
+        clipsContent: true,
+        constraints: r("LayoutConstraint"),
+        effects: a(r("Effect")),
+        exportSettings: a(r("ExportSetting")),
         id: "",
-        preserveRatio: false,
-        children: a(o("Node")),
-    },
-    "Rectangle": {
-        effects: a(o("Effect")),
+        isMask: true,
+        layoutGrids: a(r("LayoutGrid")),
+        name: "",
+        opacity: 3.14,
+        preserveRatio: true,
+        transitionNodeID: u(null, ""),
+        type: r("NodeType"),
+        visible: true,
+    }, "any"),
+    "Rectangle": o({
+        absoluteBoundingBox: r("Rectangle"),
+        blendMode: r("LendMode"),
+        constraints: r("LayoutConstraint"),
         cornerRadius: 3.14,
-        opacity: 3.14,
-        name: "",
-        strokeAlign: e("StrokeAlign"),
-        strokeWeight: 3.14,
-        fills: a(o("Paint")),
-        absoluteBoundingBox: o("Rectangle"),
-        transitionNodeID: u(null, ""),
-        visible: false,
-        blendMode: e("BlendMode"),
-        constraints: o("LayoutConstraint"),
-        isMask: false,
-        exportSettings: a(o("ExportSetting")),
-        type: e("NodeType"),
+        effects: a(r("Effect")),
+        exportSettings: a(r("ExportSetting")),
+        fills: a(r("Paint")),
         id: "",
-        strokes: a(o("Paint")),
-        preserveRatio: false,
-    },
-    "LayoutConstraint": {
-        vertical: e("Vertical"),
-        horizontal: e("Horizontal"),
-    },
-    "Effect": {
-        type: e("EffectType"),
-        visible: false,
+        isMask: true,
+        name: "",
+        opacity: 3.14,
+        preserveRatio: true,
+        strokeAlign: r("StrokeAlign"),
+        strokes: a(r("Paint")),
+        strokeWeight: 3.14,
+        transitionNodeID: u(null, ""),
+        type: r("NodeType"),
+        visible: true,
+    }, "any"),
+    "LayoutConstraint": o({
+        horizontal: r("Horizontal"),
+        vertical: r("Vertical"),
+    }, "any"),
+    "Effect": o({
+        blendMode: u(undefined, r("LendMode")),
+        color: u(undefined, r("Color")),
+        offset: u(undefined, r("Vector2")),
         radius: 3.14,
-        color: u(null, o("Color")),
-        blendMode: u(null, e("BlendMode")),
-        offset: u(null, o("Vector2")),
-    },
-    "Color": {
-        r: 3.14,
-        g: 3.14,
-        b: 3.14,
+        type: r("EffectType"),
+        visible: true,
+    }, "any"),
+    "Color": o({
         a: 3.14,
-    },
-    "Vector2": {
+        b: 3.14,
+        g: 3.14,
+        r: 3.14,
+    }, "any"),
+    "Vector2": o({
         x: 3.14,
         y: 3.14,
-    },
-    "ExportSetting": {
+    }, "any"),
+    "ExportSetting": o({
+        constraint: r("Constraint"),
+        format: r("Format"),
         suffix: "",
-        format: e("Format"),
-        constraint: o("Constraint"),
-    },
-    "Constraint": {
-        type: e("ConstraintType"),
+    }, "any"),
+    "Constraint": o({
+        type: r("ConstraintType"),
         value: 3.14,
-    },
-    "Paint": {
-        type: e("PaintType"),
-        visible: false,
+    }, "any"),
+    "Paint": o({
+        color: u(undefined, r("Color")),
+        gradientHandlePositions: u(undefined, a(r("Vector2"))),
+        gradientStops: u(undefined, a(r("ColorStop"))),
         opacity: 3.14,
-        color: u(null, o("Color")),
-        gradientHandlePositions: u(null, a(o("Vector2"))),
-        gradientStops: u(null, a(o("ColorStop"))),
-        scaleMode: u(null, ""),
-    },
-    "ColorStop": {
+        scaleMode: u(undefined, ""),
+        type: r("PaintType"),
+        visible: true,
+    }, "any"),
+    "ColorStop": o({
+        color: r("Color"),
         position: 3.14,
-        color: o("Color"),
-    },
-    "Node": {
-        effects: u(null, a(o("Effect"))),
-        layoutGrids: u(null, a(o("LayoutGrid"))),
-        cornerRadius: u(null, 3.14),
-        characters: u(null, ""),
-        opacity: u(null, 3.14),
-        name: "",
-        strokeAlign: u(null, e("StrokeAlign")),
-        strokeWeight: u(null, 3.14),
-        fills: u(null, a(o("Paint"))),
-        absoluteBoundingBox: u(null, o("Rectangle")),
-        styleOverrideTable: u(null, a(o("TypeStyle"))),
-        style: u(null, o("TypeStyle")),
-        transitionNodeID: u(null, ""),
-        visible: false,
-        blendMode: u(null, e("BlendMode")),
-        backgroundColor: u(null, o("Color")),
-        constraints: u(null, o("LayoutConstraint")),
-        isMask: u(null, false),
-        clipsContent: u(null, false),
-        exportSettings: u(null, a(o("ExportSetting"))),
-        componentId: u(null, ""),
-        type: e("NodeType"),
+    }, "any"),
+    "DocumentElement": o({
+        children: u(undefined, a(r("DocumentElement"))),
         id: "",
-        strokes: u(null, a(o("Paint"))),
-        preserveRatio: u(null, false),
-        children: u(null, a(o("Node"))),
-        characterStyleOverrides: u(null, a(3.14)),
-    },
-    "LayoutGrid": {
-        pattern: e("Pattern"),
-        sectionSize: 3.14,
-        visible: false,
-        color: o("Color"),
-        alignment: e("Alignment"),
+        name: "",
+        type: r("NodeType"),
+        visible: true,
+        backgroundColor: u(undefined, r("Color")),
+        exportSettings: u(undefined, a(r("ExportSetting"))),
+        absoluteBoundingBox: u(undefined, r("Rectangle")),
+        blendMode: u(undefined, r("LendMode")),
+        clipsContent: u(undefined, true),
+        constraints: u(undefined, r("LayoutConstraint")),
+        effects: u(undefined, a(r("Effect"))),
+        isMask: u(undefined, true),
+        layoutGrids: u(undefined, a(r("LayoutGrid"))),
+        opacity: u(undefined, 3.14),
+        preserveRatio: u(undefined, true),
+        transitionNodeID: u(undefined, u(null, "")),
+        fills: u(undefined, a(r("Paint"))),
+        strokeAlign: u(undefined, r("StrokeAlign")),
+        strokes: u(undefined, a(r("Paint"))),
+        strokeWeight: u(undefined, 3.14),
+        cornerRadius: u(undefined, 3.14),
+        characters: u(undefined, ""),
+        characterStyleOverrides: u(undefined, a(3.14)),
+        style: u(undefined, r("TypeStyle")),
+        styleOverrideTable: u(undefined, a(r("TypeStyle"))),
+        componentId: u(undefined, ""),
+    }, "any"),
+    "LayoutGrid": o({
+        alignment: r("Alignment"),
+        color: r("Color"),
+        count: 3.14,
         gutterSize: 3.14,
         offset: 3.14,
-        count: 3.14,
-    },
-    "TypeStyle": {
-        lineHeightPx: 3.14,
-        fontPostScriptName: "",
-        fontWeight: 3.14,
-        lineHeightPercent: 3.14,
-        textAlignVertical: e("TextAlignVertical"),
-        fontSize: 3.14,
-        italic: false,
-        fills: a(o("Paint")),
+        pattern: r("Pattern"),
+        sectionSize: 3.14,
+        visible: true,
+    }, "any"),
+    "TypeStyle": o({
+        fills: a(r("Paint")),
         fontFamily: "",
-        textAlignHorizontal: e("TextAlignHorizontal"),
+        fontPostScriptName: "",
+        fontSize: 3.14,
+        fontWeight: 3.14,
+        italic: true,
         letterSpacing: 3.14,
-    },
-    "Document": {
-        children: a(o("Node")),
+        lineHeightPercent: 3.14,
+        lineHeightPx: 3.14,
+        textAlignHorizontal: r("TextAlignHorizontal"),
+        textAlignVertical: r("TextAlignVertical"),
+    }, "any"),
+    "FileResponseDocument": o({
+        children: a(r("DocumentElement")),
         id: "",
         name: "",
-        visible: false,
-        type: e("NodeType"),
-    },
-    "CommentsResponse": {
-        comments: a(o("Comment")),
-    },
-    "Comment": {
-        message: "",
+        type: r("NodeType"),
+        visible: true,
+    }, "any"),
+    "CommentsResponse": o({
+        comments: a(r("Comment")),
+    }, "any"),
+    "Comment": o({
+        client_meta: r("ClientMeta"),
         created_at: "",
-        user: o("User"),
+        file_key: "",
+        id: "",
+        message: "",
         order_id: 3.14,
         parent_id: "",
-        client_meta: o("ClientMeta"),
         resolved_at: u(null, ""),
-        id: "",
-        file_key: "",
-    },
-    "ClientMeta": {
-        x: u(null, 3.14),
-        y: u(null, 3.14),
-        node_id: u(null, a("")),
-        node_offset: u(null, o("Vector2")),
-    },
-    "User": {
+        user: r("User"),
+    }, "any"),
+    "ClientMeta": o({
+        x: u(undefined, 3.14),
+        y: u(undefined, 3.14),
+        node_id: u(undefined, a("")),
+        node_offset: u(undefined, r("Vector2")),
+    }, "any"),
+    "User": o({
         handle: "",
         img_url: "",
-    },
-    "CommentRequest": {
+    }, "any"),
+    "CommentRequest": o({
+        client_meta: r("ClientMeta"),
         message: "",
-        client_meta: o("ClientMeta"),
-    },
-    "ProjectsResponse": {
-        projects: a(o("Project")),
-    },
-    "Project": {
+    }, "any"),
+    "ProjectsResponse": o({
+        projects: a(r("Project")),
+    }, "any"),
+    "Project": o({
         id: 3.14,
         name: "",
-    },
-    "ProjectFilesResponse": {
-        files: a(o("File")),
-    },
-    "File": {
+    }, "any"),
+    "ProjectFilesResponse": o({
+        files: a(r("File")),
+    }, "any"),
+    "File": o({
         key: "",
+        last_modified: "",
         name: "",
         thumbnail_url: "",
-        last_modified: "",
-    },
-    "BlendMode": [
+    }, "any"),
+    "LendMode": [
         "COLOR",
         "COLOR_BURN",
         "COLOR_DODGE",

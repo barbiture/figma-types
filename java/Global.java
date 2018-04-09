@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.*;
 public class Global {
     private String id;
     private String name;
-    private boolean visible;
     private NodeType type;
+    private boolean visible;
 
     /**
      * a string uniquely identifying this node within the document
@@ -26,18 +26,18 @@ public class Global {
     public void setName(String value) { this.name = value; }
 
     /**
-     * whether or not the node is visible on the canvas
-     */
-    @JsonProperty("visible")
-    public boolean getVisible() { return visible; }
-    @JsonProperty("visible")
-    public void setVisible(boolean value) { this.visible = value; }
-
-    /**
      * the type of the node, refer to table below for details
      */
     @JsonProperty("type")
     public NodeType getType() { return type; }
     @JsonProperty("type")
     public void setType(NodeType value) { this.type = value; }
+
+    /**
+     * whether or not the node is visible on the canvas
+     */
+    @JsonProperty("visible")
+    public boolean getVisible() { return visible; }
+    @JsonProperty("visible")
+    public void setVisible(boolean value) { this.visible = value; }
 }

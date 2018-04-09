@@ -2,23 +2,15 @@
 
 set -xe
 
-# Generate a JSON schema from TypeScript
-quicktype types/*.ts -l schema -o types/schema.json
-
-# Generate types from the generated schema
-# (We have to break this into separate steps to limit which types are top-level)
-QUICKTYPE="quicktype --src-lang schema types/toplevels.json --add-schema-top-level /definitions/"
-
-$QUICKTYPE -o swift/Figma.swift
-$QUICKTYPE -o swift-alamofire/Figma.swift --alamofire
-
-$QUICKTYPE -o csharp/Figma.cs
-$QUICKTYPE -o go/figma.go
-$QUICKTYPE -o rust/figma.rs
-$QUICKTYPE -o cpp/figma.cpp
-$QUICKTYPE -o objective-c/FGFigma.m --class-prefix FG
-$QUICKTYPE -o java/Figma.java
-$QUICKTYPE -o typescript/figma.ts
-$QUICKTYPE -o javascript/figma.js
-$QUICKTYPE -l flow -o flow/figma.js
-$QUICKTYPE -o elm/figma.elm
+quicktype types/*.ts -o swift/Figma.swift
+quicktype types/*.ts -o swift-alamofire/Figma.swift --alamofire
+quicktype types/*.ts -o csharp/Figma.cs
+quicktype types/*.ts -o go/figma.go
+quicktype types/*.ts -o rust/figma.rs
+quicktype types/*.ts -o cpp/figma.cpp
+# quicktype types/*.ts -o objective-c/FGFigma.m --class-prefix FG
+quicktype types/*.ts -o java/Figma.java
+quicktype types/*.ts -o typescript/figma.ts
+quicktype types/*.ts -o javascript/figma.js
+quicktype types/*.ts -l flow -o flow/figma.js
+quicktype types/*.ts -o elm/figma.elm

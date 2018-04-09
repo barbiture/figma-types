@@ -7,20 +7,12 @@ import com.fasterxml.jackson.annotation.*;
  * A rectangular region of the canvas that can be exported
  */
 public class Slice {
-    private ExportSetting[] exportSettings;
     private Rectangle absoluteBoundingBox;
+    private ExportSetting[] exportSettings;
     private String id;
     private String name;
-    private boolean visible;
     private NodeType type;
-
-    /**
-     * An array of export settings representing images to export from this node
-     */
-    @JsonProperty("exportSettings")
-    public ExportSetting[] getExportSettings() { return exportSettings; }
-    @JsonProperty("exportSettings")
-    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
+    private boolean visible;
 
     /**
      * Bounding box of the node in absolute space coordinates
@@ -29,6 +21,14 @@ public class Slice {
     public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
     public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
+
+    /**
+     * An array of export settings representing images to export from this node
+     */
+    @JsonProperty("exportSettings")
+    public ExportSetting[] getExportSettings() { return exportSettings; }
+    @JsonProperty("exportSettings")
+    public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
 
     /**
      * a string uniquely identifying this node within the document
@@ -47,18 +47,18 @@ public class Slice {
     public void setName(String value) { this.name = value; }
 
     /**
-     * whether or not the node is visible on the canvas
-     */
-    @JsonProperty("visible")
-    public boolean getVisible() { return visible; }
-    @JsonProperty("visible")
-    public void setVisible(boolean value) { this.visible = value; }
-
-    /**
      * the type of the node, refer to table below for details
      */
     @JsonProperty("type")
     public NodeType getType() { return type; }
     @JsonProperty("type")
     public void setType(NodeType value) { this.type = value; }
+
+    /**
+     * whether or not the node is visible on the canvas
+     */
+    @JsonProperty("visible")
+    public boolean getVisible() { return visible; }
+    @JsonProperty("visible")
+    public void setVisible(boolean value) { this.visible = value; }
 }

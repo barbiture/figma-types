@@ -2,6 +2,7 @@ import { Document, Component } from "./nodes";
 import { Comment, FrameOffset, Vector2 } from "./types";
 
 /**
+ * #TopLevel
  * GET /v1/files/:key
  *
  * > Description
@@ -36,6 +37,7 @@ export interface FileResponse {
 }
 
 /**
+ * #TopLevel
  * GET /v1/files/:key/comments
  *
  * > Description
@@ -50,6 +52,7 @@ export interface CommentsResponse {
 }
 
 /**
+ * #TopLevel
  * POST /v1/files/:key/comments
  *
  * > Description
@@ -78,6 +81,7 @@ export interface CommentRequest {
 }
 
 /**
+ * #TopLevel
  * GET /v1/teams/:team_id/projects
  *
  * > Description
@@ -92,6 +96,7 @@ export interface ProjectsResponse {
 }
 
 /**
+ * #TopLevel
  * GET /v1/projects/:project_id/files
  *
  * > Description

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.*;
  * Enum describing how layer blends with layers below
  * This type is a string enum with the following possible values
  */
-public enum BlendMode {
+public enum LendMode {
     COLOR, COLOR_BURN, COLOR_DODGE, DARKEN, DIFFERENCE, EXCLUSION, HARD_LIGHT, HUE, LIGHTEN, LINEAR_BURN, LINEAR_DODGE, LUMINOSITY, MULTIPLY, NORMAL, OVERLAY, PASS_THROUGH, SATURATION, SCREEN, SOFT_LIGHT;
 
     @JsonValue
@@ -41,7 +41,7 @@ public enum BlendMode {
     }
 
     @JsonCreator
-    public static BlendMode forValue(String value) throws IOException {
+    public static LendMode forValue(String value) throws IOException {
         if (value.equals("COLOR")) return COLOR;
         if (value.equals("COLOR_BURN")) return COLOR_BURN;
         if (value.equals("COLOR_DODGE")) return COLOR_DODGE;
@@ -61,6 +61,6 @@ public enum BlendMode {
         if (value.equals("SATURATION")) return SATURATION;
         if (value.equals("SCREEN")) return SCREEN;
         if (value.equals("SOFT_LIGHT")) return SOFT_LIGHT;
-        throw new IOException("Cannot deserialize BlendMode");
+        throw new IOException("Cannot deserialize LendMode");
     }
 }

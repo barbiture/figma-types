@@ -56,25 +56,25 @@ public class DocumentElement {
     private boolean visible;
     private Color backgroundColor;
     private ExportSetting[] exportSettings;
+    private Rectangle absoluteBoundingBox;
+    private LendMode blendMode;
+    private Boolean clipsContent;
+    private LayoutConstraint constraints;
     private Effect[] effects;
+    private Boolean isMask;
     private LayoutGrid[] layoutGrids;
     private Double opacity;
-    private Rectangle absoluteBoundingBox;
-    private String transitionNodeID;
-    private BlendMode blendMode;
-    private LayoutConstraint constraints;
-    private Boolean isMask;
-    private Boolean clipsContent;
     private Boolean preserveRatio;
-    private StrokeAlign strokeAlign;
-    private Double strokeWeight;
+    private String transitionNodeID;
     private Paint[] fills;
+    private StrokeAlign strokeAlign;
     private Paint[] strokes;
+    private Double strokeWeight;
     private Double cornerRadius;
     private String characters;
-    private TypeStyle[] styleOverrideTable;
-    private TypeStyle style;
     private double[] characterStyleOverrides;
+    private TypeStyle style;
+    private TypeStyle[] styleOverrideTable;
     private String componentID;
 
     /**
@@ -146,6 +146,39 @@ public class DocumentElement {
     public void setExportSettings(ExportSetting[] value) { this.exportSettings = value; }
 
     /**
+     * Bounding box of the node in absolute space coordinates
+     */
+    @JsonProperty("absoluteBoundingBox")
+    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    @JsonProperty("absoluteBoundingBox")
+    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
+
+    /**
+     * How this node blends with nodes behind it in the scene
+     * (see blend mode section for more details)
+     */
+    @JsonProperty("blendMode")
+    public LendMode getBlendMode() { return blendMode; }
+    @JsonProperty("blendMode")
+    public void setBlendMode(LendMode value) { this.blendMode = value; }
+
+    /**
+     * Does this node clip content outside of its bounds?
+     */
+    @JsonProperty("clipsContent")
+    public Boolean getClipsContent() { return clipsContent; }
+    @JsonProperty("clipsContent")
+    public void setClipsContent(Boolean value) { this.clipsContent = value; }
+
+    /**
+     * Horizontal and vertical layout constraints for node
+     */
+    @JsonProperty("constraints")
+    public LayoutConstraint getConstraints() { return constraints; }
+    @JsonProperty("constraints")
+    public void setConstraints(LayoutConstraint value) { this.constraints = value; }
+
+    /**
      * An array of effects attached to this node
      * (see effects sectionfor more details)
      */
@@ -153,6 +186,14 @@ public class DocumentElement {
     public Effect[] getEffects() { return effects; }
     @JsonProperty("effects")
     public void setEffects(Effect[] value) { this.effects = value; }
+
+    /**
+     * Does this node mask sibling nodes in front of it?
+     */
+    @JsonProperty("isMask")
+    public Boolean getIsMask() { return isMask; }
+    @JsonProperty("isMask")
+    public void setIsMask(Boolean value) { this.isMask = value; }
 
     /**
      * An array of layout grids attached to this node (see layout grids section
@@ -172,12 +213,12 @@ public class DocumentElement {
     public void setOpacity(Double value) { this.opacity = value; }
 
     /**
-     * Bounding box of the node in absolute space coordinates
+     * Keep height and width constrained to same ratio
      */
-    @JsonProperty("absoluteBoundingBox")
-    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
-    @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
+    @JsonProperty("preserveRatio")
+    public Boolean getPreserveRatio() { return preserveRatio; }
+    @JsonProperty("preserveRatio")
+    public void setPreserveRatio(Boolean value) { this.preserveRatio = value; }
 
     /**
      * Node ID of node to transition to in prototyping
@@ -188,45 +229,12 @@ public class DocumentElement {
     public void setTransitionNodeID(String value) { this.transitionNodeID = value; }
 
     /**
-     * How this node blends with nodes behind it in the scene
-     * (see blend mode section for more details)
+     * An array of fill paints applied to the node
      */
-    @JsonProperty("blendMode")
-    public BlendMode getBlendMode() { return blendMode; }
-    @JsonProperty("blendMode")
-    public void setBlendMode(BlendMode value) { this.blendMode = value; }
-
-    /**
-     * Horizontal and vertical layout constraints for node
-     */
-    @JsonProperty("constraints")
-    public LayoutConstraint getConstraints() { return constraints; }
-    @JsonProperty("constraints")
-    public void setConstraints(LayoutConstraint value) { this.constraints = value; }
-
-    /**
-     * Does this node mask sibling nodes in front of it?
-     */
-    @JsonProperty("isMask")
-    public Boolean getIsMask() { return isMask; }
-    @JsonProperty("isMask")
-    public void setIsMask(Boolean value) { this.isMask = value; }
-
-    /**
-     * Does this node clip content outside of its bounds?
-     */
-    @JsonProperty("clipsContent")
-    public Boolean getClipsContent() { return clipsContent; }
-    @JsonProperty("clipsContent")
-    public void setClipsContent(Boolean value) { this.clipsContent = value; }
-
-    /**
-     * Keep height and width constrained to same ratio
-     */
-    @JsonProperty("preserveRatio")
-    public Boolean getPreserveRatio() { return preserveRatio; }
-    @JsonProperty("preserveRatio")
-    public void setPreserveRatio(Boolean value) { this.preserveRatio = value; }
+    @JsonProperty("fills")
+    public Paint[] getFills() { return fills; }
+    @JsonProperty("fills")
+    public void setFills(Paint[] value) { this.fills = value; }
 
     /**
      * Where stroke is drawn relative to the vector outline as a string enum
@@ -240,28 +248,20 @@ public class DocumentElement {
     public void setStrokeAlign(StrokeAlign value) { this.strokeAlign = value; }
 
     /**
-     * The weight of strokes on the node
-     */
-    @JsonProperty("strokeWeight")
-    public Double getStrokeWeight() { return strokeWeight; }
-    @JsonProperty("strokeWeight")
-    public void setStrokeWeight(Double value) { this.strokeWeight = value; }
-
-    /**
-     * An array of fill paints applied to the node
-     */
-    @JsonProperty("fills")
-    public Paint[] getFills() { return fills; }
-    @JsonProperty("fills")
-    public void setFills(Paint[] value) { this.fills = value; }
-
-    /**
      * An array of stroke paints applied to the node
      */
     @JsonProperty("strokes")
     public Paint[] getStrokes() { return strokes; }
     @JsonProperty("strokes")
     public void setStrokes(Paint[] value) { this.strokes = value; }
+
+    /**
+     * The weight of strokes on the node
+     */
+    @JsonProperty("strokeWeight")
+    public Double getStrokeWeight() { return strokeWeight; }
+    @JsonProperty("strokeWeight")
+    public void setStrokeWeight(Double value) { this.strokeWeight = value; }
 
     /**
      * Radius of each corner of the rectangle
@@ -280,12 +280,15 @@ public class DocumentElement {
     public void setCharacters(String value) { this.characters = value; }
 
     /**
-     * Map from ID to TypeStyle for looking up style overrides
+     * Array with same number of elements as characeters in text box,
+     * each element is a reference to the styleOverrideTable defined
+     * below and maps to the corresponding character in the characters
+     * field. Elements with value 0 have the default type style
      */
-    @JsonProperty("styleOverrideTable")
-    public TypeStyle[] getStyleOverrideTable() { return styleOverrideTable; }
-    @JsonProperty("styleOverrideTable")
-    public void setStyleOverrideTable(TypeStyle[] value) { this.styleOverrideTable = value; }
+    @JsonProperty("characterStyleOverrides")
+    public double[] getCharacterStyleOverrides() { return characterStyleOverrides; }
+    @JsonProperty("characterStyleOverrides")
+    public void setCharacterStyleOverrides(double[] value) { this.characterStyleOverrides = value; }
 
     /**
      * Style of text including font family and weight (see type style
@@ -297,15 +300,12 @@ public class DocumentElement {
     public void setStyle(TypeStyle value) { this.style = value; }
 
     /**
-     * Array with same number of elements as characeters in text box,
-     * each element is a reference to the styleOverrideTable defined
-     * below and maps to the corresponding character in the characters
-     * field. Elements with value 0 have the default type style
+     * Map from ID to TypeStyle for looking up style overrides
      */
-    @JsonProperty("characterStyleOverrides")
-    public double[] getCharacterStyleOverrides() { return characterStyleOverrides; }
-    @JsonProperty("characterStyleOverrides")
-    public void setCharacterStyleOverrides(double[] value) { this.characterStyleOverrides = value; }
+    @JsonProperty("styleOverrideTable")
+    public TypeStyle[] getStyleOverrideTable() { return styleOverrideTable; }
+    @JsonProperty("styleOverrideTable")
+    public void setStyleOverrideTable(TypeStyle[] value) { this.styleOverrideTable = value; }
 
     /**
      * ID of component that this instance came from, refers to components
