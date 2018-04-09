@@ -65,7 +65,7 @@ namespace QuickType
         /// Bounding box of the node in absolute space coordinates
         /// </summary>
         [JsonProperty("absoluteBoundingBox")]
-        public Rectangle AbsoluteBoundingBox { get; set; }
+        public Rect AbsoluteBoundingBox { get; set; }
 
         /// <summary>
         /// Background color of the node
@@ -170,53 +170,131 @@ namespace QuickType
     /// <summary>
     /// Bounding box of the node in absolute space coordinates
     ///
-    /// A rectangle
+    /// A rectangle that expresses a bounding box in absolute coordinates
     /// </summary>
-    public partial class Rectangle
+    public partial class Rect
     {
         /// <summary>
-        /// Bounding box of the node in absolute space coordinates
+        /// Height of the rectangle
         /// </summary>
-        [JsonProperty("absoluteBoundingBox")]
-        public Rectangle AbsoluteBoundingBox { get; set; }
+        [JsonProperty("height")]
+        public double Height { get; set; }
 
         /// <summary>
-        /// How this node blends with nodes behind it in the scene
-        /// (see blend mode section for more details)
+        /// Width of the rectangle
         /// </summary>
-        [JsonProperty("blendMode")]
-        public LendMode BlendMode { get; set; }
+        [JsonProperty("width")]
+        public double Width { get; set; }
 
         /// <summary>
-        /// Horizontal and vertical layout constraints for node
+        /// X coordinate of top left corner of the rectangle
         /// </summary>
-        [JsonProperty("constraints")]
-        public LayoutConstraint Constraints { get; set; }
+        [JsonProperty("x")]
+        public double X { get; set; }
 
         /// <summary>
-        /// Radius of each corner of the rectangle
+        /// Y coordinate of top left corner of the rectangle
         /// </summary>
-        [JsonProperty("cornerRadius")]
-        public double CornerRadius { get; set; }
+        [JsonProperty("y")]
+        public double Y { get; set; }
+    }
+
+    /// <summary>
+    /// Background color of the node
+    ///
+    /// An RGBA color
+    ///
+    /// Solid color of the paint
+    ///
+    /// Background color of the canvas
+    ///
+    /// Color attached to corresponding position
+    ///
+    /// Color of the grid
+    /// </summary>
+    public partial class Color
+    {
+        /// <summary>
+        /// Alpha channel value, between 0 and 1
+        /// </summary>
+        [JsonProperty("a")]
+        public double A { get; set; }
 
         /// <summary>
-        /// An array of effects attached to this node
-        /// (see effects sectionfor more details)
+        /// Blue channel value, between 0 and 1
         /// </summary>
-        [JsonProperty("effects")]
-        public Effect[] Effects { get; set; }
+        [JsonProperty("b")]
+        public double B { get; set; }
 
         /// <summary>
-        /// An array of export settings representing images to export from node
+        /// Green channel value, between 0 and 1
         /// </summary>
-        [JsonProperty("exportSettings")]
-        public ExportSetting[] ExportSettings { get; set; }
+        [JsonProperty("g")]
+        public double G { get; set; }
 
         /// <summary>
-        /// An array of fill paints applied to the node
+        /// Red channel value, between 0 and 1
         /// </summary>
-        [JsonProperty("fills")]
-        public Paint[] Fills { get; set; }
+        [JsonProperty("r")]
+        public double R { get; set; }
+    }
+
+    /// <summary>
+    /// An array of nodes that are direct children of this node
+    ///
+    /// An array of nodes that are being boolean operated on
+    ///
+    /// An array of top level layers on the canvas
+    ///
+    /// An array of canvases attached to the document
+    ///
+    /// Node Properties
+    /// The root node
+    ///
+    /// The root node within the document
+    ///
+    /// Represents a single page
+    ///
+    /// A node of fixed size containing other nodes
+    ///
+    /// A logical grouping of nodes
+    ///
+    /// A vector network, consisting of vertices and edges
+    ///
+    /// A group that has a boolean operation applied to it
+    ///
+    /// A regular star shape
+    ///
+    /// A straight line
+    ///
+    /// An ellipse
+    ///
+    /// A regular n-sided polygon
+    ///
+    /// A rectangle
+    ///
+    /// A text box
+    ///
+    /// A rectangular region of the canvas that can be exported
+    ///
+    /// A node that can have instances created of it that share the same properties
+    ///
+    /// An instance of a component, changes to the component result in the same
+    /// changes applied to the instance
+    /// </summary>
+    public partial class DocumentElement
+    {
+        /// <summary>
+        /// An array of canvases attached to the document
+        ///
+        /// An array of top level layers on the canvas
+        ///
+        /// An array of nodes that are direct children of this node
+        ///
+        /// An array of nodes that are being boolean operated on
+        /// </summary>
+        [JsonProperty("children", NullValueHandling = NullValueHandling.Ignore)]
+        public DocumentElement[] Children { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -225,55 +303,10 @@ namespace QuickType
         public string Id { get; set; }
 
         /// <summary>
-        /// Does this node mask sibling nodes in front of it?
-        /// </summary>
-        [JsonProperty("isMask")]
-        public bool IsMask { get; set; }
-
-        /// <summary>
         /// the name given to the node by the user in the tool.
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        /// <summary>
-        /// Opacity of the node
-        /// </summary>
-        [JsonProperty("opacity")]
-        public double Opacity { get; set; }
-
-        /// <summary>
-        /// Keep height and width constrained to same ratio
-        /// </summary>
-        [JsonProperty("preserveRatio")]
-        public bool PreserveRatio { get; set; }
-
-        /// <summary>
-        /// Where stroke is drawn relative to the vector outline as a string enum
-        /// "INSIDE": draw stroke inside the shape boundary
-        /// "OUTSIDE": draw stroke outside the shape boundary
-        /// "CENTER": draw stroke centered along the shape boundary
-        /// </summary>
-        [JsonProperty("strokeAlign")]
-        public StrokeAlign StrokeAlign { get; set; }
-
-        /// <summary>
-        /// An array of stroke paints applied to the node
-        /// </summary>
-        [JsonProperty("strokes")]
-        public Paint[] Strokes { get; set; }
-
-        /// <summary>
-        /// The weight of strokes on the node
-        /// </summary>
-        [JsonProperty("strokeWeight")]
-        public double StrokeWeight { get; set; }
-
-        /// <summary>
-        /// Node ID of node to transition to in prototyping
-        /// </summary>
-        [JsonProperty("transitionNodeID")]
-        public string TransitionNodeId { get; set; }
 
         /// <summary>
         /// the type of the node, refer to table below for details
@@ -286,6 +319,155 @@ namespace QuickType
         /// </summary>
         [JsonProperty("visible")]
         public bool Visible { get; set; }
+
+        /// <summary>
+        /// Background color of the canvas
+        ///
+        /// Background color of the node
+        /// </summary>
+        [JsonProperty("backgroundColor", NullValueHandling = NullValueHandling.Ignore)]
+        public Color BackgroundColor { get; set; }
+
+        /// <summary>
+        /// An array of export settings representing images to export from the canvas
+        ///
+        /// An array of export settings representing images to export from node
+        ///
+        /// An array of export settings representing images to export from this node
+        /// </summary>
+        [JsonProperty("exportSettings", NullValueHandling = NullValueHandling.Ignore)]
+        public ExportSetting[] ExportSettings { get; set; }
+
+        /// <summary>
+        /// Bounding box of the node in absolute space coordinates
+        /// </summary>
+        [JsonProperty("absoluteBoundingBox", NullValueHandling = NullValueHandling.Ignore)]
+        public Rect AbsoluteBoundingBox { get; set; }
+
+        /// <summary>
+        /// How this node blends with nodes behind it in the scene
+        /// (see blend mode section for more details)
+        /// </summary>
+        [JsonProperty("blendMode", NullValueHandling = NullValueHandling.Ignore)]
+        public LendMode? BlendMode { get; set; }
+
+        /// <summary>
+        /// Does this node clip content outside of its bounds?
+        /// </summary>
+        [JsonProperty("clipsContent", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? ClipsContent { get; set; }
+
+        /// <summary>
+        /// Horizontal and vertical layout constraints for node
+        /// </summary>
+        [JsonProperty("constraints", NullValueHandling = NullValueHandling.Ignore)]
+        public LayoutConstraint Constraints { get; set; }
+
+        /// <summary>
+        /// An array of effects attached to this node
+        /// (see effects sectionfor more details)
+        /// </summary>
+        [JsonProperty("effects", NullValueHandling = NullValueHandling.Ignore)]
+        public Effect[] Effects { get; set; }
+
+        /// <summary>
+        /// Does this node mask sibling nodes in front of it?
+        /// </summary>
+        [JsonProperty("isMask", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? IsMask { get; set; }
+
+        /// <summary>
+        /// An array of layout grids attached to this node (see layout grids section
+        /// for more details). GROUP nodes do not have this attribute
+        /// </summary>
+        [JsonProperty("layoutGrids", NullValueHandling = NullValueHandling.Ignore)]
+        public LayoutGrid[] LayoutGrids { get; set; }
+
+        /// <summary>
+        /// Opacity of the node
+        /// </summary>
+        [JsonProperty("opacity", NullValueHandling = NullValueHandling.Ignore)]
+        public double? Opacity { get; set; }
+
+        /// <summary>
+        /// Keep height and width constrained to same ratio
+        /// </summary>
+        [JsonProperty("preserveRatio", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? PreserveRatio { get; set; }
+
+        /// <summary>
+        /// Node ID of node to transition to in prototyping
+        /// </summary>
+        [JsonProperty("transitionNodeID")]
+        public string TransitionNodeId { get; set; }
+
+        /// <summary>
+        /// An array of fill paints applied to the node
+        /// </summary>
+        [JsonProperty("fills", NullValueHandling = NullValueHandling.Ignore)]
+        public Paint[] Fills { get; set; }
+
+        /// <summary>
+        /// Where stroke is drawn relative to the vector outline as a string enum
+        /// "INSIDE": draw stroke inside the shape boundary
+        /// "OUTSIDE": draw stroke outside the shape boundary
+        /// "CENTER": draw stroke centered along the shape boundary
+        /// </summary>
+        [JsonProperty("strokeAlign", NullValueHandling = NullValueHandling.Ignore)]
+        public StrokeAlign? StrokeAlign { get; set; }
+
+        /// <summary>
+        /// An array of stroke paints applied to the node
+        /// </summary>
+        [JsonProperty("strokes", NullValueHandling = NullValueHandling.Ignore)]
+        public Paint[] Strokes { get; set; }
+
+        /// <summary>
+        /// The weight of strokes on the node
+        /// </summary>
+        [JsonProperty("strokeWeight", NullValueHandling = NullValueHandling.Ignore)]
+        public double? StrokeWeight { get; set; }
+
+        /// <summary>
+        /// Radius of each corner of the rectangle
+        /// </summary>
+        [JsonProperty("cornerRadius", NullValueHandling = NullValueHandling.Ignore)]
+        public double? CornerRadius { get; set; }
+
+        /// <summary>
+        /// Text contained within text box
+        /// </summary>
+        [JsonProperty("characters", NullValueHandling = NullValueHandling.Ignore)]
+        public string Characters { get; set; }
+
+        /// <summary>
+        /// Array with same number of elements as characeters in text box,
+        /// each element is a reference to the styleOverrideTable defined
+        /// below and maps to the corresponding character in the characters
+        /// field. Elements with value 0 have the default type style
+        /// </summary>
+        [JsonProperty("characterStyleOverrides", NullValueHandling = NullValueHandling.Ignore)]
+        public double[] CharacterStyleOverrides { get; set; }
+
+        /// <summary>
+        /// Style of text including font family and weight (see type style
+        /// section for more information)
+        /// </summary>
+        [JsonProperty("style", NullValueHandling = NullValueHandling.Ignore)]
+        public TypeStyle Style { get; set; }
+
+        /// <summary>
+        /// Map from ID to TypeStyle for looking up style overrides
+        /// </summary>
+        [JsonProperty("styleOverrideTable", NullValueHandling = NullValueHandling.Ignore)]
+        public TypeStyle[] StyleOverrideTable { get; set; }
+
+        /// <summary>
+        /// ID of component that this instance came from, refers to components
+        /// table (see endpoints section below)
+        /// </summary>
+        [JsonProperty("componentId", NullValueHandling = NullValueHandling.Ignore)]
+        public string ComponentId { get; set; }
     }
 
     /// <summary>
@@ -367,48 +549,6 @@ namespace QuickType
     }
 
     /// <summary>
-    /// Background color of the node
-    ///
-    /// An RGBA color
-    ///
-    /// Color of the grid
-    ///
-    /// Solid color of the paint
-    ///
-    /// Background color of the canvas
-    ///
-    /// Color attached to corresponding position
-    /// </summary>
-    public partial class Color
-    {
-        /// <summary>
-        /// Alpha channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("a")]
-        public double A { get; set; }
-
-        /// <summary>
-        /// Blue channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("b")]
-        public double B { get; set; }
-
-        /// <summary>
-        /// Green channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("g")]
-        public double G { get; set; }
-
-        /// <summary>
-        /// Red channel value, between 0 and 1
-        /// </summary>
-        [JsonProperty("r")]
-        public double R { get; set; }
-    }
-
-    /// <summary>
-    /// 2d vector offset within the frame.
-    ///
     /// A 2d vector
     ///
     /// This field contains three vectors, each of which are a position in
@@ -419,6 +559,8 @@ namespace QuickType
     /// the second position is the end of the gradient (value 1), and the
     /// third handle position determines the width of the gradient (only
     /// relevant for non-linear gradients).
+    ///
+    /// 2d vector offset within the frame.
     /// </summary>
     public partial class Vector2
     {
@@ -436,13 +578,13 @@ namespace QuickType
     }
 
     /// <summary>
-    /// Format and size to export an asset at
-    ///
     /// An array of export settings representing images to export from node
     ///
-    /// An array of export settings representing images to export from this node
+    /// Format and size to export an asset at
     ///
     /// An array of export settings representing images to export from the canvas
+    ///
+    /// An array of export settings representing images to export from this node
     /// </summary>
     public partial class ExportSetting
     {
@@ -572,239 +714,6 @@ namespace QuickType
         /// </summary>
         [JsonProperty("position")]
         public double Position { get; set; }
-    }
-
-    /// <summary>
-    /// An array of nodes that are direct children of this node
-    ///
-    /// An array of nodes that are being boolean operated on
-    ///
-    /// An array of top level layers on the canvas
-    ///
-    /// An array of canvases attached to the document
-    ///
-    /// Node Properties
-    /// The root node
-    ///
-    /// The root node within the document
-    ///
-    /// Represents a single page
-    ///
-    /// A node of fixed size containing other nodes
-    ///
-    /// A logical grouping of nodes
-    ///
-    /// A vector network, consisting of vertices and edges
-    ///
-    /// A group that has a boolean operation applied to it
-    ///
-    /// A regular star shape
-    ///
-    /// A straight line
-    ///
-    /// An ellipse
-    ///
-    /// A regular n-sided polygon
-    ///
-    /// Bounding box of the node in absolute space coordinates
-    ///
-    /// A rectangle
-    ///
-    /// A text box
-    ///
-    /// A rectangular region of the canvas that can be exported
-    ///
-    /// A node that can have instances created of it that share the same properties
-    ///
-    /// An instance of a component, changes to the component result in the same
-    /// changes applied to the instance
-    /// </summary>
-    public partial class DocumentElement
-    {
-        /// <summary>
-        /// An array of canvases attached to the document
-        ///
-        /// An array of top level layers on the canvas
-        ///
-        /// An array of nodes that are direct children of this node
-        ///
-        /// An array of nodes that are being boolean operated on
-        /// </summary>
-        [JsonProperty("children", NullValueHandling = NullValueHandling.Ignore)]
-        public DocumentElement[] Children { get; set; }
-
-        /// <summary>
-        /// a string uniquely identifying this node within the document
-        /// </summary>
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        /// <summary>
-        /// the name given to the node by the user in the tool.
-        /// </summary>
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// the type of the node, refer to table below for details
-        /// </summary>
-        [JsonProperty("type")]
-        public NodeType Type { get; set; }
-
-        /// <summary>
-        /// whether or not the node is visible on the canvas
-        /// </summary>
-        [JsonProperty("visible")]
-        public bool Visible { get; set; }
-
-        /// <summary>
-        /// Background color of the canvas
-        ///
-        /// Background color of the node
-        /// </summary>
-        [JsonProperty("backgroundColor", NullValueHandling = NullValueHandling.Ignore)]
-        public Color BackgroundColor { get; set; }
-
-        /// <summary>
-        /// An array of export settings representing images to export from the canvas
-        ///
-        /// An array of export settings representing images to export from node
-        ///
-        /// An array of export settings representing images to export from this node
-        /// </summary>
-        [JsonProperty("exportSettings", NullValueHandling = NullValueHandling.Ignore)]
-        public ExportSetting[] ExportSettings { get; set; }
-
-        /// <summary>
-        /// Bounding box of the node in absolute space coordinates
-        /// </summary>
-        [JsonProperty("absoluteBoundingBox", NullValueHandling = NullValueHandling.Ignore)]
-        public Rectangle AbsoluteBoundingBox { get; set; }
-
-        /// <summary>
-        /// How this node blends with nodes behind it in the scene
-        /// (see blend mode section for more details)
-        /// </summary>
-        [JsonProperty("blendMode", NullValueHandling = NullValueHandling.Ignore)]
-        public LendMode? BlendMode { get; set; }
-
-        /// <summary>
-        /// Does this node clip content outside of its bounds?
-        /// </summary>
-        [JsonProperty("clipsContent", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? ClipsContent { get; set; }
-
-        /// <summary>
-        /// Horizontal and vertical layout constraints for node
-        /// </summary>
-        [JsonProperty("constraints", NullValueHandling = NullValueHandling.Ignore)]
-        public LayoutConstraint Constraints { get; set; }
-
-        /// <summary>
-        /// An array of effects attached to this node
-        /// (see effects sectionfor more details)
-        /// </summary>
-        [JsonProperty("effects", NullValueHandling = NullValueHandling.Ignore)]
-        public Effect[] Effects { get; set; }
-
-        /// <summary>
-        /// Does this node mask sibling nodes in front of it?
-        /// </summary>
-        [JsonProperty("isMask", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? IsMask { get; set; }
-
-        /// <summary>
-        /// An array of layout grids attached to this node (see layout grids section
-        /// for more details). GROUP nodes do not have this attribute
-        /// </summary>
-        [JsonProperty("layoutGrids", NullValueHandling = NullValueHandling.Ignore)]
-        public LayoutGrid[] LayoutGrids { get; set; }
-
-        /// <summary>
-        /// Opacity of the node
-        /// </summary>
-        [JsonProperty("opacity", NullValueHandling = NullValueHandling.Ignore)]
-        public double? Opacity { get; set; }
-
-        /// <summary>
-        /// Keep height and width constrained to same ratio
-        /// </summary>
-        [JsonProperty("preserveRatio", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? PreserveRatio { get; set; }
-
-        /// <summary>
-        /// Node ID of node to transition to in prototyping
-        /// </summary>
-        [JsonProperty("transitionNodeID")]
-        public string TransitionNodeId { get; set; }
-
-        /// <summary>
-        /// An array of fill paints applied to the node
-        /// </summary>
-        [JsonProperty("fills", NullValueHandling = NullValueHandling.Ignore)]
-        public Paint[] Fills { get; set; }
-
-        /// <summary>
-        /// Where stroke is drawn relative to the vector outline as a string enum
-        /// "INSIDE": draw stroke inside the shape boundary
-        /// "OUTSIDE": draw stroke outside the shape boundary
-        /// "CENTER": draw stroke centered along the shape boundary
-        /// </summary>
-        [JsonProperty("strokeAlign", NullValueHandling = NullValueHandling.Ignore)]
-        public StrokeAlign? StrokeAlign { get; set; }
-
-        /// <summary>
-        /// An array of stroke paints applied to the node
-        /// </summary>
-        [JsonProperty("strokes", NullValueHandling = NullValueHandling.Ignore)]
-        public Paint[] Strokes { get; set; }
-
-        /// <summary>
-        /// The weight of strokes on the node
-        /// </summary>
-        [JsonProperty("strokeWeight", NullValueHandling = NullValueHandling.Ignore)]
-        public double? StrokeWeight { get; set; }
-
-        /// <summary>
-        /// Radius of each corner of the rectangle
-        /// </summary>
-        [JsonProperty("cornerRadius", NullValueHandling = NullValueHandling.Ignore)]
-        public double? CornerRadius { get; set; }
-
-        /// <summary>
-        /// Text contained within text box
-        /// </summary>
-        [JsonProperty("characters", NullValueHandling = NullValueHandling.Ignore)]
-        public string Characters { get; set; }
-
-        /// <summary>
-        /// Array with same number of elements as characeters in text box,
-        /// each element is a reference to the styleOverrideTable defined
-        /// below and maps to the corresponding character in the characters
-        /// field. Elements with value 0 have the default type style
-        /// </summary>
-        [JsonProperty("characterStyleOverrides", NullValueHandling = NullValueHandling.Ignore)]
-        public double[] CharacterStyleOverrides { get; set; }
-
-        /// <summary>
-        /// Style of text including font family and weight (see type style
-        /// section for more information)
-        /// </summary>
-        [JsonProperty("style", NullValueHandling = NullValueHandling.Ignore)]
-        public TypeStyle Style { get; set; }
-
-        /// <summary>
-        /// Map from ID to TypeStyle for looking up style overrides
-        /// </summary>
-        [JsonProperty("styleOverrideTable", NullValueHandling = NullValueHandling.Ignore)]
-        public TypeStyle[] StyleOverrideTable { get; set; }
-
-        /// <summary>
-        /// ID of component that this instance came from, refers to components
-        /// table (see endpoints section below)
-        /// </summary>
-        [JsonProperty("componentId", NullValueHandling = NullValueHandling.Ignore)]
-        public string ComponentId { get; set; }
     }
 
     /// <summary>
@@ -1062,8 +971,6 @@ namespace QuickType
     }
 
     /// <summary>
-    /// 2d vector offset within the frame.
-    ///
     /// A 2d vector
     ///
     /// This field contains three vectors, each of which are a position in
@@ -1074,6 +981,8 @@ namespace QuickType
     /// the second position is the end of the gradient (value 1), and the
     /// third handle position determines the width of the gradient (only
     /// relevant for non-linear gradients).
+    ///
+    /// 2d vector offset within the frame.
     ///
     /// A relative offset within a frame
     /// </summary>
@@ -1266,19 +1175,6 @@ namespace QuickType
     public enum PaintType { Emoji, GradientAngular, GradientDiamond, GradientLinear, GradientRadial, Image, Solid };
 
     /// <summary>
-    /// Where stroke is drawn relative to the vector outline as a string enum
-    /// "INSIDE": draw stroke inside the shape boundary
-    /// "OUTSIDE": draw stroke outside the shape boundary
-    /// "CENTER": draw stroke centered along the shape boundary
-    /// </summary>
-    public enum StrokeAlign { Center, Inside, Outside };
-
-    /// <summary>
-    /// the type of the node, refer to table below for details
-    /// </summary>
-    public enum NodeType { Boolean, Canvas, Component, Document, Ellipse, Frame, Group, Instance, Line, Rectangle, RegularPolygon, Slice, Star, Text, Vector };
-
-    /// <summary>
     /// Positioning of grid as a string enum
     /// "MIN": Grid starts at the left or top of the frame
     /// "MAX": Grid starts at the right or bottom of the frame
@@ -1295,6 +1191,14 @@ namespace QuickType
     public enum Pattern { Columns, Grid, Rows };
 
     /// <summary>
+    /// Where stroke is drawn relative to the vector outline as a string enum
+    /// "INSIDE": draw stroke inside the shape boundary
+    /// "OUTSIDE": draw stroke outside the shape boundary
+    /// "CENTER": draw stroke centered along the shape boundary
+    /// </summary>
+    public enum StrokeAlign { Center, Inside, Outside };
+
+    /// <summary>
     /// Horizontal text alignment as string enum
     /// </summary>
     public enum TextAlignHorizontal { Center, Justified, Left, Right };
@@ -1303,6 +1207,11 @@ namespace QuickType
     /// Vertical text alignment as string enum
     /// </summary>
     public enum TextAlignVertical { Bottom, Center, Top };
+
+    /// <summary>
+    /// the type of the node, refer to table below for details
+    /// </summary>
+    public enum NodeType { Boolean, Canvas, Component, Document, Ellipse, Frame, Group, Instance, Line, Rectangle, RegularPolygon, Slice, Star, Text, Vector };
 
     public partial class FileResponse
     {
@@ -1603,94 +1512,6 @@ namespace QuickType
         }
     }
 
-    static class StrokeAlignExtensions
-    {
-        public static StrokeAlign? ValueForString(string str)
-        {
-            switch (str)
-            {
-                case "CENTER": return StrokeAlign.Center;
-                case "INSIDE": return StrokeAlign.Inside;
-                case "OUTSIDE": return StrokeAlign.Outside;
-                default: return null;
-            }
-        }
-
-        public static StrokeAlign ReadJson(JsonReader reader, JsonSerializer serializer)
-        {
-            var str = serializer.Deserialize<string>(reader);
-            var maybeValue = ValueForString(str);
-            if (maybeValue.HasValue) return maybeValue.Value;
-            throw new Exception("Unknown enum case " + str);
-        }
-
-        public static void WriteJson(this StrokeAlign value, JsonWriter writer, JsonSerializer serializer)
-        {
-            switch (value)
-            {
-                case StrokeAlign.Center: serializer.Serialize(writer, "CENTER"); break;
-                case StrokeAlign.Inside: serializer.Serialize(writer, "INSIDE"); break;
-                case StrokeAlign.Outside: serializer.Serialize(writer, "OUTSIDE"); break;
-            }
-        }
-    }
-
-    static class NodeTypeExtensions
-    {
-        public static NodeType? ValueForString(string str)
-        {
-            switch (str)
-            {
-                case "BOOLEAN": return NodeType.Boolean;
-                case "CANVAS": return NodeType.Canvas;
-                case "COMPONENT": return NodeType.Component;
-                case "DOCUMENT": return NodeType.Document;
-                case "ELLIPSE": return NodeType.Ellipse;
-                case "FRAME": return NodeType.Frame;
-                case "GROUP": return NodeType.Group;
-                case "INSTANCE": return NodeType.Instance;
-                case "LINE": return NodeType.Line;
-                case "RECTANGLE": return NodeType.Rectangle;
-                case "REGULAR_POLYGON": return NodeType.RegularPolygon;
-                case "SLICE": return NodeType.Slice;
-                case "STAR": return NodeType.Star;
-                case "TEXT": return NodeType.Text;
-                case "VECTOR": return NodeType.Vector;
-                default: return null;
-            }
-        }
-
-        public static NodeType ReadJson(JsonReader reader, JsonSerializer serializer)
-        {
-            var str = serializer.Deserialize<string>(reader);
-            var maybeValue = ValueForString(str);
-            if (maybeValue.HasValue) return maybeValue.Value;
-            throw new Exception("Unknown enum case " + str);
-        }
-
-        public static void WriteJson(this NodeType value, JsonWriter writer, JsonSerializer serializer)
-        {
-            switch (value)
-            {
-                case NodeType.Boolean: serializer.Serialize(writer, "BOOLEAN"); break;
-                case NodeType.Canvas: serializer.Serialize(writer, "CANVAS"); break;
-                case NodeType.Component: serializer.Serialize(writer, "COMPONENT"); break;
-                case NodeType.Document: serializer.Serialize(writer, "DOCUMENT"); break;
-                case NodeType.Ellipse: serializer.Serialize(writer, "ELLIPSE"); break;
-                case NodeType.Frame: serializer.Serialize(writer, "FRAME"); break;
-                case NodeType.Group: serializer.Serialize(writer, "GROUP"); break;
-                case NodeType.Instance: serializer.Serialize(writer, "INSTANCE"); break;
-                case NodeType.Line: serializer.Serialize(writer, "LINE"); break;
-                case NodeType.Rectangle: serializer.Serialize(writer, "RECTANGLE"); break;
-                case NodeType.RegularPolygon: serializer.Serialize(writer, "REGULAR_POLYGON"); break;
-                case NodeType.Slice: serializer.Serialize(writer, "SLICE"); break;
-                case NodeType.Star: serializer.Serialize(writer, "STAR"); break;
-                case NodeType.Text: serializer.Serialize(writer, "TEXT"); break;
-                case NodeType.Vector: serializer.Serialize(writer, "VECTOR"); break;
-            }
-        }
-    }
-
     static class AlignmentExtensions
     {
         public static Alignment? ValueForString(string str)
@@ -1751,6 +1572,38 @@ namespace QuickType
                 case Pattern.Columns: serializer.Serialize(writer, "COLUMNS"); break;
                 case Pattern.Grid: serializer.Serialize(writer, "GRID"); break;
                 case Pattern.Rows: serializer.Serialize(writer, "ROWS"); break;
+            }
+        }
+    }
+
+    static class StrokeAlignExtensions
+    {
+        public static StrokeAlign? ValueForString(string str)
+        {
+            switch (str)
+            {
+                case "CENTER": return StrokeAlign.Center;
+                case "INSIDE": return StrokeAlign.Inside;
+                case "OUTSIDE": return StrokeAlign.Outside;
+                default: return null;
+            }
+        }
+
+        public static StrokeAlign ReadJson(JsonReader reader, JsonSerializer serializer)
+        {
+            var str = serializer.Deserialize<string>(reader);
+            var maybeValue = ValueForString(str);
+            if (maybeValue.HasValue) return maybeValue.Value;
+            throw new Exception("Unknown enum case " + str);
+        }
+
+        public static void WriteJson(this StrokeAlign value, JsonWriter writer, JsonSerializer serializer)
+        {
+            switch (value)
+            {
+                case StrokeAlign.Center: serializer.Serialize(writer, "CENTER"); break;
+                case StrokeAlign.Inside: serializer.Serialize(writer, "INSIDE"); break;
+                case StrokeAlign.Outside: serializer.Serialize(writer, "OUTSIDE"); break;
             }
         }
     }
@@ -1821,6 +1674,62 @@ namespace QuickType
         }
     }
 
+    static class NodeTypeExtensions
+    {
+        public static NodeType? ValueForString(string str)
+        {
+            switch (str)
+            {
+                case "BOOLEAN": return NodeType.Boolean;
+                case "CANVAS": return NodeType.Canvas;
+                case "COMPONENT": return NodeType.Component;
+                case "DOCUMENT": return NodeType.Document;
+                case "ELLIPSE": return NodeType.Ellipse;
+                case "FRAME": return NodeType.Frame;
+                case "GROUP": return NodeType.Group;
+                case "INSTANCE": return NodeType.Instance;
+                case "LINE": return NodeType.Line;
+                case "RECTANGLE": return NodeType.Rectangle;
+                case "REGULAR_POLYGON": return NodeType.RegularPolygon;
+                case "SLICE": return NodeType.Slice;
+                case "STAR": return NodeType.Star;
+                case "TEXT": return NodeType.Text;
+                case "VECTOR": return NodeType.Vector;
+                default: return null;
+            }
+        }
+
+        public static NodeType ReadJson(JsonReader reader, JsonSerializer serializer)
+        {
+            var str = serializer.Deserialize<string>(reader);
+            var maybeValue = ValueForString(str);
+            if (maybeValue.HasValue) return maybeValue.Value;
+            throw new Exception("Unknown enum case " + str);
+        }
+
+        public static void WriteJson(this NodeType value, JsonWriter writer, JsonSerializer serializer)
+        {
+            switch (value)
+            {
+                case NodeType.Boolean: serializer.Serialize(writer, "BOOLEAN"); break;
+                case NodeType.Canvas: serializer.Serialize(writer, "CANVAS"); break;
+                case NodeType.Component: serializer.Serialize(writer, "COMPONENT"); break;
+                case NodeType.Document: serializer.Serialize(writer, "DOCUMENT"); break;
+                case NodeType.Ellipse: serializer.Serialize(writer, "ELLIPSE"); break;
+                case NodeType.Frame: serializer.Serialize(writer, "FRAME"); break;
+                case NodeType.Group: serializer.Serialize(writer, "GROUP"); break;
+                case NodeType.Instance: serializer.Serialize(writer, "INSTANCE"); break;
+                case NodeType.Line: serializer.Serialize(writer, "LINE"); break;
+                case NodeType.Rectangle: serializer.Serialize(writer, "RECTANGLE"); break;
+                case NodeType.RegularPolygon: serializer.Serialize(writer, "REGULAR_POLYGON"); break;
+                case NodeType.Slice: serializer.Serialize(writer, "SLICE"); break;
+                case NodeType.Star: serializer.Serialize(writer, "STAR"); break;
+                case NodeType.Text: serializer.Serialize(writer, "TEXT"); break;
+                case NodeType.Vector: serializer.Serialize(writer, "VECTOR"); break;
+            }
+        }
+    }
+
     public static class Serialize
     {
         public static string ToJson(this FileResponse self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
@@ -1832,7 +1741,7 @@ namespace QuickType
 
     internal class Converter: JsonConverter
     {
-        public override bool CanConvert(Type t) => t == typeof(LendMode) || t == typeof(Horizontal) || t == typeof(Vertical) || t == typeof(EffectType) || t == typeof(ConstraintType) || t == typeof(Format) || t == typeof(PaintType) || t == typeof(StrokeAlign) || t == typeof(NodeType) || t == typeof(Alignment) || t == typeof(Pattern) || t == typeof(TextAlignHorizontal) || t == typeof(TextAlignVertical) || t == typeof(LendMode?) || t == typeof(Horizontal?) || t == typeof(Vertical?) || t == typeof(EffectType?) || t == typeof(ConstraintType?) || t == typeof(Format?) || t == typeof(PaintType?) || t == typeof(StrokeAlign?) || t == typeof(NodeType?) || t == typeof(Alignment?) || t == typeof(Pattern?) || t == typeof(TextAlignHorizontal?) || t == typeof(TextAlignVertical?);
+        public override bool CanConvert(Type t) => t == typeof(LendMode) || t == typeof(Horizontal) || t == typeof(Vertical) || t == typeof(EffectType) || t == typeof(ConstraintType) || t == typeof(Format) || t == typeof(PaintType) || t == typeof(Alignment) || t == typeof(Pattern) || t == typeof(StrokeAlign) || t == typeof(TextAlignHorizontal) || t == typeof(TextAlignVertical) || t == typeof(NodeType) || t == typeof(LendMode?) || t == typeof(Horizontal?) || t == typeof(Vertical?) || t == typeof(EffectType?) || t == typeof(ConstraintType?) || t == typeof(Format?) || t == typeof(PaintType?) || t == typeof(Alignment?) || t == typeof(Pattern?) || t == typeof(StrokeAlign?) || t == typeof(TextAlignHorizontal?) || t == typeof(TextAlignVertical?) || t == typeof(NodeType?);
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
         {
@@ -1850,18 +1759,18 @@ namespace QuickType
                 return FormatExtensions.ReadJson(reader, serializer);
             if (t == typeof(PaintType))
                 return PaintTypeExtensions.ReadJson(reader, serializer);
-            if (t == typeof(StrokeAlign))
-                return StrokeAlignExtensions.ReadJson(reader, serializer);
-            if (t == typeof(NodeType))
-                return NodeTypeExtensions.ReadJson(reader, serializer);
             if (t == typeof(Alignment))
                 return AlignmentExtensions.ReadJson(reader, serializer);
             if (t == typeof(Pattern))
                 return PatternExtensions.ReadJson(reader, serializer);
+            if (t == typeof(StrokeAlign))
+                return StrokeAlignExtensions.ReadJson(reader, serializer);
             if (t == typeof(TextAlignHorizontal))
                 return TextAlignHorizontalExtensions.ReadJson(reader, serializer);
             if (t == typeof(TextAlignVertical))
                 return TextAlignVerticalExtensions.ReadJson(reader, serializer);
+            if (t == typeof(NodeType))
+                return NodeTypeExtensions.ReadJson(reader, serializer);
             if (t == typeof(LendMode?))
             {
                 if (reader.TokenType == JsonToken.Null) return null;
@@ -1897,16 +1806,6 @@ namespace QuickType
                 if (reader.TokenType == JsonToken.Null) return null;
                 return PaintTypeExtensions.ReadJson(reader, serializer);
             }
-            if (t == typeof(StrokeAlign?))
-            {
-                if (reader.TokenType == JsonToken.Null) return null;
-                return StrokeAlignExtensions.ReadJson(reader, serializer);
-            }
-            if (t == typeof(NodeType?))
-            {
-                if (reader.TokenType == JsonToken.Null) return null;
-                return NodeTypeExtensions.ReadJson(reader, serializer);
-            }
             if (t == typeof(Alignment?))
             {
                 if (reader.TokenType == JsonToken.Null) return null;
@@ -1917,6 +1816,11 @@ namespace QuickType
                 if (reader.TokenType == JsonToken.Null) return null;
                 return PatternExtensions.ReadJson(reader, serializer);
             }
+            if (t == typeof(StrokeAlign?))
+            {
+                if (reader.TokenType == JsonToken.Null) return null;
+                return StrokeAlignExtensions.ReadJson(reader, serializer);
+            }
             if (t == typeof(TextAlignHorizontal?))
             {
                 if (reader.TokenType == JsonToken.Null) return null;
@@ -1926,6 +1830,11 @@ namespace QuickType
             {
                 if (reader.TokenType == JsonToken.Null) return null;
                 return TextAlignVerticalExtensions.ReadJson(reader, serializer);
+            }
+            if (t == typeof(NodeType?))
+            {
+                if (reader.TokenType == JsonToken.Null) return null;
+                return NodeTypeExtensions.ReadJson(reader, serializer);
             }
             throw new Exception("Unknown type");
         }
@@ -1968,16 +1877,6 @@ namespace QuickType
                 ((PaintType)value).WriteJson(writer, serializer);
                 return;
             }
-            if (t == typeof(StrokeAlign))
-            {
-                ((StrokeAlign)value).WriteJson(writer, serializer);
-                return;
-            }
-            if (t == typeof(NodeType))
-            {
-                ((NodeType)value).WriteJson(writer, serializer);
-                return;
-            }
             if (t == typeof(Alignment))
             {
                 ((Alignment)value).WriteJson(writer, serializer);
@@ -1988,6 +1887,11 @@ namespace QuickType
                 ((Pattern)value).WriteJson(writer, serializer);
                 return;
             }
+            if (t == typeof(StrokeAlign))
+            {
+                ((StrokeAlign)value).WriteJson(writer, serializer);
+                return;
+            }
             if (t == typeof(TextAlignHorizontal))
             {
                 ((TextAlignHorizontal)value).WriteJson(writer, serializer);
@@ -1996,6 +1900,11 @@ namespace QuickType
             if (t == typeof(TextAlignVertical))
             {
                 ((TextAlignVertical)value).WriteJson(writer, serializer);
+                return;
+            }
+            if (t == typeof(NodeType))
+            {
+                ((NodeType)value).WriteJson(writer, serializer);
                 return;
             }
             throw new Exception("Unknown type");

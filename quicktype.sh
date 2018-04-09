@@ -8,7 +8,7 @@ quicktype types/*.ts -o csharp/Figma.cs
 quicktype types/*.ts -o go/figma.go
 quicktype types/*.ts -o rust/figma.rs
 quicktype types/*.ts -o cpp/figma.cpp
-# quicktype types/*.ts -o objective-c/FGFigma.m --class-prefix FG
+quicktype types/*.ts -o objective-c/FGFigma.m --class-prefix FG
 quicktype types/*.ts -o java/Figma.java
 quicktype types/*.ts -o typescript/figma.ts
 quicktype types/*.ts -o javascript/figma.js

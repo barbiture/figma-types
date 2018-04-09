@@ -38,7 +38,7 @@ public struct FileResponse: Codable {
 /// A node that can have instances created of it that share the same properties
 public struct Component: Codable {
     /// Bounding box of the node in absolute space coordinates
-    public let absoluteBoundingBox: Rectangle
+    public let absoluteBoundingBox: Rect
     /// Background color of the node
     public let backgroundColor: Color
     /// How this node blends with nodes behind it in the scene
@@ -78,70 +78,38 @@ public struct Component: Codable {
 
 /// Bounding box of the node in absolute space coordinates
 ///
-/// A rectangle
-public class Rectangle: Codable {
-    /// Bounding box of the node in absolute space coordinates
-    public let absoluteBoundingBox: Rectangle
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    public let blendMode: LendMode
-    /// Horizontal and vertical layout constraints for node
-    public let constraints: LayoutConstraint
-    /// Radius of each corner of the rectangle
-    public let cornerRadius: Double
-    /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
-    public let effects: [Effect]
-    /// An array of export settings representing images to export from node
-    public let exportSettings: [ExportSetting]
-    /// An array of fill paints applied to the node
-    public let fills: [Paint]
-    /// a string uniquely identifying this node within the document
-    public let id: String
-    /// Does this node mask sibling nodes in front of it?
-    public let isMask: Bool
-    /// the name given to the node by the user in the tool.
-    public let name: String
-    /// Opacity of the node
-    public let opacity: Double
-    /// Keep height and width constrained to same ratio
-    public let preserveRatio: Bool
-    /// Where stroke is drawn relative to the vector outline as a string enum
-    /// "INSIDE": draw stroke inside the shape boundary
-    /// "OUTSIDE": draw stroke outside the shape boundary
-    /// "CENTER": draw stroke centered along the shape boundary
-    public let strokeAlign: StrokeAlign
-    /// An array of stroke paints applied to the node
-    public let strokes: [Paint]
-    /// The weight of strokes on the node
-    public let strokeWeight: Double
-    /// Node ID of node to transition to in prototyping
-    public let transitionNodeID: String?
-    /// the type of the node, refer to table below for details
-    public let type: NodeType
-    /// whether or not the node is visible on the canvas
-    public let visible: Bool
+/// A rectangle that expresses a bounding box in absolute coordinates
+public struct Rect: Codable {
+    /// Height of the rectangle
+    public let height: Double
+    /// Width of the rectangle
+    public let width: Double
+    /// X coordinate of top left corner of the rectangle
+    public let x: Double
+    /// Y coordinate of top left corner of the rectangle
+    public let y: Double
+}
 
-    public init(absoluteBoundingBox: Rectangle, blendMode: LendMode, constraints: LayoutConstraint, cornerRadius: Double, effects: [Effect], exportSettings: [ExportSetting], fills: [Paint], id: String, isMask: Bool, name: String, opacity: Double, preserveRatio: Bool, strokeAlign: StrokeAlign, strokes: [Paint], strokeWeight: Double, transitionNodeID: String?, type: NodeType, visible: Bool) {
-        self.absoluteBoundingBox = absoluteBoundingBox
-        self.blendMode = blendMode
-        self.constraints = constraints
-        self.cornerRadius = cornerRadius
-        self.effects = effects
-        self.exportSettings = exportSettings
-        self.fills = fills
-        self.id = id
-        self.isMask = isMask
-        self.name = name
-        self.opacity = opacity
-        self.preserveRatio = preserveRatio
-        self.strokeAlign = strokeAlign
-        self.strokes = strokes
-        self.strokeWeight = strokeWeight
-        self.transitionNodeID = transitionNodeID
-        self.type = type
-        self.visible = visible
-    }
+/// Background color of the node
+///
+/// An RGBA color
+///
+/// Solid color of the paint
+///
+/// Background color of the canvas
+///
+/// Color attached to corresponding position
+///
+/// Color of the grid
+public struct Color: Codable {
+    /// Alpha channel value, between 0 and 1
+    public let a: Double
+    /// Blue channel value, between 0 and 1
+    public let b: Double
+    /// Green channel value, between 0 and 1
+    public let g: Double
+    /// Red channel value, between 0 and 1
+    public let r: Double
 }
 
 /// How this node blends with nodes behind it in the scene
@@ -169,6 +137,132 @@ public enum LendMode: String, Codable {
     case saturation = "SATURATION"
     case screen = "SCREEN"
     case softLight = "SOFT_LIGHT"
+}
+
+/// An array of nodes that are direct children of this node
+///
+/// An array of nodes that are being boolean operated on
+///
+/// An array of top level layers on the canvas
+///
+/// An array of canvases attached to the document
+///
+/// Node Properties
+/// The root node
+///
+/// The root node within the document
+///
+/// Represents a single page
+///
+/// A node of fixed size containing other nodes
+///
+/// A logical grouping of nodes
+///
+/// A vector network, consisting of vertices and edges
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A rectangle
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An instance of a component, changes to the component result in the same
+/// changes applied to the instance
+public struct DocumentElement: Codable {
+    /// An array of canvases attached to the document
+    ///
+    /// An array of top level layers on the canvas
+    ///
+    /// An array of nodes that are direct children of this node
+    ///
+    /// An array of nodes that are being boolean operated on
+    public let children: [DocumentElement]?
+    /// a string uniquely identifying this node within the document
+    public let id: String
+    /// the name given to the node by the user in the tool.
+    public let name: String
+    /// the type of the node, refer to table below for details
+    public let type: NodeType
+    /// whether or not the node is visible on the canvas
+    public let visible: Bool
+    /// Background color of the canvas
+    ///
+    /// Background color of the node
+    public let backgroundColor: Color?
+    /// An array of export settings representing images to export from the canvas
+    ///
+    /// An array of export settings representing images to export from node
+    ///
+    /// An array of export settings representing images to export from this node
+    public let exportSettings: [ExportSetting]?
+    /// Bounding box of the node in absolute space coordinates
+    public let absoluteBoundingBox: Rect?
+    /// How this node blends with nodes behind it in the scene
+    /// (see blend mode section for more details)
+    public let blendMode: LendMode?
+    /// Does this node clip content outside of its bounds?
+    public let clipsContent: Bool?
+    /// Horizontal and vertical layout constraints for node
+    public let constraints: LayoutConstraint?
+    /// An array of effects attached to this node
+    /// (see effects sectionfor more details)
+    public let effects: [Effect]?
+    /// Does this node mask sibling nodes in front of it?
+    public let isMask: Bool?
+    /// An array of layout grids attached to this node (see layout grids section
+    /// for more details). GROUP nodes do not have this attribute
+    public let layoutGrids: [LayoutGrid]?
+    /// Opacity of the node
+    public let opacity: Double?
+    /// Keep height and width constrained to same ratio
+    public let preserveRatio: Bool?
+    /// Node ID of node to transition to in prototyping
+    public let transitionNodeID: String?
+    /// An array of fill paints applied to the node
+    public let fills: [Paint]?
+    /// Where stroke is drawn relative to the vector outline as a string enum
+    /// "INSIDE": draw stroke inside the shape boundary
+    /// "OUTSIDE": draw stroke outside the shape boundary
+    /// "CENTER": draw stroke centered along the shape boundary
+    public let strokeAlign: StrokeAlign?
+    /// An array of stroke paints applied to the node
+    public let strokes: [Paint]?
+    /// The weight of strokes on the node
+    public let strokeWeight: Double?
+    /// Radius of each corner of the rectangle
+    public let cornerRadius: Double?
+    /// Text contained within text box
+    public let characters: String?
+    /// Array with same number of elements as characeters in text box,
+    /// each element is a reference to the styleOverrideTable defined
+    /// below and maps to the corresponding character in the characters
+    /// field. Elements with value 0 have the default type style
+    public let characterStyleOverrides: [Double]?
+    /// Style of text including font family and weight (see type style
+    /// section for more information)
+    public let style: TypeStyle?
+    /// Map from ID to TypeStyle for looking up style overrides
+    public let styleOverrideTable: [TypeStyle]?
+    /// ID of component that this instance came from, refers to components
+    /// table (see endpoints section below)
+    public let componentID: String?
+
+    enum CodingKeys: String, CodingKey {
+        case children, id, name, type, visible, backgroundColor, exportSettings, absoluteBoundingBox, blendMode, clipsContent, constraints, effects, isMask, layoutGrids, opacity, preserveRatio, transitionNodeID, fills, strokeAlign, strokes, strokeWeight, cornerRadius, characters, characterStyleOverrides, style, styleOverrideTable
+        case componentID = "componentId"
+    }
 }
 
 /// Horizontal and vertical layout constraints for node
@@ -243,30 +337,6 @@ public struct Effect: Codable {
     public let visible: Bool
 }
 
-/// Background color of the node
-///
-/// An RGBA color
-///
-/// Color of the grid
-///
-/// Solid color of the paint
-///
-/// Background color of the canvas
-///
-/// Color attached to corresponding position
-public struct Color: Codable {
-    /// Alpha channel value, between 0 and 1
-    public let a: Double
-    /// Blue channel value, between 0 and 1
-    public let b: Double
-    /// Green channel value, between 0 and 1
-    public let g: Double
-    /// Red channel value, between 0 and 1
-    public let r: Double
-}
-
-/// 2d vector offset within the frame.
-///
 /// A 2d vector
 ///
 /// This field contains three vectors, each of which are a position in
@@ -277,6 +347,8 @@ public struct Color: Codable {
 /// the second position is the end of the gradient (value 1), and the
 /// third handle position determines the width of the gradient (only
 /// relevant for non-linear gradients).
+///
+/// 2d vector offset within the frame.
 public struct Vector2: Codable {
     /// X coordinate of the vector
     public let x: Double
@@ -292,13 +364,13 @@ public enum EffectType: String, Codable {
     case layerBlur = "LAYER_BLUR"
 }
 
-/// Format and size to export an asset at
-///
 /// An array of export settings representing images to export from node
 ///
-/// An array of export settings representing images to export from this node
+/// Format and size to export an asset at
 ///
 /// An array of export settings representing images to export from the canvas
+///
+/// An array of export settings representing images to export from this node
 public struct ExportSetting: Codable {
     /// Constraint that determines sizing of exported asset
     public let constraint: Constraint
@@ -395,163 +467,6 @@ public enum PaintType: String, Codable {
     case solid = "SOLID"
 }
 
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-public enum StrokeAlign: String, Codable {
-    case center = "CENTER"
-    case inside = "INSIDE"
-    case outside = "OUTSIDE"
-}
-
-/// the type of the node, refer to table below for details
-public enum NodeType: String, Codable {
-    case boolean = "BOOLEAN"
-    case canvas = "CANVAS"
-    case component = "COMPONENT"
-    case document = "DOCUMENT"
-    case ellipse = "ELLIPSE"
-    case frame = "FRAME"
-    case group = "GROUP"
-    case instance = "INSTANCE"
-    case line = "LINE"
-    case rectangle = "RECTANGLE"
-    case regularPolygon = "REGULAR_POLYGON"
-    case slice = "SLICE"
-    case star = "STAR"
-    case text = "TEXT"
-    case vector = "VECTOR"
-}
-
-/// An array of nodes that are direct children of this node
-///
-/// An array of nodes that are being boolean operated on
-///
-/// An array of top level layers on the canvas
-///
-/// An array of canvases attached to the document
-///
-/// Node Properties
-/// The root node
-///
-/// The root node within the document
-///
-/// Represents a single page
-///
-/// A node of fixed size containing other nodes
-///
-/// A logical grouping of nodes
-///
-/// A vector network, consisting of vertices and edges
-///
-/// A group that has a boolean operation applied to it
-///
-/// A regular star shape
-///
-/// A straight line
-///
-/// An ellipse
-///
-/// A regular n-sided polygon
-///
-/// Bounding box of the node in absolute space coordinates
-///
-/// A rectangle
-///
-/// A text box
-///
-/// A rectangular region of the canvas that can be exported
-///
-/// A node that can have instances created of it that share the same properties
-///
-/// An instance of a component, changes to the component result in the same
-/// changes applied to the instance
-public struct DocumentElement: Codable {
-    /// An array of canvases attached to the document
-    ///
-    /// An array of top level layers on the canvas
-    ///
-    /// An array of nodes that are direct children of this node
-    ///
-    /// An array of nodes that are being boolean operated on
-    public let children: [DocumentElement]?
-    /// a string uniquely identifying this node within the document
-    public let id: String
-    /// the name given to the node by the user in the tool.
-    public let name: String
-    /// the type of the node, refer to table below for details
-    public let type: NodeType
-    /// whether or not the node is visible on the canvas
-    public let visible: Bool
-    /// Background color of the canvas
-    ///
-    /// Background color of the node
-    public let backgroundColor: Color?
-    /// An array of export settings representing images to export from the canvas
-    ///
-    /// An array of export settings representing images to export from node
-    ///
-    /// An array of export settings representing images to export from this node
-    public let exportSettings: [ExportSetting]?
-    /// Bounding box of the node in absolute space coordinates
-    public let absoluteBoundingBox: Rectangle?
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    public let blendMode: LendMode?
-    /// Does this node clip content outside of its bounds?
-    public let clipsContent: Bool?
-    /// Horizontal and vertical layout constraints for node
-    public let constraints: LayoutConstraint?
-    /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
-    public let effects: [Effect]?
-    /// Does this node mask sibling nodes in front of it?
-    public let isMask: Bool?
-    /// An array of layout grids attached to this node (see layout grids section
-    /// for more details). GROUP nodes do not have this attribute
-    public let layoutGrids: [LayoutGrid]?
-    /// Opacity of the node
-    public let opacity: Double?
-    /// Keep height and width constrained to same ratio
-    public let preserveRatio: Bool?
-    /// Node ID of node to transition to in prototyping
-    public let transitionNodeID: String?
-    /// An array of fill paints applied to the node
-    public let fills: [Paint]?
-    /// Where stroke is drawn relative to the vector outline as a string enum
-    /// "INSIDE": draw stroke inside the shape boundary
-    /// "OUTSIDE": draw stroke outside the shape boundary
-    /// "CENTER": draw stroke centered along the shape boundary
-    public let strokeAlign: StrokeAlign?
-    /// An array of stroke paints applied to the node
-    public let strokes: [Paint]?
-    /// The weight of strokes on the node
-    public let strokeWeight: Double?
-    /// Radius of each corner of the rectangle
-    public let cornerRadius: Double?
-    /// Text contained within text box
-    public let characters: String?
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    public let characterStyleOverrides: [Double]?
-    /// Style of text including font family and weight (see type style
-    /// section for more information)
-    public let style: TypeStyle?
-    /// Map from ID to TypeStyle for looking up style overrides
-    public let styleOverrideTable: [TypeStyle]?
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    public let componentID: String?
-
-    enum CodingKeys: String, CodingKey {
-        case children, id, name, type, visible, backgroundColor, exportSettings, absoluteBoundingBox, blendMode, clipsContent, constraints, effects, isMask, layoutGrids, opacity, preserveRatio, transitionNodeID, fills, strokeAlign, strokes, strokeWeight, cornerRadius, characters, characterStyleOverrides, style, styleOverrideTable
-        case componentID = "componentId"
-    }
-}
-
 /// An array of layout grids attached to this node (see layout grids section
 /// for more details). GROUP nodes do not have this attribute
 ///
@@ -601,6 +516,16 @@ public enum Pattern: String, Codable {
     case rows = "ROWS"
 }
 
+/// Where stroke is drawn relative to the vector outline as a string enum
+/// "INSIDE": draw stroke inside the shape boundary
+/// "OUTSIDE": draw stroke outside the shape boundary
+/// "CENTER": draw stroke centered along the shape boundary
+public enum StrokeAlign: String, Codable {
+    case center = "CENTER"
+    case inside = "INSIDE"
+    case outside = "OUTSIDE"
+}
+
 /// Map from ID to TypeStyle for looking up style overrides
 ///
 /// Metadata for character formatting
@@ -645,6 +570,25 @@ public enum TextAlignVertical: String, Codable {
     case bottom = "BOTTOM"
     case center = "CENTER"
     case top = "TOP"
+}
+
+/// the type of the node, refer to table below for details
+public enum NodeType: String, Codable {
+    case boolean = "BOOLEAN"
+    case canvas = "CANVAS"
+    case component = "COMPONENT"
+    case document = "DOCUMENT"
+    case ellipse = "ELLIPSE"
+    case frame = "FRAME"
+    case group = "GROUP"
+    case instance = "INSTANCE"
+    case line = "LINE"
+    case rectangle = "RECTANGLE"
+    case regularPolygon = "REGULAR_POLYGON"
+    case slice = "SLICE"
+    case star = "STAR"
+    case text = "TEXT"
+    case vector = "VECTOR"
 }
 
 /// Node Properties
@@ -710,8 +654,6 @@ public struct Comment: Codable {
     }
 }
 
-/// 2d vector offset within the frame.
-///
 /// A 2d vector
 ///
 /// This field contains three vectors, each of which are a position in
@@ -722,6 +664,8 @@ public struct Comment: Codable {
 /// the second position is the end of the gradient (value 1), and the
 /// third handle position determines the width of the gradient (only
 /// relevant for non-linear gradients).
+///
+/// 2d vector offset within the frame.
 ///
 /// A relative offset within a frame
 public struct ClientMeta: Codable {
@@ -881,20 +825,69 @@ public extension Component {
     }
 }
 
-public extension Rectangle {
-    public convenience init(data: Data) throws {
-        let me = try JSONDecoder().decode(Rectangle.self, from: data)
-        self.init(absoluteBoundingBox: me.absoluteBoundingBox, blendMode: me.blendMode, constraints: me.constraints, cornerRadius: me.cornerRadius, effects: me.effects, exportSettings: me.exportSettings, fills: me.fills, id: me.id, isMask: me.isMask, name: me.name, opacity: me.opacity, preserveRatio: me.preserveRatio, strokeAlign: me.strokeAlign, strokes: me.strokes, strokeWeight: me.strokeWeight, transitionNodeID: me.transitionNodeID, type: me.type, visible: me.visible)
+public extension Rect {
+    public init(data: Data) throws {
+        self = try JSONDecoder().decode(Rect.self, from: data)
     }
 
-    public convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    public convenience init(fromURL url: URL) throws {
+    public init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    public func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+public extension Color {
+    public init(data: Data) throws {
+        self = try JSONDecoder().decode(Color.self, from: data)
+    }
+
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    public init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    public func jsonData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+
+    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+public extension DocumentElement {
+    public init(data: Data) throws {
+        self = try JSONDecoder().decode(DocumentElement.self, from: data)
+    }
+
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    public init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
@@ -935,31 +928,6 @@ public extension LayoutConstraint {
 public extension Effect {
     public init(data: Data) throws {
         self = try JSONDecoder().decode(Effect.self, from: data)
-    }
-
-    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    public init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    public func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-public extension Color {
-    public init(data: Data) throws {
-        self = try JSONDecoder().decode(Color.self, from: data)
     }
 
     public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1085,31 +1053,6 @@ public extension Paint {
 public extension ColorStop {
     public init(data: Data) throws {
         self = try JSONDecoder().decode(ColorStop.self, from: data)
-    }
-
-    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    public init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    public func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-public extension DocumentElement {
-    public init(data: Data) throws {
-        self = try JSONDecoder().decode(DocumentElement.self, from: data)
     }
 
     public init(_ json: String, using encoding: String.Encoding = .utf8) throws {

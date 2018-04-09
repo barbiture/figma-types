@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.*;
  * A node that can have instances created of it that share the same properties
  */
 public class Component {
-    private Rectangle absoluteBoundingBox;
+    private Rect absoluteBoundingBox;
     private Color backgroundColor;
     private LendMode blendMode;
     private DocumentElement[] children;
@@ -29,9 +29,9 @@ public class Component {
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
-    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    public Rect getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
+    public void setAbsoluteBoundingBox(Rect value) { this.absoluteBoundingBox = value; }
 
     /**
      * Background color of the node

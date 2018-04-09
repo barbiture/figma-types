@@ -52,7 +52,7 @@ pub struct FileResponse {
 pub struct Component {
     /// Bounding box of the node in absolute space coordinates
     #[serde(rename = "absoluteBoundingBox")]
-    absolute_bounding_box: Box<Rectangle>,
+    absolute_bounding_box: Rect,
 
     /// Background color of the node
     #[serde(rename = "backgroundColor")]
@@ -124,85 +124,229 @@ pub struct Component {
 
 /// Bounding box of the node in absolute space coordinates
 ///
-/// A rectangle
+/// A rectangle that expresses a bounding box in absolute coordinates
 #[derive(Serialize, Deserialize)]
-pub struct Rectangle {
-    /// Bounding box of the node in absolute space coordinates
-    #[serde(rename = "absoluteBoundingBox")]
-    absolute_bounding_box: Box<Rectangle>,
+pub struct Rect {
+    /// Height of the rectangle
+    #[serde(rename = "height")]
+    height: f64,
 
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    #[serde(rename = "blendMode")]
-    blend_mode: LendMode,
+    /// Width of the rectangle
+    #[serde(rename = "width")]
+    width: f64,
 
-    /// Horizontal and vertical layout constraints for node
-    #[serde(rename = "constraints")]
-    constraints: LayoutConstraint,
+    /// X coordinate of top left corner of the rectangle
+    #[serde(rename = "x")]
+    x: f64,
 
-    /// Radius of each corner of the rectangle
-    #[serde(rename = "cornerRadius")]
-    corner_radius: f64,
+    /// Y coordinate of top left corner of the rectangle
+    #[serde(rename = "y")]
+    y: f64,
+}
 
-    /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
-    #[serde(rename = "effects")]
-    effects: Vec<Effect>,
+/// Background color of the node
+///
+/// An RGBA color
+///
+/// Solid color of the paint
+///
+/// Background color of the canvas
+///
+/// Color attached to corresponding position
+///
+/// Color of the grid
+#[derive(Serialize, Deserialize)]
+pub struct Color {
+    /// Alpha channel value, between 0 and 1
+    #[serde(rename = "a")]
+    a: f64,
 
-    /// An array of export settings representing images to export from node
-    #[serde(rename = "exportSettings")]
-    export_settings: Vec<ExportSetting>,
+    /// Blue channel value, between 0 and 1
+    #[serde(rename = "b")]
+    b: f64,
 
-    /// An array of fill paints applied to the node
-    #[serde(rename = "fills")]
-    fills: Vec<Paint>,
+    /// Green channel value, between 0 and 1
+    #[serde(rename = "g")]
+    g: f64,
+
+    /// Red channel value, between 0 and 1
+    #[serde(rename = "r")]
+    r: f64,
+}
+
+/// An array of nodes that are direct children of this node
+///
+/// An array of nodes that are being boolean operated on
+///
+/// An array of top level layers on the canvas
+///
+/// An array of canvases attached to the document
+///
+/// Node Properties
+/// The root node
+///
+/// The root node within the document
+///
+/// Represents a single page
+///
+/// A node of fixed size containing other nodes
+///
+/// A logical grouping of nodes
+///
+/// A vector network, consisting of vertices and edges
+///
+/// A group that has a boolean operation applied to it
+///
+/// A regular star shape
+///
+/// A straight line
+///
+/// An ellipse
+///
+/// A regular n-sided polygon
+///
+/// A rectangle
+///
+/// A text box
+///
+/// A rectangular region of the canvas that can be exported
+///
+/// A node that can have instances created of it that share the same properties
+///
+/// An instance of a component, changes to the component result in the same
+/// changes applied to the instance
+#[derive(Serialize, Deserialize)]
+pub struct DocumentElement {
+    /// An array of canvases attached to the document
+    ///
+    /// An array of top level layers on the canvas
+    ///
+    /// An array of nodes that are direct children of this node
+    ///
+    /// An array of nodes that are being boolean operated on
+    #[serde(rename = "children")]
+    children: Option<Vec<DocumentElement>>,
 
     /// a string uniquely identifying this node within the document
     #[serde(rename = "id")]
     id: String,
 
-    /// Does this node mask sibling nodes in front of it?
-    #[serde(rename = "isMask")]
-    is_mask: bool,
-
     /// the name given to the node by the user in the tool.
     #[serde(rename = "name")]
     name: String,
 
+    /// the type of the node, refer to table below for details
+    #[serde(rename = "type")]
+    document_type: NodeType,
+
+    /// whether or not the node is visible on the canvas
+    #[serde(rename = "visible")]
+    visible: bool,
+
+    /// Background color of the canvas
+    ///
+    /// Background color of the node
+    #[serde(rename = "backgroundColor")]
+    background_color: Option<Color>,
+
+    /// An array of export settings representing images to export from the canvas
+    ///
+    /// An array of export settings representing images to export from node
+    ///
+    /// An array of export settings representing images to export from this node
+    #[serde(rename = "exportSettings")]
+    export_settings: Option<Vec<ExportSetting>>,
+
+    /// Bounding box of the node in absolute space coordinates
+    #[serde(rename = "absoluteBoundingBox")]
+    absolute_bounding_box: Option<Rect>,
+
+    /// How this node blends with nodes behind it in the scene
+    /// (see blend mode section for more details)
+    #[serde(rename = "blendMode")]
+    blend_mode: Option<LendMode>,
+
+    /// Does this node clip content outside of its bounds?
+    #[serde(rename = "clipsContent")]
+    clips_content: Option<bool>,
+
+    /// Horizontal and vertical layout constraints for node
+    #[serde(rename = "constraints")]
+    constraints: Option<LayoutConstraint>,
+
+    /// An array of effects attached to this node
+    /// (see effects sectionfor more details)
+    #[serde(rename = "effects")]
+    effects: Option<Vec<Effect>>,
+
+    /// Does this node mask sibling nodes in front of it?
+    #[serde(rename = "isMask")]
+    is_mask: Option<bool>,
+
+    /// An array of layout grids attached to this node (see layout grids section
+    /// for more details). GROUP nodes do not have this attribute
+    #[serde(rename = "layoutGrids")]
+    layout_grids: Option<Vec<LayoutGrid>>,
+
     /// Opacity of the node
     #[serde(rename = "opacity")]
-    opacity: f64,
+    opacity: Option<f64>,
 
     /// Keep height and width constrained to same ratio
     #[serde(rename = "preserveRatio")]
-    preserve_ratio: bool,
+    preserve_ratio: Option<bool>,
+
+    /// Node ID of node to transition to in prototyping
+    #[serde(rename = "transitionNodeID")]
+    transition_node_id: Option<String>,
+
+    /// An array of fill paints applied to the node
+    #[serde(rename = "fills")]
+    fills: Option<Vec<Paint>>,
 
     /// Where stroke is drawn relative to the vector outline as a string enum
     /// "INSIDE": draw stroke inside the shape boundary
     /// "OUTSIDE": draw stroke outside the shape boundary
     /// "CENTER": draw stroke centered along the shape boundary
     #[serde(rename = "strokeAlign")]
-    stroke_align: StrokeAlign,
+    stroke_align: Option<StrokeAlign>,
 
     /// An array of stroke paints applied to the node
     #[serde(rename = "strokes")]
-    strokes: Vec<Paint>,
+    strokes: Option<Vec<Paint>>,
 
     /// The weight of strokes on the node
     #[serde(rename = "strokeWeight")]
-    stroke_weight: f64,
+    stroke_weight: Option<f64>,
 
-    /// Node ID of node to transition to in prototyping
-    #[serde(rename = "transitionNodeID")]
-    transition_node_id: Option<String>,
+    /// Radius of each corner of the rectangle
+    #[serde(rename = "cornerRadius")]
+    corner_radius: Option<f64>,
 
-    /// the type of the node, refer to table below for details
-    #[serde(rename = "type")]
-    rectangle_type: NodeType,
+    /// Text contained within text box
+    #[serde(rename = "characters")]
+    characters: Option<String>,
 
-    /// whether or not the node is visible on the canvas
-    #[serde(rename = "visible")]
-    visible: bool,
+    /// Array with same number of elements as characeters in text box,
+    /// each element is a reference to the styleOverrideTable defined
+    /// below and maps to the corresponding character in the characters
+    /// field. Elements with value 0 have the default type style
+    #[serde(rename = "characterStyleOverrides")]
+    character_style_overrides: Option<Vec<f64>>,
+
+    /// Style of text including font family and weight (see type style
+    /// section for more information)
+    #[serde(rename = "style")]
+    style: Option<TypeStyle>,
+
+    /// Map from ID to TypeStyle for looking up style overrides
+    #[serde(rename = "styleOverrideTable")]
+    style_override_table: Option<Vec<TypeStyle>>,
+
+    /// ID of component that this instance came from, refers to components
+    /// table (see endpoints section below)
+    #[serde(rename = "componentId")]
+    component_id: Option<String>,
 }
 
 /// Horizontal and vertical layout constraints for node
@@ -263,38 +407,6 @@ pub struct Effect {
     visible: bool,
 }
 
-/// Background color of the node
-///
-/// An RGBA color
-///
-/// Color of the grid
-///
-/// Solid color of the paint
-///
-/// Background color of the canvas
-///
-/// Color attached to corresponding position
-#[derive(Serialize, Deserialize)]
-pub struct Color {
-    /// Alpha channel value, between 0 and 1
-    #[serde(rename = "a")]
-    a: f64,
-
-    /// Blue channel value, between 0 and 1
-    #[serde(rename = "b")]
-    b: f64,
-
-    /// Green channel value, between 0 and 1
-    #[serde(rename = "g")]
-    g: f64,
-
-    /// Red channel value, between 0 and 1
-    #[serde(rename = "r")]
-    r: f64,
-}
-
-/// 2d vector offset within the frame.
-///
 /// A 2d vector
 ///
 /// This field contains three vectors, each of which are a position in
@@ -305,6 +417,8 @@ pub struct Color {
 /// the second position is the end of the gradient (value 1), and the
 /// third handle position determines the width of the gradient (only
 /// relevant for non-linear gradients).
+///
+/// 2d vector offset within the frame.
 #[derive(Serialize, Deserialize)]
 pub struct Vector2 {
     /// X coordinate of the vector
@@ -316,13 +430,13 @@ pub struct Vector2 {
     y: f64,
 }
 
-/// Format and size to export an asset at
-///
 /// An array of export settings representing images to export from node
 ///
-/// An array of export settings representing images to export from this node
+/// Format and size to export an asset at
 ///
 /// An array of export settings representing images to export from the canvas
+///
+/// An array of export settings representing images to export from this node
 #[derive(Serialize, Deserialize)]
 pub struct ExportSetting {
     /// Constraint that determines sizing of exported asset
@@ -417,183 +531,6 @@ pub struct ColorStop {
     /// Value between 0 and 1 representing position along gradient axis
     #[serde(rename = "position")]
     position: f64,
-}
-
-/// An array of nodes that are direct children of this node
-///
-/// An array of nodes that are being boolean operated on
-///
-/// An array of top level layers on the canvas
-///
-/// An array of canvases attached to the document
-///
-/// Node Properties
-/// The root node
-///
-/// The root node within the document
-///
-/// Represents a single page
-///
-/// A node of fixed size containing other nodes
-///
-/// A logical grouping of nodes
-///
-/// A vector network, consisting of vertices and edges
-///
-/// A group that has a boolean operation applied to it
-///
-/// A regular star shape
-///
-/// A straight line
-///
-/// An ellipse
-///
-/// A regular n-sided polygon
-///
-/// Bounding box of the node in absolute space coordinates
-///
-/// A rectangle
-///
-/// A text box
-///
-/// A rectangular region of the canvas that can be exported
-///
-/// A node that can have instances created of it that share the same properties
-///
-/// An instance of a component, changes to the component result in the same
-/// changes applied to the instance
-#[derive(Serialize, Deserialize)]
-pub struct DocumentElement {
-    /// An array of canvases attached to the document
-    ///
-    /// An array of top level layers on the canvas
-    ///
-    /// An array of nodes that are direct children of this node
-    ///
-    /// An array of nodes that are being boolean operated on
-    #[serde(rename = "children")]
-    children: Option<Vec<DocumentElement>>,
-
-    /// a string uniquely identifying this node within the document
-    #[serde(rename = "id")]
-    id: String,
-
-    /// the name given to the node by the user in the tool.
-    #[serde(rename = "name")]
-    name: String,
-
-    /// the type of the node, refer to table below for details
-    #[serde(rename = "type")]
-    document_type: NodeType,
-
-    /// whether or not the node is visible on the canvas
-    #[serde(rename = "visible")]
-    visible: bool,
-
-    /// Background color of the canvas
-    ///
-    /// Background color of the node
-    #[serde(rename = "backgroundColor")]
-    background_color: Option<Color>,
-
-    /// An array of export settings representing images to export from the canvas
-    ///
-    /// An array of export settings representing images to export from node
-    ///
-    /// An array of export settings representing images to export from this node
-    #[serde(rename = "exportSettings")]
-    export_settings: Option<Vec<ExportSetting>>,
-
-    /// Bounding box of the node in absolute space coordinates
-    #[serde(rename = "absoluteBoundingBox")]
-    absolute_bounding_box: Option<Box<Rectangle>>,
-
-    /// How this node blends with nodes behind it in the scene
-    /// (see blend mode section for more details)
-    #[serde(rename = "blendMode")]
-    blend_mode: Option<LendMode>,
-
-    /// Does this node clip content outside of its bounds?
-    #[serde(rename = "clipsContent")]
-    clips_content: Option<bool>,
-
-    /// Horizontal and vertical layout constraints for node
-    #[serde(rename = "constraints")]
-    constraints: Option<LayoutConstraint>,
-
-    /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
-    #[serde(rename = "effects")]
-    effects: Option<Vec<Effect>>,
-
-    /// Does this node mask sibling nodes in front of it?
-    #[serde(rename = "isMask")]
-    is_mask: Option<bool>,
-
-    /// An array of layout grids attached to this node (see layout grids section
-    /// for more details). GROUP nodes do not have this attribute
-    #[serde(rename = "layoutGrids")]
-    layout_grids: Option<Vec<LayoutGrid>>,
-
-    /// Opacity of the node
-    #[serde(rename = "opacity")]
-    opacity: Option<f64>,
-
-    /// Keep height and width constrained to same ratio
-    #[serde(rename = "preserveRatio")]
-    preserve_ratio: Option<bool>,
-
-    /// Node ID of node to transition to in prototyping
-    #[serde(rename = "transitionNodeID")]
-    transition_node_id: Option<String>,
-
-    /// An array of fill paints applied to the node
-    #[serde(rename = "fills")]
-    fills: Option<Vec<Paint>>,
-
-    /// Where stroke is drawn relative to the vector outline as a string enum
-    /// "INSIDE": draw stroke inside the shape boundary
-    /// "OUTSIDE": draw stroke outside the shape boundary
-    /// "CENTER": draw stroke centered along the shape boundary
-    #[serde(rename = "strokeAlign")]
-    stroke_align: Option<StrokeAlign>,
-
-    /// An array of stroke paints applied to the node
-    #[serde(rename = "strokes")]
-    strokes: Option<Vec<Paint>>,
-
-    /// The weight of strokes on the node
-    #[serde(rename = "strokeWeight")]
-    stroke_weight: Option<f64>,
-
-    /// Radius of each corner of the rectangle
-    #[serde(rename = "cornerRadius")]
-    corner_radius: Option<f64>,
-
-    /// Text contained within text box
-    #[serde(rename = "characters")]
-    characters: Option<String>,
-
-    /// Array with same number of elements as characeters in text box,
-    /// each element is a reference to the styleOverrideTable defined
-    /// below and maps to the corresponding character in the characters
-    /// field. Elements with value 0 have the default type style
-    #[serde(rename = "characterStyleOverrides")]
-    character_style_overrides: Option<Vec<f64>>,
-
-    /// Style of text including font family and weight (see type style
-    /// section for more information)
-    #[serde(rename = "style")]
-    style: Option<TypeStyle>,
-
-    /// Map from ID to TypeStyle for looking up style overrides
-    #[serde(rename = "styleOverrideTable")]
-    style_override_table: Option<Vec<TypeStyle>>,
-
-    /// ID of component that this instance came from, refers to components
-    /// table (see endpoints section below)
-    #[serde(rename = "componentId")]
-    component_id: Option<String>,
 }
 
 /// An array of layout grids attached to this node (see layout grids section
@@ -776,8 +713,6 @@ pub struct Comment {
     user: User,
 }
 
-/// 2d vector offset within the frame.
-///
 /// A 2d vector
 ///
 /// This field contains three vectors, each of which are a position in
@@ -788,6 +723,8 @@ pub struct Comment {
 /// the second position is the end of the gradient (value 1), and the
 /// third handle position determines the width of the gradient (only
 /// relevant for non-linear gradients).
+///
+/// 2d vector offset within the frame.
 ///
 /// A relative offset within a frame
 #[derive(Serialize, Deserialize)]
@@ -1021,6 +958,55 @@ pub enum Vertical {
     TopBottom,
 }
 
+/// the type of the node, refer to table below for details
+#[derive(Serialize, Deserialize)]
+pub enum NodeType {
+    #[serde(rename = "BOOLEAN")]
+    Boolean,
+
+    #[serde(rename = "CANVAS")]
+    Canvas,
+
+    #[serde(rename = "COMPONENT")]
+    Component,
+
+    #[serde(rename = "DOCUMENT")]
+    Document,
+
+    #[serde(rename = "ELLIPSE")]
+    Ellipse,
+
+    #[serde(rename = "FRAME")]
+    Frame,
+
+    #[serde(rename = "GROUP")]
+    Group,
+
+    #[serde(rename = "INSTANCE")]
+    Instance,
+
+    #[serde(rename = "LINE")]
+    Line,
+
+    #[serde(rename = "RECTANGLE")]
+    Rectangle,
+
+    #[serde(rename = "REGULAR_POLYGON")]
+    RegularPolygon,
+
+    #[serde(rename = "SLICE")]
+    Slice,
+
+    #[serde(rename = "STAR")]
+    Star,
+
+    #[serde(rename = "TEXT")]
+    Text,
+
+    #[serde(rename = "VECTOR")]
+    Vector,
+}
+
 /// Type of effect as a string enum
 #[derive(Serialize, Deserialize)]
 pub enum EffectType {
@@ -1091,71 +1077,6 @@ pub enum PaintType {
     Solid,
 }
 
-/// the type of the node, refer to table below for details
-#[derive(Serialize, Deserialize)]
-pub enum NodeType {
-    #[serde(rename = "BOOLEAN")]
-    Boolean,
-
-    #[serde(rename = "CANVAS")]
-    Canvas,
-
-    #[serde(rename = "COMPONENT")]
-    Component,
-
-    #[serde(rename = "DOCUMENT")]
-    Document,
-
-    #[serde(rename = "ELLIPSE")]
-    Ellipse,
-
-    #[serde(rename = "FRAME")]
-    Frame,
-
-    #[serde(rename = "GROUP")]
-    Group,
-
-    #[serde(rename = "INSTANCE")]
-    Instance,
-
-    #[serde(rename = "LINE")]
-    Line,
-
-    #[serde(rename = "RECTANGLE")]
-    Rectangle,
-
-    #[serde(rename = "REGULAR_POLYGON")]
-    RegularPolygon,
-
-    #[serde(rename = "SLICE")]
-    Slice,
-
-    #[serde(rename = "STAR")]
-    Star,
-
-    #[serde(rename = "TEXT")]
-    Text,
-
-    #[serde(rename = "VECTOR")]
-    Vector,
-}
-
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-#[derive(Serialize, Deserialize)]
-pub enum StrokeAlign {
-    #[serde(rename = "CENTER")]
-    Center,
-
-    #[serde(rename = "INSIDE")]
-    Inside,
-
-    #[serde(rename = "OUTSIDE")]
-    Outside,
-}
-
 /// Positioning of grid as a string enum
 /// "MIN": Grid starts at the left or top of the frame
 /// "MAX": Grid starts at the right or bottom of the frame
@@ -1186,6 +1107,22 @@ pub enum Pattern {
 
     #[serde(rename = "ROWS")]
     Rows,
+}
+
+/// Where stroke is drawn relative to the vector outline as a string enum
+/// "INSIDE": draw stroke inside the shape boundary
+/// "OUTSIDE": draw stroke outside the shape boundary
+/// "CENTER": draw stroke centered along the shape boundary
+#[derive(Serialize, Deserialize)]
+pub enum StrokeAlign {
+    #[serde(rename = "CENTER")]
+    Center,
+
+    #[serde(rename = "INSIDE")]
+    Inside,
+
+    #[serde(rename = "OUTSIDE")]
+    Outside,
 }
 
 /// Horizontal text alignment as string enum

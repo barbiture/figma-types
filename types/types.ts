@@ -34,7 +34,7 @@ export interface Constraint {
 }
 
 /** A rectangle that expresses a bounding box in absolute coordinates */
-export interface Rectangle {
+export interface Rect {
   /** X coordinate of top left corner of the rectangle */
   x: number;
   /** Y coordinate of top left corner of the rectangle */

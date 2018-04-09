@@ -20,6 +20,62 @@ namespace quicktype {
     using nlohmann::json;
 
     /**
+     * Bounding box of the node in absolute space coordinates
+     *
+     * A rectangle that expresses a bounding box in absolute coordinates
+     */
+    struct Rect {
+        /**
+         * Height of the rectangle
+         */
+        double height;
+        /**
+         * Width of the rectangle
+         */
+        double width;
+        /**
+         * X coordinate of top left corner of the rectangle
+         */
+        double x;
+        /**
+         * Y coordinate of top left corner of the rectangle
+         */
+        double y;
+    };
+
+    /**
+     * Background color of the node
+     *
+     * An RGBA color
+     *
+     * Solid color of the paint
+     *
+     * Background color of the canvas
+     *
+     * Color attached to corresponding position
+     *
+     * Color of the grid
+     */
+    struct Color {
+        /**
+         * Alpha channel value, between 0 and 1
+         */
+        double a;
+        /**
+         * Blue channel value, between 0 and 1
+         */
+        double b;
+        /**
+         * Green channel value, between 0 and 1
+         */
+        double g;
+        /**
+         * Red channel value, between 0 and 1
+         */
+        double r;
+    };
+
+    /**
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      *
@@ -79,40 +135,6 @@ namespace quicktype {
     };
 
     /**
-     * Background color of the node
-     *
-     * An RGBA color
-     *
-     * Color of the grid
-     *
-     * Solid color of the paint
-     *
-     * Background color of the canvas
-     *
-     * Color attached to corresponding position
-     */
-    struct Color {
-        /**
-         * Alpha channel value, between 0 and 1
-         */
-        double a;
-        /**
-         * Blue channel value, between 0 and 1
-         */
-        double b;
-        /**
-         * Green channel value, between 0 and 1
-         */
-        double g;
-        /**
-         * Red channel value, between 0 and 1
-         */
-        double r;
-    };
-
-    /**
-     * 2d vector offset within the frame.
-     *
      * A 2d vector
      *
      * This field contains three vectors, each of which are a position in
@@ -123,6 +145,8 @@ namespace quicktype {
      * the second position is the end of the gradient (value 1), and the
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
+     *
+     * 2d vector offset within the frame.
      */
     struct Vector2 {
         /**
@@ -207,13 +231,13 @@ namespace quicktype {
     enum class Format { JPG, PNG, SVG };
 
     /**
-     * Format and size to export an asset at
-     *
      * An array of export settings representing images to export from node
      *
-     * An array of export settings representing images to export from this node
+     * Format and size to export an asset at
      *
      * An array of export settings representing images to export from the canvas
+     *
+     * An array of export settings representing images to export from this node
      */
     struct ExportSetting {
         /**
@@ -304,104 +328,6 @@ namespace quicktype {
     };
 
     /**
-     * Where stroke is drawn relative to the vector outline as a string enum
-     * "INSIDE": draw stroke inside the shape boundary
-     * "OUTSIDE": draw stroke outside the shape boundary
-     * "CENTER": draw stroke centered along the shape boundary
-     */
-    enum class StrokeAlign { CENTER, INSIDE, OUTSIDE };
-
-    /**
-     * the type of the node, refer to table below for details
-     */
-    enum class NodeType { BOOLEAN, CANVAS, COMPONENT, DOCUMENT, ELLIPSE, FRAME, GROUP, INSTANCE, LINE, RECTANGLE, REGULAR_POLYGON, SLICE, STAR, TEXT, VECTOR };
-
-    /**
-     * Bounding box of the node in absolute space coordinates
-     *
-     * A rectangle
-     */
-    struct Rectangle {
-        /**
-         * Bounding box of the node in absolute space coordinates
-         */
-        struct Rectangle absolute_bounding_box;
-        /**
-         * How this node blends with nodes behind it in the scene
-         * (see blend mode section for more details)
-         */
-        LendMode blend_mode;
-        /**
-         * Horizontal and vertical layout constraints for node
-         */
-        struct LayoutConstraint constraints;
-        /**
-         * Radius of each corner of the rectangle
-         */
-        double corner_radius;
-        /**
-         * An array of effects attached to this node
-         * (see effects sectionfor more details)
-         */
-        std::vector<struct Effect> effects;
-        /**
-         * An array of export settings representing images to export from node
-         */
-        std::vector<struct ExportSetting> export_settings;
-        /**
-         * An array of fill paints applied to the node
-         */
-        std::vector<struct Paint> fills;
-        /**
-         * a string uniquely identifying this node within the document
-         */
-        std::string id;
-        /**
-         * Does this node mask sibling nodes in front of it?
-         */
-        bool is_mask;
-        /**
-         * the name given to the node by the user in the tool.
-         */
-        std::string name;
-        /**
-         * Opacity of the node
-         */
-        double opacity;
-        /**
-         * Keep height and width constrained to same ratio
-         */
-        bool preserve_ratio;
-        /**
-         * Where stroke is drawn relative to the vector outline as a string enum
-         * "INSIDE": draw stroke inside the shape boundary
-         * "OUTSIDE": draw stroke outside the shape boundary
-         * "CENTER": draw stroke centered along the shape boundary
-         */
-        StrokeAlign stroke_align;
-        /**
-         * An array of stroke paints applied to the node
-         */
-        std::vector<struct Paint> strokes;
-        /**
-         * The weight of strokes on the node
-         */
-        double stroke_weight;
-        /**
-         * Node ID of node to transition to in prototyping
-         */
-        std::unique_ptr<std::string> transition_node_id;
-        /**
-         * the type of the node, refer to table below for details
-         */
-        NodeType type;
-        /**
-         * whether or not the node is visible on the canvas
-         */
-        bool visible;
-    };
-
-    /**
      * Positioning of grid as a string enum
      * "MIN": Grid starts at the left or top of the frame
      * "MAX": Grid starts at the right or bottom of the frame
@@ -463,6 +389,14 @@ namespace quicktype {
          */
         bool visible;
     };
+
+    /**
+     * Where stroke is drawn relative to the vector outline as a string enum
+     * "INSIDE": draw stroke inside the shape boundary
+     * "OUTSIDE": draw stroke outside the shape boundary
+     * "CENTER": draw stroke centered along the shape boundary
+     */
+    enum class StrokeAlign { CENTER, INSIDE, OUTSIDE };
 
     /**
      * Horizontal text alignment as string enum
@@ -530,6 +464,11 @@ namespace quicktype {
     };
 
     /**
+     * the type of the node, refer to table below for details
+     */
+    enum class NodeType { BOOLEAN, CANVAS, COMPONENT, DOCUMENT, ELLIPSE, FRAME, GROUP, INSTANCE, LINE, RECTANGLE, REGULAR_POLYGON, SLICE, STAR, TEXT, VECTOR };
+
+    /**
      * An array of nodes that are direct children of this node
      *
      * An array of nodes that are being boolean operated on
@@ -560,8 +499,6 @@ namespace quicktype {
      * An ellipse
      *
      * A regular n-sided polygon
-     *
-     * Bounding box of the node in absolute space coordinates
      *
      * A rectangle
      *
@@ -618,7 +555,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        std::unique_ptr<struct Rectangle> absolute_bounding_box;
+        std::unique_ptr<struct Rect> absolute_bounding_box;
         /**
          * How this node blends with nodes behind it in the scene
          * (see blend mode section for more details)
@@ -715,7 +652,7 @@ namespace quicktype {
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        struct Rectangle absolute_bounding_box;
+        struct Rect absolute_bounding_box;
         /**
          * Background color of the node
          */
@@ -848,8 +785,6 @@ namespace quicktype {
     };
 
     /**
-     * 2d vector offset within the frame.
-     *
      * A 2d vector
      *
      * This field contains three vectors, each of which are a position in
@@ -860,6 +795,8 @@ namespace quicktype {
      * the second position is the end of the gradient (value 1), and the
      * third handle position determines the width of the gradient (only
      * relevant for non-linear gradients).
+     *
+     * 2d vector offset within the frame.
      *
      * A relative offset within a frame
      */
@@ -1053,15 +990,19 @@ namespace nlohmann {
         }
     };
 
-    inline void from_json(const json& _j, struct quicktype::LayoutConstraint& _x) {
-        _x.horizontal = _j.at("horizontal").get<quicktype::Horizontal>();
-        _x.vertical = _j.at("vertical").get<quicktype::Vertical>();
+    inline void from_json(const json& _j, struct quicktype::Rect& _x) {
+        _x.height = _j.at("height").get<double>();
+        _x.width = _j.at("width").get<double>();
+        _x.x = _j.at("x").get<double>();
+        _x.y = _j.at("y").get<double>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::LayoutConstraint& _x) {
+    inline void to_json(json& _j, const struct quicktype::Rect& _x) {
         _j = json::object();
-        _j["horizontal"] = _x.horizontal;
-        _j["vertical"] = _x.vertical;
+        _j["height"] = _x.height;
+        _j["width"] = _x.width;
+        _j["x"] = _x.x;
+        _j["y"] = _x.y;
     }
 
     inline void from_json(const json& _j, struct quicktype::Color& _x) {
@@ -1077,6 +1018,17 @@ namespace nlohmann {
         _j["b"] = _x.b;
         _j["g"] = _x.g;
         _j["r"] = _x.r;
+    }
+
+    inline void from_json(const json& _j, struct quicktype::LayoutConstraint& _x) {
+        _x.horizontal = _j.at("horizontal").get<quicktype::Horizontal>();
+        _x.vertical = _j.at("vertical").get<quicktype::Vertical>();
+    }
+
+    inline void to_json(json& _j, const struct quicktype::LayoutConstraint& _x) {
+        _j = json::object();
+        _j["horizontal"] = _x.horizontal;
+        _j["vertical"] = _x.vertical;
     }
 
     inline void from_json(const json& _j, struct quicktype::Vector2& _x) {
@@ -1165,49 +1117,6 @@ namespace nlohmann {
         _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Rectangle& _x) {
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::LendMode>();
-        _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
-        _x.corner_radius = _j.at("cornerRadius").get<double>();
-        _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
-        _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
-        _x.fills = _j.at("fills").get<std::vector<struct quicktype::Paint>>();
-        _x.id = _j.at("id").get<std::string>();
-        _x.is_mask = _j.at("isMask").get<bool>();
-        _x.name = _j.at("name").get<std::string>();
-        _x.opacity = _j.at("opacity").get<double>();
-        _x.preserve_ratio = _j.at("preserveRatio").get<bool>();
-        _x.stroke_align = _j.at("strokeAlign").get<quicktype::StrokeAlign>();
-        _x.strokes = _j.at("strokes").get<std::vector<struct quicktype::Paint>>();
-        _x.stroke_weight = _j.at("strokeWeight").get<double>();
-        _x.transition_node_id = quicktype::get_optional<std::string>(_j, "transitionNodeID");
-        _x.type = _j.at("type").get<quicktype::NodeType>();
-        _x.visible = _j.at("visible").get<bool>();
-    }
-
-    inline void to_json(json& _j, const struct quicktype::Rectangle& _x) {
-        _j = json::object();
-        _j["absoluteBoundingBox"] = _x.absolute_bounding_box;
-        _j["blendMode"] = _x.blend_mode;
-        _j["constraints"] = _x.constraints;
-        _j["cornerRadius"] = _x.corner_radius;
-        _j["effects"] = _x.effects;
-        _j["exportSettings"] = _x.export_settings;
-        _j["fills"] = _x.fills;
-        _j["id"] = _x.id;
-        _j["isMask"] = _x.is_mask;
-        _j["name"] = _x.name;
-        _j["opacity"] = _x.opacity;
-        _j["preserveRatio"] = _x.preserve_ratio;
-        _j["strokeAlign"] = _x.stroke_align;
-        _j["strokes"] = _x.strokes;
-        _j["strokeWeight"] = _x.stroke_weight;
-        _j["transitionNodeID"] = _x.transition_node_id;
-        _j["type"] = _x.type;
-        _j["visible"] = _x.visible;
-    }
-
     inline void from_json(const json& _j, struct quicktype::LayoutGrid& _x) {
         _x.alignment = _j.at("alignment").get<quicktype::Alignment>();
         _x.color = _j.at("color").get<struct quicktype::Color>();
@@ -1268,7 +1177,7 @@ namespace nlohmann {
         _x.visible = _j.at("visible").get<bool>();
         _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
         _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
-        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rectangle>(_j, "absoluteBoundingBox");
+        _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rect>(_j, "absoluteBoundingBox");
         _x.blend_mode = quicktype::get_optional<quicktype::LendMode>(_j, "blendMode");
         _x.clips_content = quicktype::get_optional<bool>(_j, "clipsContent");
         _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
@@ -1322,7 +1231,7 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Component& _x) {
-        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rectangle>();
+        _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rect>();
         _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::LendMode>();
         _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
@@ -1669,6 +1578,38 @@ namespace nlohmann {
         }
     }
 
+    inline void from_json(const json& _j, quicktype::Alignment& _x) {
+        if (_j == "CENTER") _x = quicktype::Alignment::CENTER;
+        else if (_j == "MAX") _x = quicktype::Alignment::MAX;
+        else if (_j == "MIN") _x = quicktype::Alignment::MIN;
+        else throw "Input JSON does not conform to schema";
+    }
+
+    inline void to_json(json& _j, const quicktype::Alignment& _x) {
+        switch (_x) {
+            case quicktype::Alignment::CENTER: _j = "CENTER"; break;
+            case quicktype::Alignment::MAX: _j = "MAX"; break;
+            case quicktype::Alignment::MIN: _j = "MIN"; break;
+            default: throw "This should not happen";
+        }
+    }
+
+    inline void from_json(const json& _j, quicktype::Pattern& _x) {
+        if (_j == "COLUMNS") _x = quicktype::Pattern::COLUMNS;
+        else if (_j == "GRID") _x = quicktype::Pattern::GRID;
+        else if (_j == "ROWS") _x = quicktype::Pattern::ROWS;
+        else throw "Input JSON does not conform to schema";
+    }
+
+    inline void to_json(json& _j, const quicktype::Pattern& _x) {
+        switch (_x) {
+            case quicktype::Pattern::COLUMNS: _j = "COLUMNS"; break;
+            case quicktype::Pattern::GRID: _j = "GRID"; break;
+            case quicktype::Pattern::ROWS: _j = "ROWS"; break;
+            default: throw "This should not happen";
+        }
+    }
+
     inline void from_json(const json& _j, quicktype::StrokeAlign& _x) {
         if (_j == "CENTER") _x = quicktype::StrokeAlign::CENTER;
         else if (_j == "INSIDE") _x = quicktype::StrokeAlign::INSIDE;
@@ -1681,6 +1622,40 @@ namespace nlohmann {
             case quicktype::StrokeAlign::CENTER: _j = "CENTER"; break;
             case quicktype::StrokeAlign::INSIDE: _j = "INSIDE"; break;
             case quicktype::StrokeAlign::OUTSIDE: _j = "OUTSIDE"; break;
+            default: throw "This should not happen";
+        }
+    }
+
+    inline void from_json(const json& _j, quicktype::TextAlignHorizontal& _x) {
+        if (_j == "CENTER") _x = quicktype::TextAlignHorizontal::CENTER;
+        else if (_j == "JUSTIFIED") _x = quicktype::TextAlignHorizontal::JUSTIFIED;
+        else if (_j == "LEFT") _x = quicktype::TextAlignHorizontal::LEFT;
+        else if (_j == "RIGHT") _x = quicktype::TextAlignHorizontal::RIGHT;
+        else throw "Input JSON does not conform to schema";
+    }
+
+    inline void to_json(json& _j, const quicktype::TextAlignHorizontal& _x) {
+        switch (_x) {
+            case quicktype::TextAlignHorizontal::CENTER: _j = "CENTER"; break;
+            case quicktype::TextAlignHorizontal::JUSTIFIED: _j = "JUSTIFIED"; break;
+            case quicktype::TextAlignHorizontal::LEFT: _j = "LEFT"; break;
+            case quicktype::TextAlignHorizontal::RIGHT: _j = "RIGHT"; break;
+            default: throw "This should not happen";
+        }
+    }
+
+    inline void from_json(const json& _j, quicktype::TextAlignVertical& _x) {
+        if (_j == "BOTTOM") _x = quicktype::TextAlignVertical::BOTTOM;
+        else if (_j == "CENTER") _x = quicktype::TextAlignVertical::CENTER;
+        else if (_j == "TOP") _x = quicktype::TextAlignVertical::TOP;
+        else throw "Input JSON does not conform to schema";
+    }
+
+    inline void to_json(json& _j, const quicktype::TextAlignVertical& _x) {
+        switch (_x) {
+            case quicktype::TextAlignVertical::BOTTOM: _j = "BOTTOM"; break;
+            case quicktype::TextAlignVertical::CENTER: _j = "CENTER"; break;
+            case quicktype::TextAlignVertical::TOP: _j = "TOP"; break;
             default: throw "This should not happen";
         }
     }
@@ -1721,72 +1696,6 @@ namespace nlohmann {
             case quicktype::NodeType::STAR: _j = "STAR"; break;
             case quicktype::NodeType::TEXT: _j = "TEXT"; break;
             case quicktype::NodeType::VECTOR: _j = "VECTOR"; break;
-            default: throw "This should not happen";
-        }
-    }
-
-    inline void from_json(const json& _j, quicktype::Alignment& _x) {
-        if (_j == "CENTER") _x = quicktype::Alignment::CENTER;
-        else if (_j == "MAX") _x = quicktype::Alignment::MAX;
-        else if (_j == "MIN") _x = quicktype::Alignment::MIN;
-        else throw "Input JSON does not conform to schema";
-    }
-
-    inline void to_json(json& _j, const quicktype::Alignment& _x) {
-        switch (_x) {
-            case quicktype::Alignment::CENTER: _j = "CENTER"; break;
-            case quicktype::Alignment::MAX: _j = "MAX"; break;
-            case quicktype::Alignment::MIN: _j = "MIN"; break;
-            default: throw "This should not happen";
-        }
-    }
-
-    inline void from_json(const json& _j, quicktype::Pattern& _x) {
-        if (_j == "COLUMNS") _x = quicktype::Pattern::COLUMNS;
-        else if (_j == "GRID") _x = quicktype::Pattern::GRID;
-        else if (_j == "ROWS") _x = quicktype::Pattern::ROWS;
-        else throw "Input JSON does not conform to schema";
-    }
-
-    inline void to_json(json& _j, const quicktype::Pattern& _x) {
-        switch (_x) {
-            case quicktype::Pattern::COLUMNS: _j = "COLUMNS"; break;
-            case quicktype::Pattern::GRID: _j = "GRID"; break;
-            case quicktype::Pattern::ROWS: _j = "ROWS"; break;
-            default: throw "This should not happen";
-        }
-    }
-
-    inline void from_json(const json& _j, quicktype::TextAlignHorizontal& _x) {
-        if (_j == "CENTER") _x = quicktype::TextAlignHorizontal::CENTER;
-        else if (_j == "JUSTIFIED") _x = quicktype::TextAlignHorizontal::JUSTIFIED;
-        else if (_j == "LEFT") _x = quicktype::TextAlignHorizontal::LEFT;
-        else if (_j == "RIGHT") _x = quicktype::TextAlignHorizontal::RIGHT;
-        else throw "Input JSON does not conform to schema";
-    }
-
-    inline void to_json(json& _j, const quicktype::TextAlignHorizontal& _x) {
-        switch (_x) {
-            case quicktype::TextAlignHorizontal::CENTER: _j = "CENTER"; break;
-            case quicktype::TextAlignHorizontal::JUSTIFIED: _j = "JUSTIFIED"; break;
-            case quicktype::TextAlignHorizontal::LEFT: _j = "LEFT"; break;
-            case quicktype::TextAlignHorizontal::RIGHT: _j = "RIGHT"; break;
-            default: throw "This should not happen";
-        }
-    }
-
-    inline void from_json(const json& _j, quicktype::TextAlignVertical& _x) {
-        if (_j == "BOTTOM") _x = quicktype::TextAlignVertical::BOTTOM;
-        else if (_j == "CENTER") _x = quicktype::TextAlignVertical::CENTER;
-        else if (_j == "TOP") _x = quicktype::TextAlignVertical::TOP;
-        else throw "Input JSON does not conform to schema";
-    }
-
-    inline void to_json(json& _j, const quicktype::TextAlignVertical& _x) {
-        switch (_x) {
-            case quicktype::TextAlignVertical::BOTTOM: _j = "BOTTOM"; break;
-            case quicktype::TextAlignVertical::CENTER: _j = "CENTER"; break;
-            case quicktype::TextAlignVertical::TOP: _j = "TOP"; break;
             default: throw "This should not happen";
         }
     }

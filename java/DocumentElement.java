@@ -35,8 +35,6 @@ import com.fasterxml.jackson.annotation.*;
  *
  * A regular n-sided polygon
  *
- * Bounding box of the node in absolute space coordinates
- *
  * A rectangle
  *
  * A text box
@@ -56,7 +54,7 @@ public class DocumentElement {
     private boolean visible;
     private Color backgroundColor;
     private ExportSetting[] exportSettings;
-    private Rectangle absoluteBoundingBox;
+    private Rect absoluteBoundingBox;
     private LendMode blendMode;
     private Boolean clipsContent;
     private LayoutConstraint constraints;
@@ -149,9 +147,9 @@ public class DocumentElement {
      * Bounding box of the node in absolute space coordinates
      */
     @JsonProperty("absoluteBoundingBox")
-    public Rectangle getAbsoluteBoundingBox() { return absoluteBoundingBox; }
+    public Rect getAbsoluteBoundingBox() { return absoluteBoundingBox; }
     @JsonProperty("absoluteBoundingBox")
-    public void setAbsoluteBoundingBox(Rectangle value) { this.absoluteBoundingBox = value; }
+    public void setAbsoluteBoundingBox(Rect value) { this.absoluteBoundingBox = value; }
 
     /**
      * How this node blends with nodes behind it in the scene

@@ -4,8 +4,6 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * 2d vector offset within the frame.
- *
  * A 2d vector
  *
  * This field contains three vectors, each of which are a position in
@@ -16,6 +14,8 @@ import com.fasterxml.jackson.annotation.*;
  * the second position is the end of the gradient (value 1), and the
  * third handle position determines the width of the gradient (only
  * relevant for non-linear gradients).
+ *
+ * 2d vector offset within the frame.
  *
  * A relative offset within a frame
  */

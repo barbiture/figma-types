@@ -1,60 +1,25 @@
 // To parse this JSON:
 //
 //   NSError *error;
-//   FGFrameOffset *frameOffset = [FGFrameOffset fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGNode *node = [FGNode fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGVector *vector = [FGVector fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGColor *color = [FGColor fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGGlobal *global = [FGGlobal fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGColorStop *colorStop = [FGColorStop fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGLayoutConstraint *layoutConstraint = [FGLayoutConstraint fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGUser *user = [FGUser fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGText *text = [FGText fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGFrame *frame = [FGFrame fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGProjectSummary *projectSummary = [FGProjectSummary fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGRectangle *rectangle = [FGRectangle fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGVector2 *vector2 = [FGVector2 fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGLayoutGrid *layoutGrid = [FGLayoutGrid fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGCommentRequest *commentRequest = [FGCommentRequest fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGString *string = FGStringFromJSON(json, NSUTF8Encoding, &error);
-//   FGEffect *effect = [FGEffect fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGSlice *slice = [FGSlice fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGStar *star = [FGStar fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGLine *line = [FGLine fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGBlendMode *blendMode = FGBlendModeFromJSON(json, NSUTF8Encoding, &error);
-//   FGVectorBase *vectorBase = [FGVectorBase fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGInstance *instance = [FGInstance fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGCommentsResponse *commentsResponse = [FGCommentsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGTypeStyle *typeStyle = [FGTypeStyle fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGBooleanGroup *booleanGroup = [FGBooleanGroup fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGCanvas *canvas = [FGCanvas fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGDocument *document = [FGDocument fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGProjectsResponse *projectsResponse = [FGProjectsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGNodeType *nodeType = FGNodeTypeFromJSON(json, NSUTF8Encoding, &error);
-//   FGExportSetting *exportSetting = [FGExportSetting fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGComponent *component = [FGComponent fromJSON:json encoding:NSUTF8Encoding error:&error];
 //   FGFileResponse *fileResponse = [FGFileResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGConstraint *constraint = [FGConstraint fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGPaint *paint = [FGPaint fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGFrameBase *frameBase = [FGFrameBase fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGRegularPolygon *regularPolygon = [FGRegularPolygon fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGEllipse *ellipse = [FGEllipse fromJSON:json encoding:NSUTF8Encoding error:&error];
+//   FGCommentsResponse *commentsResponse = [FGCommentsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
+//   FGCommentRequest *commentRequest = [FGCommentRequest fromJSON:json encoding:NSUTF8Encoding error:&error];
+//   FGProjectsResponse *projectsResponse = [FGProjectsResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
 //   FGProjectFilesResponse *projectFilesResponse = [FGProjectFilesResponse fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGComment *comment = [FGComment fromJSON:json encoding:NSUTF8Encoding error:&error];
-//   FGGroup *group = [FGGroup fromJSON:json encoding:NSUTF8Encoding error:&error];
 
 #import <Foundation/Foundation.h>
 
-@class FGFrameOffset;
-@class FGVector2;
-@class FGVector;
-@class FGRectangle;
-@class FGBlendMode;
+@class FGFileResponse;
+@class FGComponent;
+@class FGRect;
+@class FGColor;
+@class FGLendMode;
+@class FGDocumentElement;
 @class FGLayoutConstraint;
 @class FGHorizontal;
 @class FGVertical;
 @class FGEffect;
-@class FGColor;
+@class FGVector2;
 @class FGEffectType;
 @class FGExportSetting;
 @class FGConstraint;
@@ -63,42 +28,24 @@
 @class FGPaint;
 @class FGColorStop;
 @class FGPaintType;
-@class FGStrokeAlign;
-@class FGNodeType;
-@class FGGlobal;
-@class FGText;
-@class FGTypeStyle;
-@class FGTextAlignHorizontal;
-@class FGTextAlignVertical;
-@class FGFrame;
-@class FGNode;
 @class FGLayoutGrid;
 @class FGAlignment;
 @class FGPattern;
-@class FGProjectSummary;
-@class FGCommentRequest;
-@class FGClientMeta;
-@class FGSlice;
-@class FGStar;
-@class FGLine;
-@class FGVectorBase;
-@class FGInstance;
+@class FGStrokeAlign;
+@class FGTypeStyle;
+@class FGTextAlignHorizontal;
+@class FGTextAlignVertical;
+@class FGNodeType;
+@class FGFileResponseDocument;
 @class FGCommentsResponse;
 @class FGComment;
+@class FGClientMeta;
 @class FGUser;
-@class FGBooleanGroup;
-@class FGCanvas;
+@class FGCommentRequest;
 @class FGProjectsResponse;
 @class FGProject;
-@class FGFileResponse;
-@class FGComponent;
-@class FGDocument;
-@class FGFrameBase;
-@class FGRegularPolygon;
-@class FGEllipse;
 @class FGProjectFilesResponse;
 @class FGFile;
-@class FGGroup;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -109,28 +56,28 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Enum describing how layer blends with layers below
 /// This type is a string enum with the following possible values
-@interface FGBlendMode : NSObject
+@interface FGLendMode : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (FGBlendMode *)color;
-+ (FGBlendMode *)colorBurn;
-+ (FGBlendMode *)colorDodge;
-+ (FGBlendMode *)darken;
-+ (FGBlendMode *)difference;
-+ (FGBlendMode *)exclusion;
-+ (FGBlendMode *)hardLight;
-+ (FGBlendMode *)hue;
-+ (FGBlendMode *)lighten;
-+ (FGBlendMode *)linearBurn;
-+ (FGBlendMode *)linearDodge;
-+ (FGBlendMode *)luminosity;
-+ (FGBlendMode *)multiply;
-+ (FGBlendMode *)normal;
-+ (FGBlendMode *)overlay;
-+ (FGBlendMode *)passThrough;
-+ (FGBlendMode *)saturation;
-+ (FGBlendMode *)screen;
-+ (FGBlendMode *)softLight;
++ (FGLendMode *)color;
++ (FGLendMode *)colorBurn;
++ (FGLendMode *)colorDodge;
++ (FGLendMode *)darken;
++ (FGLendMode *)difference;
++ (FGLendMode *)exclusion;
++ (FGLendMode *)hardLight;
++ (FGLendMode *)hue;
++ (FGLendMode *)lighten;
++ (FGLendMode *)linearBurn;
++ (FGLendMode *)linearDodge;
++ (FGLendMode *)luminosity;
++ (FGLendMode *)multiply;
++ (FGLendMode *)normal;
++ (FGLendMode *)overlay;
++ (FGLendMode *)passThrough;
++ (FGLendMode *)saturation;
++ (FGLendMode *)screen;
++ (FGLendMode *)softLight;
 @end
 
 /// Horizontal constraint as an enum
@@ -211,58 +158,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (FGPaintType *)solid;
 @end
 
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@interface FGStrokeAlign : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (FGStrokeAlign *)center;
-+ (FGStrokeAlign *)inside;
-+ (FGStrokeAlign *)outside;
-@end
-
-/// the type of the node, refer to table below for details
-@interface FGNodeType : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (FGNodeType *)boolean;
-+ (FGNodeType *)canvas;
-+ (FGNodeType *)component;
-+ (FGNodeType *)document;
-+ (FGNodeType *)ellipse;
-+ (FGNodeType *)frame;
-+ (FGNodeType *)group;
-+ (FGNodeType *)instance;
-+ (FGNodeType *)line;
-+ (FGNodeType *)rectangle;
-+ (FGNodeType *)regularPolygon;
-+ (FGNodeType *)slice;
-+ (FGNodeType *)star;
-+ (FGNodeType *)text;
-+ (FGNodeType *)vector;
-@end
-
-/// Horizontal text alignment as string enum
-@interface FGTextAlignHorizontal : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (FGTextAlignHorizontal *)center;
-+ (FGTextAlignHorizontal *)justified;
-+ (FGTextAlignHorizontal *)left;
-+ (FGTextAlignHorizontal *)right;
-@end
-
-/// Vertical text alignment as string enum
-@interface FGTextAlignVertical : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (FGTextAlignVertical *)bottom;
-+ (FGTextAlignVertical *)center;
-+ (FGTextAlignVertical *)top;
-@end
-
 /// Positioning of grid as a string enum
 /// "MIN": Grid starts at the left or top of the frame
 /// "MAX": Grid starts at the right or bottom of the frame
@@ -287,37 +182,85 @@ NS_ASSUME_NONNULL_BEGIN
 + (FGPattern *)rows;
 @end
 
-typedef NSArray<NSString *> FGString;
+/// Where stroke is drawn relative to the vector outline as a string enum
+/// "INSIDE": draw stroke inside the shape boundary
+/// "OUTSIDE": draw stroke outside the shape boundary
+/// "CENTER": draw stroke centered along the shape boundary
+@interface FGStrokeAlign : NSObject
+@property (nonatomic, readonly, copy) NSString *value;
++ (instancetype _Nullable)withValue:(NSString *)value;
++ (FGStrokeAlign *)center;
++ (FGStrokeAlign *)inside;
++ (FGStrokeAlign *)outside;
+@end
 
-typedef FGBlendMode FGBlendMode;
+/// Horizontal text alignment as string enum
+@interface FGTextAlignHorizontal : NSObject
+@property (nonatomic, readonly, copy) NSString *value;
++ (instancetype _Nullable)withValue:(NSString *)value;
++ (FGTextAlignHorizontal *)center;
++ (FGTextAlignHorizontal *)justified;
++ (FGTextAlignHorizontal *)left;
++ (FGTextAlignHorizontal *)right;
+@end
 
-typedef FGNodeType FGNodeType;
+/// Vertical text alignment as string enum
+@interface FGTextAlignVertical : NSObject
+@property (nonatomic, readonly, copy) NSString *value;
++ (instancetype _Nullable)withValue:(NSString *)value;
++ (FGTextAlignVertical *)bottom;
++ (FGTextAlignVertical *)center;
++ (FGTextAlignVertical *)top;
+@end
 
-#pragma mark - Top-level marshaling functions
-
-FGString *_Nullable FGStringFromData(NSData *data, NSError **error);
-FGString *_Nullable FGStringFromJSON(NSString *json, NSStringEncoding encoding, NSError **error);
-NSData   *_Nullable FGStringToData(FGString *string, NSError **error);
-NSString *_Nullable FGStringToJSON(FGString *string, NSStringEncoding encoding, NSError **error);
-
-FGBlendMode *_Nullable FGBlendModeFromData(NSData *data, NSError **error);
-FGBlendMode *_Nullable FGBlendModeFromJSON(NSString *json, NSStringEncoding encoding, NSError **error);
-NSData      *_Nullable FGBlendModeToData(FGBlendMode *blendMode, NSError **error);
-NSString    *_Nullable FGBlendModeToJSON(FGBlendMode *blendMode, NSStringEncoding encoding, NSError **error);
-
-FGNodeType *_Nullable FGNodeTypeFromData(NSData *data, NSError **error);
-FGNodeType *_Nullable FGNodeTypeFromJSON(NSString *json, NSStringEncoding encoding, NSError **error);
-NSData     *_Nullable FGNodeTypeToData(FGNodeType *nodeType, NSError **error);
-NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding encoding, NSError **error);
+/// the type of the node, refer to table below for details
+@interface FGNodeType : NSObject
+@property (nonatomic, readonly, copy) NSString *value;
++ (instancetype _Nullable)withValue:(NSString *)value;
++ (FGNodeType *)boolean;
++ (FGNodeType *)canvas;
++ (FGNodeType *)component;
++ (FGNodeType *)document;
++ (FGNodeType *)ellipse;
++ (FGNodeType *)frame;
++ (FGNodeType *)group;
++ (FGNodeType *)instance;
++ (FGNodeType *)line;
++ (FGNodeType *)rectangle;
++ (FGNodeType *)regularPolygon;
++ (FGNodeType *)slice;
++ (FGNodeType *)star;
++ (FGNodeType *)text;
++ (FGNodeType *)vector;
+@end
 
 #pragma mark - Object interfaces
 
-/// A relative offset within a frame
-@interface FGFrameOffset : NSObject
-/// Unique id specifying the frame.
-@property (nonatomic, copy) NSArray<NSString *> *nodeID;
-/// 2d vector offset within the frame.
-@property (nonatomic, strong) FGVector2 *nodeOffset;
+/// GET /v1/files/:key
+///
+/// > Description
+///
+/// Returns the document refered to by :key as a JSON object. The file key can be parsed from
+/// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
+/// contains a Node of type DOCUMENT.
+///
+/// The "components" key contains a mapping from node IDs to component metadata. This is to
+/// help you determine which components each instance comes from. Currently the only piece of
+/// metadata available on components is the name of the component, but more properties will
+/// be forthcoming.
+///
+/// > Path parameters
+///
+/// key String
+/// File to export JSON from
+@interface FGFileResponse : NSObject
+/// A mapping from node IDs to component metadata. This is to help you determine which
+/// components each instance comes from. Currently the only piece of metadata available on
+/// components is the name of the component, but more properties will be forthcoming.
+@property (nonatomic, copy) NSDictionary<NSString *, FGComponent *> *components;
+/// The root node within the document
+@property (nonatomic, strong) FGFileResponseDocument *document;
+@property (nonatomic, assign) double schemaVersion;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
@@ -325,427 +268,17 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error;
 @end
 
-/// A 2d vector
-///
-/// 2d vector offset within the frame.
-///
-/// This field contains three vectors, each of which are a position in
-/// normalized object space (normalized object space is if the top left
-/// corner of the bounding box of the object is (0, 0) and the bottom
-/// right is (1,1)). The first position corresponds to the start of the
-/// gradient (value 0 for the purposes of calculating gradient stops),
-/// the second position is the end of the gradient (value 1), and the
-/// third handle position determines the width of the gradient (only
-/// relevant for non-linear gradients).
-@interface FGVector2 : NSObject
-/// X coordinate of the vector
-@property (nonatomic, assign) double x;
-/// Y coordinate of the vector
-@property (nonatomic, assign) double y;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// A vector network, consisting of vertices and edges
-@interface FGVector : NSObject
+/// A node that can have instances created of it that share the same properties
+@interface FGComponent : NSObject
 /// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// Bounding box of the node in absolute space coordinates
-///
-/// A rectangle
-@interface FGRectangle : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// Radius of each corner of the rectangle
-@property (nonatomic, assign) double cornerRadius;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// Horizontal and vertical layout constraints for node
-///
-/// Layout constraint relative to containing Frame
-@interface FGLayoutConstraint : NSObject
-/// Horizontal constraint as an enum
-/// "LEFT": Node is laid out relative to left of the containing frame
-/// "RIGHT": Node is laid out relative to right of the containing frame
-/// "CENTER": Node is horizontally centered relative to containing frame
-/// "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
-/// (node stretches with frame)
-/// "SCALE": Node scales horizontally with containing frame
-@property (nonatomic, assign) FGHorizontal *horizontal;
-/// Vertical constraint as an enum
-/// "TOP": Node is laid out relative to top of the containing frame
-/// "BOTTOM": Node is laid out relative to bottom of the containing frame
-/// "CENTER": Node is vertically centered relative to containing frame
-/// "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
-/// (node stretches with frame)
-/// "SCALE": Node scales vertically with containing frame
-@property (nonatomic, assign) FGVertical *vertical;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-///
-/// A visual effect such as a shadow or blur
-@interface FGEffect : NSObject
-/// Enum describing how layer blends with layers below
-/// This type is a string enum with the following possible values
-@property (nonatomic, nullable, assign) FGBlendMode *blendMode;
-/// An RGBA color
-@property (nonatomic, nullable, strong) FGColor *color;
-/// A 2d vector
-@property (nonatomic, nullable, strong) FGVector2 *offset;
-/// Radius of the blur effect (applies to shadows as well)
-@property (nonatomic, assign) double radius;
-/// Type of effect as a string enum
-@property (nonatomic, assign) FGEffectType *type;
-/// Is the effect active?
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// Background color of the node
-///
-/// An RGBA color
-///
-/// Color of the grid
-///
-/// Solid color of the paint
-///
-/// Color attached to corresponding position
-///
-/// Background color of the canvas
-@interface FGColor : NSObject
-/// Alpha channel value, between 0 and 1
-@property (nonatomic, assign) double a;
-/// Blue channel value, between 0 and 1
-@property (nonatomic, assign) double b;
-/// Green channel value, between 0 and 1
-@property (nonatomic, assign) double g;
-/// Red channel value, between 0 and 1
-@property (nonatomic, assign) double r;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// An array of export settings representing images to export from node
-///
-/// Format and size to export an asset at
-///
-/// An array of export settings representing images to export from this node
-///
-/// An array of export settings representing images to export from the canvas
-@interface FGExportSetting : NSObject
-/// Constraint that determines sizing of exported asset
-@property (nonatomic, strong) FGConstraint *constraint;
-/// Image type, string enum
-@property (nonatomic, assign) FGFormat *format;
-/// File suffix to append to all filenames
-@property (nonatomic, copy) NSString *suffix;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// Constraint that determines sizing of exported asset
-///
-/// Sizing constraint for exports
-@interface FGConstraint : NSObject
-/// Type of constraint to apply; string enum with potential values below
-/// "SCALE": Scale by value
-/// "WIDTH": Scale proportionally and set width to value
-/// "HEIGHT": Scale proportionally and set height to value
-@property (nonatomic, assign) FGConstraintType *type;
-/// See type property for effect of this field
-@property (nonatomic, assign) double value;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// An array of fill paints applied to the node
-///
-/// A solid color, gradient, or image texture that can be applied as fills or strokes
-///
-/// An array of stroke paints applied to the node
-///
-/// Paints applied to characters
-@interface FGPaint : NSObject
-/// Solid color of the paint
-@property (nonatomic, nullable, strong) FGColor *color;
-/// This field contains three vectors, each of which are a position in
-/// normalized object space (normalized object space is if the top left
-/// corner of the bounding box of the object is (0, 0) and the bottom
-/// right is (1,1)). The first position corresponds to the start of the
-/// gradient (value 0 for the purposes of calculating gradient stops),
-/// the second position is the end of the gradient (value 1), and the
-/// third handle position determines the width of the gradient (only
-/// relevant for non-linear gradients).
-@property (nonatomic, nullable, copy) NSArray<FGVector2 *> *gradientHandlePositions;
-/// Positions of key points along the gradient axis with the colors
-/// anchored there. Colors along the gradient are interpolated smoothly
-/// between neighboring gradient stops.
-@property (nonatomic, nullable, copy) NSArray<FGColorStop *> *gradientStops;
-/// Overall opacity of paint (colors within the paint can also have opacity
-/// values which would blend with this)
-@property (nonatomic, assign) double opacity;
-/// Image scaling mode
-@property (nonatomic, nullable, copy) NSString *scaleMode;
-/// Type of paint as a string enum
-@property (nonatomic, assign) FGPaintType *type;
-/// Is the paint enabled?
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// Positions of key points along the gradient axis with the colors
-/// anchored there. Colors along the gradient are interpolated smoothly
-/// between neighboring gradient stops.
-///
-/// A position color pair representing a gradient stop
-@interface FGColorStop : NSObject
-/// Color attached to corresponding position
-@property (nonatomic, strong) FGColor *color;
-/// Value between 0 and 1 representing position along gradient axis
-@property (nonatomic, assign) double position;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-@interface FGGlobal : NSObject
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// A text box
-@interface FGText : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// Text contained within text box
-@property (nonatomic, copy) NSString *characters;
-/// Array with same number of elements as characeters in text box,
-/// each element is a reference to the styleOverrideTable defined
-/// below and maps to the corresponding character in the characters
-/// field. Elements with value 0 have the default type style
-@property (nonatomic, copy) NSArray<NSNumber *> *characterStyleOverrides;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Style of text including font family and weight (see type style
-/// section for more information)
-@property (nonatomic, strong) FGTypeStyle *style;
-/// Map from ID to TypeStyle for looking up style overrides
-@property (nonatomic, copy) NSArray<FGTypeStyle *> *styleOverrideTable;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// Map from ID to TypeStyle for looking up style overrides
-///
-/// Metadata for character formatting
-///
-/// Style of text including font family and weight (see type style
-/// section for more information)
-@interface FGTypeStyle : NSObject
-/// Paints applied to characters
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// Font family of text (standard name)
-@property (nonatomic, copy) NSString *fontFamily;
-/// PostScript font name
-@property (nonatomic, copy) NSString *fontPostScriptName;
-/// Font size in px
-@property (nonatomic, assign) double fontSize;
-/// Numeric font weight
-@property (nonatomic, assign) double fontWeight;
-/// Is text italicized?
-@property (nonatomic, assign) BOOL isItalic;
-/// Space between characters in px
-@property (nonatomic, assign) double letterSpacing;
-/// Line height as a percentage of normal line height
-@property (nonatomic, assign) double lineHeightPercent;
-/// Line height in px
-@property (nonatomic, assign) double lineHeightPx;
-/// Horizontal text alignment as string enum
-@property (nonatomic, assign) FGTextAlignHorizontal *textAlignHorizontal;
-/// Vertical text alignment as string enum
-@property (nonatomic, assign) FGTextAlignVertical *textAlignVertical;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// A node of fixed size containing other nodes
-@interface FGFrame : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
+@property (nonatomic, strong) FGRect *absoluteBoundingBox;
 /// Background color of the node
 @property (nonatomic, strong) FGColor *backgroundColor;
 /// How this node blends with nodes behind it in the scene
 /// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
+@property (nonatomic, assign) FGLendMode *blendMode;
 /// An array of nodes that are direct children of this node
-@property (nonatomic, copy) NSArray<FGNode *> *children;
+@property (nonatomic, copy) NSArray<FGDocumentElement *> *children;
 /// Does this node clip content outside of its bounds?
 @property (nonatomic, assign) BOOL isClipsContent;
 /// Horizontal and vertical layout constraints for node
@@ -774,11 +307,42 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 @property (nonatomic, assign) FGNodeType *type;
 /// whether or not the node is visible on the canvas
 @property (nonatomic, assign) BOOL isVisible;
+@end
 
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+/// Bounding box of the node in absolute space coordinates
+///
+/// A rectangle that expresses a bounding box in absolute coordinates
+@interface FGRect : NSObject
+/// Height of the rectangle
+@property (nonatomic, assign) double height;
+/// Width of the rectangle
+@property (nonatomic, assign) double width;
+/// X coordinate of top left corner of the rectangle
+@property (nonatomic, assign) double x;
+/// Y coordinate of top left corner of the rectangle
+@property (nonatomic, assign) double y;
+@end
+
+/// Background color of the node
+///
+/// An RGBA color
+///
+/// Solid color of the paint
+///
+/// Background color of the canvas
+///
+/// Color attached to corresponding position
+///
+/// Color of the grid
+@interface FGColor : NSObject
+/// Alpha channel value, between 0 and 1
+@property (nonatomic, assign) double a;
+/// Blue channel value, between 0 and 1
+@property (nonatomic, assign) double b;
+/// Green channel value, between 0 and 1
+@property (nonatomic, assign) double g;
+/// Red channel value, between 0 and 1
+@property (nonatomic, assign) double r;
 @end
 
 /// An array of nodes that are direct children of this node
@@ -789,10 +353,10 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 ///
 /// An array of canvases attached to the document
 ///
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 ///
 /// Represents a single page
 ///
@@ -812,8 +376,6 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 ///
 /// A regular n-sided polygon
 ///
-/// Bounding box of the node in absolute space coordinates
-///
 /// A rectangle
 ///
 /// A text box
@@ -824,7 +386,7 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
-@interface FGNode : NSObject
+@interface FGDocumentElement : NSObject
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -832,7 +394,7 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 /// An array of nodes that are direct children of this node
 ///
 /// An array of nodes that are being boolean operated on
-@property (nonatomic, nullable, copy) NSArray<FGNode *> *children;
+@property (nonatomic, nullable, copy) NSArray<FGDocumentElement *> *children;
 /// a string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// the name given to the node by the user in the tool.
@@ -852,10 +414,10 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 /// An array of export settings representing images to export from this node
 @property (nonatomic, nullable, copy) NSArray<FGExportSetting *> *exportSettings;
 /// Bounding box of the node in absolute space coordinates
-@property (nonatomic, nullable, strong) FGRectangle *absoluteBoundingBox;
+@property (nonatomic, nullable, strong) FGRect *absoluteBoundingBox;
 /// How this node blends with nodes behind it in the scene
 /// (see blend mode section for more details)
-@property (nonatomic, nullable, assign) FGBlendMode *blendMode;
+@property (nonatomic, nullable, assign) FGLendMode *blendMode;
 /// Does this node clip content outside of its bounds?
 @property (nonatomic, nullable, strong) NSNumber *clipsContent;
 /// Horizontal and vertical layout constraints for node
@@ -902,11 +464,142 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 /// ID of component that this instance came from, refers to components
 /// table (see endpoints section below)
 @property (nonatomic, nullable, copy) NSString *componentID;
+@end
 
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+/// Horizontal and vertical layout constraints for node
+///
+/// Layout constraint relative to containing Frame
+@interface FGLayoutConstraint : NSObject
+/// Horizontal constraint as an enum
+/// "LEFT": Node is laid out relative to left of the containing frame
+/// "RIGHT": Node is laid out relative to right of the containing frame
+/// "CENTER": Node is horizontally centered relative to containing frame
+/// "LEFT_RIGHT": Both left and right of node are constrained relative to containing frame
+/// (node stretches with frame)
+/// "SCALE": Node scales horizontally with containing frame
+@property (nonatomic, assign) FGHorizontal *horizontal;
+/// Vertical constraint as an enum
+/// "TOP": Node is laid out relative to top of the containing frame
+/// "BOTTOM": Node is laid out relative to bottom of the containing frame
+/// "CENTER": Node is vertically centered relative to containing frame
+/// "TOP_BOTTOM": Both top and bottom of node are constrained relative to containing frame
+/// (node stretches with frame)
+/// "SCALE": Node scales vertically with containing frame
+@property (nonatomic, assign) FGVertical *vertical;
+@end
+
+/// An array of effects attached to this node
+/// (see effects sectionfor more details)
+///
+/// A visual effect such as a shadow or blur
+@interface FGEffect : NSObject
+/// Enum describing how layer blends with layers below
+/// This type is a string enum with the following possible values
+@property (nonatomic, nullable, assign) FGLendMode *blendMode;
+/// An RGBA color
+@property (nonatomic, nullable, strong) FGColor *color;
+/// A 2d vector
+@property (nonatomic, nullable, strong) FGVector2 *offset;
+/// Radius of the blur effect (applies to shadows as well)
+@property (nonatomic, assign) double radius;
+/// Type of effect as a string enum
+@property (nonatomic, assign) FGEffectType *type;
+/// Is the effect active?
+@property (nonatomic, assign) BOOL isVisible;
+@end
+
+/// A 2d vector
+///
+/// This field contains three vectors, each of which are a position in
+/// normalized object space (normalized object space is if the top left
+/// corner of the bounding box of the object is (0, 0) and the bottom
+/// right is (1,1)). The first position corresponds to the start of the
+/// gradient (value 0 for the purposes of calculating gradient stops),
+/// the second position is the end of the gradient (value 1), and the
+/// third handle position determines the width of the gradient (only
+/// relevant for non-linear gradients).
+///
+/// 2d vector offset within the frame.
+@interface FGVector2 : NSObject
+/// X coordinate of the vector
+@property (nonatomic, assign) double x;
+/// Y coordinate of the vector
+@property (nonatomic, assign) double y;
+@end
+
+/// An array of export settings representing images to export from node
+///
+/// Format and size to export an asset at
+///
+/// An array of export settings representing images to export from the canvas
+///
+/// An array of export settings representing images to export from this node
+@interface FGExportSetting : NSObject
+/// Constraint that determines sizing of exported asset
+@property (nonatomic, strong) FGConstraint *constraint;
+/// Image type, string enum
+@property (nonatomic, assign) FGFormat *format;
+/// File suffix to append to all filenames
+@property (nonatomic, copy) NSString *suffix;
+@end
+
+/// Constraint that determines sizing of exported asset
+///
+/// Sizing constraint for exports
+@interface FGConstraint : NSObject
+/// Type of constraint to apply; string enum with potential values below
+/// "SCALE": Scale by value
+/// "WIDTH": Scale proportionally and set width to value
+/// "HEIGHT": Scale proportionally and set height to value
+@property (nonatomic, assign) FGConstraintType *type;
+/// See type property for effect of this field
+@property (nonatomic, assign) double value;
+@end
+
+/// An array of fill paints applied to the node
+///
+/// A solid color, gradient, or image texture that can be applied as fills or strokes
+///
+/// An array of stroke paints applied to the node
+///
+/// Paints applied to characters
+@interface FGPaint : NSObject
+/// Solid color of the paint
+@property (nonatomic, nullable, strong) FGColor *color;
+/// This field contains three vectors, each of which are a position in
+/// normalized object space (normalized object space is if the top left
+/// corner of the bounding box of the object is (0, 0) and the bottom
+/// right is (1,1)). The first position corresponds to the start of the
+/// gradient (value 0 for the purposes of calculating gradient stops),
+/// the second position is the end of the gradient (value 1), and the
+/// third handle position determines the width of the gradient (only
+/// relevant for non-linear gradients).
+@property (nonatomic, nullable, copy) NSArray<FGVector2 *> *gradientHandlePositions;
+/// Positions of key points along the gradient axis with the colors
+/// anchored there. Colors along the gradient are interpolated smoothly
+/// between neighboring gradient stops.
+@property (nonatomic, nullable, copy) NSArray<FGColorStop *> *gradientStops;
+/// Overall opacity of paint (colors within the paint can also have opacity
+/// values which would blend with this)
+@property (nonatomic, assign) double opacity;
+/// Image scaling mode
+@property (nonatomic, nullable, copy) NSString *scaleMode;
+/// Type of paint as a string enum
+@property (nonatomic, assign) FGPaintType *type;
+/// Is the paint enabled?
+@property (nonatomic, assign) BOOL isVisible;
+@end
+
+/// Positions of key points along the gradient axis with the colors
+/// anchored there. Colors along the gradient are interpolated smoothly
+/// between neighboring gradient stops.
+///
+/// A position color pair representing a gradient stop
+@interface FGColorStop : NSObject
+/// Color attached to corresponding position
+@property (nonatomic, strong) FGColor *color;
+/// Value between 0 and 1 representing position along gradient axis
+@property (nonatomic, assign) double position;
 @end
 
 /// An array of layout grids attached to this node (see layout grids section
@@ -936,292 +629,54 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 @property (nonatomic, assign) double sectionSize;
 /// Is the grid currently visible?
 @property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
 @end
 
-@interface FGProjectSummary : NSObject
-@property (nonatomic, copy) NSString *identifier;
-@property (nonatomic, copy) NSString *name;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// POST /v1/files/:key/comments
+/// Map from ID to TypeStyle for looking up style overrides
 ///
-/// > Description
-/// Posts a new comment on the file.
+/// Metadata for character formatting
 ///
-/// > Path parameters
-/// key String
-/// File to get comments from
-///
-/// > Body parameters
-/// message String
-/// The text contents of the comment to post
-///
-/// client_meta Vector2 | FrameOffset
-/// The position of where to place the comment. This can either be an absolute canvas
-/// position or the relative position within a frame.
-///
-/// > Return value
-/// The Comment that was successfully posted
-///
-/// > Error codes
-/// 404 The specified file was not found
-@interface FGCommentRequest : NSObject
-@property (nonatomic, strong) FGClientMeta *clientMeta;
-@property (nonatomic, copy)   NSString *message;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// A 2d vector
-///
-/// 2d vector offset within the frame.
-///
-/// This field contains three vectors, each of which are a position in
-/// normalized object space (normalized object space is if the top left
-/// corner of the bounding box of the object is (0, 0) and the bottom
-/// right is (1,1)). The first position corresponds to the start of the
-/// gradient (value 0 for the purposes of calculating gradient stops),
-/// the second position is the end of the gradient (value 1), and the
-/// third handle position determines the width of the gradient (only
-/// relevant for non-linear gradients).
-///
-/// A relative offset within a frame
-@interface FGClientMeta : NSObject
-/// X coordinate of the vector
-@property (nonatomic, nullable, strong) NSNumber *x;
-/// Y coordinate of the vector
-@property (nonatomic, nullable, strong) NSNumber *y;
-/// Unique id specifying the frame.
-@property (nonatomic, nullable, copy) NSArray<NSString *> *nodeID;
-/// 2d vector offset within the frame.
-@property (nonatomic, nullable, strong) FGVector2 *nodeOffset;
-@end
-
-/// A rectangular region of the canvas that can be exported
-@interface FGSlice : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// An array of export settings representing images to export from this node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// A regular star shape
-@interface FGStar : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
+/// Style of text including font family and weight (see type style
+/// section for more information)
+@interface FGTypeStyle : NSObject
+/// Paints applied to characters
 @property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+/// Font family of text (standard name)
+@property (nonatomic, copy) NSString *fontFamily;
+/// PostScript font name
+@property (nonatomic, copy) NSString *fontPostScriptName;
+/// Font size in px
+@property (nonatomic, assign) double fontSize;
+/// Numeric font weight
+@property (nonatomic, assign) double fontWeight;
+/// Is text italicized?
+@property (nonatomic, assign) BOOL isItalic;
+/// Space between characters in px
+@property (nonatomic, assign) double letterSpacing;
+/// Line height as a percentage of normal line height
+@property (nonatomic, assign) double lineHeightPercent;
+/// Line height in px
+@property (nonatomic, assign) double lineHeightPx;
+/// Horizontal text alignment as string enum
+@property (nonatomic, assign) FGTextAlignHorizontal *textAlignHorizontal;
+/// Vertical text alignment as string enum
+@property (nonatomic, assign) FGTextAlignVertical *textAlignVertical;
 @end
 
-/// A straight line
-@interface FGLine : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
+/// Node Properties
+/// The root node
+///
+/// The root node within the document
+@interface FGFileResponseDocument : NSObject
+/// An array of canvases attached to the document
+@property (nonatomic, copy) NSArray<FGDocumentElement *> *children;
 /// a string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
 /// the name given to the node by the user in the tool.
 @property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
 /// the type of the node, refer to table below for details
 @property (nonatomic, assign) FGNodeType *type;
 /// whether or not the node is visible on the canvas
 @property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-@interface FGVectorBase : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// An instance of a component, changes to the component result in the same
-/// changes applied to the instance
-@interface FGInstance : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// Background color of the node
-@property (nonatomic, strong) FGColor *backgroundColor;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// An array of nodes that are direct children of this node
-@property (nonatomic, copy) NSArray<FGNode *> *children;
-/// Does this node clip content outside of its bounds?
-@property (nonatomic, assign) BOOL isClipsContent;
-/// ID of component that this instance came from, refers to components
-/// table (see endpoints section below)
-@property (nonatomic, copy) NSString *componentID;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// An array of layout grids attached to this node (see layout grids section
-/// for more details). GROUP nodes do not have this attribute
-@property (nonatomic, copy) NSArray<FGLayoutGrid *> *layoutGrids;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
 @end
 
 /// GET /v1/files/:key/comments
@@ -1262,11 +717,31 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 @property (nonatomic, nullable, copy) NSString *resolvedAt;
 /// The user who left the comment
 @property (nonatomic, strong) FGUser *user;
+@end
 
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
+/// A 2d vector
+///
+/// This field contains three vectors, each of which are a position in
+/// normalized object space (normalized object space is if the top left
+/// corner of the bounding box of the object is (0, 0) and the bottom
+/// right is (1,1)). The first position corresponds to the start of the
+/// gradient (value 0 for the purposes of calculating gradient stops),
+/// the second position is the end of the gradient (value 1), and the
+/// third handle position determines the width of the gradient (only
+/// relevant for non-linear gradients).
+///
+/// 2d vector offset within the frame.
+///
+/// A relative offset within a frame
+@interface FGClientMeta : NSObject
+/// X coordinate of the vector
+@property (nonatomic, nullable, strong) NSNumber *x;
+/// Y coordinate of the vector
+@property (nonatomic, nullable, strong) NSNumber *y;
+/// Unique id specifying the frame.
+@property (nonatomic, nullable, copy) NSArray<NSString *> *nodeID;
+/// 2d vector offset within the frame.
+@property (nonatomic, nullable, strong) FGVector2 *nodeOffset;
 @end
 
 /// The user who left the comment
@@ -1275,79 +750,33 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 @interface FGUser : NSObject
 @property (nonatomic, copy) NSString *handle;
 @property (nonatomic, copy) NSString *imgURL;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
 @end
 
-/// A group that has a boolean operation applied to it
-@interface FGBooleanGroup : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// An array of nodes that are being boolean operated on
-@property (nonatomic, copy) NSArray<FGNode *> *children;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// Represents a single page
-@interface FGCanvas : NSObject
-/// Background color of the canvas
-@property (nonatomic, strong) FGColor *backgroundColor;
-/// An array of top level layers on the canvas
-@property (nonatomic, copy) NSArray<FGNode *> *children;
-/// An array of export settings representing images to export from the canvas
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
+/// POST /v1/files/:key/comments
+///
+/// > Description
+/// Posts a new comment on the file.
+///
+/// > Path parameters
+/// key String
+/// File to get comments from
+///
+/// > Body parameters
+/// message String
+/// The text contents of the comment to post
+///
+/// client_meta Vector2 | FrameOffset
+/// The position of where to place the comment. This can either be an absolute canvas
+/// position or the relative position within a frame.
+///
+/// > Return value
+/// The Comment that was successfully posted
+///
+/// > Error codes
+/// 404 The specified file was not found
+@interface FGCommentRequest : NSObject
+@property (nonatomic, strong) FGClientMeta *clientMeta;
+@property (nonatomic, copy)   NSString *message;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
 + (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
@@ -1378,247 +807,6 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 @property (nonatomic, copy)   NSString *name;
 @end
 
-/// GET /v1/files/:key
-///
-/// > Description
-///
-/// Returns the document refered to by :key as a JSON object. The file key can be parsed from
-/// any Figma file url: https://www.figma.com/file/:key/:title. The "document" attribute
-/// contains a Node of type DOCUMENT.
-///
-/// The "components" key contains a mapping from node IDs to component metadata. This is to
-/// help you determine which components each instance comes from. Currently the only piece of
-/// metadata available on components is the name of the component, but more properties will
-/// be forthcoming.
-///
-/// > Path parameters
-///
-/// key String
-/// File to export JSON from
-@interface FGFileResponse : NSObject
-/// A mapping from node IDs to component metadata. This is to help you determine which
-/// components each instance comes from. Currently the only piece of metadata available on
-/// components is the name of the component, but more properties will be forthcoming.
-@property (nonatomic, copy) NSDictionary<NSString *, FGComponent *> *components;
-/// The root node within the document
-@property (nonatomic, strong) FGDocument *document;
-@property (nonatomic, assign) double schemaVersion;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// A node that can have instances created of it that share the same properties
-@interface FGComponent : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// Background color of the node
-@property (nonatomic, strong) FGColor *backgroundColor;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// An array of nodes that are direct children of this node
-@property (nonatomic, copy) NSArray<FGNode *> *children;
-/// Does this node clip content outside of its bounds?
-@property (nonatomic, assign) BOOL isClipsContent;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// An array of layout grids attached to this node (see layout grids section
-/// for more details). GROUP nodes do not have this attribute
-@property (nonatomic, copy) NSArray<FGLayoutGrid *> *layoutGrids;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// The root node within the document
-///
-/// Node Properties
-/// The root node
-@interface FGDocument : NSObject
-/// An array of canvases attached to the document
-@property (nonatomic, copy) NSArray<FGNode *> *children;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-@interface FGFrameBase : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// Background color of the node
-@property (nonatomic, strong) FGColor *backgroundColor;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// An array of nodes that are direct children of this node
-@property (nonatomic, copy) NSArray<FGNode *> *children;
-/// Does this node clip content outside of its bounds?
-@property (nonatomic, assign) BOOL isClipsContent;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// An array of layout grids attached to this node (see layout grids section
-/// for more details). GROUP nodes do not have this attribute
-@property (nonatomic, copy) NSArray<FGLayoutGrid *> *layoutGrids;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// A regular n-sided polygon
-@interface FGRegularPolygon : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-/// An ellipse
-@interface FGEllipse : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// An array of fill paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *fills;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Where stroke is drawn relative to the vector outline as a string enum
-/// "INSIDE": draw stroke inside the shape boundary
-/// "OUTSIDE": draw stroke outside the shape boundary
-/// "CENTER": draw stroke centered along the shape boundary
-@property (nonatomic, assign) FGStrokeAlign *strokeAlign;
-/// An array of stroke paints applied to the node
-@property (nonatomic, copy) NSArray<FGPaint *> *strokes;
-/// The weight of strokes on the node
-@property (nonatomic, assign) double strokeWeight;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
 /// GET /v1/projects/:project_id/files
 ///
 /// > Description
@@ -1642,52 +830,6 @@ NSString   *_Nullable FGNodeTypeToJSON(FGNodeType *nodeType, NSStringEncoding en
 @property (nonatomic, copy) NSString *lastModified;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *thumbnailURL;
-@end
-
-/// A logical grouping of nodes
-@interface FGGroup : NSObject
-/// Bounding box of the node in absolute space coordinates
-@property (nonatomic, strong) FGRectangle *absoluteBoundingBox;
-/// Background color of the node
-@property (nonatomic, strong) FGColor *backgroundColor;
-/// How this node blends with nodes behind it in the scene
-/// (see blend mode section for more details)
-@property (nonatomic, assign) FGBlendMode *blendMode;
-/// An array of nodes that are direct children of this node
-@property (nonatomic, copy) NSArray<FGNode *> *children;
-/// Does this node clip content outside of its bounds?
-@property (nonatomic, assign) BOOL isClipsContent;
-/// Horizontal and vertical layout constraints for node
-@property (nonatomic, strong) FGLayoutConstraint *constraints;
-/// An array of effects attached to this node
-/// (see effects sectionfor more details)
-@property (nonatomic, copy) NSArray<FGEffect *> *effects;
-/// An array of export settings representing images to export from node
-@property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
-/// a string uniquely identifying this node within the document
-@property (nonatomic, copy) NSString *identifier;
-/// Does this node mask sibling nodes in front of it?
-@property (nonatomic, assign) BOOL isMask;
-/// An array of layout grids attached to this node (see layout grids section
-/// for more details). GROUP nodes do not have this attribute
-@property (nonatomic, copy) NSArray<FGLayoutGrid *> *layoutGrids;
-/// the name given to the node by the user in the tool.
-@property (nonatomic, copy) NSString *name;
-/// Opacity of the node
-@property (nonatomic, assign) double opacity;
-/// Keep height and width constrained to same ratio
-@property (nonatomic, assign) BOOL isPreserveRatio;
-/// Node ID of node to transition to in prototyping
-@property (nonatomic, nullable, copy) NSString *transitionNodeID;
-/// the type of the node, refer to table below for details
-@property (nonatomic, assign) FGNodeType *type;
-/// whether or not the node is visible on the canvas
-@property (nonatomic, assign) BOOL isVisible;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
 @end
 
 NS_ASSUME_NONNULL_END

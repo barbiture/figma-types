@@ -6,7 +6,8 @@ import {
   TypeStyle,
   LayoutConstraint,
   Color,
-  LayoutGrid
+  LayoutGrid,
+  Rect
 } from "./types";
 
 export interface Global {
@@ -105,7 +106,7 @@ export interface FrameBase extends Global {
    */
   opacity: number;
   /** Bounding box of the node in absolute space coordinates */
-  absoluteBoundingBox: Rectangle;
+  absoluteBoundingBox: Rect;
   /** Does this node clip content outside of its bounds? */
   clipsContent: boolean;
   /**
@@ -164,7 +165,7 @@ export interface VectorBase extends Global {
    */
   opacity: number;
   /** Bounding box of the node in absolute space coordinates */
-  absoluteBoundingBox: Rectangle;
+  absoluteBoundingBox: Rect;
   /**
    * An array of effects attached to this node
    * (see effects sectionfor more details)
@@ -249,7 +250,7 @@ export interface Slice extends Global {
   /** An array of export settings representing images to export from this node */
   exportSettings: ExportSetting[];
   /** Bounding box of the node in absolute space coordinates */
-  absoluteBoundingBox: Rectangle;
+  absoluteBoundingBox: Rect;
 }
 
 /** A node that can have instances created of it that share the same properties */
