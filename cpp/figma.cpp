@@ -166,7 +166,7 @@ namespace quicktype {
 
     /**
      * An array of effects attached to this node
-     * (see effects sectionfor more details)
+     * (see effects section for more details)
      *
      * A visual effect such as a shadow or blur
      */
@@ -571,7 +571,7 @@ namespace quicktype {
         std::unique_ptr<struct LayoutConstraint> constraints;
         /**
          * An array of effects attached to this node
-         * (see effects sectionfor more details)
+         * (see effects section for more details)
          */
         std::unique_ptr<std::vector<struct Effect>> effects;
         /**
@@ -676,7 +676,7 @@ namespace quicktype {
         struct LayoutConstraint constraints;
         /**
          * An array of effects attached to this node
-         * (see effects sectionfor more details)
+         * (see effects section for more details)
          */
         std::vector<struct Effect> effects;
         /**

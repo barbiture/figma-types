@@ -100,7 +100,7 @@ namespace QuickType
 
         /// <summary>
         /// An array of effects attached to this node
-        /// (see effects sectionfor more details)
+        /// (see effects section for more details)
         /// </summary>
         [JsonProperty("effects")]
         public Effect[] Effects { get; set; }
@@ -365,7 +365,7 @@ namespace QuickType
 
         /// <summary>
         /// An array of effects attached to this node
-        /// (see effects sectionfor more details)
+        /// (see effects section for more details)
         /// </summary>
         [JsonProperty("effects", NullValueHandling = NullValueHandling.Ignore)]
         public Effect[] Effects { get; set; }
@@ -504,7 +504,7 @@ namespace QuickType
 
     /// <summary>
     /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
+    /// (see effects section for more details)
     ///
     /// A visual effect such as a shadow or blur
     /// </summary>

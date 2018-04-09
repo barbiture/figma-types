@@ -51,7 +51,7 @@ public struct Component: Codable {
     /// Horizontal and vertical layout constraints for node
     public let constraints: LayoutConstraint
     /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
+    /// (see effects section for more details)
     public let effects: [Effect]
     /// An array of export settings representing images to export from node
     public let exportSettings: [ExportSetting]
@@ -217,7 +217,7 @@ public struct DocumentElement: Codable {
     /// Horizontal and vertical layout constraints for node
     public let constraints: LayoutConstraint?
     /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
+    /// (see effects section for more details)
     public let effects: [Effect]?
     /// Does this node mask sibling nodes in front of it?
     public let isMask: Bool?
@@ -318,7 +318,7 @@ public enum Vertical: String, Codable {
 }
 
 /// An array of effects attached to this node
-/// (see effects sectionfor more details)
+/// (see effects section for more details)
 ///
 /// A visual effect such as a shadow or blur
 public struct Effect: Codable {

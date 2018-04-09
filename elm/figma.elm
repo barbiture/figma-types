@@ -126,7 +126,7 @@ Horizontal and vertical layout constraints for node
 
 effects:
 An array of effects attached to this node
-(see effects sectionfor more details)
+(see effects section for more details)
 
 exportSettings:
 An array of export settings representing images to export from node
@@ -350,7 +350,7 @@ Horizontal and vertical layout constraints for node
 
 effects:
 An array of effects attached to this node
-(see effects sectionfor more details)
+(see effects section for more details)
 
 isMask:
 Does this node mask sibling nodes in front of it?
@@ -512,7 +512,7 @@ type NodeType
     | Vector
 
 {-| An array of effects attached to this node
-(see effects sectionfor more details)
+(see effects section for more details)
 
 A visual effect such as a shadow or blur
 

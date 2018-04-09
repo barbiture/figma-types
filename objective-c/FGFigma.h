@@ -284,7 +284,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Horizontal and vertical layout constraints for node
 @property (nonatomic, strong) FGLayoutConstraint *constraints;
 /// An array of effects attached to this node
-/// (see effects sectionfor more details)
+/// (see effects section for more details)
 @property (nonatomic, copy) NSArray<FGEffect *> *effects;
 /// An array of export settings representing images to export from node
 @property (nonatomic, copy) NSArray<FGExportSetting *> *exportSettings;
@@ -423,7 +423,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Horizontal and vertical layout constraints for node
 @property (nonatomic, nullable, strong) FGLayoutConstraint *constraints;
 /// An array of effects attached to this node
-/// (see effects sectionfor more details)
+/// (see effects section for more details)
 @property (nonatomic, nullable, copy) NSArray<FGEffect *> *effects;
 /// Does this node mask sibling nodes in front of it?
 @property (nonatomic, nullable, strong) NSNumber *isMask;
@@ -489,7 +489,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /// An array of effects attached to this node
-/// (see effects sectionfor more details)
+/// (see effects section for more details)
 ///
 /// A visual effect such as a shadow or blur
 @interface FGEffect : NSObject

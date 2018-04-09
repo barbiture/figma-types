@@ -76,7 +76,7 @@ pub struct Component {
     constraints: LayoutConstraint,
 
     /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
+    /// (see effects section for more details)
     #[serde(rename = "effects")]
     effects: Vec<Effect>,
 
@@ -275,7 +275,7 @@ pub struct DocumentElement {
     constraints: Option<LayoutConstraint>,
 
     /// An array of effects attached to this node
-    /// (see effects sectionfor more details)
+    /// (see effects section for more details)
     #[serde(rename = "effects")]
     effects: Option<Vec<Effect>>,
 
@@ -376,7 +376,7 @@ pub struct LayoutConstraint {
 }
 
 /// An array of effects attached to this node
-/// (see effects sectionfor more details)
+/// (see effects section for more details)
 ///
 /// A visual effect such as a shadow or blur
 #[derive(Serialize, Deserialize)]

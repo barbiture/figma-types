@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * An array of effects attached to this node
- * (see effects sectionfor more details)
+ * (see effects section for more details)
  *
  * A visual effect such as a shadow or blur
  */

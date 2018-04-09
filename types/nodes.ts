@@ -117,7 +117,7 @@ export interface FrameBase extends Global {
   layoutGrids: LayoutGrid[];
   /**
    * An array of effects attached to this node
-   * (see effects sectionfor more details)
+   * (see effects section for more details)
    * @default []
    */
   effects: Effect[];
@@ -168,7 +168,7 @@ export interface VectorBase extends Global {
   absoluteBoundingBox: Rect;
   /**
    * An array of effects attached to this node
-   * (see effects sectionfor more details)
+   * (see effects section for more details)
    * @default []
    */
   effects: Effect[];

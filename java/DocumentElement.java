@@ -178,7 +178,7 @@ public class DocumentElement {
 
     /**
      * An array of effects attached to this node
-     * (see effects sectionfor more details)
+     * (see effects section for more details)
      */
     @JsonProperty("effects")
     public Effect[] getEffects() { return effects; }

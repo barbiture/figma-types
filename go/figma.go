@@ -100,7 +100,7 @@ type Component struct {
 	Children            []DocumentElement `json:"children"`           // An array of nodes that are direct children of this node
 	ClipsContent        bool              `json:"clipsContent"`       // Does this node clip content outside of its bounds?
 	Constraints         LayoutConstraint  `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	Effects             []Effect          `json:"effects"`            // An array of effects attached to this node; (see effects sectionfor more details)
+	Effects             []Effect          `json:"effects"`            // An array of effects attached to this node; (see effects section for more details)
 	ExportSettings      []ExportSetting   `json:"exportSettings"`     // An array of export settings representing images to export from node
 	ID                  string            `json:"id"`                 // a string uniquely identifying this node within the document
 	IsMask              bool              `json:"isMask"`             // Does this node mask sibling nodes in front of it?
@@ -194,7 +194,7 @@ type DocumentElement struct {
 	BlendMode               *LendMode         `json:"blendMode"`              // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
 	ClipsContent            *bool             `json:"clipsContent"`           // Does this node clip content outside of its bounds?
 	Constraints             *LayoutConstraint `json:"constraints"`            // Horizontal and vertical layout constraints for node
-	Effects                 []Effect          `json:"effects"`                // An array of effects attached to this node; (see effects sectionfor more details)
+	Effects                 []Effect          `json:"effects"`                // An array of effects attached to this node; (see effects section for more details)
 	IsMask                  *bool             `json:"isMask"`                 // Does this node mask sibling nodes in front of it?
 	LayoutGrids             []LayoutGrid      `json:"layoutGrids"`            // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
 	Opacity                 *float64          `json:"opacity"`                // Opacity of the node
@@ -221,7 +221,7 @@ type LayoutConstraint struct {
 }
 
 // An array of effects attached to this node
-// (see effects sectionfor more details)
+// (see effects section for more details)
 //
 // A visual effect such as a shadow or blur
 type Effect struct {
