@@ -94,5 +94,6 @@ pub struct Color {
 
 ```shell
 $ npm install
-$ npm run quicktype
+$ npm run build
+$ npm test
 ```

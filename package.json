@@ -4,10 +4,9 @@
   "description": "Typed client code for Figma Platform",
   "main": "index.js",
   "scripts": {
-    "prepare": "npm upgrade quicktype && npm run quicktype",
-    "quicktype": "script/quicktype",
-    "start": "watch \"npm run quicktype\" types",
-    "test": "npm run quicktype and script/test"
+    "build": "script/build",
+    "start": "watch \"npm run build\" types",
+    "test": "script/test"
   },
   "repository": {
     "type": "git",

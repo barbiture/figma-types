@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
 dotnet build csharp/Figma.csproj
+
+pushd swift && swiftc Figma.swift && popd
