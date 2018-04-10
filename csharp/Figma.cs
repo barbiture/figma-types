@@ -50,7 +50,7 @@ namespace QuickType
         /// The root node within the document
         /// </summary>
         [JsonProperty("document")]
-        public FileResponseDocument Document { get; set; }
+        public Document Document { get; set; }
 
         [JsonProperty("schemaVersion")]
         public double SchemaVersion { get; set; }
@@ -80,13 +80,13 @@ namespace QuickType
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode")]
-        public LendMode BlendMode { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// An array of nodes that are direct children of this node
         /// </summary>
         [JsonProperty("children")]
-        public DocumentElement[] Children { get; set; }
+        public Vector[] Children { get; set; }
 
         /// <summary>
         /// Does this node clip content outside of its bounds?
@@ -292,7 +292,7 @@ namespace QuickType
     /// An instance of a component, changes to the component result in the same
     /// changes applied to the instance
     /// </summary>
-    public partial class DocumentElement
+    public partial class Vector
     {
         /// <summary>
         /// An array of canvases attached to the document
@@ -304,7 +304,7 @@ namespace QuickType
         /// An array of nodes that are being boolean operated on
         /// </summary>
         [JsonProperty("children", NullValueHandling = NullValueHandling.Ignore)]
-        public DocumentElement[] Children { get; set; }
+        public Vector[] Children { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -361,7 +361,7 @@ namespace QuickType
         /// (see blend mode section for more details)
         /// </summary>
         [JsonProperty("blendMode", NullValueHandling = NullValueHandling.Ignore)]
-        public LendMode? BlendMode { get; set; }
+        public BlendMode? BlendMode { get; set; }
 
         /// <summary>
         /// Does this node clip content outside of its bounds?
@@ -533,7 +533,7 @@ namespace QuickType
         /// This type is a string enum with the following possible values
         /// </summary>
         [JsonProperty("blendMode", NullValueHandling = NullValueHandling.Ignore)]
-        public LendMode? BlendMode { get; set; }
+        public BlendMode? BlendMode { get; set; }
 
         /// <summary>
         /// An RGBA color
@@ -880,13 +880,13 @@ namespace QuickType
     /// Node Properties
     /// The root node
     /// </summary>
-    public partial class FileResponseDocument
+    public partial class Document
     {
         /// <summary>
         /// An array of canvases attached to the document
         /// </summary>
         [JsonProperty("children")]
-        public DocumentElement[] Children { get; set; }
+        public Vector[] Children { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -1145,7 +1145,7 @@ namespace QuickType
     /// Enum describing how layer blends with layers below
     /// This type is a string enum with the following possible values
     /// </summary>
-    public enum LendMode { Color, ColorBurn, ColorDodge, Darken, Difference, Exclusion, HardLight, Hue, Lighten, LinearBurn, LinearDodge, Luminosity, Multiply, Normal, Overlay, PassThrough, Saturation, Screen, SoftLight };
+    public enum BlendMode { Color, ColorBurn, ColorDodge, Darken, Difference, Exclusion, HardLight, Hue, Lighten, LinearBurn, LinearDodge, Luminosity, Multiply, Normal, Overlay, PassThrough, Saturation, Screen, SoftLight };
 
     /// <summary>
     /// Horizontal constraint as an enum
@@ -1256,36 +1256,36 @@ namespace QuickType
         public static ProjectFilesResponse FromJson(string json) => JsonConvert.DeserializeObject<ProjectFilesResponse>(json, QuickType.Converter.Settings);
     }
 
-    static class LendModeExtensions
+    static class BlendModeExtensions
     {
-        public static LendMode? ValueForString(string str)
+        public static BlendMode? ValueForString(string str)
         {
             switch (str)
             {
-                case "COLOR": return LendMode.Color;
-                case "COLOR_BURN": return LendMode.ColorBurn;
-                case "COLOR_DODGE": return LendMode.ColorDodge;
-                case "DARKEN": return LendMode.Darken;
-                case "DIFFERENCE": return LendMode.Difference;
-                case "EXCLUSION": return LendMode.Exclusion;
-                case "HARD_LIGHT": return LendMode.HardLight;
-                case "HUE": return LendMode.Hue;
-                case "LIGHTEN": return LendMode.Lighten;
-                case "LINEAR_BURN": return LendMode.LinearBurn;
-                case "LINEAR_DODGE": return LendMode.LinearDodge;
-                case "LUMINOSITY": return LendMode.Luminosity;
-                case "MULTIPLY": return LendMode.Multiply;
-                case "NORMAL": return LendMode.Normal;
-                case "OVERLAY": return LendMode.Overlay;
-                case "PASS_THROUGH": return LendMode.PassThrough;
-                case "SATURATION": return LendMode.Saturation;
-                case "SCREEN": return LendMode.Screen;
-                case "SOFT_LIGHT": return LendMode.SoftLight;
+                case "COLOR": return BlendMode.Color;
+                case "COLOR_BURN": return BlendMode.ColorBurn;
+                case "COLOR_DODGE": return BlendMode.ColorDodge;
+                case "DARKEN": return BlendMode.Darken;
+                case "DIFFERENCE": return BlendMode.Difference;
+                case "EXCLUSION": return BlendMode.Exclusion;
+                case "HARD_LIGHT": return BlendMode.HardLight;
+                case "HUE": return BlendMode.Hue;
+                case "LIGHTEN": return BlendMode.Lighten;
+                case "LINEAR_BURN": return BlendMode.LinearBurn;
+                case "LINEAR_DODGE": return BlendMode.LinearDodge;
+                case "LUMINOSITY": return BlendMode.Luminosity;
+                case "MULTIPLY": return BlendMode.Multiply;
+                case "NORMAL": return BlendMode.Normal;
+                case "OVERLAY": return BlendMode.Overlay;
+                case "PASS_THROUGH": return BlendMode.PassThrough;
+                case "SATURATION": return BlendMode.Saturation;
+                case "SCREEN": return BlendMode.Screen;
+                case "SOFT_LIGHT": return BlendMode.SoftLight;
                 default: return null;
             }
         }
 
-        public static LendMode ReadJson(JsonReader reader, JsonSerializer serializer)
+        public static BlendMode ReadJson(JsonReader reader, JsonSerializer serializer)
         {
             var str = serializer.Deserialize<string>(reader);
             var maybeValue = ValueForString(str);
@@ -1293,29 +1293,29 @@ namespace QuickType
             throw new Exception("Unknown enum case " + str);
         }
 
-        public static void WriteJson(this LendMode value, JsonWriter writer, JsonSerializer serializer)
+        public static void WriteJson(this BlendMode value, JsonWriter writer, JsonSerializer serializer)
         {
             switch (value)
             {
-                case LendMode.Color: serializer.Serialize(writer, "COLOR"); break;
-                case LendMode.ColorBurn: serializer.Serialize(writer, "COLOR_BURN"); break;
-                case LendMode.ColorDodge: serializer.Serialize(writer, "COLOR_DODGE"); break;
-                case LendMode.Darken: serializer.Serialize(writer, "DARKEN"); break;
-                case LendMode.Difference: serializer.Serialize(writer, "DIFFERENCE"); break;
-                case LendMode.Exclusion: serializer.Serialize(writer, "EXCLUSION"); break;
-                case LendMode.HardLight: serializer.Serialize(writer, "HARD_LIGHT"); break;
-                case LendMode.Hue: serializer.Serialize(writer, "HUE"); break;
-                case LendMode.Lighten: serializer.Serialize(writer, "LIGHTEN"); break;
-                case LendMode.LinearBurn: serializer.Serialize(writer, "LINEAR_BURN"); break;
-                case LendMode.LinearDodge: serializer.Serialize(writer, "LINEAR_DODGE"); break;
-                case LendMode.Luminosity: serializer.Serialize(writer, "LUMINOSITY"); break;
-                case LendMode.Multiply: serializer.Serialize(writer, "MULTIPLY"); break;
-                case LendMode.Normal: serializer.Serialize(writer, "NORMAL"); break;
-                case LendMode.Overlay: serializer.Serialize(writer, "OVERLAY"); break;
-                case LendMode.PassThrough: serializer.Serialize(writer, "PASS_THROUGH"); break;
-                case LendMode.Saturation: serializer.Serialize(writer, "SATURATION"); break;
-                case LendMode.Screen: serializer.Serialize(writer, "SCREEN"); break;
-                case LendMode.SoftLight: serializer.Serialize(writer, "SOFT_LIGHT"); break;
+                case BlendMode.Color: serializer.Serialize(writer, "COLOR"); break;
+                case BlendMode.ColorBurn: serializer.Serialize(writer, "COLOR_BURN"); break;
+                case BlendMode.ColorDodge: serializer.Serialize(writer, "COLOR_DODGE"); break;
+                case BlendMode.Darken: serializer.Serialize(writer, "DARKEN"); break;
+                case BlendMode.Difference: serializer.Serialize(writer, "DIFFERENCE"); break;
+                case BlendMode.Exclusion: serializer.Serialize(writer, "EXCLUSION"); break;
+                case BlendMode.HardLight: serializer.Serialize(writer, "HARD_LIGHT"); break;
+                case BlendMode.Hue: serializer.Serialize(writer, "HUE"); break;
+                case BlendMode.Lighten: serializer.Serialize(writer, "LIGHTEN"); break;
+                case BlendMode.LinearBurn: serializer.Serialize(writer, "LINEAR_BURN"); break;
+                case BlendMode.LinearDodge: serializer.Serialize(writer, "LINEAR_DODGE"); break;
+                case BlendMode.Luminosity: serializer.Serialize(writer, "LUMINOSITY"); break;
+                case BlendMode.Multiply: serializer.Serialize(writer, "MULTIPLY"); break;
+                case BlendMode.Normal: serializer.Serialize(writer, "NORMAL"); break;
+                case BlendMode.Overlay: serializer.Serialize(writer, "OVERLAY"); break;
+                case BlendMode.PassThrough: serializer.Serialize(writer, "PASS_THROUGH"); break;
+                case BlendMode.Saturation: serializer.Serialize(writer, "SATURATION"); break;
+                case BlendMode.Screen: serializer.Serialize(writer, "SCREEN"); break;
+                case BlendMode.SoftLight: serializer.Serialize(writer, "SOFT_LIGHT"); break;
             }
         }
     }
@@ -1759,12 +1759,12 @@ namespace QuickType
 
     internal class Converter: JsonConverter
     {
-        public override bool CanConvert(Type t) => t == typeof(LendMode) || t == typeof(Horizontal) || t == typeof(Vertical) || t == typeof(EffectType) || t == typeof(ConstraintType) || t == typeof(Format) || t == typeof(PaintType) || t == typeof(Alignment) || t == typeof(Pattern) || t == typeof(StrokeAlign) || t == typeof(TextAlignHorizontal) || t == typeof(TextAlignVertical) || t == typeof(NodeType) || t == typeof(LendMode?) || t == typeof(Horizontal?) || t == typeof(Vertical?) || t == typeof(EffectType?) || t == typeof(ConstraintType?) || t == typeof(Format?) || t == typeof(PaintType?) || t == typeof(Alignment?) || t == typeof(Pattern?) || t == typeof(StrokeAlign?) || t == typeof(TextAlignHorizontal?) || t == typeof(TextAlignVertical?) || t == typeof(NodeType?);
+        public override bool CanConvert(Type t) => t == typeof(BlendMode) || t == typeof(Horizontal) || t == typeof(Vertical) || t == typeof(EffectType) || t == typeof(ConstraintType) || t == typeof(Format) || t == typeof(PaintType) || t == typeof(Alignment) || t == typeof(Pattern) || t == typeof(StrokeAlign) || t == typeof(TextAlignHorizontal) || t == typeof(TextAlignVertical) || t == typeof(NodeType) || t == typeof(BlendMode?) || t == typeof(Horizontal?) || t == typeof(Vertical?) || t == typeof(EffectType?) || t == typeof(ConstraintType?) || t == typeof(Format?) || t == typeof(PaintType?) || t == typeof(Alignment?) || t == typeof(Pattern?) || t == typeof(StrokeAlign?) || t == typeof(TextAlignHorizontal?) || t == typeof(TextAlignVertical?) || t == typeof(NodeType?);
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
         {
-            if (t == typeof(LendMode))
-                return LendModeExtensions.ReadJson(reader, serializer);
+            if (t == typeof(BlendMode))
+                return BlendModeExtensions.ReadJson(reader, serializer);
             if (t == typeof(Horizontal))
                 return HorizontalExtensions.ReadJson(reader, serializer);
             if (t == typeof(Vertical))
@@ -1789,10 +1789,10 @@ namespace QuickType
                 return TextAlignVerticalExtensions.ReadJson(reader, serializer);
             if (t == typeof(NodeType))
                 return NodeTypeExtensions.ReadJson(reader, serializer);
-            if (t == typeof(LendMode?))
+            if (t == typeof(BlendMode?))
             {
                 if (reader.TokenType == JsonToken.Null) return null;
-                return LendModeExtensions.ReadJson(reader, serializer);
+                return BlendModeExtensions.ReadJson(reader, serializer);
             }
             if (t == typeof(Horizontal?))
             {
@@ -1860,9 +1860,9 @@ namespace QuickType
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var t = value.GetType();
-            if (t == typeof(LendMode))
+            if (t == typeof(BlendMode))
             {
-                ((LendMode)value).WriteJson(writer, serializer);
+                ((BlendMode)value).WriteJson(writer, serializer);
                 return;
             }
             if (t == typeof(Horizontal))

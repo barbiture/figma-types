@@ -41,7 +41,7 @@ pub struct FileResponse {
 
     /// The root node within the document
     #[serde(rename = "document")]
-    document: FileResponseDocument,
+    document: Document,
 
     #[serde(rename = "schemaVersion")]
     schema_version: f64,
@@ -63,11 +63,11 @@ pub struct Component {
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
     #[serde(rename = "blendMode")]
-    blend_mode: LendMode,
+    blend_mode: BlendMode,
 
     /// An array of nodes that are direct children of this node
     #[serde(rename = "children")]
-    children: Vec<DocumentElement>,
+    children: Vec<Vector>,
 
     /// Does this node clip content outside of its bounds?
     #[serde(rename = "clipsContent")]
@@ -224,7 +224,7 @@ pub struct Color {
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
 #[derive(Serialize, Deserialize)]
-pub struct DocumentElement {
+pub struct Vector {
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -233,7 +233,7 @@ pub struct DocumentElement {
     ///
     /// An array of nodes that are being boolean operated on
     #[serde(rename = "children")]
-    children: Option<Vec<DocumentElement>>,
+    children: Option<Vec<Vector>>,
 
     /// a string uniquely identifying this node within the document
     #[serde(rename = "id")]
@@ -247,7 +247,7 @@ pub struct DocumentElement {
 
     /// the type of the node, refer to table below for details
     #[serde(rename = "type")]
-    document_type: NodeType,
+    vector_type: NodeType,
 
     /// whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
@@ -274,7 +274,7 @@ pub struct DocumentElement {
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
     #[serde(rename = "blendMode")]
-    blend_mode: Option<LendMode>,
+    blend_mode: Option<BlendMode>,
 
     /// Does this node clip content outside of its bounds?
     #[serde(rename = "clipsContent")]
@@ -398,7 +398,7 @@ pub struct Effect {
     /// Enum describing how layer blends with layers below
     /// This type is a string enum with the following possible values
     #[serde(rename = "blendMode")]
-    blend_mode: Option<LendMode>,
+    blend_mode: Option<BlendMode>,
 
     /// An RGBA color
     #[serde(rename = "color")]
@@ -650,10 +650,10 @@ pub struct TypeStyle {
 /// Node Properties
 /// The root node
 #[derive(Serialize, Deserialize)]
-pub struct FileResponseDocument {
+pub struct Document {
     /// An array of canvases attached to the document
     #[serde(rename = "children")]
-    children: Vec<DocumentElement>,
+    children: Vec<Vector>,
 
     /// a string uniquely identifying this node within the document
     #[serde(rename = "id")]
@@ -863,7 +863,7 @@ pub struct File {
 /// Enum describing how layer blends with layers below
 /// This type is a string enum with the following possible values
 #[derive(Serialize, Deserialize)]
-pub enum LendMode {
+pub enum BlendMode {
     #[serde(rename = "COLOR")]
     Color,
 
@@ -970,55 +970,6 @@ pub enum Vertical {
 
     #[serde(rename = "TOP_BOTTOM")]
     TopBottom,
-}
-
-/// the type of the node, refer to table below for details
-#[derive(Serialize, Deserialize)]
-pub enum NodeType {
-    #[serde(rename = "BOOLEAN")]
-    Boolean,
-
-    #[serde(rename = "CANVAS")]
-    Canvas,
-
-    #[serde(rename = "COMPONENT")]
-    Component,
-
-    #[serde(rename = "DOCUMENT")]
-    Document,
-
-    #[serde(rename = "ELLIPSE")]
-    Ellipse,
-
-    #[serde(rename = "FRAME")]
-    Frame,
-
-    #[serde(rename = "GROUP")]
-    Group,
-
-    #[serde(rename = "INSTANCE")]
-    Instance,
-
-    #[serde(rename = "LINE")]
-    Line,
-
-    #[serde(rename = "RECTANGLE")]
-    Rectangle,
-
-    #[serde(rename = "REGULAR_POLYGON")]
-    RegularPolygon,
-
-    #[serde(rename = "SLICE")]
-    Slice,
-
-    #[serde(rename = "STAR")]
-    Star,
-
-    #[serde(rename = "TEXT")]
-    Text,
-
-    #[serde(rename = "VECTOR")]
-    Vector,
 }
 
 /// Type of effect as a string enum
@@ -1166,4 +1117,53 @@ pub enum TextAlignVertical {
 
     #[serde(rename = "TOP")]
     Top,
+}
+
+/// the type of the node, refer to table below for details
+#[derive(Serialize, Deserialize)]
+pub enum NodeType {
+    #[serde(rename = "BOOLEAN")]
+    Boolean,
+
+    #[serde(rename = "CANVAS")]
+    Canvas,
+
+    #[serde(rename = "COMPONENT")]
+    Component,
+
+    #[serde(rename = "DOCUMENT")]
+    Document,
+
+    #[serde(rename = "ELLIPSE")]
+    Ellipse,
+
+    #[serde(rename = "FRAME")]
+    Frame,
+
+    #[serde(rename = "GROUP")]
+    Group,
+
+    #[serde(rename = "INSTANCE")]
+    Instance,
+
+    #[serde(rename = "LINE")]
+    Line,
+
+    #[serde(rename = "RECTANGLE")]
+    Rectangle,
+
+    #[serde(rename = "REGULAR_POLYGON")]
+    RegularPolygon,
+
+    #[serde(rename = "SLICE")]
+    Slice,
+
+    #[serde(rename = "STAR")]
+    Star,
+
+    #[serde(rename = "TEXT")]
+    Text,
+
+    #[serde(rename = "VECTOR")]
+    Vector,
 }

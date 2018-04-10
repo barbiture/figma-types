@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.*;
  */
 public class FileResponse {
     private Map<String, Component> components;
-    private FileResponseDocument document;
+    private Document document;
     private double schemaVersion;
 
     /**
@@ -41,9 +41,9 @@ public class FileResponse {
      * The root node within the document
      */
     @JsonProperty("document")
-    public FileResponseDocument getDocument() { return document; }
+    public Document getDocument() { return document; }
     @JsonProperty("document")
-    public void setDocument(FileResponseDocument value) { this.document = value; }
+    public void setDocument(Document value) { this.document = value; }
 
     @JsonProperty("schemaVersion")
     public double getSchemaVersion() { return schemaVersion; }

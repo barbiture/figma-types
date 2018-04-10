@@ -82,7 +82,7 @@ namespace quicktype {
      * Enum describing how layer blends with layers below
      * This type is a string enum with the following possible values
      */
-    enum class LendMode { COLOR, COLOR_BURN, COLOR_DODGE, DARKEN, DIFFERENCE, EXCLUSION, HARD_LIGHT, HUE, LIGHTEN, LINEAR_BURN, LINEAR_DODGE, LUMINOSITY, MULTIPLY, NORMAL, OVERLAY, PASS_THROUGH, SATURATION, SCREEN, SOFT_LIGHT };
+    enum class BlendMode { COLOR, COLOR_BURN, COLOR_DODGE, DARKEN, DIFFERENCE, EXCLUSION, HARD_LIGHT, HUE, LIGHTEN, LINEAR_BURN, LINEAR_DODGE, LUMINOSITY, MULTIPLY, NORMAL, OVERLAY, PASS_THROUGH, SATURATION, SCREEN, SOFT_LIGHT };
 
     /**
      * Horizontal constraint as an enum
@@ -175,7 +175,7 @@ namespace quicktype {
          * Enum describing how layer blends with layers below
          * This type is a string enum with the following possible values
          */
-        std::unique_ptr<LendMode> blend_mode;
+        std::unique_ptr<BlendMode> blend_mode;
         /**
          * An RGBA color
          */
@@ -513,7 +513,7 @@ namespace quicktype {
      * An instance of a component, changes to the component result in the same
      * changes applied to the instance
      */
-    struct DocumentElement {
+    struct Vector {
         /**
          * An array of canvases attached to the document
          *
@@ -523,7 +523,7 @@ namespace quicktype {
          *
          * An array of nodes that are being boolean operated on
          */
-        std::unique_ptr<std::vector<struct DocumentElement>> children;
+        std::unique_ptr<std::vector<struct Vector>> children;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -564,7 +564,7 @@ namespace quicktype {
          * How this node blends with nodes behind it in the scene
          * (see blend mode section for more details)
          */
-        std::unique_ptr<LendMode> blend_mode;
+        std::unique_ptr<BlendMode> blend_mode;
         /**
          * Does this node clip content outside of its bounds?
          */
@@ -671,11 +671,11 @@ namespace quicktype {
          * How this node blends with nodes behind it in the scene
          * (see blend mode section for more details)
          */
-        LendMode blend_mode;
+        BlendMode blend_mode;
         /**
          * An array of nodes that are direct children of this node
          */
-        std::vector<struct DocumentElement> children;
+        std::vector<struct Vector> children;
         /**
          * Does this node clip content outside of its bounds?
          */
@@ -742,11 +742,11 @@ namespace quicktype {
      * Node Properties
      * The root node
      */
-    struct FileResponseDocument {
+    struct Document {
         /**
          * An array of canvases attached to the document
          */
-        std::vector<struct DocumentElement> children;
+        std::vector<struct Vector> children;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -794,7 +794,7 @@ namespace quicktype {
         /**
          * The root node within the document
          */
-        struct FileResponseDocument document;
+        struct Document document;
         double schema_version;
     };
 
@@ -1057,7 +1057,7 @@ namespace nlohmann {
     }
 
     inline void from_json(const json& _j, struct quicktype::Effect& _x) {
-        _x.blend_mode = quicktype::get_optional<quicktype::LendMode>(_j, "blendMode");
+        _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
         _x.color = quicktype::get_optional<struct quicktype::Color>(_j, "color");
         _x.offset = quicktype::get_optional<struct quicktype::Vector2>(_j, "offset");
         _x.radius = _j.at("radius").get<double>();
@@ -1183,8 +1183,8 @@ namespace nlohmann {
         _j["textAlignVertical"] = _x.text_align_vertical;
     }
 
-    inline void from_json(const json& _j, struct quicktype::DocumentElement& _x) {
-        _x.children = quicktype::get_optional<std::vector<struct quicktype::DocumentElement>>(_j, "children");
+    inline void from_json(const json& _j, struct quicktype::Vector& _x) {
+        _x.children = quicktype::get_optional<std::vector<struct quicktype::Vector>>(_j, "children");
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
@@ -1192,7 +1192,7 @@ namespace nlohmann {
         _x.background_color = quicktype::get_optional<struct quicktype::Color>(_j, "backgroundColor");
         _x.export_settings = quicktype::get_optional<std::vector<struct quicktype::ExportSetting>>(_j, "exportSettings");
         _x.absolute_bounding_box = quicktype::get_optional<struct quicktype::Rect>(_j, "absoluteBoundingBox");
-        _x.blend_mode = quicktype::get_optional<quicktype::LendMode>(_j, "blendMode");
+        _x.blend_mode = quicktype::get_optional<quicktype::BlendMode>(_j, "blendMode");
         _x.clips_content = quicktype::get_optional<bool>(_j, "clipsContent");
         _x.constraints = quicktype::get_optional<struct quicktype::LayoutConstraint>(_j, "constraints");
         _x.effects = quicktype::get_optional<std::vector<struct quicktype::Effect>>(_j, "effects");
@@ -1214,7 +1214,7 @@ namespace nlohmann {
         _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
     }
 
-    inline void to_json(json& _j, const struct quicktype::DocumentElement& _x) {
+    inline void to_json(json& _j, const struct quicktype::Vector& _x) {
         _j = json::object();
         _j["children"] = _x.children;
         _j["id"] = _x.id;
@@ -1249,8 +1249,8 @@ namespace nlohmann {
     inline void from_json(const json& _j, struct quicktype::Component& _x) {
         _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rect>();
         _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
-        _x.blend_mode = _j.at("blendMode").get<quicktype::LendMode>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
+        _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
+        _x.children = _j.at("children").get<std::vector<struct quicktype::Vector>>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
         _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.description = _j.at("description").get<std::string>();
@@ -1289,15 +1289,15 @@ namespace nlohmann {
         _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::FileResponseDocument& _x) {
-        _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
+    inline void from_json(const json& _j, struct quicktype::Document& _x) {
+        _x.children = _j.at("children").get<std::vector<struct quicktype::Vector>>();
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.visible = _j.at("visible").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::FileResponseDocument& _x) {
+    inline void to_json(json& _j, const struct quicktype::Document& _x) {
         _j = json::object();
         _j["children"] = _x.children;
         _j["id"] = _x.id;
@@ -1308,7 +1308,7 @@ namespace nlohmann {
 
     inline void from_json(const json& _j, struct quicktype::FileResponse& _x) {
         _x.components = _j.at("components").get<std::map<std::string, struct quicktype::Component>>();
-        _x.document = _j.at("document").get<struct quicktype::FileResponseDocument>();
+        _x.document = _j.at("document").get<struct quicktype::Document>();
         _x.schema_version = _j.at("schemaVersion").get<double>();
     }
 
@@ -1434,50 +1434,50 @@ namespace nlohmann {
         _j["files"] = _x.files;
     }
 
-    inline void from_json(const json& _j, quicktype::LendMode& _x) {
-        if (_j == "COLOR") _x = quicktype::LendMode::COLOR;
-        else if (_j == "COLOR_BURN") _x = quicktype::LendMode::COLOR_BURN;
-        else if (_j == "COLOR_DODGE") _x = quicktype::LendMode::COLOR_DODGE;
-        else if (_j == "DARKEN") _x = quicktype::LendMode::DARKEN;
-        else if (_j == "DIFFERENCE") _x = quicktype::LendMode::DIFFERENCE;
-        else if (_j == "EXCLUSION") _x = quicktype::LendMode::EXCLUSION;
-        else if (_j == "HARD_LIGHT") _x = quicktype::LendMode::HARD_LIGHT;
-        else if (_j == "HUE") _x = quicktype::LendMode::HUE;
-        else if (_j == "LIGHTEN") _x = quicktype::LendMode::LIGHTEN;
-        else if (_j == "LINEAR_BURN") _x = quicktype::LendMode::LINEAR_BURN;
-        else if (_j == "LINEAR_DODGE") _x = quicktype::LendMode::LINEAR_DODGE;
-        else if (_j == "LUMINOSITY") _x = quicktype::LendMode::LUMINOSITY;
-        else if (_j == "MULTIPLY") _x = quicktype::LendMode::MULTIPLY;
-        else if (_j == "NORMAL") _x = quicktype::LendMode::NORMAL;
-        else if (_j == "OVERLAY") _x = quicktype::LendMode::OVERLAY;
-        else if (_j == "PASS_THROUGH") _x = quicktype::LendMode::PASS_THROUGH;
-        else if (_j == "SATURATION") _x = quicktype::LendMode::SATURATION;
-        else if (_j == "SCREEN") _x = quicktype::LendMode::SCREEN;
-        else if (_j == "SOFT_LIGHT") _x = quicktype::LendMode::SOFT_LIGHT;
+    inline void from_json(const json& _j, quicktype::BlendMode& _x) {
+        if (_j == "COLOR") _x = quicktype::BlendMode::COLOR;
+        else if (_j == "COLOR_BURN") _x = quicktype::BlendMode::COLOR_BURN;
+        else if (_j == "COLOR_DODGE") _x = quicktype::BlendMode::COLOR_DODGE;
+        else if (_j == "DARKEN") _x = quicktype::BlendMode::DARKEN;
+        else if (_j == "DIFFERENCE") _x = quicktype::BlendMode::DIFFERENCE;
+        else if (_j == "EXCLUSION") _x = quicktype::BlendMode::EXCLUSION;
+        else if (_j == "HARD_LIGHT") _x = quicktype::BlendMode::HARD_LIGHT;
+        else if (_j == "HUE") _x = quicktype::BlendMode::HUE;
+        else if (_j == "LIGHTEN") _x = quicktype::BlendMode::LIGHTEN;
+        else if (_j == "LINEAR_BURN") _x = quicktype::BlendMode::LINEAR_BURN;
+        else if (_j == "LINEAR_DODGE") _x = quicktype::BlendMode::LINEAR_DODGE;
+        else if (_j == "LUMINOSITY") _x = quicktype::BlendMode::LUMINOSITY;
+        else if (_j == "MULTIPLY") _x = quicktype::BlendMode::MULTIPLY;
+        else if (_j == "NORMAL") _x = quicktype::BlendMode::NORMAL;
+        else if (_j == "OVERLAY") _x = quicktype::BlendMode::OVERLAY;
+        else if (_j == "PASS_THROUGH") _x = quicktype::BlendMode::PASS_THROUGH;
+        else if (_j == "SATURATION") _x = quicktype::BlendMode::SATURATION;
+        else if (_j == "SCREEN") _x = quicktype::BlendMode::SCREEN;
+        else if (_j == "SOFT_LIGHT") _x = quicktype::BlendMode::SOFT_LIGHT;
         else throw "Input JSON does not conform to schema";
     }
 
-    inline void to_json(json& _j, const quicktype::LendMode& _x) {
+    inline void to_json(json& _j, const quicktype::BlendMode& _x) {
         switch (_x) {
-            case quicktype::LendMode::COLOR: _j = "COLOR"; break;
-            case quicktype::LendMode::COLOR_BURN: _j = "COLOR_BURN"; break;
-            case quicktype::LendMode::COLOR_DODGE: _j = "COLOR_DODGE"; break;
-            case quicktype::LendMode::DARKEN: _j = "DARKEN"; break;
-            case quicktype::LendMode::DIFFERENCE: _j = "DIFFERENCE"; break;
-            case quicktype::LendMode::EXCLUSION: _j = "EXCLUSION"; break;
-            case quicktype::LendMode::HARD_LIGHT: _j = "HARD_LIGHT"; break;
-            case quicktype::LendMode::HUE: _j = "HUE"; break;
-            case quicktype::LendMode::LIGHTEN: _j = "LIGHTEN"; break;
-            case quicktype::LendMode::LINEAR_BURN: _j = "LINEAR_BURN"; break;
-            case quicktype::LendMode::LINEAR_DODGE: _j = "LINEAR_DODGE"; break;
-            case quicktype::LendMode::LUMINOSITY: _j = "LUMINOSITY"; break;
-            case quicktype::LendMode::MULTIPLY: _j = "MULTIPLY"; break;
-            case quicktype::LendMode::NORMAL: _j = "NORMAL"; break;
-            case quicktype::LendMode::OVERLAY: _j = "OVERLAY"; break;
-            case quicktype::LendMode::PASS_THROUGH: _j = "PASS_THROUGH"; break;
-            case quicktype::LendMode::SATURATION: _j = "SATURATION"; break;
-            case quicktype::LendMode::SCREEN: _j = "SCREEN"; break;
-            case quicktype::LendMode::SOFT_LIGHT: _j = "SOFT_LIGHT"; break;
+            case quicktype::BlendMode::COLOR: _j = "COLOR"; break;
+            case quicktype::BlendMode::COLOR_BURN: _j = "COLOR_BURN"; break;
+            case quicktype::BlendMode::COLOR_DODGE: _j = "COLOR_DODGE"; break;
+            case quicktype::BlendMode::DARKEN: _j = "DARKEN"; break;
+            case quicktype::BlendMode::DIFFERENCE: _j = "DIFFERENCE"; break;
+            case quicktype::BlendMode::EXCLUSION: _j = "EXCLUSION"; break;
+            case quicktype::BlendMode::HARD_LIGHT: _j = "HARD_LIGHT"; break;
+            case quicktype::BlendMode::HUE: _j = "HUE"; break;
+            case quicktype::BlendMode::LIGHTEN: _j = "LIGHTEN"; break;
+            case quicktype::BlendMode::LINEAR_BURN: _j = "LINEAR_BURN"; break;
+            case quicktype::BlendMode::LINEAR_DODGE: _j = "LINEAR_DODGE"; break;
+            case quicktype::BlendMode::LUMINOSITY: _j = "LUMINOSITY"; break;
+            case quicktype::BlendMode::MULTIPLY: _j = "MULTIPLY"; break;
+            case quicktype::BlendMode::NORMAL: _j = "NORMAL"; break;
+            case quicktype::BlendMode::OVERLAY: _j = "OVERLAY"; break;
+            case quicktype::BlendMode::PASS_THROUGH: _j = "PASS_THROUGH"; break;
+            case quicktype::BlendMode::SATURATION: _j = "SATURATION"; break;
+            case quicktype::BlendMode::SCREEN: _j = "SCREEN"; break;
+            case quicktype::BlendMode::SOFT_LIGHT: _j = "SOFT_LIGHT"; break;
             default: throw "This should not happen";
         }
     }

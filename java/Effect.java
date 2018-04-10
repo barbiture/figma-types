@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.*;
  * A visual effect such as a shadow or blur
  */
 public class Effect {
-    private LendMode blendMode;
+    private BlendMode blendMode;
     private Color color;
     private Vector2 offset;
     private double radius;
@@ -22,9 +22,9 @@ public class Effect {
      * This type is a string enum with the following possible values
      */
     @JsonProperty("blendMode")
-    public LendMode getBlendMode() { return blendMode; }
+    public BlendMode getBlendMode() { return blendMode; }
     @JsonProperty("blendMode")
-    public void setBlendMode(LendMode value) { this.blendMode = value; }
+    public void setBlendMode(BlendMode value) { this.blendMode = value; }
 
     /**
      * An RGBA color

@@ -133,14 +133,14 @@ function r(name) {
 const typeMap = {
     "FileResponse": o({
         components: m(r("Component")),
-        document: r("FileResponseDocument"),
+        document: r("Document"),
         schemaVersion: 3.14,
     }, "any"),
     "Component": o({
         absoluteBoundingBox: r("Rect"),
         backgroundColor: r("Color"),
-        blendMode: r("LendMode"),
-        children: a(r("DocumentElement")),
+        blendMode: r("BlendMode"),
+        children: a(r("Vector")),
         clipsContent: true,
         constraints: r("LayoutConstraint"),
         description: "",
@@ -168,8 +168,8 @@ const typeMap = {
         g: 3.14,
         r: 3.14,
     }, "any"),
-    "DocumentElement": o({
-        children: u(undefined, a(r("DocumentElement"))),
+    "Vector": o({
+        children: u(undefined, a(r("Vector"))),
         id: "",
         name: "",
         type: r("NodeType"),
@@ -177,7 +177,7 @@ const typeMap = {
         backgroundColor: u(undefined, r("Color")),
         exportSettings: u(undefined, a(r("ExportSetting"))),
         absoluteBoundingBox: u(undefined, r("Rect")),
-        blendMode: u(undefined, r("LendMode")),
+        blendMode: u(undefined, r("BlendMode")),
         clipsContent: u(undefined, true),
         constraints: u(undefined, r("LayoutConstraint")),
         effects: u(undefined, a(r("Effect"))),
@@ -203,7 +203,7 @@ const typeMap = {
         vertical: r("Vertical"),
     }, "any"),
     "Effect": o({
-        blendMode: u(undefined, r("LendMode")),
+        blendMode: u(undefined, r("BlendMode")),
         color: u(undefined, r("Color")),
         offset: u(undefined, r("Vector2")),
         radius: 3.14,
@@ -259,8 +259,8 @@ const typeMap = {
         textAlignHorizontal: r("TextAlignHorizontal"),
         textAlignVertical: r("TextAlignVertical"),
     }, "any"),
-    "FileResponseDocument": o({
-        children: a(r("DocumentElement")),
+    "Document": o({
+        children: a(r("Vector")),
         id: "",
         name: "",
         type: r("NodeType"),
@@ -310,7 +310,7 @@ const typeMap = {
         name: "",
         thumbnail_url: "",
     }, "any"),
-    "LendMode": [
+    "BlendMode": [
         "COLOR",
         "COLOR_BURN",
         "COLOR_DODGE",

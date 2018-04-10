@@ -88,7 +88,7 @@ func (r *ProjectFilesResponse) Marshal() ([]byte, error) {
 // File to export JSON from
 type FileResponse struct {
 	Components    map[string]Component `json:"components"`   // A mapping from node IDs to component metadata. This is to help you determine which; components each instance comes from. Currently the only piece of metadata available on; components is the name of the component, but more properties will be forthcoming.
-	Document      FileResponseDocument `json:"document"`     // The root node within the document
+	Document      Document             `json:"document"`     // The root node within the document
 	SchemaVersion float64              `json:"schemaVersion"`
 }
 
@@ -96,24 +96,24 @@ type FileResponse struct {
 // A description of a master component. Helps you identify which component
 // instances are attached to
 type Component struct {
-	AbsoluteBoundingBox Rect              `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
-	BackgroundColor     Color             `json:"backgroundColor"`    // Background color of the node
-	BlendMode           LendMode          `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
-	Children            []DocumentElement `json:"children"`           // An array of nodes that are direct children of this node
-	ClipsContent        bool              `json:"clipsContent"`       // Does this node clip content outside of its bounds?
-	Constraints         LayoutConstraint  `json:"constraints"`        // Horizontal and vertical layout constraints for node
-	Description         string            `json:"description"`        // The description of the component as entered in the editor
-	Effects             []Effect          `json:"effects"`            // An array of effects attached to this node; (see effects section for more details)
-	ExportSettings      []ExportSetting   `json:"exportSettings"`     // An array of export settings representing images to export from node
-	ID                  string            `json:"id"`                 // a string uniquely identifying this node within the document
-	IsMask              bool              `json:"isMask"`             // Does this node mask sibling nodes in front of it?
-	LayoutGrids         []LayoutGrid      `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
-	Name                string            `json:"name"`               // The name of the component
-	Opacity             float64           `json:"opacity"`            // Opacity of the node
-	PreserveRatio       bool              `json:"preserveRatio"`      // Keep height and width constrained to same ratio
-	TransitionNodeID    *string           `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
-	Type                NodeType          `json:"type"`               // the type of the node, refer to table below for details
-	Visible             bool              `json:"visible"`            // whether or not the node is visible on the canvas
+	AbsoluteBoundingBox Rect             `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
+	BackgroundColor     Color            `json:"backgroundColor"`    // Background color of the node
+	BlendMode           BlendMode        `json:"blendMode"`          // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	Children            []Vector         `json:"children"`           // An array of nodes that are direct children of this node
+	ClipsContent        bool             `json:"clipsContent"`       // Does this node clip content outside of its bounds?
+	Constraints         LayoutConstraint `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	Description         string           `json:"description"`        // The description of the component as entered in the editor
+	Effects             []Effect         `json:"effects"`            // An array of effects attached to this node; (see effects section for more details)
+	ExportSettings      []ExportSetting  `json:"exportSettings"`     // An array of export settings representing images to export from node
+	ID                  string           `json:"id"`                 // a string uniquely identifying this node within the document
+	IsMask              bool             `json:"isMask"`             // Does this node mask sibling nodes in front of it?
+	LayoutGrids         []LayoutGrid     `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
+	Name                string           `json:"name"`               // The name of the component
+	Opacity             float64          `json:"opacity"`            // Opacity of the node
+	PreserveRatio       bool             `json:"preserveRatio"`      // Keep height and width constrained to same ratio
+	TransitionNodeID    *string          `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
+	Type                NodeType         `json:"type"`               // the type of the node, refer to table below for details
+	Visible             bool             `json:"visible"`            // whether or not the node is visible on the canvas
 }
 
 // Bounding box of the node in absolute space coordinates
@@ -187,8 +187,8 @@ type Color struct {
 //
 // An instance of a component, changes to the component result in the same
 // changes applied to the instance
-type DocumentElement struct {
-	Children                []DocumentElement `json:"children"`               // An array of canvases attached to the document; ; An array of top level layers on the canvas; ; An array of nodes that are direct children of this node; ; An array of nodes that are being boolean operated on
+type Vector struct {
+	Children                []Vector          `json:"children"`               // An array of canvases attached to the document; ; An array of top level layers on the canvas; ; An array of nodes that are direct children of this node; ; An array of nodes that are being boolean operated on
 	ID                      string            `json:"id"`                     // a string uniquely identifying this node within the document
 	Name                    string            `json:"name"`                   // the name given to the node by the user in the tool.; ; The name of the component
 	Type                    NodeType          `json:"type"`                   // the type of the node, refer to table below for details
@@ -196,7 +196,7 @@ type DocumentElement struct {
 	BackgroundColor         *Color            `json:"backgroundColor"`        // Background color of the canvas; ; Background color of the node
 	ExportSettings          []ExportSetting   `json:"exportSettings"`         // An array of export settings representing images to export from the canvas; ; An array of export settings representing images to export from node; ; An array of export settings representing images to export from this node
 	AbsoluteBoundingBox     *Rect             `json:"absoluteBoundingBox"`    // Bounding box of the node in absolute space coordinates
-	BlendMode               *LendMode         `json:"blendMode"`              // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
+	BlendMode               *BlendMode        `json:"blendMode"`              // How this node blends with nodes behind it in the scene; (see blend mode section for more details)
 	ClipsContent            *bool             `json:"clipsContent"`           // Does this node clip content outside of its bounds?
 	Constraints             *LayoutConstraint `json:"constraints"`            // Horizontal and vertical layout constraints for node
 	Effects                 []Effect          `json:"effects"`                // An array of effects attached to this node; (see effects section for more details)
@@ -231,7 +231,7 @@ type LayoutConstraint struct {
 //
 // A visual effect such as a shadow or blur
 type Effect struct {
-	BlendMode *LendMode  `json:"blendMode"`// Enum describing how layer blends with layers below; This type is a string enum with the following possible values
+	BlendMode *BlendMode `json:"blendMode"`// Enum describing how layer blends with layers below; This type is a string enum with the following possible values
 	Color     *Color     `json:"color"`    // An RGBA color
 	Offset    *Vector2   `json:"offset"`   // A 2d vector
 	Radius    float64    `json:"radius"`   // Radius of the blur effect (applies to shadows as well)
@@ -343,12 +343,12 @@ type TypeStyle struct {
 //
 // Node Properties
 // The root node
-type FileResponseDocument struct {
-	Children []DocumentElement `json:"children"`// An array of canvases attached to the document
-	ID       string            `json:"id"`      // a string uniquely identifying this node within the document
-	Name     string            `json:"name"`    // the name given to the node by the user in the tool.
-	Type     NodeType          `json:"type"`    // the type of the node, refer to table below for details
-	Visible  bool              `json:"visible"` // whether or not the node is visible on the canvas
+type Document struct {
+	Children []Vector `json:"children"`// An array of canvases attached to the document
+	ID       string   `json:"id"`      // a string uniquely identifying this node within the document
+	Name     string   `json:"name"`    // the name given to the node by the user in the tool.
+	Type     NodeType `json:"type"`    // the type of the node, refer to table below for details
+	Visible  bool     `json:"visible"` // whether or not the node is visible on the canvas
 }
 
 // GET /v1/files/:key/comments
@@ -474,27 +474,27 @@ type File struct {
 //
 // Enum describing how layer blends with layers below
 // This type is a string enum with the following possible values
-type LendMode string
+type BlendMode string
 const (
-	ColorBurn LendMode = "COLOR_BURN"
-	ColorDodge LendMode = "COLOR_DODGE"
-	Darken LendMode = "DARKEN"
-	Difference LendMode = "DIFFERENCE"
-	Exclusion LendMode = "EXCLUSION"
-	HardLight LendMode = "HARD_LIGHT"
-	Hue LendMode = "HUE"
-	LendModeCOLOR LendMode = "COLOR"
-	Lighten LendMode = "LIGHTEN"
-	LinearBurn LendMode = "LINEAR_BURN"
-	LinearDodge LendMode = "LINEAR_DODGE"
-	Luminosity LendMode = "LUMINOSITY"
-	Multiply LendMode = "MULTIPLY"
-	Normal LendMode = "NORMAL"
-	Overlay LendMode = "OVERLAY"
-	PassThrough LendMode = "PASS_THROUGH"
-	Saturation LendMode = "SATURATION"
-	Screen LendMode = "SCREEN"
-	SoftLight LendMode = "SOFT_LIGHT"
+	BlendModeCOLOR BlendMode = "COLOR"
+	ColorBurn BlendMode = "COLOR_BURN"
+	ColorDodge BlendMode = "COLOR_DODGE"
+	Darken BlendMode = "DARKEN"
+	Difference BlendMode = "DIFFERENCE"
+	Exclusion BlendMode = "EXCLUSION"
+	HardLight BlendMode = "HARD_LIGHT"
+	Hue BlendMode = "HUE"
+	Lighten BlendMode = "LIGHTEN"
+	LinearBurn BlendMode = "LINEAR_BURN"
+	LinearDodge BlendMode = "LINEAR_DODGE"
+	Luminosity BlendMode = "LUMINOSITY"
+	Multiply BlendMode = "MULTIPLY"
+	Normal BlendMode = "NORMAL"
+	Overlay BlendMode = "OVERLAY"
+	PassThrough BlendMode = "PASS_THROUGH"
+	Saturation BlendMode = "SATURATION"
+	Screen BlendMode = "SCREEN"
+	SoftLight BlendMode = "SOFT_LIGHT"
 )
 
 // Horizontal constraint as an enum
@@ -624,17 +624,17 @@ type NodeType string
 const (
 	Boolean NodeType = "BOOLEAN"
 	Canvas NodeType = "CANVAS"
-	Document NodeType = "DOCUMENT"
 	Ellipse NodeType = "ELLIPSE"
 	Frame NodeType = "FRAME"
 	Group NodeType = "GROUP"
 	Instance NodeType = "INSTANCE"
 	Line NodeType = "LINE"
 	NodeTypeCOMPONENT NodeType = "COMPONENT"
+	NodeTypeDOCUMENT NodeType = "DOCUMENT"
+	NodeTypeVECTOR NodeType = "VECTOR"
 	Rectangle NodeType = "RECTANGLE"
 	RegularPolygon NodeType = "REGULAR_POLYGON"
 	Slice NodeType = "SLICE"
 	Star NodeType = "STAR"
 	Text NodeType = "TEXT"
-	Vector NodeType = "VECTOR"
 )

@@ -13,8 +13,8 @@
 @class FGComponent;
 @class FGRect;
 @class FGColor;
-@class FGLendMode;
-@class FGDocumentElement;
+@class FGBlendMode;
+@class FGVector;
 @class FGLayoutConstraint;
 @class FGHorizontal;
 @class FGVertical;
@@ -36,7 +36,7 @@
 @class FGTextAlignHorizontal;
 @class FGTextAlignVertical;
 @class FGNodeType;
-@class FGFileResponseDocument;
+@class FGDocument;
 @class FGCommentsResponse;
 @class FGComment;
 @class FGClientMeta;
@@ -56,28 +56,28 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Enum describing how layer blends with layers below
 /// This type is a string enum with the following possible values
-@interface FGLendMode : NSObject
+@interface FGBlendMode : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (FGLendMode *)color;
-+ (FGLendMode *)colorBurn;
-+ (FGLendMode *)colorDodge;
-+ (FGLendMode *)darken;
-+ (FGLendMode *)difference;
-+ (FGLendMode *)exclusion;
-+ (FGLendMode *)hardLight;
-+ (FGLendMode *)hue;
-+ (FGLendMode *)lighten;
-+ (FGLendMode *)linearBurn;
-+ (FGLendMode *)linearDodge;
-+ (FGLendMode *)luminosity;
-+ (FGLendMode *)multiply;
-+ (FGLendMode *)normal;
-+ (FGLendMode *)overlay;
-+ (FGLendMode *)passThrough;
-+ (FGLendMode *)saturation;
-+ (FGLendMode *)screen;
-+ (FGLendMode *)softLight;
++ (FGBlendMode *)color;
++ (FGBlendMode *)colorBurn;
++ (FGBlendMode *)colorDodge;
++ (FGBlendMode *)darken;
++ (FGBlendMode *)difference;
++ (FGBlendMode *)exclusion;
++ (FGBlendMode *)hardLight;
++ (FGBlendMode *)hue;
++ (FGBlendMode *)lighten;
++ (FGBlendMode *)linearBurn;
++ (FGBlendMode *)linearDodge;
++ (FGBlendMode *)luminosity;
++ (FGBlendMode *)multiply;
++ (FGBlendMode *)normal;
++ (FGBlendMode *)overlay;
++ (FGBlendMode *)passThrough;
++ (FGBlendMode *)saturation;
++ (FGBlendMode *)screen;
++ (FGBlendMode *)softLight;
 @end
 
 /// Horizontal constraint as an enum
@@ -259,7 +259,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// components is the name of the component, but more properties will be forthcoming.
 @property (nonatomic, copy) NSDictionary<NSString *, FGComponent *> *components;
 /// The root node within the document
-@property (nonatomic, strong) FGFileResponseDocument *document;
+@property (nonatomic, strong) FGDocument *document;
 @property (nonatomic, assign) double schemaVersion;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
@@ -278,9 +278,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) FGColor *backgroundColor;
 /// How this node blends with nodes behind it in the scene
 /// (see blend mode section for more details)
-@property (nonatomic, assign) FGLendMode *blendMode;
+@property (nonatomic, assign) FGBlendMode *blendMode;
 /// An array of nodes that are direct children of this node
-@property (nonatomic, copy) NSArray<FGDocumentElement *> *children;
+@property (nonatomic, copy) NSArray<FGVector *> *children;
 /// Does this node clip content outside of its bounds?
 @property (nonatomic, assign) BOOL isClipsContent;
 /// Horizontal and vertical layout constraints for node
@@ -392,7 +392,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
-@interface FGDocumentElement : NSObject
+@interface FGVector : NSObject
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -400,7 +400,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// An array of nodes that are direct children of this node
 ///
 /// An array of nodes that are being boolean operated on
-@property (nonatomic, nullable, copy) NSArray<FGDocumentElement *> *children;
+@property (nonatomic, nullable, copy) NSArray<FGVector *> *children;
 /// a string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// the name given to the node by the user in the tool.
@@ -425,7 +425,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, strong) FGRect *absoluteBoundingBox;
 /// How this node blends with nodes behind it in the scene
 /// (see blend mode section for more details)
-@property (nonatomic, nullable, assign) FGLendMode *blendMode;
+@property (nonatomic, nullable, assign) FGBlendMode *blendMode;
 /// Does this node clip content outside of its bounds?
 @property (nonatomic, nullable, strong) NSNumber *clipsContent;
 /// Horizontal and vertical layout constraints for node
@@ -505,7 +505,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FGEffect : NSObject
 /// Enum describing how layer blends with layers below
 /// This type is a string enum with the following possible values
-@property (nonatomic, nullable, assign) FGLendMode *blendMode;
+@property (nonatomic, nullable, assign) FGBlendMode *blendMode;
 /// An RGBA color
 @property (nonatomic, nullable, strong) FGColor *color;
 /// A 2d vector
@@ -676,9 +676,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Node Properties
 /// The root node
-@interface FGFileResponseDocument : NSObject
+@interface FGDocument : NSObject
 /// An array of canvases attached to the document
-@property (nonatomic, copy) NSArray<FGDocumentElement *> *children;
+@property (nonatomic, copy) NSArray<FGVector *> *children;
 /// a string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// the name given to the node by the user in the tool.

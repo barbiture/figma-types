@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.*;
 public class Component {
     private Rect absoluteBoundingBox;
     private Color backgroundColor;
-    private LendMode blendMode;
-    private DocumentElement[] children;
+    private BlendMode blendMode;
+    private Vector[] children;
     private boolean clipsContent;
     private LayoutConstraint constraints;
     private String description;
@@ -49,17 +49,17 @@ public class Component {
      * (see blend mode section for more details)
      */
     @JsonProperty("blendMode")
-    public LendMode getBlendMode() { return blendMode; }
+    public BlendMode getBlendMode() { return blendMode; }
     @JsonProperty("blendMode")
-    public void setBlendMode(LendMode value) { this.blendMode = value; }
+    public void setBlendMode(BlendMode value) { this.blendMode = value; }
 
     /**
      * An array of nodes that are direct children of this node
      */
     @JsonProperty("children")
-    public DocumentElement[] getChildren() { return children; }
+    public Vector[] getChildren() { return children; }
     @JsonProperty("children")
-    public void setChildren(DocumentElement[] value) { this.children = value; }
+    public void setChildren(Vector[] value) { this.children = value; }
 
     /**
      * Does this node clip content outside of its bounds?

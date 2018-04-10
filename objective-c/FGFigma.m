@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGDocumentElement (JSONConversion)
+@interface FGVector (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGFileResponseDocument (JSONConversion)
+@interface FGDocument (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -128,56 +128,56 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@implementation FGLendMode
-+ (NSDictionary<NSString *, FGLendMode *> *)values
+@implementation FGBlendMode
++ (NSDictionary<NSString *, FGBlendMode *> *)values
 {
-    static NSDictionary<NSString *, FGLendMode *> *values;
+    static NSDictionary<NSString *, FGBlendMode *> *values;
     return values = values ? values : @{
-        @"COLOR": [[FGLendMode alloc] initWithValue:@"COLOR"],
-        @"COLOR_BURN": [[FGLendMode alloc] initWithValue:@"COLOR_BURN"],
-        @"COLOR_DODGE": [[FGLendMode alloc] initWithValue:@"COLOR_DODGE"],
-        @"DARKEN": [[FGLendMode alloc] initWithValue:@"DARKEN"],
-        @"DIFFERENCE": [[FGLendMode alloc] initWithValue:@"DIFFERENCE"],
-        @"EXCLUSION": [[FGLendMode alloc] initWithValue:@"EXCLUSION"],
-        @"HARD_LIGHT": [[FGLendMode alloc] initWithValue:@"HARD_LIGHT"],
-        @"HUE": [[FGLendMode alloc] initWithValue:@"HUE"],
-        @"LIGHTEN": [[FGLendMode alloc] initWithValue:@"LIGHTEN"],
-        @"LINEAR_BURN": [[FGLendMode alloc] initWithValue:@"LINEAR_BURN"],
-        @"LINEAR_DODGE": [[FGLendMode alloc] initWithValue:@"LINEAR_DODGE"],
-        @"LUMINOSITY": [[FGLendMode alloc] initWithValue:@"LUMINOSITY"],
-        @"MULTIPLY": [[FGLendMode alloc] initWithValue:@"MULTIPLY"],
-        @"NORMAL": [[FGLendMode alloc] initWithValue:@"NORMAL"],
-        @"OVERLAY": [[FGLendMode alloc] initWithValue:@"OVERLAY"],
-        @"PASS_THROUGH": [[FGLendMode alloc] initWithValue:@"PASS_THROUGH"],
-        @"SATURATION": [[FGLendMode alloc] initWithValue:@"SATURATION"],
-        @"SCREEN": [[FGLendMode alloc] initWithValue:@"SCREEN"],
-        @"SOFT_LIGHT": [[FGLendMode alloc] initWithValue:@"SOFT_LIGHT"],
+        @"COLOR": [[FGBlendMode alloc] initWithValue:@"COLOR"],
+        @"COLOR_BURN": [[FGBlendMode alloc] initWithValue:@"COLOR_BURN"],
+        @"COLOR_DODGE": [[FGBlendMode alloc] initWithValue:@"COLOR_DODGE"],
+        @"DARKEN": [[FGBlendMode alloc] initWithValue:@"DARKEN"],
+        @"DIFFERENCE": [[FGBlendMode alloc] initWithValue:@"DIFFERENCE"],
+        @"EXCLUSION": [[FGBlendMode alloc] initWithValue:@"EXCLUSION"],
+        @"HARD_LIGHT": [[FGBlendMode alloc] initWithValue:@"HARD_LIGHT"],
+        @"HUE": [[FGBlendMode alloc] initWithValue:@"HUE"],
+        @"LIGHTEN": [[FGBlendMode alloc] initWithValue:@"LIGHTEN"],
+        @"LINEAR_BURN": [[FGBlendMode alloc] initWithValue:@"LINEAR_BURN"],
+        @"LINEAR_DODGE": [[FGBlendMode alloc] initWithValue:@"LINEAR_DODGE"],
+        @"LUMINOSITY": [[FGBlendMode alloc] initWithValue:@"LUMINOSITY"],
+        @"MULTIPLY": [[FGBlendMode alloc] initWithValue:@"MULTIPLY"],
+        @"NORMAL": [[FGBlendMode alloc] initWithValue:@"NORMAL"],
+        @"OVERLAY": [[FGBlendMode alloc] initWithValue:@"OVERLAY"],
+        @"PASS_THROUGH": [[FGBlendMode alloc] initWithValue:@"PASS_THROUGH"],
+        @"SATURATION": [[FGBlendMode alloc] initWithValue:@"SATURATION"],
+        @"SCREEN": [[FGBlendMode alloc] initWithValue:@"SCREEN"],
+        @"SOFT_LIGHT": [[FGBlendMode alloc] initWithValue:@"SOFT_LIGHT"],
     };
 }
 
-+ (FGLendMode *)color { return FGLendMode.values[@"COLOR"]; }
-+ (FGLendMode *)colorBurn { return FGLendMode.values[@"COLOR_BURN"]; }
-+ (FGLendMode *)colorDodge { return FGLendMode.values[@"COLOR_DODGE"]; }
-+ (FGLendMode *)darken { return FGLendMode.values[@"DARKEN"]; }
-+ (FGLendMode *)difference { return FGLendMode.values[@"DIFFERENCE"]; }
-+ (FGLendMode *)exclusion { return FGLendMode.values[@"EXCLUSION"]; }
-+ (FGLendMode *)hardLight { return FGLendMode.values[@"HARD_LIGHT"]; }
-+ (FGLendMode *)hue { return FGLendMode.values[@"HUE"]; }
-+ (FGLendMode *)lighten { return FGLendMode.values[@"LIGHTEN"]; }
-+ (FGLendMode *)linearBurn { return FGLendMode.values[@"LINEAR_BURN"]; }
-+ (FGLendMode *)linearDodge { return FGLendMode.values[@"LINEAR_DODGE"]; }
-+ (FGLendMode *)luminosity { return FGLendMode.values[@"LUMINOSITY"]; }
-+ (FGLendMode *)multiply { return FGLendMode.values[@"MULTIPLY"]; }
-+ (FGLendMode *)normal { return FGLendMode.values[@"NORMAL"]; }
-+ (FGLendMode *)overlay { return FGLendMode.values[@"OVERLAY"]; }
-+ (FGLendMode *)passThrough { return FGLendMode.values[@"PASS_THROUGH"]; }
-+ (FGLendMode *)saturation { return FGLendMode.values[@"SATURATION"]; }
-+ (FGLendMode *)screen { return FGLendMode.values[@"SCREEN"]; }
-+ (FGLendMode *)softLight { return FGLendMode.values[@"SOFT_LIGHT"]; }
++ (FGBlendMode *)color { return FGBlendMode.values[@"COLOR"]; }
++ (FGBlendMode *)colorBurn { return FGBlendMode.values[@"COLOR_BURN"]; }
++ (FGBlendMode *)colorDodge { return FGBlendMode.values[@"COLOR_DODGE"]; }
++ (FGBlendMode *)darken { return FGBlendMode.values[@"DARKEN"]; }
++ (FGBlendMode *)difference { return FGBlendMode.values[@"DIFFERENCE"]; }
++ (FGBlendMode *)exclusion { return FGBlendMode.values[@"EXCLUSION"]; }
++ (FGBlendMode *)hardLight { return FGBlendMode.values[@"HARD_LIGHT"]; }
++ (FGBlendMode *)hue { return FGBlendMode.values[@"HUE"]; }
++ (FGBlendMode *)lighten { return FGBlendMode.values[@"LIGHTEN"]; }
++ (FGBlendMode *)linearBurn { return FGBlendMode.values[@"LINEAR_BURN"]; }
++ (FGBlendMode *)linearDodge { return FGBlendMode.values[@"LINEAR_DODGE"]; }
++ (FGBlendMode *)luminosity { return FGBlendMode.values[@"LUMINOSITY"]; }
++ (FGBlendMode *)multiply { return FGBlendMode.values[@"MULTIPLY"]; }
++ (FGBlendMode *)normal { return FGBlendMode.values[@"NORMAL"]; }
++ (FGBlendMode *)overlay { return FGBlendMode.values[@"OVERLAY"]; }
++ (FGBlendMode *)passThrough { return FGBlendMode.values[@"PASS_THROUGH"]; }
++ (FGBlendMode *)saturation { return FGBlendMode.values[@"SATURATION"]; }
++ (FGBlendMode *)screen { return FGBlendMode.values[@"SCREEN"]; }
++ (FGBlendMode *)softLight { return FGBlendMode.values[@"SOFT_LIGHT"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return FGLendMode.values[value];
+    return FGBlendMode.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -796,7 +796,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
         _components = map(_components, λ(id x, [FGComponent fromJSONDictionary:x]));
-        _document = [FGFileResponseDocument fromJSONDictionary:(id)_document];
+        _document = [FGDocument fromJSONDictionary:(id)_document];
     }
     return self;
 }
@@ -861,8 +861,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
         [self setValuesForKeysWithDictionary:dict];
         _absoluteBoundingBox = [FGRect fromJSONDictionary:(id)_absoluteBoundingBox];
         _backgroundColor = [FGColor fromJSONDictionary:(id)_backgroundColor];
-        _blendMode = [FGLendMode withValue:(id)_blendMode];
-        _children = map(_children, λ(id x, [FGDocumentElement fromJSONDictionary:x]));
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
+        _children = map(_children, λ(id x, [FGVector fromJSONDictionary:x]));
         _constraints = [FGLayoutConstraint fromJSONDictionary:(id)_constraints];
         _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
         _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
@@ -971,7 +971,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 }
 @end
 
-@implementation FGDocumentElement
+@implementation FGVector
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1009,19 +1009,19 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGDocumentElement alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGVector alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [FGDocumentElement fromJSONDictionary:x]));
+        _children = map(_children, λ(id x, [FGVector fromJSONDictionary:x]));
         _type = [FGNodeType withValue:(id)_type];
         _backgroundColor = [FGColor fromJSONDictionary:(id)_backgroundColor];
         _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
         _absoluteBoundingBox = [FGRect fromJSONDictionary:(id)_absoluteBoundingBox];
-        _blendMode = [FGLendMode withValue:(id)_blendMode];
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
         _constraints = [FGLayoutConstraint fromJSONDictionary:(id)_constraints];
         _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
         _layoutGrids = map(_layoutGrids, λ(id x, [FGLayoutGrid fromJSONDictionary:x]));
@@ -1036,15 +1036,15 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGDocumentElement.properties[key]];
+    [super setValue:value forKey:FGVector.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGDocumentElement.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGVector.properties.allValues] mutableCopy];
 
-    for (id jsonName in FGDocumentElement.properties) {
-        id propertyName = FGDocumentElement.properties[jsonName];
+    for (id jsonName in FGVector.properties) {
+        id propertyName = FGVector.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -1134,7 +1134,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _blendMode = [FGLendMode withValue:(id)_blendMode];
+        _blendMode = [FGBlendMode withValue:(id)_blendMode];
         _color = [FGColor fromJSONDictionary:(id)_color];
         _offset = [FGVector2 fromJSONDictionary:(id)_offset];
         _type = [FGEffectType withValue:(id)_type];
@@ -1495,7 +1495,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 }
 @end
 
-@implementation FGFileResponseDocument
+@implementation FGDocument
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1510,14 +1510,14 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGFileResponseDocument alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGDocument alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [FGDocumentElement fromJSONDictionary:x]));
+        _children = map(_children, λ(id x, [FGVector fromJSONDictionary:x]));
         _type = [FGNodeType withValue:(id)_type];
     }
     return self;
@@ -1525,15 +1525,15 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGFileResponseDocument.properties[key]];
+    [super setValue:value forKey:FGDocument.properties[key]];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGFileResponseDocument.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGDocument.properties.allValues] mutableCopy];
 
-    for (id jsonName in FGFileResponseDocument.properties) {
-        id propertyName = FGFileResponseDocument.properties[jsonName];
+    for (id jsonName in FGDocument.properties) {
+        id propertyName = FGDocument.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];

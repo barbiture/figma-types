@@ -40,7 +40,7 @@ export interface FileResponse {
     /**
      * The root node within the document
      */
-    document:      FileResponseDocument;
+    document:      Document;
     schemaVersion: number;
 }
 
@@ -62,11 +62,11 @@ export interface Component {
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode: LendMode;
+    blendMode: BlendMode;
     /**
      * An array of nodes that are direct children of this node
      */
-    children: DocumentElement[];
+    children: Vector[];
     /**
      * Does this node clip content outside of its bounds?
      */
@@ -190,7 +190,7 @@ export interface Color {
  * Enum describing how layer blends with layers below
  * This type is a string enum with the following possible values
  */
-export enum LendMode {
+export enum BlendMode {
     Color = "COLOR",
     ColorBurn = "COLOR_BURN",
     ColorDodge = "COLOR_DODGE",
@@ -257,7 +257,7 @@ export enum LendMode {
  * An instance of a component, changes to the component result in the same
  * changes applied to the instance
  */
-export interface DocumentElement {
+export interface Vector {
     /**
      * An array of canvases attached to the document
      *
@@ -267,7 +267,7 @@ export interface DocumentElement {
      *
      * An array of nodes that are being boolean operated on
      */
-    children?: DocumentElement[];
+    children?: Vector[];
     /**
      * a string uniquely identifying this node within the document
      */
@@ -308,7 +308,7 @@ export interface DocumentElement {
      * How this node blends with nodes behind it in the scene
      * (see blend mode section for more details)
      */
-    blendMode?: LendMode;
+    blendMode?: BlendMode;
     /**
      * Does this node clip content outside of its bounds?
      */
@@ -470,7 +470,7 @@ export interface Effect {
      * Enum describing how layer blends with layers below
      * This type is a string enum with the following possible values
      */
-    blendMode?: LendMode;
+    blendMode?: BlendMode;
     /**
      * An RGBA color
      */
@@ -857,11 +857,11 @@ export enum NodeType {
  * Node Properties
  * The root node
  */
-export interface FileResponseDocument {
+export interface Document {
     /**
      * An array of canvases attached to the document
      */
-    children: DocumentElement[];
+    children: Vector[];
     /**
      * a string uniquely identifying this node within the document
      */
@@ -1176,14 +1176,14 @@ export namespace Convert {
     const typeMap: any = {
         "FileResponse": o({
             components: m(r("Component")),
-            document: r("FileResponseDocument"),
+            document: r("Document"),
             schemaVersion: 3.14,
         }, "any"),
         "Component": o({
             absoluteBoundingBox: r("Rect"),
             backgroundColor: r("Color"),
-            blendMode: r("LendMode"),
-            children: a(r("DocumentElement")),
+            blendMode: r("BlendMode"),
+            children: a(r("Vector")),
             clipsContent: true,
             constraints: r("LayoutConstraint"),
             description: "",
@@ -1211,8 +1211,8 @@ export namespace Convert {
             g: 3.14,
             r: 3.14,
         }, "any"),
-        "DocumentElement": o({
-            children: u(undefined, a(r("DocumentElement"))),
+        "Vector": o({
+            children: u(undefined, a(r("Vector"))),
             id: "",
             name: "",
             type: r("NodeType"),
@@ -1220,7 +1220,7 @@ export namespace Convert {
             backgroundColor: u(undefined, r("Color")),
             exportSettings: u(undefined, a(r("ExportSetting"))),
             absoluteBoundingBox: u(undefined, r("Rect")),
-            blendMode: u(undefined, r("LendMode")),
+            blendMode: u(undefined, r("BlendMode")),
             clipsContent: u(undefined, true),
             constraints: u(undefined, r("LayoutConstraint")),
             effects: u(undefined, a(r("Effect"))),
@@ -1246,7 +1246,7 @@ export namespace Convert {
             vertical: r("Vertical"),
         }, "any"),
         "Effect": o({
-            blendMode: u(undefined, r("LendMode")),
+            blendMode: u(undefined, r("BlendMode")),
             color: u(undefined, r("Color")),
             offset: u(undefined, r("Vector2")),
             radius: 3.14,
@@ -1302,8 +1302,8 @@ export namespace Convert {
             textAlignHorizontal: r("TextAlignHorizontal"),
             textAlignVertical: r("TextAlignVertical"),
         }, "any"),
-        "FileResponseDocument": o({
-            children: a(r("DocumentElement")),
+        "Document": o({
+            children: a(r("Vector")),
             id: "",
             name: "",
             type: r("NodeType"),
@@ -1353,7 +1353,7 @@ export namespace Convert {
             name: "",
             thumbnail_url: "",
         }, "any"),
-        "LendMode": [
+        "BlendMode": [
             "COLOR",
             "COLOR_BURN",
             "COLOR_DODGE",

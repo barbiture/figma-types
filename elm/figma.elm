@@ -34,7 +34,7 @@ module QuickType exposing
     , Component
     , Rect
     , Color
-    , DocumentElement
+    , Vector
     , LayoutConstraint
     , Effect
     , Vector2
@@ -44,16 +44,15 @@ module QuickType exposing
     , ColorStop
     , LayoutGrid
     , TypeStyle
-    , FileResponseDocument
+    , Document
     , Comment
     , ClientMeta
     , User
     , Project
     , File
-    , LendMode(..)
+    , BlendMode(..)
     , Horizontal(..)
     , Vertical(..)
-    , NodeType(..)
     , EffectType(..)
     , ConstraintType(..)
     , Format(..)
@@ -63,6 +62,7 @@ module QuickType exposing
     , StrokeAlign(..)
     , TextAlignHorizontal(..)
     , TextAlignVertical(..)
+    , NodeType(..)
     )
 
 import Json.Decode as Jdec
@@ -99,7 +99,7 @@ The root node within the document
 -}
 type alias FileResponse =
     { components : Dict String Component
-    , document : FileResponseDocument
+    , document : Document
     , schemaVersion : Float
     }
 
@@ -167,8 +167,8 @@ whether or not the node is visible on the canvas
 type alias Component =
     { absoluteBoundingBox : Rect
     , backgroundColor : Color
-    , blendMode : LendMode
-    , children : Array DocumentElement
+    , blendMode : BlendMode
+    , children : Array Vector
     , clipsContent : Bool
     , constraints : LayoutConstraint
     , description : String
@@ -245,15 +245,15 @@ type alias Color =
 Enum describing how layer blends with layers below
 This type is a string enum with the following possible values
 -}
-type LendMode
-    = ColorBurn
+type BlendMode
+    = BlendModeCOLOR
+    | ColorBurn
     | ColorDodge
     | Darken
     | Difference
     | Exclusion
     | HardLight
     | Hue
-    | LendModeCOLOR
     | Lighten
     | LinearBurn
     | LinearDodge
@@ -327,7 +327,7 @@ the name given to the node by the user in the tool.
 
 The name of the component
 
-documentType:
+vectorType:
 the type of the node, refer to table below for details
 
 visible:
@@ -419,16 +419,16 @@ componentID:
 ID of component that this instance came from, refers to components
 table (see endpoints section below)
 -}
-type alias DocumentElement =
-    { children : Maybe (Array DocumentElement)
+type alias Vector =
+    { children : Maybe (Array Vector)
     , id : String
     , name : String
-    , documentType : NodeType
+    , vectorType : NodeType
     , visible : Bool
     , backgroundColor : Maybe Color
     , exportSettings : Maybe (Array ExportSetting)
     , absoluteBoundingBox : Maybe Rect
-    , blendMode : Maybe LendMode
+    , blendMode : Maybe BlendMode
     , clipsContent : Maybe Bool
     , constraints : Maybe LayoutConstraint
     , effects : Maybe (Array Effect)
@@ -507,24 +507,6 @@ type Vertical
     | VerticalSCALE
     | VerticalTOP
 
-{-| the type of the node, refer to table below for details -}
-type NodeType
-    = Boolean
-    | Canvas
-    | Document
-    | Ellipse
-    | Frame
-    | Group
-    | Instance
-    | Line
-    | NodeTypeCOMPONENT
-    | Rectangle
-    | RegularPolygon
-    | Slice
-    | Star
-    | Text
-    | Vector
-
 {-| An array of effects attached to this node
 (see effects section for more details)
 
@@ -550,7 +532,7 @@ visible:
 Is the effect active?
 -}
 type alias Effect =
-    { blendMode : Maybe LendMode
+    { blendMode : Maybe BlendMode
     , color : Maybe Color
     , offset : Maybe Vector2
     , radius : Float
@@ -865,6 +847,24 @@ type TextAlignVertical
     | TextAlignVerticalCENTER
     | TextAlignVerticalTOP
 
+{-| the type of the node, refer to table below for details -}
+type NodeType
+    = Boolean
+    | Canvas
+    | Ellipse
+    | Frame
+    | Group
+    | Instance
+    | Line
+    | NodeTypeCOMPONENT
+    | NodeTypeDOCUMENT
+    | NodeTypeVECTOR
+    | Rectangle
+    | RegularPolygon
+    | Slice
+    | Star
+    | Text
+
 {-| The root node within the document
 
 Node Properties
@@ -885,8 +885,8 @@ the type of the node, refer to table below for details
 visible:
 whether or not the node is visible on the canvas
 -}
-type alias FileResponseDocument =
-    { children : Array DocumentElement
+type alias Document =
+    { children : Array Vector
     , id : String
     , name : String
     , documentType : NodeType
@@ -1080,14 +1080,14 @@ fileResponse : Jdec.Decoder FileResponse
 fileResponse =
     Jpipe.decode FileResponse
         |> Jpipe.required "components" (Jdec.dict component)
-        |> Jpipe.required "document" fileResponseDocument
+        |> Jpipe.required "document" document
         |> Jpipe.required "schemaVersion" Jdec.float
 
 encodeFileResponse : FileResponse -> Jenc.Value
 encodeFileResponse x =
     Jenc.object
         [ ("components", makeDictEncoder encodeComponent x.components)
-        , ("document", encodeFileResponseDocument x.document)
+        , ("document", encodeDocument x.document)
         , ("schemaVersion", Jenc.float x.schemaVersion)
         ]
 
@@ -1096,8 +1096,8 @@ component =
     Jpipe.decode Component
         |> Jpipe.required "absoluteBoundingBox" rect
         |> Jpipe.required "backgroundColor" color
-        |> Jpipe.required "blendMode" lendMode
-        |> Jpipe.required "children" (Jdec.array documentElement)
+        |> Jpipe.required "blendMode" blendMode
+        |> Jpipe.required "children" (Jdec.array vector)
         |> Jpipe.required "clipsContent" Jdec.bool
         |> Jpipe.required "constraints" layoutConstraint
         |> Jpipe.required "description" Jdec.string
@@ -1118,8 +1118,8 @@ encodeComponent x =
     Jenc.object
         [ ("absoluteBoundingBox", encodeRect x.absoluteBoundingBox)
         , ("backgroundColor", encodeColor x.backgroundColor)
-        , ("blendMode", encodeLendMode x.blendMode)
-        , ("children", makeArrayEncoder encodeDocumentElement x.children)
+        , ("blendMode", encodeBlendMode x.blendMode)
+        , ("children", makeArrayEncoder encodeVector x.children)
         , ("clipsContent", Jenc.bool x.clipsContent)
         , ("constraints", encodeLayoutConstraint x.constraints)
         , ("description", Jenc.string x.description)
@@ -1170,11 +1170,12 @@ encodeColor x =
         , ("r", Jenc.float x.r)
         ]
 
-lendMode : Jdec.Decoder LendMode
-lendMode =
+blendMode : Jdec.Decoder BlendMode
+blendMode =
     Jdec.string
         |> Jdec.andThen (\str ->
             case str of
+                "COLOR" -> Jdec.succeed BlendModeCOLOR
                 "COLOR_BURN" -> Jdec.succeed ColorBurn
                 "COLOR_DODGE" -> Jdec.succeed ColorDodge
                 "DARKEN" -> Jdec.succeed Darken
@@ -1182,7 +1183,6 @@ lendMode =
                 "EXCLUSION" -> Jdec.succeed Exclusion
                 "HARD_LIGHT" -> Jdec.succeed HardLight
                 "HUE" -> Jdec.succeed Hue
-                "COLOR" -> Jdec.succeed LendModeCOLOR
                 "LIGHTEN" -> Jdec.succeed Lighten
                 "LINEAR_BURN" -> Jdec.succeed LinearBurn
                 "LINEAR_DODGE" -> Jdec.succeed LinearDodge
@@ -1194,11 +1194,12 @@ lendMode =
                 "SATURATION" -> Jdec.succeed Saturation
                 "SCREEN" -> Jdec.succeed Screen
                 "SOFT_LIGHT" -> Jdec.succeed SoftLight
-                somethingElse -> Jdec.fail <| "Invalid LendMode: " ++ somethingElse
+                somethingElse -> Jdec.fail <| "Invalid BlendMode: " ++ somethingElse
         )
 
-encodeLendMode : LendMode -> Jenc.Value
-encodeLendMode x = case x of
+encodeBlendMode : BlendMode -> Jenc.Value
+encodeBlendMode x = case x of
+    BlendModeCOLOR -> Jenc.string "COLOR"
     ColorBurn -> Jenc.string "COLOR_BURN"
     ColorDodge -> Jenc.string "COLOR_DODGE"
     Darken -> Jenc.string "DARKEN"
@@ -1206,7 +1207,6 @@ encodeLendMode x = case x of
     Exclusion -> Jenc.string "EXCLUSION"
     HardLight -> Jenc.string "HARD_LIGHT"
     Hue -> Jenc.string "HUE"
-    LendModeCOLOR -> Jenc.string "COLOR"
     Lighten -> Jenc.string "LIGHTEN"
     LinearBurn -> Jenc.string "LINEAR_BURN"
     LinearDodge -> Jenc.string "LINEAR_DODGE"
@@ -1219,10 +1219,10 @@ encodeLendMode x = case x of
     Screen -> Jenc.string "SCREEN"
     SoftLight -> Jenc.string "SOFT_LIGHT"
 
-documentElement : Jdec.Decoder DocumentElement
-documentElement =
-    Jpipe.decode DocumentElement
-        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array documentElement)) Nothing
+vector : Jdec.Decoder Vector
+vector =
+    Jpipe.decode Vector
+        |> Jpipe.optional "children" (Jdec.nullable (Jdec.array vector)) Nothing
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
         |> Jpipe.required "type" nodeType
@@ -1230,7 +1230,7 @@ documentElement =
         |> Jpipe.optional "backgroundColor" (Jdec.nullable color) Nothing
         |> Jpipe.optional "exportSettings" (Jdec.nullable (Jdec.array exportSetting)) Nothing
         |> Jpipe.optional "absoluteBoundingBox" (Jdec.nullable rect) Nothing
-        |> Jpipe.optional "blendMode" (Jdec.nullable lendMode) Nothing
+        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
         |> Jpipe.optional "clipsContent" (Jdec.nullable Jdec.bool) Nothing
         |> Jpipe.optional "constraints" (Jdec.nullable layoutConstraint) Nothing
         |> Jpipe.optional "effects" (Jdec.nullable (Jdec.array effect)) Nothing
@@ -1251,18 +1251,18 @@ documentElement =
         |> Jpipe.optional "description" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "componentId" (Jdec.nullable Jdec.string) Nothing
 
-encodeDocumentElement : DocumentElement -> Jenc.Value
-encodeDocumentElement x =
+encodeVector : Vector -> Jenc.Value
+encodeVector x =
     Jenc.object
-        [ ("children", makeNullableEncoder (makeArrayEncoder encodeDocumentElement) x.children)
+        [ ("children", makeNullableEncoder (makeArrayEncoder encodeVector) x.children)
         , ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
-        , ("type", encodeNodeType x.documentType)
+        , ("type", encodeNodeType x.vectorType)
         , ("visible", Jenc.bool x.visible)
         , ("backgroundColor", makeNullableEncoder encodeColor x.backgroundColor)
         , ("exportSettings", makeNullableEncoder (makeArrayEncoder encodeExportSetting) x.exportSettings)
         , ("absoluteBoundingBox", makeNullableEncoder encodeRect x.absoluteBoundingBox)
-        , ("blendMode", makeNullableEncoder encodeLendMode x.blendMode)
+        , ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
         , ("clipsContent", makeNullableEncoder Jenc.bool x.clipsContent)
         , ("constraints", makeNullableEncoder encodeLayoutConstraint x.constraints)
         , ("effects", makeNullableEncoder (makeArrayEncoder encodeEffect) x.effects)
@@ -1339,51 +1339,10 @@ encodeVertical x = case x of
     VerticalSCALE -> Jenc.string "SCALE"
     VerticalTOP -> Jenc.string "TOP"
 
-nodeType : Jdec.Decoder NodeType
-nodeType =
-    Jdec.string
-        |> Jdec.andThen (\str ->
-            case str of
-                "BOOLEAN" -> Jdec.succeed Boolean
-                "CANVAS" -> Jdec.succeed Canvas
-                "DOCUMENT" -> Jdec.succeed Document
-                "ELLIPSE" -> Jdec.succeed Ellipse
-                "FRAME" -> Jdec.succeed Frame
-                "GROUP" -> Jdec.succeed Group
-                "INSTANCE" -> Jdec.succeed Instance
-                "LINE" -> Jdec.succeed Line
-                "COMPONENT" -> Jdec.succeed NodeTypeCOMPONENT
-                "RECTANGLE" -> Jdec.succeed Rectangle
-                "REGULAR_POLYGON" -> Jdec.succeed RegularPolygon
-                "SLICE" -> Jdec.succeed Slice
-                "STAR" -> Jdec.succeed Star
-                "TEXT" -> Jdec.succeed Text
-                "VECTOR" -> Jdec.succeed Vector
-                somethingElse -> Jdec.fail <| "Invalid NodeType: " ++ somethingElse
-        )
-
-encodeNodeType : NodeType -> Jenc.Value
-encodeNodeType x = case x of
-    Boolean -> Jenc.string "BOOLEAN"
-    Canvas -> Jenc.string "CANVAS"
-    Document -> Jenc.string "DOCUMENT"
-    Ellipse -> Jenc.string "ELLIPSE"
-    Frame -> Jenc.string "FRAME"
-    Group -> Jenc.string "GROUP"
-    Instance -> Jenc.string "INSTANCE"
-    Line -> Jenc.string "LINE"
-    NodeTypeCOMPONENT -> Jenc.string "COMPONENT"
-    Rectangle -> Jenc.string "RECTANGLE"
-    RegularPolygon -> Jenc.string "REGULAR_POLYGON"
-    Slice -> Jenc.string "SLICE"
-    Star -> Jenc.string "STAR"
-    Text -> Jenc.string "TEXT"
-    Vector -> Jenc.string "VECTOR"
-
 effect : Jdec.Decoder Effect
 effect =
     Jpipe.decode Effect
-        |> Jpipe.optional "blendMode" (Jdec.nullable lendMode) Nothing
+        |> Jpipe.optional "blendMode" (Jdec.nullable blendMode) Nothing
         |> Jpipe.optional "color" (Jdec.nullable color) Nothing
         |> Jpipe.optional "offset" (Jdec.nullable vector2) Nothing
         |> Jpipe.required "radius" Jdec.float
@@ -1393,7 +1352,7 @@ effect =
 encodeEffect : Effect -> Jenc.Value
 encodeEffect x =
     Jenc.object
-        [ ("blendMode", makeNullableEncoder encodeLendMode x.blendMode)
+        [ ("blendMode", makeNullableEncoder encodeBlendMode x.blendMode)
         , ("color", makeNullableEncoder encodeColor x.color)
         , ("offset", makeNullableEncoder encodeVector2 x.offset)
         , ("radius", Jenc.float x.radius)
@@ -1699,19 +1658,60 @@ encodeTextAlignVertical x = case x of
     TextAlignVerticalCENTER -> Jenc.string "CENTER"
     TextAlignVerticalTOP -> Jenc.string "TOP"
 
-fileResponseDocument : Jdec.Decoder FileResponseDocument
-fileResponseDocument =
-    Jpipe.decode FileResponseDocument
-        |> Jpipe.required "children" (Jdec.array documentElement)
+nodeType : Jdec.Decoder NodeType
+nodeType =
+    Jdec.string
+        |> Jdec.andThen (\str ->
+            case str of
+                "BOOLEAN" -> Jdec.succeed Boolean
+                "CANVAS" -> Jdec.succeed Canvas
+                "ELLIPSE" -> Jdec.succeed Ellipse
+                "FRAME" -> Jdec.succeed Frame
+                "GROUP" -> Jdec.succeed Group
+                "INSTANCE" -> Jdec.succeed Instance
+                "LINE" -> Jdec.succeed Line
+                "COMPONENT" -> Jdec.succeed NodeTypeCOMPONENT
+                "DOCUMENT" -> Jdec.succeed NodeTypeDOCUMENT
+                "VECTOR" -> Jdec.succeed NodeTypeVECTOR
+                "RECTANGLE" -> Jdec.succeed Rectangle
+                "REGULAR_POLYGON" -> Jdec.succeed RegularPolygon
+                "SLICE" -> Jdec.succeed Slice
+                "STAR" -> Jdec.succeed Star
+                "TEXT" -> Jdec.succeed Text
+                somethingElse -> Jdec.fail <| "Invalid NodeType: " ++ somethingElse
+        )
+
+encodeNodeType : NodeType -> Jenc.Value
+encodeNodeType x = case x of
+    Boolean -> Jenc.string "BOOLEAN"
+    Canvas -> Jenc.string "CANVAS"
+    Ellipse -> Jenc.string "ELLIPSE"
+    Frame -> Jenc.string "FRAME"
+    Group -> Jenc.string "GROUP"
+    Instance -> Jenc.string "INSTANCE"
+    Line -> Jenc.string "LINE"
+    NodeTypeCOMPONENT -> Jenc.string "COMPONENT"
+    NodeTypeDOCUMENT -> Jenc.string "DOCUMENT"
+    NodeTypeVECTOR -> Jenc.string "VECTOR"
+    Rectangle -> Jenc.string "RECTANGLE"
+    RegularPolygon -> Jenc.string "REGULAR_POLYGON"
+    Slice -> Jenc.string "SLICE"
+    Star -> Jenc.string "STAR"
+    Text -> Jenc.string "TEXT"
+
+document : Jdec.Decoder Document
+document =
+    Jpipe.decode Document
+        |> Jpipe.required "children" (Jdec.array vector)
         |> Jpipe.required "id" Jdec.string
         |> Jpipe.required "name" Jdec.string
         |> Jpipe.required "type" nodeType
         |> Jpipe.required "visible" Jdec.bool
 
-encodeFileResponseDocument : FileResponseDocument -> Jenc.Value
-encodeFileResponseDocument x =
+encodeDocument : Document -> Jenc.Value
+encodeDocument x =
     Jenc.object
-        [ ("children", makeArrayEncoder encodeDocumentElement x.children)
+        [ ("children", makeArrayEncoder encodeVector x.children)
         , ("id", Jenc.string x.id)
         , ("name", Jenc.string x.name)
         , ("type", encodeNodeType x.documentType)

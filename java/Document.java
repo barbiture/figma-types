@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.*;
  * The root node
  */
 public class Document {
-    private Node[] children;
+    private Vector[] children;
     private String id;
     private String name;
     private NodeType type;
@@ -20,9 +20,9 @@ public class Document {
      * An array of canvases attached to the document
      */
     @JsonProperty("children")
-    public Node[] getChildren() { return children; }
+    public Vector[] getChildren() { return children; }
     @JsonProperty("children")
-    public void setChildren(Node[] value) { this.children = value; }
+    public void setChildren(Vector[] value) { this.children = value; }
 
     /**
      * a string uniquely identifying this node within the document

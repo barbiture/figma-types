@@ -64,7 +64,7 @@ public struct FileResponse: Codable {
     /// components is the name of the component, but more properties will be forthcoming.
     public let components: [String: Component]
     /// The root node within the document
-    public let document: FileResponseDocument
+    public let document: Document
     public let schemaVersion: Double
 }
 
@@ -78,9 +78,9 @@ public struct Component: Codable {
     public let backgroundColor: Color
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
-    public let blendMode: LendMode
+    public let blendMode: BlendMode
     /// An array of nodes that are direct children of this node
-    public let children: [DocumentElement]
+    public let children: [Vector]
     /// Does this node clip content outside of its bounds?
     public let clipsContent: Bool
     /// Horizontal and vertical layout constraints for node
@@ -154,7 +154,7 @@ public struct Color: Codable {
 ///
 /// Enum describing how layer blends with layers below
 /// This type is a string enum with the following possible values
-public enum LendMode: String, Codable {
+public enum BlendMode: String, Codable {
     case color = "COLOR"
     case colorBurn = "COLOR_BURN"
     case colorDodge = "COLOR_DODGE"
@@ -219,7 +219,7 @@ public enum LendMode: String, Codable {
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
-public struct DocumentElement: Codable {
+public struct Vector: Codable {
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -227,7 +227,7 @@ public struct DocumentElement: Codable {
     /// An array of nodes that are direct children of this node
     ///
     /// An array of nodes that are being boolean operated on
-    public let children: [DocumentElement]?
+    public let children: [Vector]?
     /// a string uniquely identifying this node within the document
     public let id: String
     /// the name given to the node by the user in the tool.
@@ -252,7 +252,7 @@ public struct DocumentElement: Codable {
     public let absoluteBoundingBox: Rect?
     /// How this node blends with nodes behind it in the scene
     /// (see blend mode section for more details)
-    public let blendMode: LendMode?
+    public let blendMode: BlendMode?
     /// Does this node clip content outside of its bounds?
     public let clipsContent: Bool?
     /// Horizontal and vertical layout constraints for node
@@ -367,7 +367,7 @@ public enum Vertical: String, Codable {
 public struct Effect: Codable {
     /// Enum describing how layer blends with layers below
     /// This type is a string enum with the following possible values
-    public let blendMode: LendMode?
+    public let blendMode: BlendMode?
     /// An RGBA color
     public let color: Color?
     /// A 2d vector
@@ -638,9 +638,9 @@ public enum NodeType: String, Codable {
 ///
 /// Node Properties
 /// The root node
-public struct FileResponseDocument: Codable {
+public struct Document: Codable {
     /// An array of canvases attached to the document
-    public let children: [DocumentElement]
+    public let children: [Vector]
     /// a string uniquely identifying this node within the document
     public let id: String
     /// the name given to the node by the user in the tool.
@@ -964,9 +964,9 @@ public extension Color {
     }
 }
 
-public extension DocumentElement {
+public extension Vector {
     public init(data: Data) throws {
-        self = try JSONDecoder().decode(DocumentElement.self, from: data)
+        self = try JSONDecoder().decode(Vector.self, from: data)
     }
 
     public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1214,9 +1214,9 @@ public extension TypeStyle {
     }
 }
 
-public extension FileResponseDocument {
+public extension Document {
     public init(data: Data) throws {
-        self = try JSONDecoder().decode(FileResponseDocument.self, from: data)
+        self = try JSONDecoder().decode(Document.self, from: data)
     }
 
     public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
