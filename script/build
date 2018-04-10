@@ -17,3 +17,5 @@ quicktype figma.ts -o typescript/figma.ts
 quicktype figma.ts -o javascript/figma.js
 quicktype figma.ts -l flow -o flow/figma.js
 quicktype figma.ts -o elm/figma.elm
+
+quicktype figma.ts -o ruby/figma.rb
