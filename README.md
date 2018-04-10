@@ -26,7 +26,7 @@ struct Color: Codable {
 }
 ```
 
-An Objective-C interface, implementation, and JSON marshaling:
+An Objective-C interface, implementation, and JSON marshaling via `NSJSONSerialization`:
 
 ```objc
 /// An RGBA color
@@ -35,6 +35,30 @@ An Objective-C interface, implementation, and JSON marshaling:
 @property (nonatomic, assign) double b;
 @property (nonatomic, assign) double g;
 @property (nonatomic, assign) double r;
+@end
+
+@implementation FGColor
++ (NSDictionary<NSString *, NSString *> *)properties
+{
+    static NSDictionary<NSString *, NSString *> *properties;
+    return properties = properties ? properties : @{ @"a": @"a", @"b": @"b", @"g": @"g", @"r": @"r", };
+}
+
++ (instancetype)fromJSONDictionary:(NSDictionary *)dict
+{
+    return dict ? [[FGColor alloc] initWithJSONDictionary:dict] : nil;
+}
+
+- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
+{
+    if (self = [super init]) { [self setValuesForKeysWithDictionary:dict]; }
+    return self;
+}
+
+- (NSDictionary *)JSONDictionary
+{
+    return [self dictionaryWithValuesForKeys:FGColor.properties.allValues];
+}
 @end
 ```
 
