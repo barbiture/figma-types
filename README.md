@@ -2,9 +2,7 @@
 
 Figma Platform types (e.g. documents, nodes, API responses) are defined in TypeScript in [`figma.ts`](figma.ts). From this file, `quicktype` generates types and JSON marshaling code in C#, Go, Rust, C++, Objective-C, Java, TypeScript, JavaScript, Flow, Swift, Elm, and Ruby.
 
-## Type Definitions
-
-Figma Platform types are declared in TypeScript. For example, the `Color` type defined in `types/types.ts`:
+For example, the `Color` type defined in `figma.ts`:
 
 ```ts
 /** An RGBA color */
@@ -16,9 +14,7 @@ export interface Color {
 }
 ```
 
-A JSON schema is generated from these TypeScript declarations, then `quicktype` is used to generate the same types, with marhsaling code, in many languages:
-
-### Swift
+Produces a Codable struct in Swift:
 
 ```swift
 /// An RGBA color
@@ -30,7 +26,7 @@ struct Color: Codable {
 }
 ```
 
-### Objective-C
+An Objective-C interface, implementation, and JSON marshaling:
 
 ```objc
 /// An RGBA color
@@ -42,7 +38,7 @@ struct Color: Codable {
 @end
 ```
 
-### Flow
+Flow type annotations:
 
 ```js
 /**
@@ -56,7 +52,7 @@ export type Color = {
 };
 ```
 
-### C++
+C++ structs:
 
 ```cpp
 /**
@@ -70,7 +66,7 @@ struct Color {
 };
 ```
 
-### Rust
+Rust structs with Serge annotations:
 
 ```rust
 /// An RGBA color
@@ -89,6 +85,8 @@ pub struct Color {
     r: f64,
 }
 ```
+
+Etcetera.
 
 ## Development
 
