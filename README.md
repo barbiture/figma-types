@@ -1,6 +1,6 @@
 # Figma Platform Types
 
-Figma Platform types and JSON marshaling code in C#, Go, Rust, C++, Objective-C, Java, TypeScript, JavaScript, Flow, Swift, Elm, and Ruby.
+Figma Platform types (e.g. documents, nodes, API responses) are defined in TypeScript in [`figma.ts`](figma.ts). From this file, `quicktype` generates types and JSON marshaling code in C#, Go, Rust, C++, Objective-C, Java, TypeScript, JavaScript, Flow, Swift, Elm, and Ruby.
 
 ## Type Definitions
 

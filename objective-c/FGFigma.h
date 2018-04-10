@@ -269,6 +269,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /// A node that can have instances created of it that share the same properties
+/// A description of a master component. Helps you identify which component
+/// instances are attached to
 @interface FGComponent : NSObject
 /// Bounding box of the node in absolute space coordinates
 @property (nonatomic, strong) FGRect *absoluteBoundingBox;
@@ -283,6 +285,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isClipsContent;
 /// Horizontal and vertical layout constraints for node
 @property (nonatomic, strong) FGLayoutConstraint *constraints;
+/// The description of the component as entered in the editor
+@property (nonatomic, copy) NSString *theDescription;
 /// An array of effects attached to this node
 /// (see effects section for more details)
 @property (nonatomic, copy) NSArray<FGEffect *> *effects;
@@ -295,7 +299,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// An array of layout grids attached to this node (see layout grids section
 /// for more details). GROUP nodes do not have this attribute
 @property (nonatomic, copy) NSArray<FGLayoutGrid *> *layoutGrids;
-/// the name given to the node by the user in the tool.
+/// The name of the component
 @property (nonatomic, copy) NSString *name;
 /// Opacity of the node
 @property (nonatomic, assign) double opacity;
@@ -353,10 +357,10 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// An array of canvases attached to the document
 ///
+/// The root node within the document
+///
 /// Node Properties
 /// The root node
-///
-/// The root node within the document
 ///
 /// Represents a single page
 ///
@@ -383,6 +387,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// A rectangular region of the canvas that can be exported
 ///
 /// A node that can have instances created of it that share the same properties
+/// A description of a master component. Helps you identify which component
+/// instances are attached to
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
@@ -398,6 +404,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// a string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// the name given to the node by the user in the tool.
+///
+/// The name of the component
 @property (nonatomic, copy) NSString *name;
 /// the type of the node, refer to table below for details
 @property (nonatomic, assign) FGNodeType *type;
@@ -461,6 +469,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, strong) FGTypeStyle *style;
 /// Map from ID to TypeStyle for looking up style overrides
 @property (nonatomic, nullable, copy) NSArray<FGTypeStyle *> *styleOverrideTable;
+/// The description of the component as entered in the editor
+@property (nonatomic, nullable, copy) NSString *theDescription;
 /// ID of component that this instance came from, refers to components
 /// table (see endpoints section below)
 @property (nonatomic, nullable, copy) NSString *componentID;
@@ -662,10 +672,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) FGTextAlignVertical *textAlignVertical;
 @end
 
+/// The root node within the document
+///
 /// Node Properties
 /// The root node
-///
-/// The root node within the document
 @interface FGFileResponseDocument : NSObject
 /// An array of canvases attached to the document
 @property (nonatomic, copy) NSArray<FGDocumentElement *> *children;

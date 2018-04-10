@@ -12,10 +12,10 @@ import com.fasterxml.jackson.annotation.*;
  *
  * An array of canvases attached to the document
  *
+ * The root node within the document
+ *
  * Node Properties
  * The root node
- *
- * The root node within the document
  *
  * Represents a single page
  *
@@ -42,6 +42,8 @@ import com.fasterxml.jackson.annotation.*;
  * A rectangular region of the canvas that can be exported
  *
  * A node that can have instances created of it that share the same properties
+ * A description of a master component. Helps you identify which component
+ * instances are attached to
  *
  * An instance of a component, changes to the component result in the same
  * changes applied to the instance
@@ -73,6 +75,7 @@ public class DocumentElement {
     private double[] characterStyleOverrides;
     private TypeStyle style;
     private TypeStyle[] styleOverrideTable;
+    private String description;
     private String componentID;
 
     /**
@@ -99,6 +102,8 @@ public class DocumentElement {
 
     /**
      * the name given to the node by the user in the tool.
+     *
+     * The name of the component
      */
     @JsonProperty("name")
     public String getName() { return name; }
@@ -304,6 +309,14 @@ public class DocumentElement {
     public TypeStyle[] getStyleOverrideTable() { return styleOverrideTable; }
     @JsonProperty("styleOverrideTable")
     public void setStyleOverrideTable(TypeStyle[] value) { this.styleOverrideTable = value; }
+
+    /**
+     * The description of the component as entered in the editor
+     */
+    @JsonProperty("description")
+    public String getDescription() { return description; }
+    @JsonProperty("description")
+    public void setDescription(String value) { this.description = value; }
 
     /**
      * ID of component that this instance came from, refers to components

@@ -143,6 +143,7 @@ const typeMap = {
         children: a(r("DocumentElement")),
         clipsContent: true,
         constraints: r("LayoutConstraint"),
+        description: "",
         effects: a(r("Effect")),
         exportSettings: a(r("ExportSetting")),
         id: "",
@@ -194,6 +195,7 @@ const typeMap = {
         characterStyleOverrides: u(undefined, a(3.14)),
         style: u(undefined, r("TypeStyle")),
         styleOverrideTable: u(undefined, a(r("TypeStyle"))),
+        description: u(undefined, ""),
         componentId: u(undefined, ""),
     }, "any"),
     "LayoutConstraint": o({

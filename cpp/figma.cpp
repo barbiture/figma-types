@@ -477,10 +477,10 @@ namespace quicktype {
      *
      * An array of canvases attached to the document
      *
+     * The root node within the document
+     *
      * Node Properties
      * The root node
-     *
-     * The root node within the document
      *
      * Represents a single page
      *
@@ -507,6 +507,8 @@ namespace quicktype {
      * A rectangular region of the canvas that can be exported
      *
      * A node that can have instances created of it that share the same properties
+     * A description of a master component. Helps you identify which component
+     * instances are attached to
      *
      * An instance of a component, changes to the component result in the same
      * changes applied to the instance
@@ -528,6 +530,8 @@ namespace quicktype {
         std::string id;
         /**
          * the name given to the node by the user in the tool.
+         *
+         * The name of the component
          */
         std::string name;
         /**
@@ -639,6 +643,10 @@ namespace quicktype {
          */
         std::unique_ptr<std::vector<struct TypeStyle>> style_override_table;
         /**
+         * The description of the component as entered in the editor
+         */
+        std::unique_ptr<std::string> description;
+        /**
          * ID of component that this instance came from, refers to components
          * table (see endpoints section below)
          */
@@ -647,6 +655,8 @@ namespace quicktype {
 
     /**
      * A node that can have instances created of it that share the same properties
+     * A description of a master component. Helps you identify which component
+     * instances are attached to
      */
     struct Component {
         /**
@@ -675,6 +685,10 @@ namespace quicktype {
          */
         struct LayoutConstraint constraints;
         /**
+         * The description of the component as entered in the editor
+         */
+        std::string description;
+        /**
          * An array of effects attached to this node
          * (see effects section for more details)
          */
@@ -697,7 +711,7 @@ namespace quicktype {
          */
         std::vector<struct LayoutGrid> layout_grids;
         /**
-         * the name given to the node by the user in the tool.
+         * The name of the component
          */
         std::string name;
         /**
@@ -723,10 +737,10 @@ namespace quicktype {
     };
 
     /**
+     * The root node within the document
+     *
      * Node Properties
      * The root node
-     *
-     * The root node within the document
      */
     struct FileResponseDocument {
         /**
@@ -1196,6 +1210,7 @@ namespace nlohmann {
         _x.character_style_overrides = quicktype::get_optional<std::vector<double>>(_j, "characterStyleOverrides");
         _x.style = quicktype::get_optional<struct quicktype::TypeStyle>(_j, "style");
         _x.style_override_table = quicktype::get_optional<std::vector<struct quicktype::TypeStyle>>(_j, "styleOverrideTable");
+        _x.description = quicktype::get_optional<std::string>(_j, "description");
         _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
     }
 
@@ -1227,6 +1242,7 @@ namespace nlohmann {
         _j["characterStyleOverrides"] = _x.character_style_overrides;
         _j["style"] = _x.style;
         _j["styleOverrideTable"] = _x.style_override_table;
+        _j["description"] = _x.description;
         _j["componentId"] = _x.component_id;
     }
 
@@ -1237,6 +1253,7 @@ namespace nlohmann {
         _x.children = _j.at("children").get<std::vector<struct quicktype::DocumentElement>>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
         _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
+        _x.description = _j.at("description").get<std::string>();
         _x.effects = _j.at("effects").get<std::vector<struct quicktype::Effect>>();
         _x.export_settings = _j.at("exportSettings").get<std::vector<struct quicktype::ExportSetting>>();
         _x.id = _j.at("id").get<std::string>();
@@ -1258,6 +1275,7 @@ namespace nlohmann {
         _j["children"] = _x.children;
         _j["clipsContent"] = _x.clips_content;
         _j["constraints"] = _x.constraints;
+        _j["description"] = _x.description;
         _j["effects"] = _x.effects;
         _j["exportSettings"] = _x.export_settings;
         _j["id"] = _x.id;

@@ -58,6 +58,8 @@ namespace QuickType
 
     /// <summary>
     /// A node that can have instances created of it that share the same properties
+    /// A description of a master component. Helps you identify which component
+    /// instances are attached to
     /// </summary>
     public partial class Component
     {
@@ -99,6 +101,12 @@ namespace QuickType
         public LayoutConstraint Constraints { get; set; }
 
         /// <summary>
+        /// The description of the component as entered in the editor
+        /// </summary>
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        /// <summary>
         /// An array of effects attached to this node
         /// (see effects section for more details)
         /// </summary>
@@ -131,7 +139,7 @@ namespace QuickType
         public LayoutGrid[] LayoutGrids { get; set; }
 
         /// <summary>
-        /// the name given to the node by the user in the tool.
+        /// The name of the component
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -248,10 +256,10 @@ namespace QuickType
     ///
     /// An array of canvases attached to the document
     ///
+    /// The root node within the document
+    ///
     /// Node Properties
     /// The root node
-    ///
-    /// The root node within the document
     ///
     /// Represents a single page
     ///
@@ -278,6 +286,8 @@ namespace QuickType
     /// A rectangular region of the canvas that can be exported
     ///
     /// A node that can have instances created of it that share the same properties
+    /// A description of a master component. Helps you identify which component
+    /// instances are attached to
     ///
     /// An instance of a component, changes to the component result in the same
     /// changes applied to the instance
@@ -304,6 +314,8 @@ namespace QuickType
 
         /// <summary>
         /// the name given to the node by the user in the tool.
+        ///
+        /// The name of the component
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -461,6 +473,12 @@ namespace QuickType
         /// </summary>
         [JsonProperty("styleOverrideTable", NullValueHandling = NullValueHandling.Ignore)]
         public TypeStyle[] StyleOverrideTable { get; set; }
+
+        /// <summary>
+        /// The description of the component as entered in the editor
+        /// </summary>
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
 
         /// <summary>
         /// ID of component that this instance came from, refers to components
@@ -857,10 +875,10 @@ namespace QuickType
     }
 
     /// <summary>
+    /// The root node within the document
+    ///
     /// Node Properties
     /// The root node
-    ///
-    /// The root node within the document
     /// </summary>
     public partial class FileResponseDocument
     {

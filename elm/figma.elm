@@ -104,6 +104,8 @@ type alias FileResponse =
     }
 
 {-| A node that can have instances created of it that share the same properties
+A description of a master component. Helps you identify which component
+instances are attached to
 
 absoluteBoundingBox:
 Bounding box of the node in absolute space coordinates
@@ -124,6 +126,9 @@ Does this node clip content outside of its bounds?
 constraints:
 Horizontal and vertical layout constraints for node
 
+description:
+The description of the component as entered in the editor
+
 effects:
 An array of effects attached to this node
 (see effects section for more details)
@@ -142,7 +147,7 @@ An array of layout grids attached to this node (see layout grids section
 for more details). GROUP nodes do not have this attribute
 
 name:
-the name given to the node by the user in the tool.
+The name of the component
 
 opacity:
 Opacity of the node
@@ -166,6 +171,7 @@ type alias Component =
     , children : Array DocumentElement
     , clipsContent : Bool
     , constraints : LayoutConstraint
+    , description : String
     , effects : Array Effect
     , exportSettings : Array ExportSetting
     , id : String
@@ -268,10 +274,10 @@ An array of top level layers on the canvas
 
 An array of canvases attached to the document
 
+The root node within the document
+
 Node Properties
 The root node
-
-The root node within the document
 
 Represents a single page
 
@@ -298,6 +304,8 @@ A text box
 A rectangular region of the canvas that can be exported
 
 A node that can have instances created of it that share the same properties
+A description of a master component. Helps you identify which component
+instances are attached to
 
 An instance of a component, changes to the component result in the same
 changes applied to the instance
@@ -316,6 +324,8 @@ a string uniquely identifying this node within the document
 
 name:
 the name given to the node by the user in the tool.
+
+The name of the component
 
 documentType:
 the type of the node, refer to table below for details
@@ -402,6 +412,9 @@ section for more information)
 styleOverrideTable:
 Map from ID to TypeStyle for looking up style overrides
 
+description:
+The description of the component as entered in the editor
+
 componentID:
 ID of component that this instance came from, refers to components
 table (see endpoints section below)
@@ -433,6 +446,7 @@ type alias DocumentElement =
     , characterStyleOverrides : Maybe (Array Float)
     , style : Maybe TypeStyle
     , styleOverrideTable : Maybe (Array TypeStyle)
+    , description : Maybe String
     , componentID : Maybe String
     }
 
@@ -851,10 +865,10 @@ type TextAlignVertical
     | TextAlignVerticalCENTER
     | TextAlignVerticalTOP
 
-{-| Node Properties
-The root node
+{-| The root node within the document
 
-The root node within the document
+Node Properties
+The root node
 
 children:
 An array of canvases attached to the document
@@ -1086,6 +1100,7 @@ component =
         |> Jpipe.required "children" (Jdec.array documentElement)
         |> Jpipe.required "clipsContent" Jdec.bool
         |> Jpipe.required "constraints" layoutConstraint
+        |> Jpipe.required "description" Jdec.string
         |> Jpipe.required "effects" (Jdec.array effect)
         |> Jpipe.required "exportSettings" (Jdec.array exportSetting)
         |> Jpipe.required "id" Jdec.string
@@ -1107,6 +1122,7 @@ encodeComponent x =
         , ("children", makeArrayEncoder encodeDocumentElement x.children)
         , ("clipsContent", Jenc.bool x.clipsContent)
         , ("constraints", encodeLayoutConstraint x.constraints)
+        , ("description", Jenc.string x.description)
         , ("effects", makeArrayEncoder encodeEffect x.effects)
         , ("exportSettings", makeArrayEncoder encodeExportSetting x.exportSettings)
         , ("id", Jenc.string x.id)
@@ -1232,6 +1248,7 @@ documentElement =
         |> Jpipe.optional "characterStyleOverrides" (Jdec.nullable (Jdec.array Jdec.float)) Nothing
         |> Jpipe.optional "style" (Jdec.nullable typeStyle) Nothing
         |> Jpipe.optional "styleOverrideTable" (Jdec.nullable (Jdec.array typeStyle)) Nothing
+        |> Jpipe.optional "description" (Jdec.nullable Jdec.string) Nothing
         |> Jpipe.optional "componentId" (Jdec.nullable Jdec.string) Nothing
 
 encodeDocumentElement : DocumentElement -> Jenc.Value
@@ -1263,6 +1280,7 @@ encodeDocumentElement x =
         , ("characterStyleOverrides", makeNullableEncoder (makeArrayEncoder Jenc.float) x.characterStyleOverrides)
         , ("style", makeNullableEncoder encodeTypeStyle x.style)
         , ("styleOverrideTable", makeNullableEncoder (makeArrayEncoder encodeTypeStyle) x.styleOverrideTable)
+        , ("description", makeNullableEncoder Jenc.string x.description)
         , ("componentId", makeNullableEncoder Jenc.string x.componentID)
         ]
 

@@ -93,6 +93,8 @@ type FileResponse struct {
 }
 
 // A node that can have instances created of it that share the same properties
+// A description of a master component. Helps you identify which component
+// instances are attached to
 type Component struct {
 	AbsoluteBoundingBox Rect              `json:"absoluteBoundingBox"`// Bounding box of the node in absolute space coordinates
 	BackgroundColor     Color             `json:"backgroundColor"`    // Background color of the node
@@ -100,12 +102,13 @@ type Component struct {
 	Children            []DocumentElement `json:"children"`           // An array of nodes that are direct children of this node
 	ClipsContent        bool              `json:"clipsContent"`       // Does this node clip content outside of its bounds?
 	Constraints         LayoutConstraint  `json:"constraints"`        // Horizontal and vertical layout constraints for node
+	Description         string            `json:"description"`        // The description of the component as entered in the editor
 	Effects             []Effect          `json:"effects"`            // An array of effects attached to this node; (see effects section for more details)
 	ExportSettings      []ExportSetting   `json:"exportSettings"`     // An array of export settings representing images to export from node
 	ID                  string            `json:"id"`                 // a string uniquely identifying this node within the document
 	IsMask              bool              `json:"isMask"`             // Does this node mask sibling nodes in front of it?
 	LayoutGrids         []LayoutGrid      `json:"layoutGrids"`        // An array of layout grids attached to this node (see layout grids section; for more details). GROUP nodes do not have this attribute
-	Name                string            `json:"name"`               // the name given to the node by the user in the tool.
+	Name                string            `json:"name"`               // The name of the component
 	Opacity             float64           `json:"opacity"`            // Opacity of the node
 	PreserveRatio       bool              `json:"preserveRatio"`      // Keep height and width constrained to same ratio
 	TransitionNodeID    *string           `json:"transitionNodeID"`   // Node ID of node to transition to in prototyping
@@ -149,10 +152,10 @@ type Color struct {
 //
 // An array of canvases attached to the document
 //
+// The root node within the document
+//
 // Node Properties
 // The root node
-//
-// The root node within the document
 //
 // Represents a single page
 //
@@ -179,13 +182,15 @@ type Color struct {
 // A rectangular region of the canvas that can be exported
 //
 // A node that can have instances created of it that share the same properties
+// A description of a master component. Helps you identify which component
+// instances are attached to
 //
 // An instance of a component, changes to the component result in the same
 // changes applied to the instance
 type DocumentElement struct {
 	Children                []DocumentElement `json:"children"`               // An array of canvases attached to the document; ; An array of top level layers on the canvas; ; An array of nodes that are direct children of this node; ; An array of nodes that are being boolean operated on
 	ID                      string            `json:"id"`                     // a string uniquely identifying this node within the document
-	Name                    string            `json:"name"`                   // the name given to the node by the user in the tool.
+	Name                    string            `json:"name"`                   // the name given to the node by the user in the tool.; ; The name of the component
 	Type                    NodeType          `json:"type"`                   // the type of the node, refer to table below for details
 	Visible                 bool              `json:"visible"`                // whether or not the node is visible on the canvas
 	BackgroundColor         *Color            `json:"backgroundColor"`        // Background color of the canvas; ; Background color of the node
@@ -209,6 +214,7 @@ type DocumentElement struct {
 	CharacterStyleOverrides []float64         `json:"characterStyleOverrides"`// Array with same number of elements as characeters in text box,; each element is a reference to the styleOverrideTable defined; below and maps to the corresponding character in the characters; field. Elements with value 0 have the default type style
 	Style                   *TypeStyle        `json:"style"`                  // Style of text including font family and weight (see type style; section for more information)
 	StyleOverrideTable      []TypeStyle       `json:"styleOverrideTable"`     // Map from ID to TypeStyle for looking up style overrides
+	Description             *string           `json:"description"`            // The description of the component as entered in the editor
 	ComponentID             *string           `json:"componentId"`            // ID of component that this instance came from, refers to components; table (see endpoints section below)
 }
 
@@ -333,10 +339,10 @@ type TypeStyle struct {
 	TextAlignVertical   TextAlignVertical   `json:"textAlignVertical"`  // Vertical text alignment as string enum
 }
 
+// The root node within the document
+//
 // Node Properties
 // The root node
-//
-// The root node within the document
 type FileResponseDocument struct {
 	Children []DocumentElement `json:"children"`// An array of canvases attached to the document
 	ID       string            `json:"id"`      // a string uniquely identifying this node within the document

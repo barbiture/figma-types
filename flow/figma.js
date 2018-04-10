@@ -48,6 +48,8 @@ export type FileResponse = {
 
 /**
  * A node that can have instances created of it that share the same properties
+ * A description of a master component. Helps you identify which component
+ * instances are attached to
  */
 export type Component = {
     /**
@@ -76,6 +78,10 @@ export type Component = {
      */
     constraints: LayoutConstraint;
     /**
+     * The description of the component as entered in the editor
+     */
+    description: string;
+    /**
      * An array of effects attached to this node
      * (see effects section for more details)
      */
@@ -98,7 +104,7 @@ export type Component = {
      */
     layoutGrids: LayoutGrid[];
     /**
-     * the name given to the node by the user in the tool.
+     * The name of the component
      */
     name: string;
     /**
@@ -216,10 +222,10 @@ export type LendMode =
  *
  * An array of canvases attached to the document
  *
+ * The root node within the document
+ *
  * Node Properties
  * The root node
- *
- * The root node within the document
  *
  * Represents a single page
  *
@@ -246,6 +252,8 @@ export type LendMode =
  * A rectangular region of the canvas that can be exported
  *
  * A node that can have instances created of it that share the same properties
+ * A description of a master component. Helps you identify which component
+ * instances are attached to
  *
  * An instance of a component, changes to the component result in the same
  * changes applied to the instance
@@ -267,6 +275,8 @@ export type DocumentElement = {
     id: string;
     /**
      * the name given to the node by the user in the tool.
+     *
+     * The name of the component
      */
     name: string;
     /**
@@ -377,6 +387,10 @@ export type DocumentElement = {
      * Map from ID to TypeStyle for looking up style overrides
      */
     styleOverrideTable?: TypeStyle[];
+    /**
+     * The description of the component as entered in the editor
+     */
+    description?: string;
     /**
      * ID of component that this instance came from, refers to components
      * table (see endpoints section below)
@@ -827,10 +841,10 @@ export type NodeType =
     | "VECTOR";
 
 /**
+ * The root node within the document
+ *
  * Node Properties
  * The root node
- *
- * The root node within the document
  */
 export type FileResponseDocument = {
     /**
@@ -1160,6 +1174,7 @@ const typeMap: any = {
         children: a(r("DocumentElement")),
         clipsContent: true,
         constraints: r("LayoutConstraint"),
+        description: "",
         effects: a(r("Effect")),
         exportSettings: a(r("ExportSetting")),
         id: "",
@@ -1211,6 +1226,7 @@ const typeMap: any = {
         characterStyleOverrides: u(undefined, a(3.14)),
         style: u(undefined, r("TypeStyle")),
         styleOverrideTable: u(undefined, a(r("TypeStyle"))),
+        description: u(undefined, ""),
         componentId: u(undefined, ""),
     }, "any"),
     "LayoutConstraint": o({

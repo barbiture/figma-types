@@ -48,6 +48,8 @@ pub struct FileResponse {
 }
 
 /// A node that can have instances created of it that share the same properties
+/// A description of a master component. Helps you identify which component
+/// instances are attached to
 #[derive(Serialize, Deserialize)]
 pub struct Component {
     /// Bounding box of the node in absolute space coordinates
@@ -75,6 +77,10 @@ pub struct Component {
     #[serde(rename = "constraints")]
     constraints: LayoutConstraint,
 
+    /// The description of the component as entered in the editor
+    #[serde(rename = "description")]
+    description: String,
+
     /// An array of effects attached to this node
     /// (see effects section for more details)
     #[serde(rename = "effects")]
@@ -97,7 +103,7 @@ pub struct Component {
     #[serde(rename = "layoutGrids")]
     layout_grids: Vec<LayoutGrid>,
 
-    /// the name given to the node by the user in the tool.
+    /// The name of the component
     #[serde(rename = "name")]
     name: String,
 
@@ -182,10 +188,10 @@ pub struct Color {
 ///
 /// An array of canvases attached to the document
 ///
+/// The root node within the document
+///
 /// Node Properties
 /// The root node
-///
-/// The root node within the document
 ///
 /// Represents a single page
 ///
@@ -212,6 +218,8 @@ pub struct Color {
 /// A rectangular region of the canvas that can be exported
 ///
 /// A node that can have instances created of it that share the same properties
+/// A description of a master component. Helps you identify which component
+/// instances are attached to
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
@@ -232,6 +240,8 @@ pub struct DocumentElement {
     id: String,
 
     /// the name given to the node by the user in the tool.
+    ///
+    /// The name of the component
     #[serde(rename = "name")]
     name: String,
 
@@ -342,6 +352,10 @@ pub struct DocumentElement {
     /// Map from ID to TypeStyle for looking up style overrides
     #[serde(rename = "styleOverrideTable")]
     style_override_table: Option<Vec<TypeStyle>>,
+
+    /// The description of the component as entered in the editor
+    #[serde(rename = "description")]
+    description: Option<String>,
 
     /// ID of component that this instance came from, refers to components
     /// table (see endpoints section below)
@@ -631,10 +645,10 @@ pub struct TypeStyle {
     text_align_vertical: TextAlignVertical,
 }
 
+/// The root node within the document
+///
 /// Node Properties
 /// The root node
-///
-/// The root node within the document
 #[derive(Serialize, Deserialize)]
 pub struct FileResponseDocument {
     /// An array of canvases attached to the document

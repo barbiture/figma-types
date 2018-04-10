@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.*;
 
 /**
  * A node that can have instances created of it that share the same properties
+ * A description of a master component. Helps you identify which component
+ * instances are attached to
  */
 public class Component {
     private Rect absoluteBoundingBox;
@@ -13,6 +15,7 @@ public class Component {
     private DocumentElement[] children;
     private boolean clipsContent;
     private LayoutConstraint constraints;
+    private String description;
     private Effect[] effects;
     private ExportSetting[] exportSettings;
     private String id;
@@ -75,6 +78,14 @@ public class Component {
     public void setConstraints(LayoutConstraint value) { this.constraints = value; }
 
     /**
+     * The description of the component as entered in the editor
+     */
+    @JsonProperty("description")
+    public String getDescription() { return description; }
+    @JsonProperty("description")
+    public void setDescription(String value) { this.description = value; }
+
+    /**
      * An array of effects attached to this node
      * (see effects section for more details)
      */
@@ -117,7 +128,7 @@ public class Component {
     public void setLayoutGrids(LayoutGrid[] value) { this.layoutGrids = value; }
 
     /**
-     * the name given to the node by the user in the tool.
+     * The name of the component
      */
     @JsonProperty("name")
     public String getName() { return name; }

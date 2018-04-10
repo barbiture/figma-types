@@ -36,6 +36,8 @@ public struct FileResponse: Codable {
 }
 
 /// A node that can have instances created of it that share the same properties
+/// A description of a master component. Helps you identify which component
+/// instances are attached to
 public struct Component: Codable {
     /// Bounding box of the node in absolute space coordinates
     public let absoluteBoundingBox: Rect
@@ -50,6 +52,8 @@ public struct Component: Codable {
     public let clipsContent: Bool
     /// Horizontal and vertical layout constraints for node
     public let constraints: LayoutConstraint
+    /// The description of the component as entered in the editor
+    public let description: String
     /// An array of effects attached to this node
     /// (see effects section for more details)
     public let effects: [Effect]
@@ -62,7 +66,7 @@ public struct Component: Codable {
     /// An array of layout grids attached to this node (see layout grids section
     /// for more details). GROUP nodes do not have this attribute
     public let layoutGrids: [LayoutGrid]
-    /// the name given to the node by the user in the tool.
+    /// The name of the component
     public let name: String
     /// Opacity of the node
     public let opacity: Double
@@ -147,10 +151,10 @@ public enum LendMode: String, Codable {
 ///
 /// An array of canvases attached to the document
 ///
+/// The root node within the document
+///
 /// Node Properties
 /// The root node
-///
-/// The root node within the document
 ///
 /// Represents a single page
 ///
@@ -177,6 +181,8 @@ public enum LendMode: String, Codable {
 /// A rectangular region of the canvas that can be exported
 ///
 /// A node that can have instances created of it that share the same properties
+/// A description of a master component. Helps you identify which component
+/// instances are attached to
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
@@ -192,6 +198,8 @@ public struct DocumentElement: Codable {
     /// a string uniquely identifying this node within the document
     public let id: String
     /// the name given to the node by the user in the tool.
+    ///
+    /// The name of the component
     public let name: String
     /// the type of the node, refer to table below for details
     public let type: NodeType
@@ -255,12 +263,14 @@ public struct DocumentElement: Codable {
     public let style: TypeStyle?
     /// Map from ID to TypeStyle for looking up style overrides
     public let styleOverrideTable: [TypeStyle]?
+    /// The description of the component as entered in the editor
+    public let description: String?
     /// ID of component that this instance came from, refers to components
     /// table (see endpoints section below)
     public let componentID: String?
 
     enum CodingKeys: String, CodingKey {
-        case children, id, name, type, visible, backgroundColor, exportSettings, absoluteBoundingBox, blendMode, clipsContent, constraints, effects, isMask, layoutGrids, opacity, preserveRatio, transitionNodeID, fills, strokeAlign, strokes, strokeWeight, cornerRadius, characters, characterStyleOverrides, style, styleOverrideTable
+        case children, id, name, type, visible, backgroundColor, exportSettings, absoluteBoundingBox, blendMode, clipsContent, constraints, effects, isMask, layoutGrids, opacity, preserveRatio, transitionNodeID, fills, strokeAlign, strokes, strokeWeight, cornerRadius, characters, characterStyleOverrides, style, styleOverrideTable, description
         case componentID = "componentId"
     }
 }
@@ -591,10 +601,10 @@ public enum NodeType: String, Codable {
     case vector = "VECTOR"
 }
 
+/// The root node within the document
+///
 /// Node Properties
 /// The root node
-///
-/// The root node within the document
 public struct FileResponseDocument: Codable {
     /// An array of canvases attached to the document
     public let children: [DocumentElement]

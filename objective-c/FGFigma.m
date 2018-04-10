@@ -835,6 +835,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
         @"children": @"children",
         @"clipsContent": @"isClipsContent",
         @"constraints": @"constraints",
+        @"description": @"theDescription",
         @"effects": @"effects",
         @"exportSettings": @"exportSettings",
         @"id": @"identifier",
@@ -1001,6 +1002,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
         @"characterStyleOverrides": @"characterStyleOverrides",
         @"style": @"style",
         @"styleOverrideTable": @"styleOverrideTable",
+        @"description": @"theDescription",
         @"componentId": @"componentID",
     };
 }
