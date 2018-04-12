@@ -213,14 +213,6 @@ export enum BlendMode {
 }
 
 /**
- * An array of nodes that are direct children of this node
- *
- * An array of nodes that are being boolean operated on
- *
- * An array of top level layers on the canvas
- *
- * An array of canvases attached to the document
- *
  * The root node within the document
  *
  * Node Properties
