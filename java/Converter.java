@@ -74,12 +74,12 @@ public class Converter {
     }
 
     private static ObjectReader getFileResponseObjectReader() {
-        if (FileResponseReader == null) instantiateMapper();
+        if (FileResponseReader == null) instantiateFileResponseMapper();
         return FileResponseReader;
     }
 
     private static ObjectWriter getFileResponseObjectWriter() {
-        if (FileResponseWriter == null) instantiateMapper();
+        if (FileResponseWriter == null) instantiateFileResponseMapper();
         return FileResponseWriter;
     }
 
@@ -93,12 +93,12 @@ public class Converter {
     }
 
     private static ObjectReader getCommentsResponseObjectReader() {
-        if (CommentsResponseReader == null) instantiateMapper();
+        if (CommentsResponseReader == null) instantiateCommentsResponseMapper();
         return CommentsResponseReader;
     }
 
     private static ObjectWriter getCommentsResponseObjectWriter() {
-        if (CommentsResponseWriter == null) instantiateMapper();
+        if (CommentsResponseWriter == null) instantiateCommentsResponseMapper();
         return CommentsResponseWriter;
     }
 
@@ -112,12 +112,12 @@ public class Converter {
     }
 
     private static ObjectReader getCommentRequestObjectReader() {
-        if (CommentRequestReader == null) instantiateMapper();
+        if (CommentRequestReader == null) instantiateCommentRequestMapper();
         return CommentRequestReader;
     }
 
     private static ObjectWriter getCommentRequestObjectWriter() {
-        if (CommentRequestWriter == null) instantiateMapper();
+        if (CommentRequestWriter == null) instantiateCommentRequestMapper();
         return CommentRequestWriter;
     }
 
@@ -131,12 +131,12 @@ public class Converter {
     }
 
     private static ObjectReader getProjectsResponseObjectReader() {
-        if (ProjectsResponseReader == null) instantiateMapper();
+        if (ProjectsResponseReader == null) instantiateProjectsResponseMapper();
         return ProjectsResponseReader;
     }
 
     private static ObjectWriter getProjectsResponseObjectWriter() {
-        if (ProjectsResponseWriter == null) instantiateMapper();
+        if (ProjectsResponseWriter == null) instantiateProjectsResponseMapper();
         return ProjectsResponseWriter;
     }
 
@@ -150,12 +150,12 @@ public class Converter {
     }
 
     private static ObjectReader getProjectFilesResponseObjectReader() {
-        if (ProjectFilesResponseReader == null) instantiateMapper();
+        if (ProjectFilesResponseReader == null) instantiateProjectFilesResponseMapper();
         return ProjectFilesResponseReader;
     }
 
     private static ObjectWriter getProjectFilesResponseObjectWriter() {
-        if (ProjectFilesResponseWriter == null) instantiateMapper();
+        if (ProjectFilesResponseWriter == null) instantiateProjectFilesResponseMapper();
         return ProjectFilesResponseWriter;
     }
 }
