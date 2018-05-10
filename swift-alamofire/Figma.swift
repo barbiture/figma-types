@@ -131,13 +131,13 @@ public struct Rect: Codable {
 ///
 /// An RGBA color
 ///
+/// Color of the grid
+///
 /// Solid color of the paint
 ///
 /// Background color of the canvas
 ///
 /// Color attached to corresponding position
-///
-/// Color of the grid
 public struct Color: Codable {
     /// Alpha channel value, between 0 and 1
     public let a: Double
@@ -176,10 +176,10 @@ public enum BlendMode: String, Codable {
     case softLight = "SOFT_LIGHT"
 }
 
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 ///
 /// Represents a single page
 ///
@@ -399,13 +399,13 @@ public enum EffectType: String, Codable {
     case layerBlur = "LAYER_BLUR"
 }
 
+/// An array of export settings representing images to export from this node
+///
 /// An array of export settings representing images to export from node
 ///
 /// Format and size to export an asset at
 ///
 /// An array of export settings representing images to export from the canvas
-///
-/// An array of export settings representing images to export from this node
 public struct ExportSetting: Codable {
     /// Constraint that determines sizing of exported asset
     public let constraint: Constraint
@@ -445,11 +445,11 @@ public enum Format: String, Codable {
     case svg = "SVG"
 }
 
+/// An array of stroke paints applied to the node
+///
 /// An array of fill paints applied to the node
 ///
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
-///
-/// An array of stroke paints applied to the node
 ///
 /// Paints applied to characters
 public struct Paint: Codable {
@@ -563,10 +563,10 @@ public enum StrokeAlign: String, Codable {
 
 /// Map from ID to TypeStyle for looking up style overrides
 ///
-/// Metadata for character formatting
-///
 /// Style of text including font family and weight (see type style
 /// section for more information)
+///
+/// Metadata for character formatting
 public struct TypeStyle: Codable {
     /// Paints applied to characters
     public let fills: [Paint]
@@ -626,10 +626,10 @@ public enum NodeType: String, Codable {
     case vector = "VECTOR"
 }
 
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 public struct Document: Codable {
     /// An array of canvases attached to the document
     public let children: [Vector]
@@ -805,52 +805,6 @@ public struct File: Codable {
         case lastModified = "last_modified"
         case name
         case thumbnailURL = "thumbnail_url"
-    }
-}
-
-// MARK: - Alamofire response handlers
-
-public extension DataRequest {
-    fileprivate func decodableResponseSerializer<T: Decodable>() -> DataResponseSerializer<T> {
-        return DataResponseSerializer { _, response, data, error in
-            guard error == nil else { return .failure(error!) }
-
-            guard let data = data else {
-                return .failure(AFError.responseSerializationFailed(reason: .inputDataNil))
-            }
-
-            return Result { try JSONDecoder().decode(T.self, from: data) }
-        }
-    }
-
-    @discardableResult
-    fileprivate func responseDecodable<T: Decodable>(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
-        return response(queue: queue, responseSerializer: decodableResponseSerializer(), completionHandler: completionHandler)
-    }
-
-    @discardableResult
-    public func responseFileResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<FileResponse>) -> Void) -> Self {
-        return responseDecodable(queue: queue, completionHandler: completionHandler)
-    }
-
-    @discardableResult
-    public func responseCommentsResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<CommentsResponse>) -> Void) -> Self {
-        return responseDecodable(queue: queue, completionHandler: completionHandler)
-    }
-
-    @discardableResult
-    public func responseCommentRequest(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<CommentRequest>) -> Void) -> Self {
-        return responseDecodable(queue: queue, completionHandler: completionHandler)
-    }
-
-    @discardableResult
-    public func responseProjectsResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ProjectsResponse>) -> Void) -> Self {
-        return responseDecodable(queue: queue, completionHandler: completionHandler)
-    }
-
-    @discardableResult
-    public func responseProjectFilesResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ProjectFilesResponse>) -> Void) -> Self {
-        return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }
 
@@ -1453,5 +1407,51 @@ public extension File {
 
     public func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+// MARK: - Alamofire response handlers
+
+public extension DataRequest {
+    fileprivate func decodableResponseSerializer<T: Decodable>() -> DataResponseSerializer<T> {
+        return DataResponseSerializer { _, response, data, error in
+            guard error == nil else { return .failure(error!) }
+
+            guard let data = data else {
+                return .failure(AFError.responseSerializationFailed(reason: .inputDataNil))
+            }
+
+            return Result { try JSONDecoder().decode(T.self, from: data) }
+        }
+    }
+
+    @discardableResult
+    fileprivate func responseDecodable<T: Decodable>(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
+        return response(queue: queue, responseSerializer: decodableResponseSerializer(), completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    public func responseFileResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<FileResponse>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    public func responseCommentsResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<CommentsResponse>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    public func responseCommentRequest(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<CommentRequest>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    public func responseProjectsResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ProjectsResponse>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
+    }
+
+    @discardableResult
+    public func responseProjectFilesResponse(queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<ProjectFilesResponse>) -> Void) -> Self {
+        return responseDecodable(queue: queue, completionHandler: completionHandler)
     }
 }

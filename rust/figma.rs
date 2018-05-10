@@ -154,13 +154,13 @@ pub struct Rect {
 ///
 /// An RGBA color
 ///
+/// Color of the grid
+///
 /// Solid color of the paint
 ///
 /// Background color of the canvas
 ///
 /// Color attached to corresponding position
-///
-/// Color of the grid
 #[derive(Serialize, Deserialize)]
 pub struct Color {
     /// Alpha channel value, between 0 and 1
@@ -180,10 +180,10 @@ pub struct Color {
     r: f64,
 }
 
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 ///
 /// Represents a single page
 ///
@@ -436,13 +436,13 @@ pub struct Vector2 {
     y: f64,
 }
 
+/// An array of export settings representing images to export from this node
+///
 /// An array of export settings representing images to export from node
 ///
 /// Format and size to export an asset at
 ///
 /// An array of export settings representing images to export from the canvas
-///
-/// An array of export settings representing images to export from this node
 #[derive(Serialize, Deserialize)]
 pub struct ExportSetting {
     /// Constraint that determines sizing of exported asset
@@ -475,11 +475,11 @@ pub struct Constraint {
     value: f64,
 }
 
+/// An array of stroke paints applied to the node
+///
 /// An array of fill paints applied to the node
 ///
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
-///
-/// An array of stroke paints applied to the node
 ///
 /// Paints applied to characters
 #[derive(Serialize, Deserialize)]
@@ -586,10 +586,10 @@ pub struct LayoutGrid {
 
 /// Map from ID to TypeStyle for looking up style overrides
 ///
-/// Metadata for character formatting
-///
 /// Style of text including font family and weight (see type style
 /// section for more information)
+///
+/// Metadata for character formatting
 #[derive(Serialize, Deserialize)]
 pub struct TypeStyle {
     /// Paints applied to characters
@@ -637,10 +637,10 @@ pub struct TypeStyle {
     text_align_vertical: TextAlignVertical,
 }
 
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 #[derive(Serialize, Deserialize)]
 pub struct Document {
     /// An array of canvases attached to the document

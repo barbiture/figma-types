@@ -331,13 +331,13 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// An RGBA color
 ///
+/// Color of the grid
+///
 /// Solid color of the paint
 ///
 /// Background color of the canvas
 ///
 /// Color attached to corresponding position
-///
-/// Color of the grid
 @interface FGColor : NSObject
 /// Alpha channel value, between 0 and 1
 @property (nonatomic, assign) double a;
@@ -349,10 +349,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double r;
 @end
 
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 ///
 /// Represents a single page
 ///
@@ -529,13 +529,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double y;
 @end
 
+/// An array of export settings representing images to export from this node
+///
 /// An array of export settings representing images to export from node
 ///
 /// Format and size to export an asset at
 ///
 /// An array of export settings representing images to export from the canvas
-///
-/// An array of export settings representing images to export from this node
 @interface FGExportSetting : NSObject
 /// Constraint that determines sizing of exported asset
 @property (nonatomic, strong) FGConstraint *constraint;
@@ -558,11 +558,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double value;
 @end
 
+/// An array of stroke paints applied to the node
+///
 /// An array of fill paints applied to the node
 ///
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
-///
-/// An array of stroke paints applied to the node
 ///
 /// Paints applied to characters
 @interface FGPaint : NSObject
@@ -635,10 +635,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Map from ID to TypeStyle for looking up style overrides
 ///
-/// Metadata for character formatting
-///
 /// Style of text including font family and weight (see type style
 /// section for more information)
+///
+/// Metadata for character formatting
 @interface FGTypeStyle : NSObject
 /// Paints applied to characters
 @property (nonatomic, copy) NSArray<FGPaint *> *fills;
@@ -664,10 +664,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) FGTextAlignVertical *textAlignVertical;
 @end
 
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 @interface FGDocument : NSObject
 /// An array of canvases attached to the document
 @property (nonatomic, copy) NSArray<FGVector *> *children;

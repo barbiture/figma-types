@@ -130,13 +130,13 @@ type Rect struct {
 //
 // An RGBA color
 //
+// Color of the grid
+//
 // Solid color of the paint
 //
 // Background color of the canvas
 //
 // Color attached to corresponding position
-//
-// Color of the grid
 type Color struct {
 	A float64 `json:"a"`// Alpha channel value, between 0 and 1
 	B float64 `json:"b"`// Blue channel value, between 0 and 1
@@ -144,10 +144,10 @@ type Color struct {
 	R float64 `json:"r"`// Red channel value, between 0 and 1
 }
 
-// The root node within the document
-//
 // Node Properties
 // The root node
+//
+// The root node within the document
 //
 // Represents a single page
 //
@@ -248,13 +248,13 @@ type Vector2 struct {
 	Y float64 `json:"y"`// Y coordinate of the vector
 }
 
+// An array of export settings representing images to export from this node
+//
 // An array of export settings representing images to export from node
 //
 // Format and size to export an asset at
 //
 // An array of export settings representing images to export from the canvas
-//
-// An array of export settings representing images to export from this node
 type ExportSetting struct {
 	Constraint Constraint `json:"constraint"`// Constraint that determines sizing of exported asset
 	Format     Format     `json:"format"`    // Image type, string enum
@@ -269,11 +269,11 @@ type Constraint struct {
 	Value float64        `json:"value"`// See type property for effect of this field
 }
 
+// An array of stroke paints applied to the node
+//
 // An array of fill paints applied to the node
 //
 // A solid color, gradient, or image texture that can be applied as fills or strokes
-//
-// An array of stroke paints applied to the node
 //
 // Paints applied to characters
 type Paint struct {
@@ -313,10 +313,10 @@ type LayoutGrid struct {
 
 // Map from ID to TypeStyle for looking up style overrides
 //
-// Metadata for character formatting
-//
 // Style of text including font family and weight (see type style
 // section for more information)
+//
+// Metadata for character formatting
 type TypeStyle struct {
 	Fills               []Paint             `json:"fills"`              // Paints applied to characters
 	FontFamily          string              `json:"fontFamily"`         // Font family of text (standard name)
@@ -331,10 +331,10 @@ type TypeStyle struct {
 	TextAlignVertical   TextAlignVertical   `json:"textAlignVertical"`  // Vertical text alignment as string enum
 }
 
-// The root node within the document
-//
 // Node Properties
 // The root node
+//
+// The root node within the document
 type Document struct {
 	Children []Vector `json:"children"`// An array of canvases attached to the document
 	ID       string   `json:"id"`      // a string uniquely identifying this node within the document

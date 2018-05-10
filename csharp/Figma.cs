@@ -212,13 +212,13 @@ namespace QuickType
     ///
     /// An RGBA color
     ///
+    /// Color of the grid
+    ///
     /// Solid color of the paint
     ///
     /// Background color of the canvas
     ///
     /// Color attached to corresponding position
-    ///
-    /// Color of the grid
     /// </summary>
     public partial class Color
     {
@@ -248,10 +248,10 @@ namespace QuickType
     }
 
     /// <summary>
-    /// The root node within the document
-    ///
     /// Node Properties
     /// The root node
+    ///
+    /// The root node within the document
     ///
     /// Represents a single page
     ///
@@ -588,13 +588,13 @@ namespace QuickType
     }
 
     /// <summary>
+    /// An array of export settings representing images to export from this node
+    ///
     /// An array of export settings representing images to export from node
     ///
     /// Format and size to export an asset at
     ///
     /// An array of export settings representing images to export from the canvas
-    ///
-    /// An array of export settings representing images to export from this node
     /// </summary>
     public partial class ExportSetting
     {
@@ -641,11 +641,11 @@ namespace QuickType
     }
 
     /// <summary>
+    /// An array of stroke paints applied to the node
+    ///
     /// An array of fill paints applied to the node
     ///
     /// A solid color, gradient, or image texture that can be applied as fills or strokes
-    ///
-    /// An array of stroke paints applied to the node
     ///
     /// Paints applied to characters
     /// </summary>
@@ -792,10 +792,10 @@ namespace QuickType
     /// <summary>
     /// Map from ID to TypeStyle for looking up style overrides
     ///
-    /// Metadata for character formatting
-    ///
     /// Style of text including font family and weight (see type style
     /// section for more information)
+    ///
+    /// Metadata for character formatting
     /// </summary>
     public partial class TypeStyle
     {
@@ -867,10 +867,10 @@ namespace QuickType
     }
 
     /// <summary>
-    /// The root node within the document
-    ///
     /// Node Properties
     /// The root node
+    ///
+    /// The root node within the document
     /// </summary>
     public partial class Document
     {
@@ -933,7 +933,7 @@ namespace QuickType
         /// The time at which the comment was left
         /// </summary>
         [JsonProperty("created_at")]
-        public System.DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
         /// The file in which the comment lives
@@ -971,7 +971,7 @@ namespace QuickType
         /// If set, when the comment was resolved
         /// </summary>
         [JsonProperty("resolved_at")]
-        public System.DateTimeOffset? ResolvedAt { get; set; }
+        public DateTimeOffset? ResolvedAt { get; set; }
 
         /// <summary>
         /// The user who left the comment

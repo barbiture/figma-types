@@ -98,13 +98,13 @@ public struct Rect: Codable {
 ///
 /// An RGBA color
 ///
+/// Color of the grid
+///
 /// Solid color of the paint
 ///
 /// Background color of the canvas
 ///
 /// Color attached to corresponding position
-///
-/// Color of the grid
 public struct Color: Codable {
     /// Alpha channel value, between 0 and 1
     public let a: Double
@@ -143,10 +143,10 @@ public enum BlendMode: String, Codable {
     case softLight = "SOFT_LIGHT"
 }
 
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 ///
 /// Represents a single page
 ///
@@ -366,13 +366,13 @@ public enum EffectType: String, Codable {
     case layerBlur = "LAYER_BLUR"
 }
 
+/// An array of export settings representing images to export from this node
+///
 /// An array of export settings representing images to export from node
 ///
 /// Format and size to export an asset at
 ///
 /// An array of export settings representing images to export from the canvas
-///
-/// An array of export settings representing images to export from this node
 public struct ExportSetting: Codable {
     /// Constraint that determines sizing of exported asset
     public let constraint: Constraint
@@ -412,11 +412,11 @@ public enum Format: String, Codable {
     case svg = "SVG"
 }
 
+/// An array of stroke paints applied to the node
+///
 /// An array of fill paints applied to the node
 ///
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
-///
-/// An array of stroke paints applied to the node
 ///
 /// Paints applied to characters
 public struct Paint: Codable {
@@ -530,10 +530,10 @@ public enum StrokeAlign: String, Codable {
 
 /// Map from ID to TypeStyle for looking up style overrides
 ///
-/// Metadata for character formatting
-///
 /// Style of text including font family and weight (see type style
 /// section for more information)
+///
+/// Metadata for character formatting
 public struct TypeStyle: Codable {
     /// Paints applied to characters
     public let fills: [Paint]
@@ -593,10 +593,10 @@ public enum NodeType: String, Codable {
     case vector = "VECTOR"
 }
 
-/// The root node within the document
-///
 /// Node Properties
 /// The root node
+///
+/// The root node within the document
 public struct Document: Codable {
     /// An array of canvases attached to the document
     public let children: [Vector]

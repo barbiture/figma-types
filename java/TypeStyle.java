@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.*;
 /**
  * Map from ID to TypeStyle for looking up style overrides
  *
- * Metadata for character formatting
- *
  * Style of text including font family and weight (see type style
  * section for more information)
+ *
+ * Metadata for character formatting
  */
 public class TypeStyle {
     private Paint[] fills;

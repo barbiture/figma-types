@@ -8,13 +8,13 @@ import com.fasterxml.jackson.annotation.*;
  *
  * An RGBA color
  *
+ * Color of the grid
+ *
  * Solid color of the paint
  *
  * Background color of the canvas
  *
  * Color attached to corresponding position
- *
- * Color of the grid
  */
 public class Color {
     private double a;

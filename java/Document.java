@@ -4,10 +4,10 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * The root node within the document
- *
  * Node Properties
  * The root node
+ *
+ * The root node within the document
  */
 public class Document {
     private Vector[] children;

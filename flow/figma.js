@@ -158,13 +158,13 @@ export type Rect = {
  *
  * An RGBA color
  *
+ * Color of the grid
+ *
  * Solid color of the paint
  *
  * Background color of the canvas
  *
  * Color attached to corresponding position
- *
- * Color of the grid
  */
 export type Color = {
     /**
@@ -214,10 +214,10 @@ export type BlendMode =
     | "SOFT_LIGHT";
 
 /**
- * The root node within the document
- *
  * Node Properties
  * The root node
+ *
+ * The root node within the document
  *
  * Represents a single page
  *
@@ -519,13 +519,13 @@ export type EffectType =
     | "LAYER_BLUR";
 
 /**
+ * An array of export settings representing images to export from this node
+ *
  * An array of export settings representing images to export from node
  *
  * Format and size to export an asset at
  *
  * An array of export settings representing images to export from the canvas
- *
- * An array of export settings representing images to export from this node
  */
 export type ExportSetting = {
     /**
@@ -581,11 +581,11 @@ export type Format =
     | "SVG";
 
 /**
+ * An array of stroke paints applied to the node
+ *
  * An array of fill paints applied to the node
  *
  * A solid color, gradient, or image texture that can be applied as fills or strokes
- *
- * An array of stroke paints applied to the node
  *
  * Paints applied to characters
  */
@@ -743,10 +743,10 @@ export type StrokeAlign =
 /**
  * Map from ID to TypeStyle for looking up style overrides
  *
- * Metadata for character formatting
- *
  * Style of text including font family and weight (see type style
  * section for more information)
+ *
+ * Metadata for character formatting
  */
 export type TypeStyle = {
     /**
@@ -833,10 +833,10 @@ export type NodeType =
     | "VECTOR";
 
 /**
- * The root node within the document
- *
  * Node Properties
  * The root node
+ *
+ * The root node within the document
  */
 export type Document = {
     /**

@@ -4,11 +4,11 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
+ * An array of stroke paints applied to the node
+ *
  * An array of fill paints applied to the node
  *
  * A solid color, gradient, or image texture that can be applied as fills or strokes
- *
- * An array of stroke paints applied to the node
  *
  * Paints applied to characters
  */

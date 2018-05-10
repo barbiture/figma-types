@@ -156,13 +156,13 @@ export interface Rect {
  *
  * An RGBA color
  *
+ * Color of the grid
+ *
  * Solid color of the paint
  *
  * Background color of the canvas
  *
  * Color attached to corresponding position
- *
- * Color of the grid
  */
 export interface Color {
     /**
@@ -213,10 +213,10 @@ export enum BlendMode {
 }
 
 /**
- * The root node within the document
- *
  * Node Properties
  * The root node
+ *
+ * The root node within the document
  *
  * Represents a single page
  *
@@ -521,13 +521,13 @@ export enum EffectType {
 }
 
 /**
+ * An array of export settings representing images to export from this node
+ *
  * An array of export settings representing images to export from node
  *
  * Format and size to export an asset at
  *
  * An array of export settings representing images to export from the canvas
- *
- * An array of export settings representing images to export from this node
  */
 export interface ExportSetting {
     /**
@@ -585,11 +585,11 @@ export enum Format {
 }
 
 /**
+ * An array of stroke paints applied to the node
+ *
  * An array of fill paints applied to the node
  *
  * A solid color, gradient, or image texture that can be applied as fills or strokes
- *
- * An array of stroke paints applied to the node
  *
  * Paints applied to characters
  */
@@ -751,10 +751,10 @@ export enum StrokeAlign {
 /**
  * Map from ID to TypeStyle for looking up style overrides
  *
- * Metadata for character formatting
- *
  * Style of text including font family and weight (see type style
  * section for more information)
+ *
+ * Metadata for character formatting
  */
 export interface TypeStyle {
     /**
@@ -844,10 +844,10 @@ export enum NodeType {
 }
 
 /**
- * The root node within the document
- *
  * Node Properties
  * The root node
+ *
+ * The root node within the document
  */
 export interface Document {
     /**

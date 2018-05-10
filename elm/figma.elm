@@ -212,13 +212,13 @@ type alias Rect =
 
 An RGBA color
 
+Color of the grid
+
 Solid color of the paint
 
 Background color of the canvas
 
 Color attached to corresponding position
-
-Color of the grid
 
 a:
 Alpha channel value, between 0 and 1
@@ -266,10 +266,10 @@ type BlendMode
     | Screen
     | SoftLight
 
-{-| The root node within the document
-
-Node Properties
+{-| Node Properties
 The root node
+
+The root node within the document
 
 Represents a single page
 
@@ -563,13 +563,13 @@ type alias Vector2 =
     , y : Float
     }
 
-{-| An array of export settings representing images to export from node
+{-| An array of export settings representing images to export from this node
+
+An array of export settings representing images to export from node
 
 Format and size to export an asset at
 
 An array of export settings representing images to export from the canvas
-
-An array of export settings representing images to export from this node
 
 constraint:
 Constraint that determines sizing of exported asset
@@ -620,11 +620,11 @@ type Format
     | PNG
     | SVG
 
-{-| An array of fill paints applied to the node
+{-| An array of stroke paints applied to the node
+
+An array of fill paints applied to the node
 
 A solid color, gradient, or image texture that can be applied as fills or strokes
-
-An array of stroke paints applied to the node
 
 Paints applied to characters
 
@@ -774,10 +774,10 @@ type StrokeAlign
 
 {-| Map from ID to TypeStyle for looking up style overrides
 
-Metadata for character formatting
-
 Style of text including font family and weight (see type style
 section for more information)
+
+Metadata for character formatting
 
 fills:
 Paints applied to characters
@@ -857,10 +857,10 @@ type NodeType
     | Star
     | Text
 
-{-| The root node within the document
-
-Node Properties
+{-| Node Properties
 The root node
+
+The root node within the document
 
 children:
 An array of canvases attached to the document
