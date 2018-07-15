@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.*;
 /**
  * Type of paint as a string enum
  */
-public enum PaintType {
+public enum FillType {
     EMOJI, GRADIENT_ANGULAR, GRADIENT_DIAMOND, GRADIENT_LINEAR, GRADIENT_RADIAL, IMAGE, SOLID;
 
     @JsonValue
@@ -25,7 +25,7 @@ public enum PaintType {
     }
 
     @JsonCreator
-    public static PaintType forValue(String value) throws IOException {
+    public static FillType forValue(String value) throws IOException {
         if (value.equals("EMOJI")) return EMOJI;
         if (value.equals("GRADIENT_ANGULAR")) return GRADIENT_ANGULAR;
         if (value.equals("GRADIENT_DIAMOND")) return GRADIENT_DIAMOND;
@@ -33,6 +33,6 @@ public enum PaintType {
         if (value.equals("GRADIENT_RADIAL")) return GRADIENT_RADIAL;
         if (value.equals("IMAGE")) return IMAGE;
         if (value.equals("SOLID")) return SOLID;
-        throw new IOException("Cannot deserialize PaintType");
+        throw new IOException("Cannot deserialize FillType");
     }
 }

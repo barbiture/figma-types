@@ -4,12 +4,12 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * Map from ID to TypeStyle for looking up style overrides
- *
  * Style of text including font family and weight (see type style
  * section for more information)
  *
  * Metadata for character formatting
+ *
+ * Map from ID to TypeStyle for looking up style overrides
  */
 public class TypeStyle {
     private Paint[] fills;

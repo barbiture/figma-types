@@ -42,7 +42,7 @@ export type FileResponse = {
     /**
      * The root node within the document
      */
-    document:      Document;
+    document:      DocumentObject;
     schemaVersion: number;
 };
 
@@ -68,7 +68,7 @@ export type Component = {
     /**
      * An array of nodes that are direct children of this node
      */
-    children: Vector[];
+    children: Document[];
     /**
      * Does this node clip content outside of its bounds?
      */
@@ -158,13 +158,13 @@ export type Rect = {
  *
  * An RGBA color
  *
- * Color of the grid
+ * Background color of the canvas
  *
  * Solid color of the paint
  *
- * Background color of the canvas
- *
  * Color attached to corresponding position
+ *
+ * Color of the grid
  */
 export type Color = {
     /**
@@ -250,7 +250,7 @@ export type BlendMode =
  * An instance of a component, changes to the component result in the same
  * changes applied to the instance
  */
-export type Vector = {
+export type Document = {
     /**
      * An array of canvases attached to the document
      *
@@ -260,7 +260,7 @@ export type Vector = {
      *
      * An array of nodes that are being boolean operated on
      */
-    children?: Vector[];
+    children?: Document[];
     /**
      * a string uniquely identifying this node within the document
      */
@@ -519,11 +519,11 @@ export type EffectType =
     | "LAYER_BLUR";
 
 /**
- * An array of export settings representing images to export from this node
- *
  * An array of export settings representing images to export from node
  *
  * Format and size to export an asset at
+ *
+ * An array of export settings representing images to export from this node
  *
  * An array of export settings representing images to export from the canvas
  */
@@ -581,11 +581,11 @@ export type Format =
     | "SVG";
 
 /**
- * An array of stroke paints applied to the node
- *
  * An array of fill paints applied to the node
  *
  * A solid color, gradient, or image texture that can be applied as fills or strokes
+ *
+ * An array of stroke paints applied to the node
  *
  * Paints applied to characters
  */
@@ -623,7 +623,7 @@ export type Paint = {
     /**
      * Type of paint as a string enum
      */
-    type: PaintType;
+    type: FillType;
     /**
      * Is the paint enabled?
      */
@@ -651,7 +651,7 @@ export type ColorStop = {
 /**
  * Type of paint as a string enum
  */
-export type PaintType =
+export type FillType =
       "EMOJI"
     | "GRADIENT_ANGULAR"
     | "GRADIENT_DIAMOND"
@@ -741,12 +741,12 @@ export type StrokeAlign =
     | "OUTSIDE";
 
 /**
- * Map from ID to TypeStyle for looking up style overrides
- *
  * Style of text including font family and weight (see type style
  * section for more information)
  *
  * Metadata for character formatting
+ *
+ * Map from ID to TypeStyle for looking up style overrides
  */
 export type TypeStyle = {
     /**
@@ -838,11 +838,11 @@ export type NodeType =
  *
  * The root node within the document
  */
-export type Document = {
+export type DocumentObject = {
     /**
      * An array of canvases attached to the document
      */
-    children: Vector[];
+    children: Document[];
     /**
      * a string uniquely identifying this node within the document
      */
@@ -1156,14 +1156,14 @@ function r(name: string) {
 const typeMap: any = {
     "FileResponse": o({
         components: m(r("Component")),
-        document: r("Document"),
+        document: r("DocumentObject"),
         schemaVersion: 3.14,
     }, "any"),
     "Component": o({
         absoluteBoundingBox: r("Rect"),
         backgroundColor: r("Color"),
         blendMode: r("BlendMode"),
-        children: a(r("Vector")),
+        children: a(r("Document")),
         clipsContent: true,
         constraints: r("LayoutConstraint"),
         description: "",
@@ -1191,8 +1191,8 @@ const typeMap: any = {
         g: 3.14,
         r: 3.14,
     }, "any"),
-    "Vector": o({
-        children: u(undefined, a(r("Vector"))),
+    "Document": o({
+        children: u(undefined, a(r("Document"))),
         id: "",
         name: "",
         type: r("NodeType"),
@@ -1252,7 +1252,7 @@ const typeMap: any = {
         gradientStops: u(undefined, a(r("ColorStop"))),
         opacity: 3.14,
         scaleMode: u(undefined, ""),
-        type: r("PaintType"),
+        type: r("FillType"),
         visible: true,
     }, "any"),
     "ColorStop": o({
@@ -1282,8 +1282,8 @@ const typeMap: any = {
         textAlignHorizontal: r("TextAlignHorizontal"),
         textAlignVertical: r("TextAlignVertical"),
     }, "any"),
-    "Document": o({
-        children: a(r("Vector")),
+    "DocumentObject": o({
+        children: a(r("Document")),
         id: "",
         name: "",
         type: r("NodeType"),
@@ -1384,7 +1384,7 @@ const typeMap: any = {
         "PNG",
         "SVG",
     ],
-    "PaintType": [
+    "FillType": [
         "EMOJI",
         "GRADIENT_ANGULAR",
         "GRADIENT_DIAMOND",

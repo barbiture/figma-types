@@ -4,11 +4,11 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * An array of export settings representing images to export from this node
- *
  * An array of export settings representing images to export from node
  *
  * Format and size to export an asset at
+ *
+ * An array of export settings representing images to export from this node
  *
  * An array of export settings representing images to export from the canvas
  */

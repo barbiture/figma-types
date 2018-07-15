@@ -35,16 +35,16 @@ module Types
   BlendMode           = Strict::String.enum("COLOR", "COLOR_BURN", "COLOR_DODGE", "DARKEN", "DIFFERENCE", "EXCLUSION", "HARD_LIGHT", "HUE", "LIGHTEN", "LINEAR_BURN", "LINEAR_DODGE", "LUMINOSITY", "MULTIPLY", "NORMAL", "OVERLAY", "PASS_THROUGH", "SATURATION", "SCREEN", "SOFT_LIGHT")
   Horizontal          = Strict::String.enum("CENTER", "LEFT", "LEFT_RIGHT", "RIGHT", "SCALE")
   Vertical            = Strict::String.enum("BOTTOM", "CENTER", "SCALE", "TOP", "TOP_BOTTOM")
+  NodeType            = Strict::String.enum("BOOLEAN", "CANVAS", "COMPONENT", "DOCUMENT", "ELLIPSE", "FRAME", "GROUP", "INSTANCE", "LINE", "RECTANGLE", "REGULAR_POLYGON", "SLICE", "STAR", "TEXT", "VECTOR")
   EffectType          = Strict::String.enum("BACKGROUND_BLUR", "DROP_SHADOW", "INNER_SHADOW", "LAYER_BLUR")
   ConstraintType      = Strict::String.enum("HEIGHT", "SCALE", "WIDTH")
   Format              = Strict::String.enum("JPG", "PNG", "SVG")
-  PaintType           = Strict::String.enum("EMOJI", "GRADIENT_ANGULAR", "GRADIENT_DIAMOND", "GRADIENT_LINEAR", "GRADIENT_RADIAL", "IMAGE", "SOLID")
+  FillType            = Strict::String.enum("EMOJI", "GRADIENT_ANGULAR", "GRADIENT_DIAMOND", "GRADIENT_LINEAR", "GRADIENT_RADIAL", "IMAGE", "SOLID")
   Alignment           = Strict::String.enum("CENTER", "MAX", "MIN")
   Pattern             = Strict::String.enum("COLUMNS", "GRID", "ROWS")
   StrokeAlign         = Strict::String.enum("CENTER", "INSIDE", "OUTSIDE")
   TextAlignHorizontal = Strict::String.enum("CENTER", "JUSTIFIED", "LEFT", "RIGHT")
   TextAlignVertical   = Strict::String.enum("BOTTOM", "CENTER", "TOP")
-  NodeType            = Strict::String.enum("BOOLEAN", "CANVAS", "COMPONENT", "DOCUMENT", "ELLIPSE", "FRAME", "GROUP", "INSTANCE", "LINE", "RECTANGLE", "REGULAR_POLYGON", "SLICE", "STAR", "TEXT", "VECTOR")
 end
 
 # Bounding box of the node in absolute space coordinates
@@ -96,13 +96,13 @@ end
 #
 # An RGBA color
 #
-# Color of the grid
+# Background color of the canvas
 #
 # Solid color of the paint
 #
-# Background color of the canvas
-#
 # Color attached to corresponding position
+#
+# Color of the grid
 class Color < Dry::Struct
 
   # Alpha channel value, between 0 and 1
@@ -247,6 +247,25 @@ class LayoutConstraint < Dry::Struct
   def to_json(options = nil)
     JSON.generate(to_dynamic, options)
   end
+end
+
+# the type of the node, refer to table below for details
+module NodeType
+  Boolean        = "BOOLEAN"
+  Canvas         = "CANVAS"
+  Component      = "COMPONENT"
+  Document       = "DOCUMENT"
+  Ellipse        = "ELLIPSE"
+  Frame          = "FRAME"
+  Group          = "GROUP"
+  Instance       = "INSTANCE"
+  Line           = "LINE"
+  Rectangle      = "RECTANGLE"
+  RegularPolygon = "REGULAR_POLYGON"
+  Slice          = "SLICE"
+  Star           = "STAR"
+  Text           = "TEXT"
+  Vector         = "VECTOR"
 end
 
 # Type of effect as a string enum
@@ -413,11 +432,11 @@ module Format
   SVG = "SVG"
 end
 
-# An array of export settings representing images to export from this node
-#
 # An array of export settings representing images to export from node
 #
 # Format and size to export an asset at
+#
+# An array of export settings representing images to export from this node
 #
 # An array of export settings representing images to export from the canvas
 class ExportSetting < Dry::Struct
@@ -495,7 +514,7 @@ class ColorStop < Dry::Struct
 end
 
 # Type of paint as a string enum
-module PaintType
+module FillType
   Emoji           = "EMOJI"
   GradientAngular = "GRADIENT_ANGULAR"
   GradientDiamond = "GRADIENT_DIAMOND"
@@ -505,11 +524,11 @@ module PaintType
   Solid           = "SOLID"
 end
 
-# An array of stroke paints applied to the node
-#
 # An array of fill paints applied to the node
 #
 # A solid color, gradient, or image texture that can be applied as fills or strokes
+#
+# An array of stroke paints applied to the node
 #
 # Paints applied to characters
 class Paint < Dry::Struct
@@ -540,7 +559,7 @@ class Paint < Dry::Struct
   attribute :scale_mode, Types::String.optional
 
   # Type of paint as a string enum
-  attribute :paint_type, Types::PaintType
+  attribute :paint_type, Types::FillType
 
   # Is the paint enabled?
   attribute :visible, Types::Bool
@@ -696,12 +715,12 @@ module TextAlignVertical
   Top    = "TOP"
 end
 
-# Map from ID to TypeStyle for looking up style overrides
-#
 # Style of text including font family and weight (see type style
 # section for more information)
 #
 # Metadata for character formatting
+#
+# Map from ID to TypeStyle for looking up style overrides
 class TypeStyle < Dry::Struct
 
   # Paints applied to characters
@@ -779,25 +798,6 @@ class TypeStyle < Dry::Struct
   end
 end
 
-# the type of the node, refer to table below for details
-module NodeType
-  Boolean        = "BOOLEAN"
-  Canvas         = "CANVAS"
-  Component      = "COMPONENT"
-  Document       = "DOCUMENT"
-  Ellipse        = "ELLIPSE"
-  Frame          = "FRAME"
-  Group          = "GROUP"
-  Instance       = "INSTANCE"
-  Line           = "LINE"
-  Rectangle      = "RECTANGLE"
-  RegularPolygon = "REGULAR_POLYGON"
-  Slice          = "SLICE"
-  Star           = "STAR"
-  Text           = "TEXT"
-  Vector         = "VECTOR"
-end
-
 # Node Properties
 # The root node
 #
@@ -833,7 +833,7 @@ end
 #
 # An instance of a component, changes to the component result in the same
 # changes applied to the instance
-class Vector < Dry::Struct
+class Document < Dry::Struct
 
   # An array of canvases attached to the document
   #
@@ -842,7 +842,7 @@ class Vector < Dry::Struct
   # An array of nodes that are direct children of this node
   #
   # An array of nodes that are being boolean operated on
-  attribute :children, Types.Array(Vector).optional
+  attribute :children, Types.Array(Document).optional
 
   # a string uniquely identifying this node within the document
   attribute :id, Types::String
@@ -850,10 +850,10 @@ class Vector < Dry::Struct
   # the name given to the node by the user in the tool.
   #
   # The name of the component
-  attribute :vector_name, Types::String
+  attribute :document_name, Types::String
 
   # the type of the node, refer to table below for details
-  attribute :vector_type, Types::NodeType
+  attribute :document_type, Types::NodeType
 
   # whether or not the node is visible on the canvas
   attribute :visible, Types::Bool
@@ -947,10 +947,10 @@ class Vector < Dry::Struct
   def self.from_dynamic!(d)
     d = Types::Hash[d]
     new(
-      children:                  d["children"]&.map { |x| Vector.from_dynamic!(x) },
+      children:                  d["children"]&.map { |x| Document.from_dynamic!(x) },
       id:                        d.fetch("id"),
-      vector_name:               d.fetch("name"),
-      vector_type:               d.fetch("type"),
+      document_name:             d.fetch("name"),
+      document_type:             d.fetch("type"),
       visible:                   d.fetch("visible"),
       background_color:          d["backgroundColor"] ? Color.from_dynamic!(d["backgroundColor"]) : nil,
       export_settings:           d["exportSettings"]&.map { |x| ExportSetting.from_dynamic!(x) },
@@ -986,8 +986,8 @@ class Vector < Dry::Struct
     {
       "children"                => @children&.map { |x| x.to_dynamic },
       "id"                      => @id,
-      "name"                    => @vector_name,
-      "type"                    => @vector_type,
+      "name"                    => @document_name,
+      "type"                    => @document_type,
       "visible"                 => @visible,
       "backgroundColor"         => @background_color&.to_dynamic,
       "exportSettings"          => @export_settings&.map { |x| x.to_dynamic },
@@ -1036,7 +1036,7 @@ class Component < Dry::Struct
   attribute :blend_mode, Types::BlendMode
 
   # An array of nodes that are direct children of this node
-  attribute :children, Types.Array(Vector)
+  attribute :children, Types.Array(Document)
 
   # Does this node clip content outside of its bounds?
   attribute :clips_content, Types::Bool
@@ -1088,7 +1088,7 @@ class Component < Dry::Struct
       absolute_bounding_box: Rect.from_dynamic!(d.fetch("absoluteBoundingBox")),
       background_color:      Color.from_dynamic!(d.fetch("backgroundColor")),
       blend_mode:            d.fetch("blendMode"),
-      children:              d.fetch("children").map { |x| Vector.from_dynamic!(x) },
+      children:              d.fetch("children").map { |x| Document.from_dynamic!(x) },
       clips_content:         d.fetch("clipsContent"),
       constraints:           LayoutConstraint.from_dynamic!(d.fetch("constraints")),
       description:           d.fetch("description"),
@@ -1142,10 +1142,10 @@ end
 # The root node
 #
 # The root node within the document
-class Document < Dry::Struct
+class DocumentClass < Dry::Struct
 
   # An array of canvases attached to the document
-  attribute :children, Types.Array(Vector)
+  attribute :children, Types.Array(Document)
 
   # a string uniquely identifying this node within the document
   attribute :id, Types::String
@@ -1162,7 +1162,7 @@ class Document < Dry::Struct
   def self.from_dynamic!(d)
     d = Types::Hash[d]
     new(
-      children:      d.fetch("children").map { |x| Vector.from_dynamic!(x) },
+      children:      d.fetch("children").map { |x| Document.from_dynamic!(x) },
       id:            d.fetch("id"),
       document_name: d.fetch("name"),
       document_type: d.fetch("type"),
@@ -1214,7 +1214,7 @@ class FileResponse < Dry::Struct
   attribute :components, Types::Hash.meta(of: Component)
 
   # The root node within the document
-  attribute :document, Document
+  attribute :document, DocumentClass
 
   attribute :schema_version, Types::Double
 
@@ -1222,7 +1222,7 @@ class FileResponse < Dry::Struct
     d = Types::Hash[d]
     new(
       components:     Types::Hash[d.fetch("components")].map { |k, v| [k, Component.from_dynamic!(v)] }.to_h,
-      document:       Document.from_dynamic!(d.fetch("document")),
+      document:       DocumentClass.from_dynamic!(d.fetch("document")),
       schema_version: d.fetch("schemaVersion"),
     )
   end

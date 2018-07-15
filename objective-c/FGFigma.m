@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGVector (JSONConversion)
+@interface FGDocument (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@interface FGDocument (JSONConversion)
+@interface FGDocumentClass (JSONConversion)
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict;
 - (NSDictionary *)JSONDictionary;
 @end
@@ -344,32 +344,32 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation FGPaintType
-+ (NSDictionary<NSString *, FGPaintType *> *)values
+@implementation FGFillType
++ (NSDictionary<NSString *, FGFillType *> *)values
 {
-    static NSDictionary<NSString *, FGPaintType *> *values;
+    static NSDictionary<NSString *, FGFillType *> *values;
     return values = values ? values : @{
-        @"EMOJI": [[FGPaintType alloc] initWithValue:@"EMOJI"],
-        @"GRADIENT_ANGULAR": [[FGPaintType alloc] initWithValue:@"GRADIENT_ANGULAR"],
-        @"GRADIENT_DIAMOND": [[FGPaintType alloc] initWithValue:@"GRADIENT_DIAMOND"],
-        @"GRADIENT_LINEAR": [[FGPaintType alloc] initWithValue:@"GRADIENT_LINEAR"],
-        @"GRADIENT_RADIAL": [[FGPaintType alloc] initWithValue:@"GRADIENT_RADIAL"],
-        @"IMAGE": [[FGPaintType alloc] initWithValue:@"IMAGE"],
-        @"SOLID": [[FGPaintType alloc] initWithValue:@"SOLID"],
+        @"EMOJI": [[FGFillType alloc] initWithValue:@"EMOJI"],
+        @"GRADIENT_ANGULAR": [[FGFillType alloc] initWithValue:@"GRADIENT_ANGULAR"],
+        @"GRADIENT_DIAMOND": [[FGFillType alloc] initWithValue:@"GRADIENT_DIAMOND"],
+        @"GRADIENT_LINEAR": [[FGFillType alloc] initWithValue:@"GRADIENT_LINEAR"],
+        @"GRADIENT_RADIAL": [[FGFillType alloc] initWithValue:@"GRADIENT_RADIAL"],
+        @"IMAGE": [[FGFillType alloc] initWithValue:@"IMAGE"],
+        @"SOLID": [[FGFillType alloc] initWithValue:@"SOLID"],
     };
 }
 
-+ (FGPaintType *)emoji { return FGPaintType.values[@"EMOJI"]; }
-+ (FGPaintType *)gradientAngular { return FGPaintType.values[@"GRADIENT_ANGULAR"]; }
-+ (FGPaintType *)gradientDiamond { return FGPaintType.values[@"GRADIENT_DIAMOND"]; }
-+ (FGPaintType *)gradientLinear { return FGPaintType.values[@"GRADIENT_LINEAR"]; }
-+ (FGPaintType *)gradientRadial { return FGPaintType.values[@"GRADIENT_RADIAL"]; }
-+ (FGPaintType *)image { return FGPaintType.values[@"IMAGE"]; }
-+ (FGPaintType *)solid { return FGPaintType.values[@"SOLID"]; }
++ (FGFillType *)emoji { return FGFillType.values[@"EMOJI"]; }
++ (FGFillType *)gradientAngular { return FGFillType.values[@"GRADIENT_ANGULAR"]; }
++ (FGFillType *)gradientDiamond { return FGFillType.values[@"GRADIENT_DIAMOND"]; }
++ (FGFillType *)gradientLinear { return FGFillType.values[@"GRADIENT_LINEAR"]; }
++ (FGFillType *)gradientRadial { return FGFillType.values[@"GRADIENT_RADIAL"]; }
++ (FGFillType *)image { return FGFillType.values[@"IMAGE"]; }
++ (FGFillType *)solid { return FGFillType.values[@"SOLID"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return FGPaintType.values[value];
+    return FGFillType.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -796,7 +796,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
         _components = map(_components, λ(id x, [FGComponent fromJSONDictionary:x]));
-        _document = [FGDocument fromJSONDictionary:(id)_document];
+        _document = [FGDocumentClass fromJSONDictionary:(id)_document];
     }
     return self;
 }
@@ -862,7 +862,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
         _absoluteBoundingBox = [FGRect fromJSONDictionary:(id)_absoluteBoundingBox];
         _backgroundColor = [FGColor fromJSONDictionary:(id)_backgroundColor];
         _blendMode = [FGBlendMode withValue:(id)_blendMode];
-        _children = map(_children, λ(id x, [FGVector fromJSONDictionary:x]));
+        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
         _constraints = [FGLayoutConstraint fromJSONDictionary:(id)_constraints];
         _effects = map(_effects, λ(id x, [FGEffect fromJSONDictionary:x]));
         _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
@@ -874,7 +874,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGComponent.properties[key]];
+    id resolved = FGComponent.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -971,7 +972,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 }
 @end
 
-@implementation FGVector
+@implementation FGDocument
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1009,14 +1010,14 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGVector alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGDocument alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [FGVector fromJSONDictionary:x]));
+        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
         _type = [FGNodeType withValue:(id)_type];
         _backgroundColor = [FGColor fromJSONDictionary:(id)_backgroundColor];
         _exportSettings = map(_exportSettings, λ(id x, [FGExportSetting fromJSONDictionary:x]));
@@ -1036,15 +1037,16 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGVector.properties[key]];
+    id resolved = FGDocument.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGVector.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGDocument.properties.allValues] mutableCopy];
 
-    for (id jsonName in FGVector.properties) {
-        id propertyName = FGVector.properties[jsonName];
+    for (id jsonName in FGDocument.properties) {
+        id propertyName = FGDocument.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -1144,7 +1146,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGEffect.properties[key]];
+    id resolved = FGEffect.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -1302,14 +1305,15 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
         _color = [FGColor fromJSONDictionary:(id)_color];
         _gradientHandlePositions = map(_gradientHandlePositions, λ(id x, [FGVector2 fromJSONDictionary:x]));
         _gradientStops = map(_gradientStops, λ(id x, [FGColorStop fromJSONDictionary:x]));
-        _type = [FGPaintType withValue:(id)_type];
+        _type = [FGFillType withValue:(id)_type];
     }
     return self;
 }
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGPaint.properties[key]];
+    id resolved = FGPaint.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -1406,7 +1410,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGLayoutGrid.properties[key]];
+    id resolved = FGLayoutGrid.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -1469,7 +1474,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGTypeStyle.properties[key]];
+    id resolved = FGTypeStyle.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -1495,7 +1501,7 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 }
 @end
 
-@implementation FGDocument
+@implementation FGDocumentClass
 + (NSDictionary<NSString *, NSString *> *)properties
 {
     static NSDictionary<NSString *, NSString *> *properties;
@@ -1510,14 +1516,14 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 + (instancetype)fromJSONDictionary:(NSDictionary *)dict
 {
-    return dict ? [[FGDocument alloc] initWithJSONDictionary:dict] : nil;
+    return dict ? [[FGDocumentClass alloc] initWithJSONDictionary:dict] : nil;
 }
 
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dict
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _children = map(_children, λ(id x, [FGVector fromJSONDictionary:x]));
+        _children = map(_children, λ(id x, [FGDocument fromJSONDictionary:x]));
         _type = [FGNodeType withValue:(id)_type];
     }
     return self;
@@ -1525,15 +1531,16 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGDocument.properties[key]];
+    id resolved = FGDocumentClass.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
 {
-    id dict = [[self dictionaryWithValuesForKeys:FGDocument.properties.allValues] mutableCopy];
+    id dict = [[self dictionaryWithValuesForKeys:FGDocumentClass.properties.allValues] mutableCopy];
 
-    for (id jsonName in FGDocument.properties) {
-        id propertyName = FGDocument.properties[jsonName];
+    for (id jsonName in FGDocumentClass.properties) {
+        id propertyName = FGDocumentClass.properties[jsonName];
         if (![jsonName isEqualToString:propertyName]) {
             dict[jsonName] = dict[propertyName];
             [dict removeObjectForKey:propertyName];
@@ -1639,7 +1646,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGComment.properties[key]];
+    id resolved = FGComment.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -1691,7 +1699,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGClientMeta.properties[key]];
+    id resolved = FGClientMeta.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -1739,7 +1748,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGUser.properties[key]];
+    id resolved = FGUser.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -1794,7 +1804,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGCommentRequest.properties[key]];
+    id resolved = FGCommentRequest.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -1907,7 +1918,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGProject.properties[key]];
+    id resolved = FGProject.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary
@@ -2008,7 +2020,8 @@ NSString *_Nullable FGProjectFilesResponseToJSON(FGProjectFilesResponse *project
 
 - (void)setValue:(nullable id)value forKey:(NSString *)key
 {
-    [super setValue:value forKey:FGFile.properties[key]];
+    id resolved = FGFile.properties[key];
+    if (resolved) [super setValue:value forKey:resolved];
 }
 
 - (NSDictionary *)JSONDictionary

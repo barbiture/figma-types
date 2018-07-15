@@ -4,11 +4,11 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 /**
- * An array of stroke paints applied to the node
- *
  * An array of fill paints applied to the node
  *
  * A solid color, gradient, or image texture that can be applied as fills or strokes
+ *
+ * An array of stroke paints applied to the node
  *
  * Paints applied to characters
  */
@@ -18,7 +18,7 @@ public class Paint {
     private ColorStop[] gradientStops;
     private double opacity;
     private String scaleMode;
-    private PaintType type;
+    private FillType type;
     private boolean visible;
 
     /**
@@ -75,9 +75,9 @@ public class Paint {
      * Type of paint as a string enum
      */
     @JsonProperty("type")
-    public PaintType getType() { return type; }
+    public FillType getType() { return type; }
     @JsonProperty("type")
-    public void setType(PaintType value) { this.type = value; }
+    public void setType(FillType value) { this.type = value; }
 
     /**
      * Is the paint enabled?

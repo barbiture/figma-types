@@ -25,7 +25,7 @@ private val klaxon = Klaxon()
     .convert(EffectType::class,          { EffectType.fromValue(it.string!!) },          { "\"${it.value}\"" })
     .convert(ConstraintType::class,      { ConstraintType.fromValue(it.string!!) },      { "\"${it.value}\"" })
     .convert(Format::class,              { Format.fromValue(it.string!!) },              { "\"${it.value}\"" })
-    .convert(PaintType::class,           { PaintType.fromValue(it.string!!) },           { "\"${it.value}\"" })
+    .convert(FillType::class,            { FillType.fromValue(it.string!!) },            { "\"${it.value}\"" })
     .convert(Alignment::class,           { Alignment.fromValue(it.string!!) },           { "\"${it.value}\"" })
     .convert(Pattern::class,             { Pattern.fromValue(it.string!!) },             { "\"${it.value}\"" })
     .convert(StrokeAlign::class,         { StrokeAlign.fromValue(it.string!!) },         { "\"${it.value}\"" })
@@ -63,7 +63,7 @@ data class FileResponse (
     /**
      * The root node within the document
      */
-    val document: Document,
+    val document: DocumentClass,
 
     val schemaVersion: Double
 ) {
@@ -99,7 +99,7 @@ data class Component (
     /**
      * An array of nodes that are direct children of this node
      */
-    val children: List<Vector>,
+    val children: List<Document>,
 
     /**
      * Does this node clip content outside of its bounds?
@@ -206,13 +206,13 @@ data class Rect (
  *
  * An RGBA color
  *
- * Color of the grid
+ * Background color of the canvas
  *
  * Solid color of the paint
  *
- * Background color of the canvas
- *
  * Color attached to corresponding position
+ *
+ * Color of the grid
  */
 data class Color (
     /**
@@ -327,7 +327,7 @@ enum class BlendMode(val value: String) {
  * An instance of a component, changes to the component result in the same
  * changes applied to the instance
  */
-data class Vector (
+data class Document (
     /**
      * An array of canvases attached to the document
      *
@@ -337,7 +337,7 @@ data class Vector (
      *
      * An array of nodes that are being boolean operated on
      */
-    val children: List<Vector>? = null,
+    val children: List<Document>? = null,
 
     /**
      * a string uniquely identifying this node within the document
@@ -666,11 +666,11 @@ enum class EffectType(val value: String) {
 }
 
 /**
- * An array of export settings representing images to export from this node
- *
  * An array of export settings representing images to export from node
  *
  * Format and size to export an asset at
+ *
+ * An array of export settings representing images to export from this node
  *
  * An array of export settings representing images to export from the canvas
  */
@@ -751,11 +751,11 @@ enum class Format(val value: String) {
 }
 
 /**
- * An array of stroke paints applied to the node
- *
  * An array of fill paints applied to the node
  *
  * A solid color, gradient, or image texture that can be applied as fills or strokes
+ *
+ * An array of stroke paints applied to the node
  *
  * Paints applied to characters
  */
@@ -798,7 +798,7 @@ data class Paint (
     /**
      * Type of paint as a string enum
      */
-    val type: PaintType,
+    val type: FillType,
 
     /**
      * Is the paint enabled?
@@ -828,7 +828,7 @@ data class ColorStop (
 /**
  * Type of paint as a string enum
  */
-enum class PaintType(val value: String) {
+enum class FillType(val value: String) {
     Emoji("EMOJI"),
     GradientAngular("GRADIENT_ANGULAR"),
     GradientDiamond("GRADIENT_DIAMOND"),
@@ -838,7 +838,7 @@ enum class PaintType(val value: String) {
     Solid("SOLID");
 
     companion object {
-        public fun fromValue(value: String): PaintType = when (value) {
+        public fun fromValue(value: String): FillType = when (value) {
             "EMOJI"            -> Emoji
             "GRADIENT_ANGULAR" -> GradientAngular
             "GRADIENT_DIAMOND" -> GradientDiamond
@@ -969,12 +969,12 @@ enum class StrokeAlign(val value: String) {
 }
 
 /**
- * Map from ID to TypeStyle for looking up style overrides
- *
  * Style of text including font family and weight (see type style
  * section for more information)
  *
  * Metadata for character formatting
+ *
+ * Map from ID to TypeStyle for looking up style overrides
  */
 data class TypeStyle (
     /**
@@ -1119,11 +1119,11 @@ enum class NodeType(val value: String) {
  *
  * The root node within the document
  */
-data class Document (
+data class DocumentClass (
     /**
      * An array of canvases attached to the document
      */
-    val children: List<Vector>,
+    val children: List<Document>,
 
     /**
      * a string uniquely identifying this node within the document

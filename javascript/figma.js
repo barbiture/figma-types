@@ -133,14 +133,14 @@ function r(name) {
 const typeMap = {
     "FileResponse": o({
         components: m(r("Component")),
-        document: r("Document"),
+        document: r("DocumentObject"),
         schemaVersion: 3.14,
     }, "any"),
     "Component": o({
         absoluteBoundingBox: r("Rect"),
         backgroundColor: r("Color"),
         blendMode: r("BlendMode"),
-        children: a(r("Vector")),
+        children: a(r("Document")),
         clipsContent: true,
         constraints: r("LayoutConstraint"),
         description: "",
@@ -168,8 +168,8 @@ const typeMap = {
         g: 3.14,
         r: 3.14,
     }, "any"),
-    "Vector": o({
-        children: u(undefined, a(r("Vector"))),
+    "Document": o({
+        children: u(undefined, a(r("Document"))),
         id: "",
         name: "",
         type: r("NodeType"),
@@ -229,7 +229,7 @@ const typeMap = {
         gradientStops: u(undefined, a(r("ColorStop"))),
         opacity: 3.14,
         scaleMode: u(undefined, ""),
-        type: r("PaintType"),
+        type: r("FillType"),
         visible: true,
     }, "any"),
     "ColorStop": o({
@@ -259,8 +259,8 @@ const typeMap = {
         textAlignHorizontal: r("TextAlignHorizontal"),
         textAlignVertical: r("TextAlignVertical"),
     }, "any"),
-    "Document": o({
-        children: a(r("Vector")),
+    "DocumentObject": o({
+        children: a(r("Document")),
         id: "",
         name: "",
         type: r("NodeType"),
@@ -361,7 +361,7 @@ const typeMap = {
         "PNG",
         "SVG",
     ],
-    "PaintType": [
+    "FillType": [
         "EMOJI",
         "GRADIENT_ANGULAR",
         "GRADIENT_DIAMOND",

@@ -48,13 +48,13 @@ namespace quicktype {
      *
      * An RGBA color
      *
-     * Color of the grid
+     * Background color of the canvas
      *
      * Solid color of the paint
      *
-     * Background color of the canvas
-     *
      * Color attached to corresponding position
+     *
+     * Color of the grid
      */
     struct Color {
         /**
@@ -231,11 +231,11 @@ namespace quicktype {
     enum class Format { JPG, PNG, SVG };
 
     /**
-     * An array of export settings representing images to export from this node
-     *
      * An array of export settings representing images to export from node
      *
      * Format and size to export an asset at
+     *
+     * An array of export settings representing images to export from this node
      *
      * An array of export settings representing images to export from the canvas
      */
@@ -275,14 +275,14 @@ namespace quicktype {
     /**
      * Type of paint as a string enum
      */
-    enum class PaintType { EMOJI, GRADIENT_ANGULAR, GRADIENT_DIAMOND, GRADIENT_LINEAR, GRADIENT_RADIAL, IMAGE, SOLID };
+    enum class FillType { EMOJI, GRADIENT_ANGULAR, GRADIENT_DIAMOND, GRADIENT_LINEAR, GRADIENT_RADIAL, IMAGE, SOLID };
 
     /**
-     * An array of stroke paints applied to the node
-     *
      * An array of fill paints applied to the node
      *
      * A solid color, gradient, or image texture that can be applied as fills or strokes
+     *
+     * An array of stroke paints applied to the node
      *
      * Paints applied to characters
      */
@@ -320,7 +320,7 @@ namespace quicktype {
         /**
          * Type of paint as a string enum
          */
-        PaintType type;
+        FillType type;
         /**
          * Is the paint enabled?
          */
@@ -409,12 +409,12 @@ namespace quicktype {
     enum class TextAlignVertical { BOTTOM, CENTER, TOP };
 
     /**
-     * Map from ID to TypeStyle for looking up style overrides
-     *
      * Style of text including font family and weight (see type style
      * section for more information)
      *
      * Metadata for character formatting
+     *
+     * Map from ID to TypeStyle for looking up style overrides
      */
     struct TypeStyle {
         /**
@@ -505,7 +505,7 @@ namespace quicktype {
      * An instance of a component, changes to the component result in the same
      * changes applied to the instance
      */
-    struct Vector {
+    struct Document {
         /**
          * An array of canvases attached to the document
          *
@@ -515,7 +515,7 @@ namespace quicktype {
          *
          * An array of nodes that are being boolean operated on
          */
-        std::unique_ptr<std::vector<struct Vector>> children;
+        std::unique_ptr<std::vector<struct Document>> children;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -667,7 +667,7 @@ namespace quicktype {
         /**
          * An array of nodes that are direct children of this node
          */
-        std::vector<struct Vector> children;
+        std::vector<struct Document> children;
         /**
          * Does this node clip content outside of its bounds?
          */
@@ -734,11 +734,11 @@ namespace quicktype {
      *
      * The root node within the document
      */
-    struct Document {
+    struct DocumentClass {
         /**
          * An array of canvases attached to the document
          */
-        std::vector<struct Vector> children;
+        std::vector<struct Document> children;
         /**
          * a string uniquely identifying this node within the document
          */
@@ -786,7 +786,7 @@ namespace quicktype {
         /**
          * The root node within the document
          */
-        struct Document document;
+        struct DocumentClass document;
         double schema_version;
     };
 
@@ -1108,7 +1108,7 @@ namespace nlohmann {
         _x.gradient_stops = quicktype::get_optional<std::vector<struct quicktype::ColorStop>>(_j, "gradientStops");
         _x.opacity = _j.at("opacity").get<double>();
         _x.scale_mode = quicktype::get_optional<std::string>(_j, "scaleMode");
-        _x.type = _j.at("type").get<quicktype::PaintType>();
+        _x.type = _j.at("type").get<quicktype::FillType>();
         _x.visible = _j.at("visible").get<bool>();
     }
 
@@ -1175,8 +1175,8 @@ namespace nlohmann {
         _j["textAlignVertical"] = _x.text_align_vertical;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Vector& _x) {
-        _x.children = quicktype::get_optional<std::vector<struct quicktype::Vector>>(_j, "children");
+    inline void from_json(const json& _j, struct quicktype::Document& _x) {
+        _x.children = quicktype::get_optional<std::vector<struct quicktype::Document>>(_j, "children");
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
@@ -1206,7 +1206,7 @@ namespace nlohmann {
         _x.component_id = quicktype::get_optional<std::string>(_j, "componentId");
     }
 
-    inline void to_json(json& _j, const struct quicktype::Vector& _x) {
+    inline void to_json(json& _j, const struct quicktype::Document& _x) {
         _j = json::object();
         _j["children"] = _x.children;
         _j["id"] = _x.id;
@@ -1242,7 +1242,7 @@ namespace nlohmann {
         _x.absolute_bounding_box = _j.at("absoluteBoundingBox").get<struct quicktype::Rect>();
         _x.background_color = _j.at("backgroundColor").get<struct quicktype::Color>();
         _x.blend_mode = _j.at("blendMode").get<quicktype::BlendMode>();
-        _x.children = _j.at("children").get<std::vector<struct quicktype::Vector>>();
+        _x.children = _j.at("children").get<std::vector<struct quicktype::Document>>();
         _x.clips_content = _j.at("clipsContent").get<bool>();
         _x.constraints = _j.at("constraints").get<struct quicktype::LayoutConstraint>();
         _x.description = _j.at("description").get<std::string>();
@@ -1281,15 +1281,15 @@ namespace nlohmann {
         _j["visible"] = _x.visible;
     }
 
-    inline void from_json(const json& _j, struct quicktype::Document& _x) {
-        _x.children = _j.at("children").get<std::vector<struct quicktype::Vector>>();
+    inline void from_json(const json& _j, struct quicktype::DocumentClass& _x) {
+        _x.children = _j.at("children").get<std::vector<struct quicktype::Document>>();
         _x.id = _j.at("id").get<std::string>();
         _x.name = _j.at("name").get<std::string>();
         _x.type = _j.at("type").get<quicktype::NodeType>();
         _x.visible = _j.at("visible").get<bool>();
     }
 
-    inline void to_json(json& _j, const struct quicktype::Document& _x) {
+    inline void to_json(json& _j, const struct quicktype::DocumentClass& _x) {
         _j = json::object();
         _j["children"] = _x.children;
         _j["id"] = _x.id;
@@ -1300,7 +1300,7 @@ namespace nlohmann {
 
     inline void from_json(const json& _j, struct quicktype::FileResponse& _x) {
         _x.components = _j.at("components").get<std::map<std::string, struct quicktype::Component>>();
-        _x.document = _j.at("document").get<struct quicktype::Document>();
+        _x.document = _j.at("document").get<struct quicktype::DocumentClass>();
         _x.schema_version = _j.at("schemaVersion").get<double>();
     }
 
@@ -1564,26 +1564,26 @@ namespace nlohmann {
         }
     }
 
-    inline void from_json(const json& _j, quicktype::PaintType& _x) {
-        if (_j == "EMOJI") _x = quicktype::PaintType::EMOJI;
-        else if (_j == "GRADIENT_ANGULAR") _x = quicktype::PaintType::GRADIENT_ANGULAR;
-        else if (_j == "GRADIENT_DIAMOND") _x = quicktype::PaintType::GRADIENT_DIAMOND;
-        else if (_j == "GRADIENT_LINEAR") _x = quicktype::PaintType::GRADIENT_LINEAR;
-        else if (_j == "GRADIENT_RADIAL") _x = quicktype::PaintType::GRADIENT_RADIAL;
-        else if (_j == "IMAGE") _x = quicktype::PaintType::IMAGE;
-        else if (_j == "SOLID") _x = quicktype::PaintType::SOLID;
+    inline void from_json(const json& _j, quicktype::FillType& _x) {
+        if (_j == "EMOJI") _x = quicktype::FillType::EMOJI;
+        else if (_j == "GRADIENT_ANGULAR") _x = quicktype::FillType::GRADIENT_ANGULAR;
+        else if (_j == "GRADIENT_DIAMOND") _x = quicktype::FillType::GRADIENT_DIAMOND;
+        else if (_j == "GRADIENT_LINEAR") _x = quicktype::FillType::GRADIENT_LINEAR;
+        else if (_j == "GRADIENT_RADIAL") _x = quicktype::FillType::GRADIENT_RADIAL;
+        else if (_j == "IMAGE") _x = quicktype::FillType::IMAGE;
+        else if (_j == "SOLID") _x = quicktype::FillType::SOLID;
         else throw "Input JSON does not conform to schema";
     }
 
-    inline void to_json(json& _j, const quicktype::PaintType& _x) {
+    inline void to_json(json& _j, const quicktype::FillType& _x) {
         switch (_x) {
-            case quicktype::PaintType::EMOJI: _j = "EMOJI"; break;
-            case quicktype::PaintType::GRADIENT_ANGULAR: _j = "GRADIENT_ANGULAR"; break;
-            case quicktype::PaintType::GRADIENT_DIAMOND: _j = "GRADIENT_DIAMOND"; break;
-            case quicktype::PaintType::GRADIENT_LINEAR: _j = "GRADIENT_LINEAR"; break;
-            case quicktype::PaintType::GRADIENT_RADIAL: _j = "GRADIENT_RADIAL"; break;
-            case quicktype::PaintType::IMAGE: _j = "IMAGE"; break;
-            case quicktype::PaintType::SOLID: _j = "SOLID"; break;
+            case quicktype::FillType::EMOJI: _j = "EMOJI"; break;
+            case quicktype::FillType::GRADIENT_ANGULAR: _j = "GRADIENT_ANGULAR"; break;
+            case quicktype::FillType::GRADIENT_DIAMOND: _j = "GRADIENT_DIAMOND"; break;
+            case quicktype::FillType::GRADIENT_LINEAR: _j = "GRADIENT_LINEAR"; break;
+            case quicktype::FillType::GRADIENT_RADIAL: _j = "GRADIENT_RADIAL"; break;
+            case quicktype::FillType::IMAGE: _j = "IMAGE"; break;
+            case quicktype::FillType::SOLID: _j = "SOLID"; break;
             default: throw "This should not happen";
         }
     }

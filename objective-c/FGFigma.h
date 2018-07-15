@@ -14,7 +14,7 @@
 @class FGRect;
 @class FGColor;
 @class FGBlendMode;
-@class FGVector;
+@class FGDocument;
 @class FGLayoutConstraint;
 @class FGHorizontal;
 @class FGVertical;
@@ -27,7 +27,7 @@
 @class FGFormat;
 @class FGPaint;
 @class FGColorStop;
-@class FGPaintType;
+@class FGFillType;
 @class FGLayoutGrid;
 @class FGAlignment;
 @class FGPattern;
@@ -36,7 +36,7 @@
 @class FGTextAlignHorizontal;
 @class FGTextAlignVertical;
 @class FGNodeType;
-@class FGDocument;
+@class FGDocumentClass;
 @class FGCommentsResponse;
 @class FGComment;
 @class FGClientMeta;
@@ -146,16 +146,16 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /// Type of paint as a string enum
-@interface FGPaintType : NSObject
+@interface FGFillType : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (FGPaintType *)emoji;
-+ (FGPaintType *)gradientAngular;
-+ (FGPaintType *)gradientDiamond;
-+ (FGPaintType *)gradientLinear;
-+ (FGPaintType *)gradientRadial;
-+ (FGPaintType *)image;
-+ (FGPaintType *)solid;
++ (FGFillType *)emoji;
++ (FGFillType *)gradientAngular;
++ (FGFillType *)gradientDiamond;
++ (FGFillType *)gradientLinear;
++ (FGFillType *)gradientRadial;
++ (FGFillType *)image;
++ (FGFillType *)solid;
 @end
 
 /// Positioning of grid as a string enum
@@ -259,7 +259,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// components is the name of the component, but more properties will be forthcoming.
 @property (nonatomic, copy) NSDictionary<NSString *, FGComponent *> *components;
 /// The root node within the document
-@property (nonatomic, strong) FGDocument *document;
+@property (nonatomic, strong) FGDocumentClass *document;
 @property (nonatomic, assign) double schemaVersion;
 
 + (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
@@ -280,7 +280,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// (see blend mode section for more details)
 @property (nonatomic, assign) FGBlendMode *blendMode;
 /// An array of nodes that are direct children of this node
-@property (nonatomic, copy) NSArray<FGVector *> *children;
+@property (nonatomic, copy) NSArray<FGDocument *> *children;
 /// Does this node clip content outside of its bounds?
 @property (nonatomic, assign) BOOL isClipsContent;
 /// Horizontal and vertical layout constraints for node
@@ -331,13 +331,13 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// An RGBA color
 ///
-/// Color of the grid
+/// Background color of the canvas
 ///
 /// Solid color of the paint
 ///
-/// Background color of the canvas
-///
 /// Color attached to corresponding position
+///
+/// Color of the grid
 @interface FGColor : NSObject
 /// Alpha channel value, between 0 and 1
 @property (nonatomic, assign) double a;
@@ -384,7 +384,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
-@interface FGVector : NSObject
+@interface FGDocument : NSObject
 /// An array of canvases attached to the document
 ///
 /// An array of top level layers on the canvas
@@ -392,7 +392,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// An array of nodes that are direct children of this node
 ///
 /// An array of nodes that are being boolean operated on
-@property (nonatomic, nullable, copy) NSArray<FGVector *> *children;
+@property (nonatomic, nullable, copy) NSArray<FGDocument *> *children;
 /// a string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// the name given to the node by the user in the tool.
@@ -529,11 +529,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double y;
 @end
 
-/// An array of export settings representing images to export from this node
-///
 /// An array of export settings representing images to export from node
 ///
 /// Format and size to export an asset at
+///
+/// An array of export settings representing images to export from this node
 ///
 /// An array of export settings representing images to export from the canvas
 @interface FGExportSetting : NSObject
@@ -558,11 +558,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double value;
 @end
 
-/// An array of stroke paints applied to the node
-///
 /// An array of fill paints applied to the node
 ///
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
+///
+/// An array of stroke paints applied to the node
 ///
 /// Paints applied to characters
 @interface FGPaint : NSObject
@@ -587,7 +587,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Image scaling mode
 @property (nonatomic, nullable, copy) NSString *scaleMode;
 /// Type of paint as a string enum
-@property (nonatomic, assign) FGPaintType *type;
+@property (nonatomic, assign) FGFillType *type;
 /// Is the paint enabled?
 @property (nonatomic, assign) BOOL isVisible;
 @end
@@ -633,12 +633,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isVisible;
 @end
 
-/// Map from ID to TypeStyle for looking up style overrides
-///
 /// Style of text including font family and weight (see type style
 /// section for more information)
 ///
 /// Metadata for character formatting
+///
+/// Map from ID to TypeStyle for looking up style overrides
 @interface FGTypeStyle : NSObject
 /// Paints applied to characters
 @property (nonatomic, copy) NSArray<FGPaint *> *fills;
@@ -668,9 +668,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// The root node
 ///
 /// The root node within the document
-@interface FGDocument : NSObject
+@interface FGDocumentClass : NSObject
 /// An array of canvases attached to the document
-@property (nonatomic, copy) NSArray<FGVector *> *children;
+@property (nonatomic, copy) NSArray<FGDocument *> *children;
 /// a string uniquely identifying this node within the document
 @property (nonatomic, copy) NSString *identifier;
 /// the name given to the node by the user in the tool.

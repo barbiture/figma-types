@@ -12,7 +12,7 @@ public class Component {
     private Rect absoluteBoundingBox;
     private Color backgroundColor;
     private BlendMode blendMode;
-    private Vector[] children;
+    private Document[] children;
     private boolean clipsContent;
     private LayoutConstraint constraints;
     private String description;
@@ -57,9 +57,9 @@ public class Component {
      * An array of nodes that are direct children of this node
      */
     @JsonProperty("children")
-    public Vector[] getChildren() { return children; }
+    public Document[] getChildren() { return children; }
     @JsonProperty("children")
-    public void setChildren(Vector[] value) { this.children = value; }
+    public void setChildren(Document[] value) { this.children = value; }
 
     /**
      * Does this node clip content outside of its bounds?

@@ -64,7 +64,7 @@ public struct FileResponse: Codable {
     /// components is the name of the component, but more properties will be forthcoming.
     public let components: [String: Component]
     /// The root node within the document
-    public let document: Document
+    public let document: DocumentClass
     public let schemaVersion: Double
 }
 
@@ -80,7 +80,7 @@ public struct Component: Codable {
     /// (see blend mode section for more details)
     public let blendMode: BlendMode
     /// An array of nodes that are direct children of this node
-    public let children: [Vector]
+    public let children: [Document]
     /// Does this node clip content outside of its bounds?
     public let clipsContent: Bool
     /// Horizontal and vertical layout constraints for node
@@ -131,13 +131,13 @@ public struct Rect: Codable {
 ///
 /// An RGBA color
 ///
-/// Color of the grid
+/// Background color of the canvas
 ///
 /// Solid color of the paint
 ///
-/// Background color of the canvas
-///
 /// Color attached to corresponding position
+///
+/// Color of the grid
 public struct Color: Codable {
     /// Alpha channel value, between 0 and 1
     public let a: Double
@@ -211,7 +211,7 @@ public enum BlendMode: String, Codable {
 ///
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
-public struct Vector: Codable {
+public struct Document: Codable {
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -219,7 +219,7 @@ public struct Vector: Codable {
     /// An array of nodes that are direct children of this node
     ///
     /// An array of nodes that are being boolean operated on
-    public let children: [Vector]?
+    public let children: [Document]?
     /// a string uniquely identifying this node within the document
     public let id: String
     /// the name given to the node by the user in the tool.
@@ -399,11 +399,11 @@ public enum EffectType: String, Codable {
     case layerBlur = "LAYER_BLUR"
 }
 
-/// An array of export settings representing images to export from this node
-///
 /// An array of export settings representing images to export from node
 ///
 /// Format and size to export an asset at
+///
+/// An array of export settings representing images to export from this node
 ///
 /// An array of export settings representing images to export from the canvas
 public struct ExportSetting: Codable {
@@ -445,11 +445,11 @@ public enum Format: String, Codable {
     case svg = "SVG"
 }
 
-/// An array of stroke paints applied to the node
-///
 /// An array of fill paints applied to the node
 ///
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
+///
+/// An array of stroke paints applied to the node
 ///
 /// Paints applied to characters
 public struct Paint: Codable {
@@ -474,7 +474,7 @@ public struct Paint: Codable {
     /// Image scaling mode
     public let scaleMode: String?
     /// Type of paint as a string enum
-    public let type: PaintType
+    public let type: FillType
     /// Is the paint enabled?
     public let visible: Bool
 }
@@ -492,7 +492,7 @@ public struct ColorStop: Codable {
 }
 
 /// Type of paint as a string enum
-public enum PaintType: String, Codable {
+public enum FillType: String, Codable {
     case emoji = "EMOJI"
     case gradientAngular = "GRADIENT_ANGULAR"
     case gradientDiamond = "GRADIENT_DIAMOND"
@@ -561,12 +561,12 @@ public enum StrokeAlign: String, Codable {
     case outside = "OUTSIDE"
 }
 
-/// Map from ID to TypeStyle for looking up style overrides
-///
 /// Style of text including font family and weight (see type style
 /// section for more information)
 ///
 /// Metadata for character formatting
+///
+/// Map from ID to TypeStyle for looking up style overrides
 public struct TypeStyle: Codable {
     /// Paints applied to characters
     public let fills: [Paint]
@@ -630,9 +630,9 @@ public enum NodeType: String, Codable {
 /// The root node
 ///
 /// The root node within the document
-public struct Document: Codable {
+public struct DocumentClass: Codable {
     /// An array of canvases attached to the document
-    public let children: [Vector]
+    public let children: [Document]
     /// a string uniquely identifying this node within the document
     public let id: String
     /// the name given to the node by the user in the tool.
@@ -910,9 +910,9 @@ public extension Color {
     }
 }
 
-public extension Vector {
+public extension Document {
     public init(data: Data) throws {
-        self = try JSONDecoder().decode(Vector.self, from: data)
+        self = try JSONDecoder().decode(Document.self, from: data)
     }
 
     public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -1160,9 +1160,9 @@ public extension TypeStyle {
     }
 }
 
-public extension Document {
+public extension DocumentClass {
     public init(data: Data) throws {
-        self = try JSONDecoder().decode(Document.self, from: data)
+        self = try JSONDecoder().decode(DocumentClass.self, from: data)
     }
 
     public init(_ json: String, using encoding: String.Encoding = .utf8) throws {

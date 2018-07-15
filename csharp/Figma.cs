@@ -50,7 +50,7 @@ namespace QuickType
         /// The root node within the document
         /// </summary>
         [JsonProperty("document")]
-        public Document Document { get; set; }
+        public DocumentClass Document { get; set; }
 
         [JsonProperty("schemaVersion")]
         public double SchemaVersion { get; set; }
@@ -86,7 +86,7 @@ namespace QuickType
         /// An array of nodes that are direct children of this node
         /// </summary>
         [JsonProperty("children")]
-        public Vector[] Children { get; set; }
+        public Document[] Children { get; set; }
 
         /// <summary>
         /// Does this node clip content outside of its bounds?
@@ -212,13 +212,13 @@ namespace QuickType
     ///
     /// An RGBA color
     ///
-    /// Color of the grid
+    /// Background color of the canvas
     ///
     /// Solid color of the paint
     ///
-    /// Background color of the canvas
-    ///
     /// Color attached to corresponding position
+    ///
+    /// Color of the grid
     /// </summary>
     public partial class Color
     {
@@ -284,7 +284,7 @@ namespace QuickType
     /// An instance of a component, changes to the component result in the same
     /// changes applied to the instance
     /// </summary>
-    public partial class Vector
+    public partial class Document
     {
         /// <summary>
         /// An array of canvases attached to the document
@@ -296,7 +296,7 @@ namespace QuickType
         /// An array of nodes that are being boolean operated on
         /// </summary>
         [JsonProperty("children", NullValueHandling = NullValueHandling.Ignore)]
-        public Vector[] Children { get; set; }
+        public Document[] Children { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -588,11 +588,11 @@ namespace QuickType
     }
 
     /// <summary>
-    /// An array of export settings representing images to export from this node
-    ///
     /// An array of export settings representing images to export from node
     ///
     /// Format and size to export an asset at
+    ///
+    /// An array of export settings representing images to export from this node
     ///
     /// An array of export settings representing images to export from the canvas
     /// </summary>
@@ -641,11 +641,11 @@ namespace QuickType
     }
 
     /// <summary>
-    /// An array of stroke paints applied to the node
-    ///
     /// An array of fill paints applied to the node
     ///
     /// A solid color, gradient, or image texture that can be applied as fills or strokes
+    ///
+    /// An array of stroke paints applied to the node
     ///
     /// Paints applied to characters
     /// </summary>
@@ -695,7 +695,7 @@ namespace QuickType
         /// Type of paint as a string enum
         /// </summary>
         [JsonProperty("type")]
-        public PaintType Type { get; set; }
+        public FillType Type { get; set; }
 
         /// <summary>
         /// Is the paint enabled?
@@ -790,12 +790,12 @@ namespace QuickType
     }
 
     /// <summary>
-    /// Map from ID to TypeStyle for looking up style overrides
-    ///
     /// Style of text including font family and weight (see type style
     /// section for more information)
     ///
     /// Metadata for character formatting
+    ///
+    /// Map from ID to TypeStyle for looking up style overrides
     /// </summary>
     public partial class TypeStyle
     {
@@ -872,13 +872,13 @@ namespace QuickType
     ///
     /// The root node within the document
     /// </summary>
-    public partial class Document
+    public partial class DocumentClass
     {
         /// <summary>
         /// An array of canvases attached to the document
         /// </summary>
         [JsonProperty("children")]
-        public Vector[] Children { get; set; }
+        public Document[] Children { get; set; }
 
         /// <summary>
         /// a string uniquely identifying this node within the document
@@ -1182,7 +1182,7 @@ namespace QuickType
     /// <summary>
     /// Type of paint as a string enum
     /// </summary>
-    public enum PaintType { Emoji, GradientAngular, GradientDiamond, GradientLinear, GradientRadial, Image, Solid };
+    public enum FillType { Emoji, GradientAngular, GradientDiamond, GradientLinear, GradientRadial, Image, Solid };
 
     /// <summary>
     /// Positioning of grid as a string enum
@@ -1264,74 +1264,22 @@ namespace QuickType
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters = {
-                new PaintTypeConverter(),
-                new BlendModeConverter(),
-                new AlignmentConverter(),
-                new PatternConverter(),
-                new StrokeAlignConverter(),
-                new HorizontalConverter(),
-                new TextAlignHorizontalConverter(),
-                new VerticalConverter(),
-                new TextAlignVerticalConverter(),
-                new EffectTypeConverter(),
-                new NodeTypeConverter(),
-                new ConstraintTypeConverter(),
-                new FormatConverter(),
+                BlendModeConverter.Singleton,
+                HorizontalConverter.Singleton,
+                VerticalConverter.Singleton,
+                EffectTypeConverter.Singleton,
+                ConstraintTypeConverter.Singleton,
+                FormatConverter.Singleton,
+                FillTypeConverter.Singleton,
+                AlignmentConverter.Singleton,
+                PatternConverter.Singleton,
+                StrokeAlignConverter.Singleton,
+                TextAlignHorizontalConverter.Singleton,
+                TextAlignVerticalConverter.Singleton,
+                NodeTypeConverter.Singleton,
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };
-    }
-
-    internal class PaintTypeConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(PaintType) || t == typeof(PaintType?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "EMOJI":
-                    return PaintType.Emoji;
-                case "GRADIENT_ANGULAR":
-                    return PaintType.GradientAngular;
-                case "GRADIENT_DIAMOND":
-                    return PaintType.GradientDiamond;
-                case "GRADIENT_LINEAR":
-                    return PaintType.GradientLinear;
-                case "GRADIENT_RADIAL":
-                    return PaintType.GradientRadial;
-                case "IMAGE":
-                    return PaintType.Image;
-                case "SOLID":
-                    return PaintType.Solid;
-            }
-            throw new Exception("Cannot unmarshal type PaintType");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            var value = (PaintType)untypedValue;
-            switch (value)
-            {
-                case PaintType.Emoji:
-                    serializer.Serialize(writer, "EMOJI"); return;
-                case PaintType.GradientAngular:
-                    serializer.Serialize(writer, "GRADIENT_ANGULAR"); return;
-                case PaintType.GradientDiamond:
-                    serializer.Serialize(writer, "GRADIENT_DIAMOND"); return;
-                case PaintType.GradientLinear:
-                    serializer.Serialize(writer, "GRADIENT_LINEAR"); return;
-                case PaintType.GradientRadial:
-                    serializer.Serialize(writer, "GRADIENT_RADIAL"); return;
-                case PaintType.Image:
-                    serializer.Serialize(writer, "IMAGE"); return;
-                case PaintType.Solid:
-                    serializer.Serialize(writer, "SOLID"); return;
-            }
-            throw new Exception("Cannot marshal type PaintType");
-        }
     }
 
     internal class BlendModeConverter : JsonConverter
@@ -1388,158 +1336,76 @@ namespace QuickType
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
         {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
             var value = (BlendMode)untypedValue;
             switch (value)
             {
                 case BlendMode.Color:
-                    serializer.Serialize(writer, "COLOR"); return;
+                    serializer.Serialize(writer, "COLOR");
+                    return;
                 case BlendMode.ColorBurn:
-                    serializer.Serialize(writer, "COLOR_BURN"); return;
+                    serializer.Serialize(writer, "COLOR_BURN");
+                    return;
                 case BlendMode.ColorDodge:
-                    serializer.Serialize(writer, "COLOR_DODGE"); return;
+                    serializer.Serialize(writer, "COLOR_DODGE");
+                    return;
                 case BlendMode.Darken:
-                    serializer.Serialize(writer, "DARKEN"); return;
+                    serializer.Serialize(writer, "DARKEN");
+                    return;
                 case BlendMode.Difference:
-                    serializer.Serialize(writer, "DIFFERENCE"); return;
+                    serializer.Serialize(writer, "DIFFERENCE");
+                    return;
                 case BlendMode.Exclusion:
-                    serializer.Serialize(writer, "EXCLUSION"); return;
+                    serializer.Serialize(writer, "EXCLUSION");
+                    return;
                 case BlendMode.HardLight:
-                    serializer.Serialize(writer, "HARD_LIGHT"); return;
+                    serializer.Serialize(writer, "HARD_LIGHT");
+                    return;
                 case BlendMode.Hue:
-                    serializer.Serialize(writer, "HUE"); return;
+                    serializer.Serialize(writer, "HUE");
+                    return;
                 case BlendMode.Lighten:
-                    serializer.Serialize(writer, "LIGHTEN"); return;
+                    serializer.Serialize(writer, "LIGHTEN");
+                    return;
                 case BlendMode.LinearBurn:
-                    serializer.Serialize(writer, "LINEAR_BURN"); return;
+                    serializer.Serialize(writer, "LINEAR_BURN");
+                    return;
                 case BlendMode.LinearDodge:
-                    serializer.Serialize(writer, "LINEAR_DODGE"); return;
+                    serializer.Serialize(writer, "LINEAR_DODGE");
+                    return;
                 case BlendMode.Luminosity:
-                    serializer.Serialize(writer, "LUMINOSITY"); return;
+                    serializer.Serialize(writer, "LUMINOSITY");
+                    return;
                 case BlendMode.Multiply:
-                    serializer.Serialize(writer, "MULTIPLY"); return;
+                    serializer.Serialize(writer, "MULTIPLY");
+                    return;
                 case BlendMode.Normal:
-                    serializer.Serialize(writer, "NORMAL"); return;
+                    serializer.Serialize(writer, "NORMAL");
+                    return;
                 case BlendMode.Overlay:
-                    serializer.Serialize(writer, "OVERLAY"); return;
+                    serializer.Serialize(writer, "OVERLAY");
+                    return;
                 case BlendMode.PassThrough:
-                    serializer.Serialize(writer, "PASS_THROUGH"); return;
+                    serializer.Serialize(writer, "PASS_THROUGH");
+                    return;
                 case BlendMode.Saturation:
-                    serializer.Serialize(writer, "SATURATION"); return;
+                    serializer.Serialize(writer, "SATURATION");
+                    return;
                 case BlendMode.Screen:
-                    serializer.Serialize(writer, "SCREEN"); return;
+                    serializer.Serialize(writer, "SCREEN");
+                    return;
                 case BlendMode.SoftLight:
-                    serializer.Serialize(writer, "SOFT_LIGHT"); return;
+                    serializer.Serialize(writer, "SOFT_LIGHT");
+                    return;
             }
             throw new Exception("Cannot marshal type BlendMode");
         }
-    }
 
-    internal class AlignmentConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(Alignment) || t == typeof(Alignment?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "CENTER":
-                    return Alignment.Center;
-                case "MAX":
-                    return Alignment.Max;
-                case "MIN":
-                    return Alignment.Min;
-            }
-            throw new Exception("Cannot unmarshal type Alignment");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            var value = (Alignment)untypedValue;
-            switch (value)
-            {
-                case Alignment.Center:
-                    serializer.Serialize(writer, "CENTER"); return;
-                case Alignment.Max:
-                    serializer.Serialize(writer, "MAX"); return;
-                case Alignment.Min:
-                    serializer.Serialize(writer, "MIN"); return;
-            }
-            throw new Exception("Cannot marshal type Alignment");
-        }
-    }
-
-    internal class PatternConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(Pattern) || t == typeof(Pattern?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "COLUMNS":
-                    return Pattern.Columns;
-                case "GRID":
-                    return Pattern.Grid;
-                case "ROWS":
-                    return Pattern.Rows;
-            }
-            throw new Exception("Cannot unmarshal type Pattern");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            var value = (Pattern)untypedValue;
-            switch (value)
-            {
-                case Pattern.Columns:
-                    serializer.Serialize(writer, "COLUMNS"); return;
-                case Pattern.Grid:
-                    serializer.Serialize(writer, "GRID"); return;
-                case Pattern.Rows:
-                    serializer.Serialize(writer, "ROWS"); return;
-            }
-            throw new Exception("Cannot marshal type Pattern");
-        }
-    }
-
-    internal class StrokeAlignConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(StrokeAlign) || t == typeof(StrokeAlign?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "CENTER":
-                    return StrokeAlign.Center;
-                case "INSIDE":
-                    return StrokeAlign.Inside;
-                case "OUTSIDE":
-                    return StrokeAlign.Outside;
-            }
-            throw new Exception("Cannot unmarshal type StrokeAlign");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            var value = (StrokeAlign)untypedValue;
-            switch (value)
-            {
-                case StrokeAlign.Center:
-                    serializer.Serialize(writer, "CENTER"); return;
-                case StrokeAlign.Inside:
-                    serializer.Serialize(writer, "INSIDE"); return;
-                case StrokeAlign.Outside:
-                    serializer.Serialize(writer, "OUTSIDE"); return;
-            }
-            throw new Exception("Cannot marshal type StrokeAlign");
-        }
+        public static readonly BlendModeConverter Singleton = new BlendModeConverter();
     }
 
     internal class HorizontalConverter : JsonConverter
@@ -1568,62 +1434,34 @@ namespace QuickType
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
         {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
             var value = (Horizontal)untypedValue;
             switch (value)
             {
                 case Horizontal.Center:
-                    serializer.Serialize(writer, "CENTER"); return;
+                    serializer.Serialize(writer, "CENTER");
+                    return;
                 case Horizontal.Left:
-                    serializer.Serialize(writer, "LEFT"); return;
+                    serializer.Serialize(writer, "LEFT");
+                    return;
                 case Horizontal.LeftRight:
-                    serializer.Serialize(writer, "LEFT_RIGHT"); return;
+                    serializer.Serialize(writer, "LEFT_RIGHT");
+                    return;
                 case Horizontal.Right:
-                    serializer.Serialize(writer, "RIGHT"); return;
+                    serializer.Serialize(writer, "RIGHT");
+                    return;
                 case Horizontal.Scale:
-                    serializer.Serialize(writer, "SCALE"); return;
+                    serializer.Serialize(writer, "SCALE");
+                    return;
             }
             throw new Exception("Cannot marshal type Horizontal");
         }
-    }
 
-    internal class TextAlignHorizontalConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(TextAlignHorizontal) || t == typeof(TextAlignHorizontal?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "CENTER":
-                    return TextAlignHorizontal.Center;
-                case "JUSTIFIED":
-                    return TextAlignHorizontal.Justified;
-                case "LEFT":
-                    return TextAlignHorizontal.Left;
-                case "RIGHT":
-                    return TextAlignHorizontal.Right;
-            }
-            throw new Exception("Cannot unmarshal type TextAlignHorizontal");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            var value = (TextAlignHorizontal)untypedValue;
-            switch (value)
-            {
-                case TextAlignHorizontal.Center:
-                    serializer.Serialize(writer, "CENTER"); return;
-                case TextAlignHorizontal.Justified:
-                    serializer.Serialize(writer, "JUSTIFIED"); return;
-                case TextAlignHorizontal.Left:
-                    serializer.Serialize(writer, "LEFT"); return;
-                case TextAlignHorizontal.Right:
-                    serializer.Serialize(writer, "RIGHT"); return;
-            }
-            throw new Exception("Cannot marshal type TextAlignHorizontal");
-        }
+        public static readonly HorizontalConverter Singleton = new HorizontalConverter();
     }
 
     internal class VerticalConverter : JsonConverter
@@ -1652,58 +1490,34 @@ namespace QuickType
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
         {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
             var value = (Vertical)untypedValue;
             switch (value)
             {
                 case Vertical.Bottom:
-                    serializer.Serialize(writer, "BOTTOM"); return;
+                    serializer.Serialize(writer, "BOTTOM");
+                    return;
                 case Vertical.Center:
-                    serializer.Serialize(writer, "CENTER"); return;
+                    serializer.Serialize(writer, "CENTER");
+                    return;
                 case Vertical.Scale:
-                    serializer.Serialize(writer, "SCALE"); return;
+                    serializer.Serialize(writer, "SCALE");
+                    return;
                 case Vertical.Top:
-                    serializer.Serialize(writer, "TOP"); return;
+                    serializer.Serialize(writer, "TOP");
+                    return;
                 case Vertical.TopBottom:
-                    serializer.Serialize(writer, "TOP_BOTTOM"); return;
+                    serializer.Serialize(writer, "TOP_BOTTOM");
+                    return;
             }
             throw new Exception("Cannot marshal type Vertical");
         }
-    }
 
-    internal class TextAlignVerticalConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(TextAlignVertical) || t == typeof(TextAlignVertical?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "BOTTOM":
-                    return TextAlignVertical.Bottom;
-                case "CENTER":
-                    return TextAlignVertical.Center;
-                case "TOP":
-                    return TextAlignVertical.Top;
-            }
-            throw new Exception("Cannot unmarshal type TextAlignVertical");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            var value = (TextAlignVertical)untypedValue;
-            switch (value)
-            {
-                case TextAlignVertical.Bottom:
-                    serializer.Serialize(writer, "BOTTOM"); return;
-                case TextAlignVertical.Center:
-                    serializer.Serialize(writer, "CENTER"); return;
-                case TextAlignVertical.Top:
-                    serializer.Serialize(writer, "TOP"); return;
-            }
-            throw new Exception("Cannot marshal type TextAlignVertical");
-        }
+        public static readonly VerticalConverter Singleton = new VerticalConverter();
     }
 
     internal class EffectTypeConverter : JsonConverter
@@ -1730,20 +1544,424 @@ namespace QuickType
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
         {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
             var value = (EffectType)untypedValue;
             switch (value)
             {
                 case EffectType.BackgroundBlur:
-                    serializer.Serialize(writer, "BACKGROUND_BLUR"); return;
+                    serializer.Serialize(writer, "BACKGROUND_BLUR");
+                    return;
                 case EffectType.DropShadow:
-                    serializer.Serialize(writer, "DROP_SHADOW"); return;
+                    serializer.Serialize(writer, "DROP_SHADOW");
+                    return;
                 case EffectType.InnerShadow:
-                    serializer.Serialize(writer, "INNER_SHADOW"); return;
+                    serializer.Serialize(writer, "INNER_SHADOW");
+                    return;
                 case EffectType.LayerBlur:
-                    serializer.Serialize(writer, "LAYER_BLUR"); return;
+                    serializer.Serialize(writer, "LAYER_BLUR");
+                    return;
             }
             throw new Exception("Cannot marshal type EffectType");
         }
+
+        public static readonly EffectTypeConverter Singleton = new EffectTypeConverter();
+    }
+
+    internal class ConstraintTypeConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(ConstraintType) || t == typeof(ConstraintType?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "HEIGHT":
+                    return ConstraintType.Height;
+                case "SCALE":
+                    return ConstraintType.Scale;
+                case "WIDTH":
+                    return ConstraintType.Width;
+            }
+            throw new Exception("Cannot unmarshal type ConstraintType");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (ConstraintType)untypedValue;
+            switch (value)
+            {
+                case ConstraintType.Height:
+                    serializer.Serialize(writer, "HEIGHT");
+                    return;
+                case ConstraintType.Scale:
+                    serializer.Serialize(writer, "SCALE");
+                    return;
+                case ConstraintType.Width:
+                    serializer.Serialize(writer, "WIDTH");
+                    return;
+            }
+            throw new Exception("Cannot marshal type ConstraintType");
+        }
+
+        public static readonly ConstraintTypeConverter Singleton = new ConstraintTypeConverter();
+    }
+
+    internal class FormatConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(Format) || t == typeof(Format?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "JPG":
+                    return Format.Jpg;
+                case "PNG":
+                    return Format.Png;
+                case "SVG":
+                    return Format.Svg;
+            }
+            throw new Exception("Cannot unmarshal type Format");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (Format)untypedValue;
+            switch (value)
+            {
+                case Format.Jpg:
+                    serializer.Serialize(writer, "JPG");
+                    return;
+                case Format.Png:
+                    serializer.Serialize(writer, "PNG");
+                    return;
+                case Format.Svg:
+                    serializer.Serialize(writer, "SVG");
+                    return;
+            }
+            throw new Exception("Cannot marshal type Format");
+        }
+
+        public static readonly FormatConverter Singleton = new FormatConverter();
+    }
+
+    internal class FillTypeConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(FillType) || t == typeof(FillType?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "EMOJI":
+                    return FillType.Emoji;
+                case "GRADIENT_ANGULAR":
+                    return FillType.GradientAngular;
+                case "GRADIENT_DIAMOND":
+                    return FillType.GradientDiamond;
+                case "GRADIENT_LINEAR":
+                    return FillType.GradientLinear;
+                case "GRADIENT_RADIAL":
+                    return FillType.GradientRadial;
+                case "IMAGE":
+                    return FillType.Image;
+                case "SOLID":
+                    return FillType.Solid;
+            }
+            throw new Exception("Cannot unmarshal type FillType");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (FillType)untypedValue;
+            switch (value)
+            {
+                case FillType.Emoji:
+                    serializer.Serialize(writer, "EMOJI");
+                    return;
+                case FillType.GradientAngular:
+                    serializer.Serialize(writer, "GRADIENT_ANGULAR");
+                    return;
+                case FillType.GradientDiamond:
+                    serializer.Serialize(writer, "GRADIENT_DIAMOND");
+                    return;
+                case FillType.GradientLinear:
+                    serializer.Serialize(writer, "GRADIENT_LINEAR");
+                    return;
+                case FillType.GradientRadial:
+                    serializer.Serialize(writer, "GRADIENT_RADIAL");
+                    return;
+                case FillType.Image:
+                    serializer.Serialize(writer, "IMAGE");
+                    return;
+                case FillType.Solid:
+                    serializer.Serialize(writer, "SOLID");
+                    return;
+            }
+            throw new Exception("Cannot marshal type FillType");
+        }
+
+        public static readonly FillTypeConverter Singleton = new FillTypeConverter();
+    }
+
+    internal class AlignmentConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(Alignment) || t == typeof(Alignment?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "CENTER":
+                    return Alignment.Center;
+                case "MAX":
+                    return Alignment.Max;
+                case "MIN":
+                    return Alignment.Min;
+            }
+            throw new Exception("Cannot unmarshal type Alignment");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (Alignment)untypedValue;
+            switch (value)
+            {
+                case Alignment.Center:
+                    serializer.Serialize(writer, "CENTER");
+                    return;
+                case Alignment.Max:
+                    serializer.Serialize(writer, "MAX");
+                    return;
+                case Alignment.Min:
+                    serializer.Serialize(writer, "MIN");
+                    return;
+            }
+            throw new Exception("Cannot marshal type Alignment");
+        }
+
+        public static readonly AlignmentConverter Singleton = new AlignmentConverter();
+    }
+
+    internal class PatternConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(Pattern) || t == typeof(Pattern?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "COLUMNS":
+                    return Pattern.Columns;
+                case "GRID":
+                    return Pattern.Grid;
+                case "ROWS":
+                    return Pattern.Rows;
+            }
+            throw new Exception("Cannot unmarshal type Pattern");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (Pattern)untypedValue;
+            switch (value)
+            {
+                case Pattern.Columns:
+                    serializer.Serialize(writer, "COLUMNS");
+                    return;
+                case Pattern.Grid:
+                    serializer.Serialize(writer, "GRID");
+                    return;
+                case Pattern.Rows:
+                    serializer.Serialize(writer, "ROWS");
+                    return;
+            }
+            throw new Exception("Cannot marshal type Pattern");
+        }
+
+        public static readonly PatternConverter Singleton = new PatternConverter();
+    }
+
+    internal class StrokeAlignConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(StrokeAlign) || t == typeof(StrokeAlign?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "CENTER":
+                    return StrokeAlign.Center;
+                case "INSIDE":
+                    return StrokeAlign.Inside;
+                case "OUTSIDE":
+                    return StrokeAlign.Outside;
+            }
+            throw new Exception("Cannot unmarshal type StrokeAlign");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (StrokeAlign)untypedValue;
+            switch (value)
+            {
+                case StrokeAlign.Center:
+                    serializer.Serialize(writer, "CENTER");
+                    return;
+                case StrokeAlign.Inside:
+                    serializer.Serialize(writer, "INSIDE");
+                    return;
+                case StrokeAlign.Outside:
+                    serializer.Serialize(writer, "OUTSIDE");
+                    return;
+            }
+            throw new Exception("Cannot marshal type StrokeAlign");
+        }
+
+        public static readonly StrokeAlignConverter Singleton = new StrokeAlignConverter();
+    }
+
+    internal class TextAlignHorizontalConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(TextAlignHorizontal) || t == typeof(TextAlignHorizontal?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "CENTER":
+                    return TextAlignHorizontal.Center;
+                case "JUSTIFIED":
+                    return TextAlignHorizontal.Justified;
+                case "LEFT":
+                    return TextAlignHorizontal.Left;
+                case "RIGHT":
+                    return TextAlignHorizontal.Right;
+            }
+            throw new Exception("Cannot unmarshal type TextAlignHorizontal");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (TextAlignHorizontal)untypedValue;
+            switch (value)
+            {
+                case TextAlignHorizontal.Center:
+                    serializer.Serialize(writer, "CENTER");
+                    return;
+                case TextAlignHorizontal.Justified:
+                    serializer.Serialize(writer, "JUSTIFIED");
+                    return;
+                case TextAlignHorizontal.Left:
+                    serializer.Serialize(writer, "LEFT");
+                    return;
+                case TextAlignHorizontal.Right:
+                    serializer.Serialize(writer, "RIGHT");
+                    return;
+            }
+            throw new Exception("Cannot marshal type TextAlignHorizontal");
+        }
+
+        public static readonly TextAlignHorizontalConverter Singleton = new TextAlignHorizontalConverter();
+    }
+
+    internal class TextAlignVerticalConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(TextAlignVertical) || t == typeof(TextAlignVertical?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "BOTTOM":
+                    return TextAlignVertical.Bottom;
+                case "CENTER":
+                    return TextAlignVertical.Center;
+                case "TOP":
+                    return TextAlignVertical.Top;
+            }
+            throw new Exception("Cannot unmarshal type TextAlignVertical");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (TextAlignVertical)untypedValue;
+            switch (value)
+            {
+                case TextAlignVertical.Bottom:
+                    serializer.Serialize(writer, "BOTTOM");
+                    return;
+                case TextAlignVertical.Center:
+                    serializer.Serialize(writer, "CENTER");
+                    return;
+                case TextAlignVertical.Top:
+                    serializer.Serialize(writer, "TOP");
+                    return;
+            }
+            throw new Exception("Cannot marshal type TextAlignVertical");
+        }
+
+        public static readonly TextAlignVerticalConverter Singleton = new TextAlignVerticalConverter();
     }
 
     internal class NodeTypeConverter : JsonConverter
@@ -1792,113 +2010,63 @@ namespace QuickType
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
         {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
             var value = (NodeType)untypedValue;
             switch (value)
             {
                 case NodeType.Boolean:
-                    serializer.Serialize(writer, "BOOLEAN"); return;
+                    serializer.Serialize(writer, "BOOLEAN");
+                    return;
                 case NodeType.Canvas:
-                    serializer.Serialize(writer, "CANVAS"); return;
+                    serializer.Serialize(writer, "CANVAS");
+                    return;
                 case NodeType.Component:
-                    serializer.Serialize(writer, "COMPONENT"); return;
+                    serializer.Serialize(writer, "COMPONENT");
+                    return;
                 case NodeType.Document:
-                    serializer.Serialize(writer, "DOCUMENT"); return;
+                    serializer.Serialize(writer, "DOCUMENT");
+                    return;
                 case NodeType.Ellipse:
-                    serializer.Serialize(writer, "ELLIPSE"); return;
+                    serializer.Serialize(writer, "ELLIPSE");
+                    return;
                 case NodeType.Frame:
-                    serializer.Serialize(writer, "FRAME"); return;
+                    serializer.Serialize(writer, "FRAME");
+                    return;
                 case NodeType.Group:
-                    serializer.Serialize(writer, "GROUP"); return;
+                    serializer.Serialize(writer, "GROUP");
+                    return;
                 case NodeType.Instance:
-                    serializer.Serialize(writer, "INSTANCE"); return;
+                    serializer.Serialize(writer, "INSTANCE");
+                    return;
                 case NodeType.Line:
-                    serializer.Serialize(writer, "LINE"); return;
+                    serializer.Serialize(writer, "LINE");
+                    return;
                 case NodeType.Rectangle:
-                    serializer.Serialize(writer, "RECTANGLE"); return;
+                    serializer.Serialize(writer, "RECTANGLE");
+                    return;
                 case NodeType.RegularPolygon:
-                    serializer.Serialize(writer, "REGULAR_POLYGON"); return;
+                    serializer.Serialize(writer, "REGULAR_POLYGON");
+                    return;
                 case NodeType.Slice:
-                    serializer.Serialize(writer, "SLICE"); return;
+                    serializer.Serialize(writer, "SLICE");
+                    return;
                 case NodeType.Star:
-                    serializer.Serialize(writer, "STAR"); return;
+                    serializer.Serialize(writer, "STAR");
+                    return;
                 case NodeType.Text:
-                    serializer.Serialize(writer, "TEXT"); return;
+                    serializer.Serialize(writer, "TEXT");
+                    return;
                 case NodeType.Vector:
-                    serializer.Serialize(writer, "VECTOR"); return;
+                    serializer.Serialize(writer, "VECTOR");
+                    return;
             }
             throw new Exception("Cannot marshal type NodeType");
         }
-    }
 
-    internal class ConstraintTypeConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(ConstraintType) || t == typeof(ConstraintType?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "HEIGHT":
-                    return ConstraintType.Height;
-                case "SCALE":
-                    return ConstraintType.Scale;
-                case "WIDTH":
-                    return ConstraintType.Width;
-            }
-            throw new Exception("Cannot unmarshal type ConstraintType");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            var value = (ConstraintType)untypedValue;
-            switch (value)
-            {
-                case ConstraintType.Height:
-                    serializer.Serialize(writer, "HEIGHT"); return;
-                case ConstraintType.Scale:
-                    serializer.Serialize(writer, "SCALE"); return;
-                case ConstraintType.Width:
-                    serializer.Serialize(writer, "WIDTH"); return;
-            }
-            throw new Exception("Cannot marshal type ConstraintType");
-        }
-    }
-
-    internal class FormatConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(Format) || t == typeof(Format?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "JPG":
-                    return Format.Jpg;
-                case "PNG":
-                    return Format.Png;
-                case "SVG":
-                    return Format.Svg;
-            }
-            throw new Exception("Cannot unmarshal type Format");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            var value = (Format)untypedValue;
-            switch (value)
-            {
-                case Format.Jpg:
-                    serializer.Serialize(writer, "JPG"); return;
-                case Format.Png:
-                    serializer.Serialize(writer, "PNG"); return;
-                case Format.Svg:
-                    serializer.Serialize(writer, "SVG"); return;
-            }
-            throw new Exception("Cannot marshal type Format");
-        }
+        public static readonly NodeTypeConverter Singleton = new NodeTypeConverter();
     }
 }

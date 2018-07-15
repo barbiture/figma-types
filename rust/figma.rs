@@ -4,11 +4,11 @@
 // extern crate serde_derive;
 // extern crate serde_json;
 //
-// use generated_module::FileResponse;
+// use generated_module::[object Object];
 //
 // fn main() {
 //     let json = r#"{"answer": 42}"#;
-//     let model: FileResponse = serde_json::from_str(&json).unwrap();
+//     let model: [object Object] = serde_json::from_str(&json).unwrap();
 // }
 
 extern crate serde_json;
@@ -41,7 +41,7 @@ pub struct FileResponse {
 
     /// The root node within the document
     #[serde(rename = "document")]
-    document: Document,
+    document: DocumentClass,
 
     #[serde(rename = "schemaVersion")]
     schema_version: f64,
@@ -67,7 +67,7 @@ pub struct Component {
 
     /// An array of nodes that are direct children of this node
     #[serde(rename = "children")]
-    children: Vec<Vector>,
+    children: Vec<Document>,
 
     /// Does this node clip content outside of its bounds?
     #[serde(rename = "clipsContent")]
@@ -154,13 +154,13 @@ pub struct Rect {
 ///
 /// An RGBA color
 ///
-/// Color of the grid
+/// Background color of the canvas
 ///
 /// Solid color of the paint
 ///
-/// Background color of the canvas
-///
 /// Color attached to corresponding position
+///
+/// Color of the grid
 #[derive(Serialize, Deserialize)]
 pub struct Color {
     /// Alpha channel value, between 0 and 1
@@ -216,7 +216,7 @@ pub struct Color {
 /// An instance of a component, changes to the component result in the same
 /// changes applied to the instance
 #[derive(Serialize, Deserialize)]
-pub struct Vector {
+pub struct Document {
     /// An array of canvases attached to the document
     ///
     /// An array of top level layers on the canvas
@@ -225,7 +225,7 @@ pub struct Vector {
     ///
     /// An array of nodes that are being boolean operated on
     #[serde(rename = "children")]
-    children: Option<Vec<Vector>>,
+    children: Option<Vec<Document>>,
 
     /// a string uniquely identifying this node within the document
     #[serde(rename = "id")]
@@ -239,7 +239,7 @@ pub struct Vector {
 
     /// the type of the node, refer to table below for details
     #[serde(rename = "type")]
-    vector_type: NodeType,
+    document_type: NodeType,
 
     /// whether or not the node is visible on the canvas
     #[serde(rename = "visible")]
@@ -436,11 +436,11 @@ pub struct Vector2 {
     y: f64,
 }
 
-/// An array of export settings representing images to export from this node
-///
 /// An array of export settings representing images to export from node
 ///
 /// Format and size to export an asset at
+///
+/// An array of export settings representing images to export from this node
 ///
 /// An array of export settings representing images to export from the canvas
 #[derive(Serialize, Deserialize)]
@@ -475,11 +475,11 @@ pub struct Constraint {
     value: f64,
 }
 
-/// An array of stroke paints applied to the node
-///
 /// An array of fill paints applied to the node
 ///
 /// A solid color, gradient, or image texture that can be applied as fills or strokes
+///
+/// An array of stroke paints applied to the node
 ///
 /// Paints applied to characters
 #[derive(Serialize, Deserialize)]
@@ -516,7 +516,7 @@ pub struct Paint {
 
     /// Type of paint as a string enum
     #[serde(rename = "type")]
-    paint_type: PaintType,
+    paint_type: FillType,
 
     /// Is the paint enabled?
     #[serde(rename = "visible")]
@@ -584,12 +584,12 @@ pub struct LayoutGrid {
     visible: bool,
 }
 
-/// Map from ID to TypeStyle for looking up style overrides
-///
 /// Style of text including font family and weight (see type style
 /// section for more information)
 ///
 /// Metadata for character formatting
+///
+/// Map from ID to TypeStyle for looking up style overrides
 #[derive(Serialize, Deserialize)]
 pub struct TypeStyle {
     /// Paints applied to characters
@@ -642,10 +642,10 @@ pub struct TypeStyle {
 ///
 /// The root node within the document
 #[derive(Serialize, Deserialize)]
-pub struct Document {
+pub struct DocumentClass {
     /// An array of canvases attached to the document
     #[serde(rename = "children")]
-    children: Vec<Vector>,
+    children: Vec<Document>,
 
     /// a string uniquely identifying this node within the document
     #[serde(rename = "id")]
@@ -964,6 +964,55 @@ pub enum Vertical {
     TopBottom,
 }
 
+/// the type of the node, refer to table below for details
+#[derive(Serialize, Deserialize)]
+pub enum NodeType {
+    #[serde(rename = "BOOLEAN")]
+    Boolean,
+
+    #[serde(rename = "CANVAS")]
+    Canvas,
+
+    #[serde(rename = "COMPONENT")]
+    Component,
+
+    #[serde(rename = "DOCUMENT")]
+    Document,
+
+    #[serde(rename = "ELLIPSE")]
+    Ellipse,
+
+    #[serde(rename = "FRAME")]
+    Frame,
+
+    #[serde(rename = "GROUP")]
+    Group,
+
+    #[serde(rename = "INSTANCE")]
+    Instance,
+
+    #[serde(rename = "LINE")]
+    Line,
+
+    #[serde(rename = "RECTANGLE")]
+    Rectangle,
+
+    #[serde(rename = "REGULAR_POLYGON")]
+    RegularPolygon,
+
+    #[serde(rename = "SLICE")]
+    Slice,
+
+    #[serde(rename = "STAR")]
+    Star,
+
+    #[serde(rename = "TEXT")]
+    Text,
+
+    #[serde(rename = "VECTOR")]
+    Vector,
+}
+
 /// Type of effect as a string enum
 #[derive(Serialize, Deserialize)]
 pub enum EffectType {
@@ -1011,7 +1060,7 @@ pub enum Format {
 
 /// Type of paint as a string enum
 #[derive(Serialize, Deserialize)]
-pub enum PaintType {
+pub enum FillType {
     #[serde(rename = "EMOJI")]
     Emoji,
 
@@ -1109,53 +1158,4 @@ pub enum TextAlignVertical {
 
     #[serde(rename = "TOP")]
     Top,
-}
-
-/// the type of the node, refer to table below for details
-#[derive(Serialize, Deserialize)]
-pub enum NodeType {
-    #[serde(rename = "BOOLEAN")]
-    Boolean,
-
-    #[serde(rename = "CANVAS")]
-    Canvas,
-
-    #[serde(rename = "COMPONENT")]
-    Component,
-
-    #[serde(rename = "DOCUMENT")]
-    Document,
-
-    #[serde(rename = "ELLIPSE")]
-    Ellipse,
-
-    #[serde(rename = "FRAME")]
-    Frame,
-
-    #[serde(rename = "GROUP")]
-    Group,
-
-    #[serde(rename = "INSTANCE")]
-    Instance,
-
-    #[serde(rename = "LINE")]
-    Line,
-
-    #[serde(rename = "RECTANGLE")]
-    Rectangle,
-
-    #[serde(rename = "REGULAR_POLYGON")]
-    RegularPolygon,
-
-    #[serde(rename = "SLICE")]
-    Slice,
-
-    #[serde(rename = "STAR")]
-    Star,
-
-    #[serde(rename = "TEXT")]
-    Text,
-
-    #[serde(rename = "VECTOR")]
-    Vector,
 }
